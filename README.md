@@ -147,4 +147,4 @@ I built Project Boundary to develop and demonstrate the engineering disciplines 
 
 The code, docs, and evidence artifacts are meant to be read together. Each is incomplete without the others.
 
-— Michael
+- Michael
