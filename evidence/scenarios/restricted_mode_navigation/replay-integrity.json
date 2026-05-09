@@ -7,7 +7,7 @@
   "mission_ok": true,
   "mission_state_count": 3,
   "ok": true,
-  "run_dir": "/tmp/p3-final-runs/verify-restricted_mode_navigation",
+  "run_dir": "runs/verify/verify-restricted_mode_navigation",
   "status": "passed",
   "transition_count": 2,
   "warnings": [],

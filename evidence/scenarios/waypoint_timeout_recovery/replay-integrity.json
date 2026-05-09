@@ -7,7 +7,7 @@
   "mission_ok": true,
   "mission_state_count": 8,
   "ok": true,
-  "run_dir": "/tmp/p3-final-runs/verify-waypoint_timeout_recovery",
+  "run_dir": "runs/verify/verify-waypoint_timeout_recovery",
   "status": "passed",
   "transition_count": 2,
   "warnings": [],

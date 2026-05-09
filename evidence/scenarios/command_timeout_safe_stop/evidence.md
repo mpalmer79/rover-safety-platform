@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Hardware gateway silent; SAFE_STOP via gateway watchdog.
 - **Requirements covered:** `REQ-SAFE-001`, `REQ-SAFE-002`, `REQ-FAULT-001`, `REQ-FAULT-002`
-- **Run directory:** `/tmp/p3-final-runs/verify-command_timeout_safe_stop`
+- **Run directory:** `runs/verify/verify-command_timeout_safe_stop`
 
 ## Expected vs observed
 

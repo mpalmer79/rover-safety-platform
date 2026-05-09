@@ -206,8 +206,11 @@ Continuous integration must run, at minimum:
 | Contract tests | `contract` | Yes |
 | Event schema tests on representative events | `unit` | Yes |
 | Replay validators on a representative recorded run | `replay` | Yes |
+| Phase 4 runtime validation tests (static-only) | `runtime` | Yes |
+| `live_runtime_validator.py --static-only` regression | `runtime` | Yes |
 | A short simulation smoke test | `simulation` | When the simulator can be provisioned |
 | At least one fault injection scenario | `fault_injection` | When the simulator can be provisioned |
+| `live_runtime_validator.py --ros-launch` against a live stack | `runtime` | When Jazzy + Gazebo can be provisioned |
 
 CI must not pass when:
 
@@ -215,6 +218,11 @@ CI must not pass when:
 - the event schema validator rejects any event in a representative run
 - a replay validator fails on a representative run
 - a deterministic simulation test produces a different `safety_transition.entered` sequence than the pinned reference
+- the Phase 4 runtime validator's static-only mode reports `failed` for any
+  static check (live-only checks may legitimately surface as
+  `not_executed` and do not fail CI)
+- the runtime validation test module
+  (`rover_ws/tests/test_runtime_validation_tooling.py`) regresses
 
 ---
 

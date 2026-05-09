@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Mid-mission LiDAR drop drives SAFE_STOP + MISSION_DEGRADED.
 - **Requirements covered:** `REQ-SAFE-002`, `REQ-MISSION-001`, `REQ-FAULT-001`
-- **Run directory:** `/tmp/p3-final-runs/verify-safe_stop_during_active_mission`
+- **Run directory:** `runs/verify/verify-safe_stop_during_active_mission`
 
 ## Expected vs observed
 

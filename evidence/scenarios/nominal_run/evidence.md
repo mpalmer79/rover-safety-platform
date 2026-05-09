@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Healthy nominal run; supervisor reaches ACTIVE_NORMAL.
 - **Requirements covered:** `REQ-SAFE-001`, `REQ-REPLAY-001`
-- **Run directory:** `/tmp/p3-final-runs/verify-nominal_run`
+- **Run directory:** `runs/verify/verify-nominal_run`
 
 ## Expected vs observed
 

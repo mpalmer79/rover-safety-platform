@@ -72,7 +72,7 @@
         "REQ-SAFE-001",
         "REQ-REPLAY-001"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-nominal_run",
+      "run_dir": "runs/verify/verify-nominal_run",
       "scenario_file": "nominal_run.json",
       "scenario_id": "nominal_run",
       "status": "passed"
@@ -152,7 +152,7 @@
         "REQ-FAULT-001",
         "REQ-FAULT-002"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-stale_lidar_restricted_mode",
+      "run_dir": "runs/verify/verify-stale_lidar_restricted_mode",
       "scenario_file": "stale_lidar_restricted_mode.json",
       "scenario_id": "stale_lidar_restricted_mode",
       "status": "passed"
@@ -224,7 +224,7 @@
         "REQ-FAULT-001",
         "REQ-FAULT-002"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-odometry_divergence_safe_stop",
+      "run_dir": "runs/verify/verify-odometry_divergence_safe_stop",
       "scenario_file": "odometry_divergence_safe_stop.json",
       "scenario_id": "odometry_divergence_safe_stop",
       "status": "passed"
@@ -304,7 +304,7 @@
         "REQ-FAULT-001",
         "REQ-FAULT-002"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-command_timeout_safe_stop",
+      "run_dir": "runs/verify/verify-command_timeout_safe_stop",
       "scenario_file": "command_timeout_safe_stop.json",
       "scenario_id": "command_timeout_safe_stop",
       "status": "passed"
@@ -384,7 +384,7 @@
         "REQ-FAULT-001",
         "REQ-FAULT-002"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-bridge_disconnect_safe_stop",
+      "run_dir": "runs/verify/verify-bridge_disconnect_safe_stop",
       "scenario_file": "bridge_disconnect_safe_stop.json",
       "scenario_id": "bridge_disconnect_safe_stop",
       "status": "passed"
@@ -457,7 +457,7 @@
         "REQ-FAULT-001",
         "REQ-FAULT-002"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-wheel_slip_degraded_mode",
+      "run_dir": "runs/verify/verify-wheel_slip_degraded_mode",
       "scenario_file": "wheel_slip_degraded_mode.json",
       "scenario_id": "wheel_slip_degraded_mode",
       "status": "passed"
@@ -526,7 +526,7 @@
         "REQ-SAFE-003",
         "REQ-OP-001"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-estop_latched_manual_reset_required",
+      "run_dir": "runs/verify/verify-estop_latched_manual_reset_required",
       "scenario_file": "estop_latched_manual_reset_required.json",
       "scenario_id": "estop_latched_manual_reset_required",
       "status": "passed"
@@ -603,7 +603,7 @@
         "REQ-MISSION-001",
         "REQ-REPLAY-001"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-nominal_waypoint_patrol",
+      "run_dir": "runs/verify/verify-nominal_waypoint_patrol",
       "scenario_file": "nominal_waypoint_patrol.json",
       "scenario_id": "nominal_waypoint_patrol",
       "status": "passed"
@@ -679,7 +679,7 @@
         "REQ-MISSION-001",
         "REQ-MISSION-002"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-waypoint_timeout_recovery",
+      "run_dir": "runs/verify/verify-waypoint_timeout_recovery",
       "scenario_file": "waypoint_timeout_recovery.json",
       "scenario_id": "waypoint_timeout_recovery",
       "status": "passed"
@@ -757,7 +757,7 @@
         "REQ-MISSION-001",
         "REQ-FAULT-001"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-degraded_sensor_navigation",
+      "run_dir": "runs/verify/verify-degraded_sensor_navigation",
       "scenario_file": "degraded_sensor_navigation.json",
       "scenario_id": "degraded_sensor_navigation",
       "status": "passed"
@@ -826,7 +826,7 @@
         "REQ-MISSION-001",
         "REQ-WORLD-001"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-keepout_zone_violation",
+      "run_dir": "runs/verify/verify-keepout_zone_violation",
       "scenario_file": "keepout_zone_violation.json",
       "scenario_id": "keepout_zone_violation",
       "status": "passed"
@@ -896,7 +896,7 @@
         "REQ-MISSION-001",
         "REQ-WORLD-001"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-restricted_mode_navigation",
+      "run_dir": "runs/verify/verify-restricted_mode_navigation",
       "scenario_file": "restricted_mode_navigation.json",
       "scenario_id": "restricted_mode_navigation",
       "status": "passed"
@@ -982,7 +982,7 @@
         "REQ-MISSION-001",
         "REQ-FAULT-001"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-safe_stop_during_active_mission",
+      "run_dir": "runs/verify/verify-safe_stop_during_active_mission",
       "scenario_file": "safe_stop_during_active_mission.json",
       "scenario_id": "safe_stop_during_active_mission",
       "status": "passed"
@@ -1057,7 +1057,7 @@
       "requirement_ids": [
         "REQ-MISSION-002"
       ],
-      "run_dir": "/tmp/p3-final-runs/verify-mission_abort_after_fault_escalation",
+      "run_dir": "runs/verify/verify-mission_abort_after_fault_escalation",
       "scenario_file": "mission_abort_after_fault_escalation.json",
       "scenario_id": "mission_abort_after_fault_escalation",
       "status": "passed"

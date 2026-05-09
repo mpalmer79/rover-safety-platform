@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Mission completes despite ACTIVE_DEGRADED supervisor state.
 - **Requirements covered:** `REQ-MISSION-001`, `REQ-FAULT-001`
-- **Run directory:** `/tmp/p3-final-runs/verify-degraded_sensor_navigation`
+- **Run directory:** `runs/verify/verify-degraded_sensor_navigation`
 
 ## Expected vs observed
 

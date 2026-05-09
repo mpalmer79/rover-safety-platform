@@ -1,6 +1,6 @@
 # Events summary
 
-Source: `/tmp/p3-final-runs/verify-mission_abort_after_fault_escalation/events.jsonl`
+Source: `runs/verify/verify-mission_abort_after_fault_escalation/events.jsonl`
 
 ## Safety transitions
 - `t=0ms` `safety_transition.entered` reason `boot_complete` safety=`INACTIVE` — BOOT -> INACTIVE: boot complete; awaiting activation

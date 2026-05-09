@@ -1,0 +1,78 @@
+{
+  "generated_at_utc": "2026-05-09T21:28:29+00:00",
+  "mode": "static-only",
+  "run_id": "static-2026-05-09",
+  "scenario": "stale_lidar_restricted_mode",
+  "static": {
+    "checks": [
+      {
+        "detail": "engine completed; events=172",
+        "errors": [],
+        "name": "execution",
+        "status": "passed",
+        "warnings": []
+      },
+      {
+        "detail": "final=SAFE_STOP",
+        "errors": [],
+        "name": "safety_state",
+        "status": "passed",
+        "warnings": []
+      },
+      {
+        "detail": "all 3 present",
+        "errors": [],
+        "name": "required_events",
+        "status": "passed",
+        "warnings": []
+      },
+      {
+        "detail": "observed ('f-stale-lidar',)",
+        "errors": [],
+        "name": "fired_faults",
+        "status": "passed",
+        "warnings": []
+      },
+      {
+        "detail": "commands=80 clamped=5 zeroed=55 expired=0",
+        "errors": [],
+        "name": "command_path_audit",
+        "status": "passed",
+        "warnings": []
+      },
+      {
+        "detail": "transitions=4 final=SAFE_STOP",
+        "errors": [],
+        "name": "safety_transition_audit",
+        "status": "passed",
+        "warnings": []
+      },
+      {
+        "detail": "events=172 transitions=4 mission_states=0",
+        "errors": [],
+        "name": "replay_integrity",
+        "status": "passed",
+        "warnings": []
+      },
+      {
+        "detail": "all safe-stop / e-stop commands zero",
+        "errors": [],
+        "name": "safe_stop_zero_motion",
+        "status": "passed",
+        "warnings": []
+      }
+    ],
+    "expected_mission_state": null,
+    "expected_safety_state": "SAFE_STOP",
+    "fired_faults": [
+      "f-stale-lidar"
+    ],
+    "not_executed_reason": "",
+    "observed_mission_state": null,
+    "observed_safety_state": "SAFE_STOP",
+    "recovery_engagement_count": 0,
+    "run_dir": "runs/runtime/verify-stale_lidar_restricted_mode",
+    "scenario_id": "stale_lidar_restricted_mode",
+    "status": "passed"
+  }
+}

@@ -2,7 +2,7 @@
   "errors": [],
   "final_state": "ACTIVE_NORMAL",
   "ok": true,
-  "run_dir": "/tmp/p3-final-runs/verify-mission_abort_after_fault_escalation",
+  "run_dir": "runs/verify/verify-mission_abort_after_fault_escalation",
   "status": "passed",
   "transition_count": 2,
   "transitions": [

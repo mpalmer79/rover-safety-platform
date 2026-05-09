@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-09T20:27:03+00:00",
+  "generated_at_utc": "2026-05-09T21:28:29+00:00",
   "overall_status": "passed",
-  "row_count": 13,
+  "row_count": 18,
   "rows": [
     {
       "architecture_refs": [
@@ -358,6 +358,114 @@
         "rover_ws/tests/test_safety_bridge_core.py::test_estop_latches_until_explicit_reset"
       ],
       "title": "Operator E-stop transitions to E_STOP_LATCHED on the same tick"
+    },
+    {
+      "architecture_refs": [
+        "ARCHITECTURE.md#15a-ros-2-integration-layer-phase-1b",
+        "rover_ws/tests/manual.md",
+        "docs/RUNTIME_VALIDATION_RUNBOOK.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "rover_ws/src/rover_bringup/launch/full_system.launch.py",
+        "rover_ws/tools/launch_smoke_test.py",
+        "rover_ws/tools/live_runtime_validator.py"
+      ],
+      "kind": "runtime",
+      "requirement_id": "REQ-RUNTIME-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "rover_ws/tests/test_runtime_validation_tooling.py::test_launch_smoke_static_mode_passes",
+        "rover_ws/tests/test_launch_files.py::test_full_system_composes_required_launches"
+      ],
+      "title": "Full system launch must be runtime-verifiable"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_SYSTEM.md#7-required-recorded-topics",
+        "docs/SYSTEM_CONTEXT.md#8a-ros-2-gazebo-layer-phase-1b"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/runtime_validation/expected_topics.py",
+        "rover_ws/tools/topic_probe.py",
+        "rover_ws/src/rover_sim_gazebo/config/ros_gz_bridge.yaml"
+      ],
+      "kind": "runtime",
+      "requirement_id": "REQ-RUNTIME-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "rover_ws/tests/test_runtime_validation_tooling.py::test_topic_probe_static_mode_lists_expected_topics",
+        "rover_ws/tests/test_runtime_validation_tooling.py::test_topic_probe_static_mode_marks_live_checks_not_executed"
+      ],
+      "title": "Required ROS topics must be discoverable and type-checked"
+    },
+    {
+      "architecture_refs": [
+        "rover_ws/src/rover_description/urdf/rover.urdf.xacro",
+        "docs/SYSTEM_CONTEXT.md#8a-ros-2-gazebo-layer-phase-1b"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/runtime_validation/expected_tf_frames.py",
+        "rover_ws/tools/tf_probe.py"
+      ],
+      "kind": "runtime",
+      "requirement_id": "REQ-RUNTIME-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "rover_ws/tests/test_runtime_validation_tooling.py::test_tf_probe_static_mode_passes_against_workspace_urdf",
+        "rover_ws/tests/test_urdf.py::test_required_links_present"
+      ],
+      "title": "TF tree must expose expected critical frames"
+    },
+    {
+      "architecture_refs": [
+        "docs/SAFETY_MODEL.md#3-motion-authorization-rules",
+        "docs/adr/ADR-004-safety-supervisor-authority-model.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "rover_ws/tools/command_path_probe.py",
+        "rover_ws/src/rover_safety_bridge/rover_safety_bridge/safety_bridge_node.py"
+      ],
+      "kind": "runtime",
+      "requirement_id": "REQ-RUNTIME-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "rover_ws/tests/test_runtime_validation_tooling.py::test_command_path_probe_static_mode_passes",
+        "rover_ws/tests/test_node_modules.py::test_safety_bridge_node_only_publishes_authorized"
+      ],
+      "title": "Authorized command path must be verified at runtime"
+    },
+    {
+      "architecture_refs": [
+        "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary",
+        "docs/RUNTIME_VALIDATION_REPORT.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/runtime_validation/report_renderer.py",
+        "backend/app/runtime_validation/static_validator.py"
+      ],
+      "kind": "runtime",
+      "requirement_id": "REQ-RUNTIME-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "rover_ws/tests/test_runtime_validation_tooling.py::test_runtime_report_distinguishes_status_categories",
+        "rover_ws/tests/test_runtime_validation_tooling.py::test_runtime_report_includes_known_limitations"
+      ],
+      "title": "Live validation reports must distinguish status categories"
     }
   ]
 }

@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Operator E-stop latches and does not self-clear.
 - **Requirements covered:** `REQ-SAFE-003`, `REQ-OP-001`
-- **Run directory:** `/tmp/p3-final-runs/verify-estop_latched_manual_reset_required`
+- **Run directory:** `runs/verify/verify-estop_latched_manual_reset_required`
 
 ## Expected vs observed
 

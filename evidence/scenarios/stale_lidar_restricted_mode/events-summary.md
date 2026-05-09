@@ -1,6 +1,6 @@
 # Events summary
 
-Source: `/tmp/p3-final-runs/verify-stale_lidar_restricted_mode/events.jsonl`
+Source: `runs/verify/verify-stale_lidar_restricted_mode/events.jsonl`
 
 ## Safety transitions
 - `t=0ms` `safety_transition.entered` reason `boot_complete` safety=`INACTIVE` — BOOT -> INACTIVE: boot complete; awaiting activation

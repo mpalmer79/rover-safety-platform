@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Mission passes through a restricted-speed zone; clamped, completes.
 - **Requirements covered:** `REQ-SAFE-004`, `REQ-MISSION-001`, `REQ-WORLD-001`
-- **Run directory:** `/tmp/p3-final-runs/verify-restricted_mode_navigation`
+- **Run directory:** `runs/verify/verify-restricted_mode_navigation`
 
 ## Expected vs observed
 

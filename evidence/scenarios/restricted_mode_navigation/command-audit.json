@@ -6,7 +6,7 @@
   "ok": true,
   "rejected_count": 84,
   "request_count": 166,
-  "run_dir": "/tmp/p3-final-runs/verify-restricted_mode_navigation",
+  "run_dir": "runs/verify/verify-restricted_mode_navigation",
   "status": "passed",
   "warnings": [],
   "zeroed_count": 2

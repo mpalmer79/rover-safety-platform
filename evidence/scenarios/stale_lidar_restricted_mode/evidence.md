@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** LiDAR drop forces SAFE_STOP through freshness gates.
 - **Requirements covered:** `REQ-SAFE-001`, `REQ-SAFE-002`, `REQ-FAULT-001`, `REQ-FAULT-002`
-- **Run directory:** `/tmp/p3-final-runs/verify-stale_lidar_restricted_mode`
+- **Run directory:** `runs/verify/verify-stale_lidar_restricted_mode`
 
 ## Expected vs observed
 

@@ -1,6 +1,6 @@
 # Events summary
 
-Source: `/tmp/p3-final-runs/verify-waypoint_timeout_recovery/events.jsonl`
+Source: `runs/verify/verify-waypoint_timeout_recovery/events.jsonl`
 
 ## Safety transitions
 - `t=0ms` `safety_transition.entered` reason `boot_complete` safety=`INACTIVE` — BOOT -> INACTIVE: boot complete; awaiting activation

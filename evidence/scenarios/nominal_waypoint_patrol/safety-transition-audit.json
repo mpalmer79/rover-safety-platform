@@ -2,7 +2,7 @@
   "errors": [],
   "final_state": "ACTIVE_NORMAL",
   "ok": true,
-  "run_dir": "/tmp/p3-final-runs/verify-nominal_waypoint_patrol",
+  "run_dir": "runs/verify/verify-nominal_waypoint_patrol",
   "status": "passed",
   "transition_count": 2,
   "transitions": [

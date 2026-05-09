@@ -43,8 +43,9 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 1C — Runtime Validation, Operational Hardening, and Integration Verification | Implemented; see section 3c |
 | Phase 2 — Mission Runtime & Deterministic Navigation Orchestration | Implemented; see section 3d |
 | Phase 3 — Verification, Scenario Certification, and Evidence Generation | Implemented; see section 3e |
+| Phase 4 — Live ROS 2 / Gazebo Runtime Verification and Evidence Capture | Implemented (static-only fall-back); see section 3f |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
-| Phase 4 — Replay, Telemetry, and Incident Reconstruction (ROS 2 / Foxglove) | Pending |
+| Phase 5 — Replay, Telemetry, and Incident Reconstruction (ROS 2 / Foxglove) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
 
@@ -664,6 +665,84 @@ Implemented. See `backend/app/verification/`,
   test, a scenario, and an evidence artefact.
 - Demonstrates honest reporting: skipped and not-executed checks
   are surfaced; the report explicitly disclaims certification.
+
+---
+
+## 3f. Phase 4: Live ROS 2 / Gazebo Runtime Verification and Evidence Capture
+
+### Status
+
+Implemented in this branch. Static-only mode runs in CI; live mode
+requires a Jazzy host with Gazebo Harmonic.
+
+### Objectives
+
+- Prove the documented architectural guarantees against the live ROS 2
+  graph (when a Jazzy host is available), not only via the
+  deterministic engine.
+- Capture honest evidence in `evidence/runtime/<run_id>/` whose status
+  vocabulary matches Phase 3's (`passed`, `failed`, `partial`,
+  `skipped`, `not_executed`).
+- Provide a CI-friendly static-only fallback so the runtime contract
+  is enforced even off Jazzy.
+
+### Deliverables
+
+- `backend/app/runtime_validation/` — pure-logic library declaring the
+  expected topics, nodes, and TF frames, plus the static validator
+  and the report renderer.
+- `rover_ws/tools/_probe_common.py` — shared CLI helpers.
+- `rover_ws/tools/launch_smoke_test.py` — bring up
+  `rover_bringup full_system.launch.py` and verify the node graph.
+- `rover_ws/tools/topic_probe.py` — verify required topics are
+  advertised with the right type and freshness.
+- `rover_ws/tools/tf_probe.py` — verify the TF tree links every
+  expected frame to the documented root.
+- `rover_ws/tools/command_path_probe.py` — verify only the
+  safety bridge publishes `/cmd_vel_authorized`.
+- `rover_ws/tools/runtime_capture.py` — drive a fault scenario and
+  capture transitions; live capture is opt-in.
+- `rover_ws/tools/live_runtime_validator.py` — orchestrates every probe
+  and writes the aggregate `runtime-validation.{json,md}`.
+- `docs/RUNTIME_VALIDATION_RUNBOOK.md` — developer-facing runbook.
+- `docs/RUNTIME_VALIDATION_REPORT.md` — generated canonical report.
+- `evidence/runtime/<run_id>/` — per-run evidence directory.
+- `REQ-RUNTIME-001..005` and the corresponding traceability rows.
+
+### Acceptance Criteria
+
+- The static-only orchestrator returns a non-zero exit code when any
+  static check fails, and writes the canonical Markdown report.
+- The orchestrator marks every live-only probe as `not_executed` with
+  an explicit reason on environments without rclpy / Gazebo.
+- The runtime tests under
+  `rover_ws/tests/test_runtime_validation_tooling.py` exercise the
+  static-only path end-to-end without requiring ROS.
+- The traceability matrix lists `REQ-RUNTIME-001..005`, each bound to
+  at least one test and one evidence artefact.
+
+### Risks
+
+- Drift between the expected runtime contract and the actual launch /
+  bridge / URDF artefacts. Mitigated by the static validator running
+  in CI.
+- Live probes false-failing during the launch settle period.
+  Mitigated by configurable `--settle-seconds`.
+
+### Deferred Work
+
+- Live runtime fault-injection capture against the live ROS stack
+  (currently `not_executed` with a reason; the deterministic engine
+  path is exercised in static-only mode).
+- Foxglove integration for visual replay of the runtime evidence is
+  reserved for a later phase.
+
+### Portfolio Signal
+
+- Demonstrates discipline that distinguishes “the static workspace is
+  consistent” from “the live graph behaved as documented.”
+- Demonstrates a CI-friendly fallback that never claims live success
+  unless live evidence was actually captured.
 
 ---
 
