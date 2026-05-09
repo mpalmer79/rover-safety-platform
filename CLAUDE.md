@@ -1,399 +1,142 @@
-You are acting as a Principal Robotics Systems Engineer and Autonomy Platform Architect operating at the level of an advanced R&D robotics organization.
+You are acting as a Principal Robotics Runtime Engineer and Autonomous Systems Validation Architect operating at the level of an advanced robotics R&D organization.
 
-You are continuing implementation of:
+You are continuing work on:
 
 # Project Boundary
 ## Deterministic Autonomy Validation & Safety Orchestration Platform
 
-This repository already contains:
-- authority architecture documents
-- deterministic simulation runtime
+The repository already contains:
+
+- architecture authority documents
+- deterministic autonomy runtime
 - safety supervisor
 - motion arbitration
-- event system
-- replay-ready recording
+- replay/event system
 - fault injection framework
-- scenario runner
-- API layer
-- substantial test coverage
+- ROS 2 Jazzy workspace
+- Gazebo Harmonic integration
+- rover URDF/Xacro
+- ros_gz_bridge configuration
+- simulated sensors
+- structured launch hierarchy
+- observability infrastructure
+- replay-aware run recording
+- static validation tests
 
-This pass is NOT a greenfield build.
+This pass is NOT a feature-expansion phase.
 
-You must preserve architectural consistency with:
-- `docs/ARCHITECTURE.md`
-- `docs/ODD.md`
-- `docs/SAFETY_MODEL.md`
-- `docs/EVENT_MODEL.md`
-- `docs/FAULT_INJECTION.md`
-- `docs/REPLAY_SYSTEM.md`
-- `docs/ROADMAP.md`
+This pass is:
 
-Read all architecture docs before implementation.
+# Phase 1C
+## Runtime Validation, Operational Hardening, and Integration Verification
 
-This pass transitions the project from:
-- abstract deterministic runtime platform
+The objective is to transform the current ROS/Gazebo integration from:
+- structurally correct
 
-to:
+into:
+- operationally trustworthy
+- runtime validated
+- replay verified
+- diagnostically observable
+- integration hardened
 
-- ROS 2 + Gazebo-backed robotics simulation platform
+This is a critical phase.
 
-WITHOUT collapsing architectural discipline.
+Most robotics projects fail here because:
+- launch systems drift
+- TF trees become inconsistent
+- bridges silently fail
+- safety authority gets bypassed
+- replay becomes nondeterministic
+- observability collapses under runtime complexity
 
-This must still feel like:
-- a resilience engineering platform
-- a safety-aware autonomy runtime
-- a replayable robotics validation environment
-
-NOT:
-- a random Nav2 demo
-- a toy Gazebo rover
-- a tutorial project
-- a pile of launch files
+Your job is to aggressively validate and harden the existing architecture WITHOUT introducing unnecessary new systems.
 
 ---
 
 # Primary Objective
 
-Implement:
+Perform a comprehensive runtime-hardening pass across:
 
-# Phase 1B
-## ROS 2 + Gazebo Harmonic Simulation Bringup Layer
+- ROS 2 launch orchestration
+- Gazebo integration
+- TF consistency
+- ros_gz_bridge reliability
+- safety-command routing
+- sensor freshness propagation
+- replay/run recording
+- event integrity
+- fault injection execution
+- observability validation
+- deterministic startup sequencing
+- runtime diagnostics
+- operational visibility
 
-The goal is to create:
-- a functioning ROS 2 workspace
-- Gazebo simulation integration
-- simulated rover runtime
-- ROS-native sensor streams
-- lifecycle-aware launch orchestration
-- ros_gz_bridge integration
-- replay-capable telemetry pathways
-- adapter integration into the existing deterministic runtime platform
-
-while preserving:
-- safety authority boundaries
-- replay architecture
-- deterministic operational semantics
-- fault injection discipline
-- observability-first design
+This phase should make the platform:
+- demonstrably robust
+- diagnostically transparent
+- operationally explainable
 
 ---
 
-# Critical Constraints
+# Hard Constraints
 
 DO NOT:
 - add SLAM
+- add Nav2 autonomy behaviors yet
+- add camera pipelines
 - add computer vision
-- add cameras
 - add ML
-- add reinforcement learning
+- add perception stacks
 - add Jetson dependencies
 - add Isaac Sim
-- add Kubernetes
 - add cloud robotics
-- add distributed swarms
-- add manipulation/robot arm systems
-- add autonomous exploration logic
-- add planner-direct actuator control
+- add Kubernetes
+- add web UI cosmetics
+- add unrelated features
 
 DO NOT:
-- bypass the safety supervisor
+- replace existing architecture
+- rewrite working domain logic
+- duplicate safety logic
+- bypass replay/event systems
 - bypass motion arbitration
-- allow Gazebo plugins to directly own safety decisions
 
-DO NOT:
-- treat Gazebo as the architecture
+The current architecture is already correct.
 
-The deterministic runtime platform remains the architectural center.
-
-Gazebo and ROS 2 are infrastructure integration layers.
-
----
-
-# Implementation Goals
-
-This pass should create a substantial robotics-oriented implementation including:
-
-- ROS 2 Jazzy workspace
-- colcon workspace structure
-- rover URDF/Xacro
-- Gazebo Harmonic integration
-- differential drive rover
-- ROS topic architecture
-- TF tree
-- simulated sensors
-- ros_gz_bridge configuration
-- launch orchestration
-- replay-oriented recording hooks
-- observability hooks
-- adapter integration into backend runtime
-- scenario-driven simulation execution
-- simulation configuration assets
-- tests and validation scripts
-
-This should be a major implementation pass.
-
-Do not underbuild.
+This phase is about:
+- runtime verification
+- integration rigor
+- operational trustworthiness
 
 ---
 
-# Required Workspace Structure
+# Critical Engineering Goals
 
-Create or adapt:
+You must validate and harden:
 
-```text
-rover_ws/
-  src/
-    rover_msgs/
-    rover_description/
-    rover_bringup/
-    rover_sim_gazebo/
-    rover_sensor_adapters/
-    rover_observability/
-    rover_safety_bridge/
-```
-
-If additional packages are required, add them only if justified.
-
-Preserve clean package separation.
+1. Gazebo launch stability
+2. ROS graph consistency
+3. TF tree integrity
+4. Topic freshness semantics
+5. Motion authorization path
+6. ros_gz_bridge correctness
+7. Fault propagation behavior
+8. Replay recording correctness
+9. Event emission completeness
+10. Startup/shutdown sequencing
+11. Failure observability
+12. Deterministic runtime behavior
 
 ---
 
-# Required ROS 2 Packages
+# Required Work Categories
 
-# 1. `rover_msgs`
+# 1. Runtime Launch Validation
 
-Create custom ROS interfaces.
+Audit and harden all launch files.
 
-Include:
-- custom messages
-- custom services
-- custom status messages
-
-Required messages:
-
-```text
-SafetyState.msg
-MotionAuthorization.msg
-SystemHealth.msg
-SensorHealth.msg
-FaultEvent.msg
-ReplayMarker.msg
-```
-
-Required fields should align with:
-- `EVENT_MODEL.md`
-- `SAFETY_MODEL.md`
-
-Use realistic ROS message patterns.
-
-Do not overbuild.
-
----
-
-# 2. `rover_description`
-
-Create the simulated rover description.
-
-Must include:
-- URDF/Xacro
-- modular robot description
-- differential drive base
-- LiDAR mounting point
-- IMU mounting point
-- wheel joints
-- collision geometry
-- inertial properties
-- TF consistency
-
-Keep the rover:
-- simple
-- realistic
-- maintainable
-
-Avoid:
-- highly detailed meshes
-- unnecessary visual complexity
-- overengineered physics
-
-The goal is systems validation, not CAD perfection.
-
----
-
-# Rover Requirements
-
-Use:
-- differential drive
-- stable wheelbase
-- simple rectangular chassis
-- realistic dimensions
-- realistic inertia
-
-Include:
-- base_link
-- odom
-- lidar_link
-- imu_link
-- wheel links
-- wheel joints
-
-Ensure:
-- TF tree sanity
-- clean naming
-- ROS conventions
-
----
-
-# 3. `rover_sim_gazebo`
-
-Implement Gazebo Harmonic integration.
-
-Must include:
-- Gazebo world
-- rover spawning
-- bridge configuration
-- simulation launch
-- physics settings
-- deterministic startup sequencing
-
-Create:
-- small indoor or semi-structured validation world
-- bounded obstacle environment
-- repeatable conditions
-
-DO NOT:
-- create massive worlds
-- create photorealistic environments
-- optimize visuals over observability
-
----
-
-# Gazebo Integration Requirements
-
-Implement:
-- ros_gz_bridge YAML config
-- clock bridging
-- TF bridging
-- sensor bridging
-- command topic bridging
-
-Bridge at minimum:
-
-```text
-/clock
-/cmd_vel
-/odom
-/tf
-/tf_static
-/scan
-/imu
-/contact
-```
-
-Use launch-based configuration.
-
-Avoid manual shell-dependent workflows where possible.
-
----
-
-# 4. `rover_sensor_adapters`
-
-Implement adapter nodes that convert ROS-native sensor streams into the deterministic runtime platform contracts.
-
-These adapters are critical.
-
-They are the architectural boundary between:
-- ROS/Gazebo infrastructure
-
-and:
-- deterministic autonomy runtime
-
-Implement adapters for:
-- LiDAR
-- IMU
-- wheel odometry
-- contact sensor
-
-Each adapter must:
-- validate timestamps
-- normalize freshness semantics
-- emit structured events where applicable
-- preserve replay metadata
-- support fault injection compatibility
-
-Do NOT:
-- embed business logic in adapters
-- make adapters safety-authoritative
-
----
-
-# 5. `rover_safety_bridge`
-
-Critical package.
-
-Implement the integration layer between:
-- ROS runtime
-- deterministic safety supervisor
-- motion arbitration
-
-Responsibilities:
-- consume requested motion
-- invoke safety supervisor
-- publish authorized motion
-- enforce safe-stop
-- publish safety state
-- publish health state
-- publish structured safety events
-
-Required topics:
-
-```text
-/cmd_vel_requested
-/cmd_vel_authorized
-/safety/state
-/safety/events
-/system/health
-```
-
-The rover must NEVER consume raw requested motion directly.
-
-Only authorized motion reaches simulated actuators.
-
-This is a core architectural requirement.
-
----
-
-# 6. `rover_observability`
-
-Implement observability infrastructure.
-
-Must include:
-- rosbag2 recording launch integration
-- replay metadata hooks
-- Foxglove-ready topic structure
-- telemetry namespace organization
-- runtime status publishing
-
-Implement:
-- run_id propagation
-- scenario_id propagation
-- replay markers
-- event topic publishing
-
-Prepare the system for:
-- incident reconstruction
-- replay workflows
-- timeline visualization
-
----
-
-# Launch Architecture
-
-Create:
-- structured launch hierarchy
-- composable launch patterns
-- deterministic startup ordering
-
-Required launches:
+Required launch files:
 
 ```text
 simulation.launch.py
@@ -403,113 +146,243 @@ safety_runtime.launch.py
 full_system.launch.py
 ```
 
-The launch structure should:
-- isolate concerns
-- support partial bringup
-- support testing
-- support replay runs
+Goals:
+- deterministic startup ordering
+- clean shutdown handling
+- dependency-aware bringup
+- launch argument validation
+- namespace consistency
+- clock synchronization validation
+- reusable launch composition
+
+Add:
+- launch-time diagnostics
+- missing dependency warnings
+- bridge availability checks
+- runtime readiness validation
 
 ---
 
-# Runtime Integration Requirements
+# 2. Gazebo Runtime Hardening
 
-The existing backend deterministic runtime platform must integrate with ROS.
+Audit:
+- Gazebo world
+- rover spawning
+- sensor plugins
+- differential drive plugin
+- update rates
+- frame naming
+- collision geometry
+- inertial properties
 
-You may:
-- wrap backend runtime services
-- expose runtime APIs to ROS nodes
-- bridge events into ROS topics
+Validate:
+- stable spawn behavior
+- correct physics stepping
+- repeatable startup
+- consistent wheel behavior
+- stable sensor publishing
 
-You may NOT:
-- duplicate business logic
-- fork safety logic into separate implementations
+Add:
+- runtime assertions where appropriate
+- simulation configuration documentation
+- deterministic simulation notes
 
-ROS nodes should consume the same authoritative runtime logic already implemented in Python.
+Do NOT overcomplicate the world.
+
+This is still:
+- a validation platform
+- not a photorealistic environment
 
 ---
 
-# Motion Pipeline Requirements
+# 3. TF Tree Validation
 
-The command path MUST be:
+This is one of the most important phases.
+
+Audit and validate:
+- base_link
+- odom
+- lidar_link
+- imu_link
+- wheel links
+- wheel joints
+
+Validate:
+- no disconnected frames
+- no duplicate publishers
+- no unstable transforms
+- no naming inconsistencies
+
+Add:
+- TF validation tooling/scripts
+- TF documentation
+- TF topology diagrams
+
+Implement runtime validation checks if reasonable.
+
+---
+
+# 4. Motion Authorization Hardening
+
+Critically validate:
 
 ```text
-Mission Intent
-↓
-Requested Motion
+/cmd_vel_requested
 ↓
 Safety Supervisor
 ↓
 Motion Arbitration
 ↓
-Authorized Motion
+/cmd_vel_authorized
 ↓
 Gazebo Diff Drive
 ```
 
-This separation is mandatory.
+The rover must NEVER consume:
+- raw requested motion
 
-Implement runtime validation ensuring:
-- unauthorized commands are never forwarded
-- safe-stop zeros motion
-- E-stop latches motion inhibition
+directly.
+
+Implement:
+- runtime checks
+- assertions
+- diagnostics
+- tests
+
+to prove:
+- only authorized commands reach actuators
+- safe-stop forces zero motion
+- E-stop fully inhibits motion
+- expired commands are rejected
+
+Add explicit logging/events for:
+- rejected commands
+- clamped commands
+- stale commands
+- E-stop inhibition
 
 ---
 
-# Sensor Requirements
+# 5. ros_gz_bridge Hardening
 
-Simulated sensors must include:
+Audit all bridge configuration.
+
+Validate:
+- message type alignment
+- QoS compatibility
+- bridge startup ordering
+- topic direction correctness
+- clock synchronization
+- TF propagation
+
+Required bridged topics:
 
 ```text
-2D LiDAR
+/clock
+/cmd_vel_authorized
+/odom
+/tf
+/tf_static
+/scan
+/imu
+/contact
+```
+
+Add:
+- bridge validation tooling
+- diagnostics output
+- bridge failure detection
+- bridge timeout warnings
+
+Detect:
+- missing topics
+- bridge startup failures
+- stale bridge traffic
+
+---
+
+# 6. Sensor Pipeline Validation
+
+Audit all sensor adapters.
+
+Validate:
+- timestamp propagation
+- freshness semantics
+- confidence propagation
+- sequence handling
+- replay metadata
+- event generation
+
+Sensors:
+
+```text
+LiDAR
 IMU
 Wheel Odometry
 Contact/Bumper
 ```
 
-Each sensor path should:
-- publish ROS-native topics
-- integrate with replay recording
-- support fault injection
-- expose freshness semantics
-
-DO NOT add cameras yet.
-
----
-
-# Fault Injection Integration
-
-Integrate the existing fault framework into ROS simulation.
-
-Fault injection must support:
-- stale LiDAR
-- delayed messages
-- odometry divergence
-- wheel slip
-- IMU bias
-- bridge disconnect simulation
-- command timeout
-
-Faults should:
-- alter data
-- alter timing
-- alter freshness
-
-Faults should NOT:
-- directly mutate safety state
-
-The safety system must react naturally.
-
----
-
-# Replay & Recording Requirements
-
-Integrate replay-aware runtime recording.
-
 Implement:
-- rosbag2 launch integration
-- run metadata generation
-- replay marker events
-- structured run folders
+- runtime freshness monitors
+- adapter diagnostics
+- stale sensor detection events
+- sensor-rate validation
+- adapter integration tests
+
+Ensure:
+- adapters remain non-authoritative
+- safety logic remains centralized
+
+---
+
+# 7. Fault Injection Runtime Integration
+
+Deeply validate fault behavior in live simulation.
+
+Faults:
+
+```text
+stale_lidar
+encoder_drift
+imu_bias
+bridge_disconnect
+command_timeout
+watchdog_expiration
+packet_delay
+sensor_disagreement
+wheel_slip
+```
+
+For each fault:
+- validate activation
+- validate propagation
+- validate observability
+- validate replay capture
+- validate safety response
+
+Ensure:
+- faults alter inputs/timing only
+- faults do NOT directly mutate safety state
+
+Add:
+- runtime fault status visibility
+- fault diagnostics
+- replay markers
+- fault lifecycle events
+
+---
+
+# 8. Replay & Recording Validation
+
+Audit replay recording architecture.
+
+Validate:
+- run folder creation
+- metadata integrity
+- event integrity
+- replay marker integrity
+- recording startup/shutdown
+- rosbag2 recording integration
 
 Required structure:
 
@@ -518,119 +391,243 @@ runs/
   <run_id>/
     metadata.json
     events.jsonl
+    states.jsonl
+    commands.jsonl
+    sensor_readings.jsonl
     bags/
     traces/
     incident-summary.md
 ```
 
-Do not fully implement replay playback yet.
+Add:
+- integrity validation scripts
+- replay manifest validation
+- recording diagnostics
+- run summary generation improvements
 
-Prepare the architecture for it.
-
----
-
-# Foxglove & Observability
-
-Prepare for Foxglove integration.
-
-Implement:
-- structured topic naming
-- safety topics
-- replay topics
-- health topics
-- event topics
-
-Include documentation for:
-- launching Foxglove bridge
-- viewing telemetry
-- observing safety transitions
+Validate:
+- replay artifacts are complete
+- timestamps are coherent
+- event ordering is stable
 
 ---
 
-# Testing Requirements
+# 9. Observability Hardening
 
-Create meaningful tests and validation tooling.
+This is a major priority.
 
-Required coverage:
-
-## ROS Integration
-- launch validation
-- topic existence
-- TF tree validation
-- bridge configuration validation
-
-## Safety
-- authorized motion only
-- safe-stop zero motion
-- E-stop latch enforcement
-
-## Sensor Pipeline
-- freshness propagation
-- timestamp validation
-- adapter normalization
-
-## Fault Injection
-- stale LiDAR propagation
-- delayed topic handling
-- odometry divergence behavior
-
-## Recording
-- bag recording starts
-- run metadata written
-- replay markers emitted
-
----
-
-# Documentation Requirements
-
-Update docs only where needed.
-
-Update:
-- `ROADMAP.md`
-- `ARCHITECTURE.md`
-- `REPLAY_SYSTEM.md`
-- `SYSTEM_CONTEXT.md`
+Audit:
+- topic naming
+- telemetry consistency
+- event visibility
+- replay visibility
+- health visibility
 
 Add:
-- ROS graph diagrams
-- TF tree documentation
-- launch topology diagrams
-- Gazebo architecture notes
+- runtime diagnostics topics
+- health heartbeat topics
+- subsystem status topics
+- launch-time health reports
+- safety-state visibility
+- fault-state visibility
+
+Ensure:
+- Foxglove workflows remain coherent
+- telemetry is operationally useful
+- events are traceable across subsystems
 
 ---
 
-# Expected Technical Quality
+# 10. Runtime Diagnostics System
 
-Write code and architecture consistent with:
-- advanced robotics R&D discipline
-- operational systems thinking
-- replay-first observability
-- deterministic validation principles
+Implement a dedicated diagnostics subsystem.
 
-The resulting repo should feel like:
-- an internal autonomy validation platform
+Suggested package:
+
+```text
+rover_runtime_diagnostics
+```
+
+Responsibilities:
+- topic freshness auditing
+- bridge health auditing
+- safety-state monitoring
+- TF validation
+- launch validation
+- subsystem heartbeat monitoring
+- event-rate monitoring
+
+Publish:
+- structured diagnostics
+- warnings
+- health summaries
+
+This should feel like:
+- internal robotics runtime tooling
 
 NOT:
-- a robotics tutorial repo
+- debug print statements
+
+---
+
+# 11. Scenario Validation Suite
+
+Expand scenario execution validation.
+
+Required runtime scenarios:
+
+```text
+nominal_run
+stale_lidar_restricted_mode
+odometry_divergence_safe_stop
+command_timeout_safe_stop
+bridge_disconnect_safe_stop
+wheel_slip_degraded_mode
+estop_latched_manual_reset_required
+```
+
+For each scenario:
+- validate runtime behavior
+- validate event emission
+- validate replay recording
+- validate final safety state
+- validate command arbitration
+
+Generate:
+- scenario summaries
+- incident summaries
+- validation outputs
+
+---
+
+# 12. Runtime Validation Tooling
+
+Create operational validation tooling.
+
+Suggested scripts/tools:
+
+```text
+tools/validate_tf_tree.py
+tools/validate_replay_run.py
+tools/validate_event_integrity.py
+tools/validate_bridge_topics.py
+tools/validate_safety_pipeline.py
+```
+
+These should:
+- perform real checks
+- produce actionable diagnostics
+- support CI integration later
+
+---
+
+# 13. Testing Expansion
+
+Add meaningful runtime-oriented tests.
+
+Required categories:
+
+## Launch Validation
+- launch success
+- node presence
+- bridge availability
+
+## TF Validation
+- expected frames exist
+- transform consistency
+
+## Safety Pipeline
+- only authorized commands reach actuator path
+- safe-stop zeros motion
+- E-stop latches
+
+## Sensor Validation
+- freshness propagation
+- stale sensor detection
+- timestamp consistency
+
+## Fault Integration
+- fault activation behavior
+- replay capture
+- event emission
+
+## Replay Integrity
+- event ordering
+- metadata integrity
+- replay completeness
+
+## Diagnostics
+- heartbeat detection
+- stale subsystem warnings
+- bridge failure warnings
+
+---
+
+# 14. Documentation Updates
+
+Update docs ONLY where required.
+
+Update:
+- `ARCHITECTURE.md`
+- `REPLAY_SYSTEM.md`
+- `TESTING_STRATEGY.md`
+- `SYSTEM_CONTEXT.md`
+- `ROADMAP.md`
+
+Add:
+- runtime validation diagrams
+- TF topology diagrams
+- launch sequencing diagrams
+- diagnostics architecture notes
+- replay integrity notes
+
+Document:
+- known runtime limitations
+- deterministic guarantees
+- nondeterministic boundaries
+- simulation assumptions
+
+---
+
+# Required Quality Level
+
+This implementation should feel like:
+- an internal robotics validation runtime
+- operational robotics infrastructure
+- resilience-engineering tooling
+
+NOT:
+- tutorial code
+- toy simulation glue
+- ROS demo boilerplate
+
+Code should:
+- preserve architectural discipline
+- preserve safety authority
+- preserve replay-first design
+- expose operational visibility
+- fail loudly and observably
 
 ---
 
 # Acceptance Criteria
 
-This pass is complete only if:
+This phase is complete only if:
 
-1. Gazebo Harmonic launches successfully.
-2. The rover spawns correctly.
-3. TF tree is valid.
-4. Sensor topics publish correctly.
-5. Motion flows only through authorized command path.
-6. Safety supervisor controls actuator authorization.
-7. ros_gz_bridge configuration works.
-8. rosbag2 recording integration exists.
-9. Fault injection integrates into ROS simulation.
-10. Structured launch hierarchy exists.
-11. The deterministic runtime remains authoritative.
-12. Tests and validation tooling exist.
+1. Gazebo launches reliably.
+2. TF tree validates cleanly.
+3. ros_gz_bridge topics validate correctly.
+4. Only authorized motion reaches actuators.
+5. Safe-stop forces zero motion.
+6. E-stop fully inhibits motion.
+7. Fault injection propagates correctly.
+8. Replay artifacts are coherent.
+9. Event timelines remain consistent.
+10. Runtime diagnostics exist.
+11. Sensor freshness is validated.
+12. Scenario validation suite executes correctly.
+13. Tests meaningfully validate runtime behavior.
+14. The architecture remains internally consistent.
 
 ---
 
@@ -638,22 +635,25 @@ This pass is complete only if:
 
 When complete, report:
 
-- packages created
-- launch files created
-- ROS topics implemented
-- bridges configured
+- files created
+- files modified
+- runtime diagnostics added
+- validation tooling added
+- launch improvements
+- TF validation results
+- bridge validation results
+- replay validation improvements
 - tests added
-- Gazebo worlds added
-- TF structure
+- tests passing/failing
 - approximate LOC added
-- known limitations
+- known runtime limitations
 - recommended next implementation phase
 
 Do not claim completion if:
-- Gazebo does not launch
-- TF is broken
-- topics are inconsistent
-- motion bypasses safety supervisor
-- replay recording is nonfunctional
-- tests fail
+- TF is unstable
+- actuator authorization is bypassable
+- replay integrity is broken
+- bridge validation fails
+- diagnostics are incomplete
+- scenario validation is unreliable
 ```
