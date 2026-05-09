@@ -71,6 +71,13 @@ _REQUIRED_TOP_LEVEL = (
     "commands.jsonl",
     "sensor_readings.jsonl",
     "incident-summary.md",
+    # Phase 2 mission artefacts. Files exist (zero records) even when
+    # no mission is configured so replay tooling can rely on their
+    # presence.
+    "mission_state_transitions.jsonl",
+    "waypoint_events.jsonl",
+    "recovery_events.jsonl",
+    "world_model_snapshots.jsonl",
     "bags",
     "traces",
 )

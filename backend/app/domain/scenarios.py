@@ -111,12 +111,21 @@ class ScenarioDefinition:
     )
     faults: tuple[ScenarioFault, ...] = field(default_factory=tuple)
     metadata: dict[str, Any] = field(default_factory=dict)
+    # Optional Phase-2 mission plan. Stored as a raw dict to keep
+    # ``app.domain.scenarios`` independent of ``app.mission`` /
+    # ``app.world_model``. The simulation engine resolves it via
+    # :meth:`MissionPlan.from_dict` when present.
+    mission_plan: dict[str, Any] | None = None
 
     def __post_init__(self) -> None:
         if self.time_step_ms <= 0:
             raise ValueError("time_step_ms must be positive")
         if self.duration_seconds <= 0:
             raise ValueError("duration_seconds must be positive")
+
+    @property
+    def has_mission_plan(self) -> bool:
+        return self.mission_plan is not None
 
     @property
     def duration_ms(self) -> int:
@@ -130,7 +139,7 @@ class ScenarioDefinition:
         return tuple(f.to_profile() for f in self.faults)
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        out: dict[str, Any] = {
             "scenario_id": str(self.scenario_id),
             "duration_seconds": self.duration_seconds,
             "time_step_ms": self.time_step_ms,
@@ -139,6 +148,9 @@ class ScenarioDefinition:
             "faults": [f.to_dict() for f in self.faults],
             "metadata": dict(self.metadata),
         }
+        if self.mission_plan is not None:
+            out["mission_plan"] = dict(self.mission_plan)
+        return out
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "ScenarioDefinition":
@@ -165,6 +177,9 @@ class ScenarioDefinition:
             )
             for f in data.get("faults", [])
         )
+        mission_plan = data.get("mission_plan")
+        if mission_plan is not None and not isinstance(mission_plan, dict):
+            raise ValueError("mission_plan must be a JSON object")
         return cls(
             scenario_id=ScenarioId(str(sid)),
             duration_seconds=float(data["duration_seconds"]),
@@ -173,6 +188,7 @@ class ScenarioDefinition:
             requested_motion=requested_motion,
             faults=faults,
             metadata=dict(data.get("metadata", {})),
+            mission_plan=dict(mission_plan) if mission_plan else None,
         )
 
     @classmethod

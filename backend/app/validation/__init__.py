@@ -22,6 +22,10 @@ from app.validation.event_validator import (
     validate_events_file,
     validate_events_iter,
 )
+from app.validation.mission_validator import (
+    MissionRunValidationResult,
+    validate_mission_run,
+)
 from app.validation.replay_validator import (
     ReplayValidationResult,
     validate_run_directory,
@@ -45,6 +49,7 @@ from app.validation.safety_pipeline_validator import (
 __all__ = [
     "BridgeValidationResult",
     "EventValidationResult",
+    "MissionRunValidationResult",
     "ReplayValidationResult",
     "SafetyPipelineResult",
     "ScenarioCase",
@@ -56,6 +61,7 @@ __all__ = [
     "validate_bridge_yaml",
     "validate_events_file",
     "validate_events_iter",
+    "validate_mission_run",
     "validate_run_directory",
     "validate_safety_pipeline",
     "validate_urdf_tf_tree",

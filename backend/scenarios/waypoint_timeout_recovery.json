@@ -1,0 +1,31 @@
+{
+  "scenario_id": "waypoint_timeout_recovery",
+  "duration_seconds": 25.0,
+  "time_step_ms": 100,
+  "initial_state": {
+    "operator_activate_at_ms": 200
+  },
+  "requested_motion": {
+    "linear_velocity": 0.0,
+    "angular_velocity": 0.0,
+    "command_lifetime_ms": 500
+  },
+  "faults": [],
+  "mission_plan": {
+    "mission_id": "timeout-recovery",
+    "waypoints": [
+      {"waypoint_id": "w_unreachable", "pose_x": 50.0, "pose_y": 0.0, "heading_rad": 0.0,
+       "position_tolerance": 0.20, "heading_tolerance": 0.40, "timeout_seconds": 4.0}
+    ],
+    "constraints": {
+      "max_linear_velocity": 0.3,
+      "max_angular_velocity": 0.6,
+      "minimum_confidence_for_motion": 0.4,
+      "minimum_sensor_health": 3
+    },
+    "max_recovery_attempts": 2
+  },
+  "metadata": {
+    "description": "Single unreachable waypoint with 4s timeout and 2-attempt budget. Expect MISSION_ABORTED via repeated waypoint timeouts engaging BACKUP_AND_RETRY then MISSION_ABORT."
+  }
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>rover_mission_runtime</name>
+  <version>0.1.0</version>
+  <description>
+    Phase 2 mission orchestration node + Nav2 velocity-clamp boundary.
+
+    The mission node embeds app.mission.MissionOrchestrator, subscribes
+    to /odom, /safety/state, /world_model/state and operator topics,
+    and publishes /cmd_vel_requested plus the structured mission topics.
+
+    The nav2_velocity_clamp node accepts a Nav2 controller's output on
+    /cmd_vel_nav2 and republishes it on /cmd_vel_requested, clamped to
+    the orchestrator's effective per-state limits. This is the only
+    architectural bridge that lets Nav2 participate without ever
+    bypassing the safety supervisor.
+  </description>
+  <maintainer email="rover-platform@example.com">Rover Safety Platform</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>builtin_interfaces</depend>
+  <depend>rover_msgs</depend>
+
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

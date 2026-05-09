@@ -27,6 +27,7 @@ _REQUIRED_LAUNCHES = {
         "observability.launch.py",
         "rover_spawn.launch.py",
         "runtime_validation.launch.py",
+        "mission_only.launch.py",
     ],
     "rover_sim_gazebo": [
         "simulation.launch.py",
@@ -37,6 +38,12 @@ _REQUIRED_LAUNCHES = {
     "rover_observability": ["observability.launch.py"],
     "rover_description": ["rover_description.launch.py"],
     "rover_runtime_diagnostics": ["runtime_diagnostics.launch.py"],
+    "rover_mission_runtime": [
+        "mission_runtime.launch.py",
+        "nav2_clamp.launch.py",
+    ],
+    "rover_world_model": ["world_model.launch.py"],
+    "rover_mission_diagnostics": ["mission_diagnostics.launch.py"],
 }
 
 
@@ -110,6 +117,27 @@ def test_runtime_validation_launch_includes_diagnostics(src_root: Path) -> None:
     text = _launch_path(src_root, "rover_bringup", "runtime_validation.launch.py").read_text()
     assert "rover_runtime_diagnostics" in text
     assert "runtime_diagnostics.launch.py" in text
+
+
+def test_full_system_can_enable_mission(src_root: Path) -> None:
+    text = _launch_path(src_root, "rover_bringup", "full_system.launch.py").read_text()
+    assert "enable_mission" in text
+    assert "rover_mission_runtime" in text
+    assert "rover_world_model" in text
+    assert "rover_mission_diagnostics" in text
+
+
+def test_mission_only_launch_composes_phase2_stack(src_root: Path) -> None:
+    text = _launch_path(src_root, "rover_bringup", "mission_only.launch.py").read_text()
+    for fragment in (
+        "rover_world_model",
+        "world_model.launch.py",
+        "rover_mission_runtime",
+        "mission_runtime.launch.py",
+        "rover_mission_diagnostics",
+        "mission_diagnostics.launch.py",
+    ):
+        assert fragment in text, f"mission_only.launch.py missing {fragment}"
 
 
 def test_safety_runtime_does_not_launch_simulation(src_root: Path) -> None:

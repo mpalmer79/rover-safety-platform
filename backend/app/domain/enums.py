@@ -149,6 +149,11 @@ class EventCategory(str, Enum):
     WATCHDOG = "watchdog"
     REPLAY = "replay"
     OPERATOR_ACTION = "operator_action"
+    # Phase 2 additions.
+    MISSION_LIFECYCLE = "mission_lifecycle"
+    MISSION_WAYPOINT = "mission_waypoint"
+    MISSION_RECOVERY = "mission_recovery"
+    WORLD_MODEL = "world_model"
 
 
 class MotionDecision(str, Enum):

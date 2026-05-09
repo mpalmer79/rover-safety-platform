@@ -1,0 +1,33 @@
+{
+  "scenario_id": "keepout_zone_violation",
+  "duration_seconds": 12.0,
+  "time_step_ms": 100,
+  "initial_state": {
+    "operator_activate_at_ms": 200
+  },
+  "requested_motion": {
+    "linear_velocity": 0.0,
+    "angular_velocity": 0.0,
+    "command_lifetime_ms": 500
+  },
+  "faults": [],
+  "mission_plan": {
+    "mission_id": "keepout-trip",
+    "waypoints": [
+      {"waypoint_id": "w_inside_keepout", "pose_x": 1.5, "pose_y": 0.0, "heading_rad": 0.0,
+       "position_tolerance": 0.20, "heading_tolerance": 0.40, "timeout_seconds": 30.0}
+    ],
+    "constraints": {
+      "max_linear_velocity": 0.4,
+      "max_angular_velocity": 0.8,
+      "minimum_confidence_for_motion": 0.4,
+      "minimum_sensor_health": 3
+    },
+    "keepout_zones": [
+      {"zone_id": "kz1", "min_x": 0.6, "min_y": -0.5, "max_x": 0.9, "max_y": 0.5, "margin_m": 0.30}
+    ]
+  },
+  "metadata": {
+    "description": "Direct waypoint goal sits past a declared keepout. As the rover approaches, the orchestrator emits world_model.keepout_pending events; on entry, recovery escalates to SAFE_STOP_ESCALATION → MISSION_DEGRADED."
+  }
+}

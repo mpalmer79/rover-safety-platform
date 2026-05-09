@@ -347,3 +347,35 @@ deterministic engine and the static artefacts in the workspace. The
 ROS 2 path produces interchangeable run directories that pass the same
 validators. A run is considered replay-eligible only when every
 applicable validator returns OK.
+
+---
+
+## 16. Phase 2 Mission Replay Artefacts
+
+Phase 2 adds four new JSONL streams to the run directory layout. The
+recorder writes them on every run (with zero records when no mission
+is configured), so replay tooling can rely on their presence:
+
+| Stream | Producer | Purpose |
+|---|---|---|
+| `mission_state_transitions.jsonl` | `MissionOrchestrator` (via `mission_lifecycle.entered` events) | One row per mission state transition (`MISSION_IDLE` → `MISSION_PREPARING` → … → `MISSION_COMPLETE` / `MISSION_ABORTED`) with `from_state`, `to_state`, `reason_code`. |
+| `waypoint_events.jsonl` | `MissionOrchestrator` (via `mission_waypoint.*` events) | `mission_waypoint.activated` / `.completed` / `.timed_out` rows with `waypoint_id`, `elapsed_ms`. |
+| `recovery_events.jsonl` | `RecoveryPolicy` (via `mission_recovery.engaged` / `mission_recovery.cleared`) | One row per recovery transition with `recovery_behavior`, `attempt_count`, `waypoint_id`. |
+| `world_model_snapshots.jsonl` | `WorldModel` | One row per recording tick with pose, forward-clearance summary, inside/near keepout, inside restricted, boundary violations, and effective speed limits. |
+
+The validator `app.validation.mission_validator.validate_mission_run`
+extends `validate_run_directory` with mission-side checks: every
+mission state value must come from the controlled vocabulary in
+`app.mission.enums`; every recovery behaviour must come from
+`RecoveryBehavior`; per-stream sim_time_ns must be monotonic; every
+world-model snapshot must carry the documented set of keys.
+
+`tools/validate_mission_run.py` is the CLI entry point; it accepts
+`--json` and exits non-zero on failure. The Phase 1C validators
+(replay, events, bridge YAML, TF tree, safety pipeline) all continue
+to apply unchanged — Phase 2 is additive.
+
+The incident summary now includes a Mission lifecycle section listing
+every transition with its reason code, a Waypoints section with
+completed and timed-out lists, and a Recovery engagements section
+listing each behavioural change.

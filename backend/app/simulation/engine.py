@@ -30,6 +30,8 @@ from app.domain.rover_state import RoverState
 from app.domain.scenarios import ScenarioDefinition
 from app.domain.time import ManualClock
 from app.faults.injector import FaultInjector
+from app.mission.mission_plan import MissionPlan
+from app.mission.orchestrator import MissionOrchestrator, OrchestratorInputs
 from app.safety.supervisor import SafetySupervisor, SupervisorInputs
 from app.simulation.sensor_simulator import SensorSimulator
 from app.simulation.vehicle_model import DifferentialDriveModel
@@ -215,6 +217,23 @@ class SimulationEngine:
         self._mission = _MissionLayer(scenario=scenario, builder=self._mission_builder)
         self._gateway = _GatewayLayer(vehicle=self._vehicle, builder=self._gateway_builder)
 
+        # Optional Phase-2 mission orchestrator. When the scenario
+        # carries a ``mission_plan`` dict, the orchestrator owns motion
+        # requests for the rest of the run. The static
+        # ``RequestedMotionPlan`` ("just drive forward") fallback is
+        # used when no mission plan is present.
+        self._mission_orchestrator: Optional[MissionOrchestrator] = None
+        self._mission_confidence: float = 1.0
+        if scenario.mission_plan is not None:
+            plan = MissionPlan.from_dict(scenario.mission_plan)
+            self._mission_orchestrator = MissionOrchestrator(
+                plan=plan,
+                run_id=self._run_id,
+                scenario_id=self._scenario_id,
+                clock=self._clock,
+                id_generator=self._ids,
+            )
+
         ts = self._clock.stamp()
         metadata = RunMetadata(
             run_id=self._run_id,
@@ -296,10 +315,10 @@ class SimulationEngine:
         for evt in injection.events:
             self._publish(evt)
 
-        # 2. Mission requests motion.
-        requested = self._mission.request(now_ms=now_ms)
-
-        # 3. Sensor simulator produces a frame (post-fault perturbation).
+        # 2. Sensor simulator produces a frame (post-fault perturbation).
+        # Sensor generation moves earlier in the tick because the
+        # mission orchestrator (if any) consumes the same frame the
+        # supervisor will see.
         contact_asserted = now_ms in self._contact_assertions
         frame = self._sensor_sim.generate(
             state=self._state,
@@ -311,8 +330,42 @@ class SimulationEngine:
         )
         self._recorder.append_sensor_frame(frame, sim_time_ns=self._clock.now_ns())
 
-        # 4. Operator inputs from scenario timeline.
+        # 3. Operator inputs from scenario timeline.
         ops = self._operator_pulses(now_ms=now_ms)
+
+        # 4. Mission requests motion.
+        if self._mission_orchestrator is None:
+            requested = self._mission.request(now_ms=now_ms)
+            mission_evaluation = None
+        else:
+            mission_evaluation = self._mission_orchestrator.evaluate(
+                OrchestratorInputs(
+                    pose_x=self._state.pose_x,
+                    pose_y=self._state.pose_y,
+                    heading_rad=self._state.heading_rad,
+                    sensor_frame=frame,
+                    confidence_score=self._mission_confidence,
+                    safety_state=self._supervisor.safety_state,
+                    operator_start=ops["activate"],
+                    operator_pause=False,
+                    operator_resume=False,
+                    operator_abort=False,
+                    operator_recovery=ops["recovery"],
+                    now_ms=now_ms,
+                    sim_time_ns=self._clock.now_ns(),
+                    command_lifetime_ms=500,
+                )
+            )
+            for evt in mission_evaluation.events:
+                self._publish(evt)
+            requested = mission_evaluation.requested_motion
+            self._recorder.append_world_model_snapshot(mission_evaluation.world_snapshot)
+            self._recorder.append_mission_progress(
+                mission_state=mission_evaluation.mission_state,
+                progress=mission_evaluation.progress,
+                recovery=mission_evaluation.recovery,
+                sim_time_ns=self._clock.now_ns(),
+            )
 
         # 5. Supervisor evaluation.
         supervisor_inputs = SupervisorInputs(
@@ -328,6 +381,10 @@ class SimulationEngine:
         evaluation = self._supervisor.evaluate(supervisor_inputs)
         for evt in evaluation.events:
             self._publish(evt)
+        # Feed the supervisor's confidence back to the orchestrator so
+        # the next tick's constraint evaluation uses the same number
+        # the supervisor saw this tick.
+        self._mission_confidence = float(evaluation.confidence.score)
 
         # 6. Gateway applies authorized command and integrates the vehicle.
         new_state, gateway_events = self._gateway.apply(

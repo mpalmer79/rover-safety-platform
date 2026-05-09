@@ -20,8 +20,8 @@ from app.validation.scenario_suite import (
 
 def test_builtin_scenarios_count() -> None:
     cases = builtin_scenarios()
-    # Phase 1C explicitly requires seven scenarios.
-    assert len(cases) == 7
+    # Seven Phase 1C scenarios + seven Phase 2 mission scenarios.
+    assert len(cases) == 14
 
 
 def test_each_builtin_scenario_has_a_file_on_disk(tmp_path: Path) -> None:

@@ -284,6 +284,51 @@ and safety authority are independent dimensions.
 
 ---
 
+## 8c. Mission Runtime and Bounded Navigation (Phase 2)
+
+Phase 2 introduces three new actors and a bounded set of new external
+surfaces.
+
+* **Actors**:
+  - `rover_mission_runtime` — the deterministic mission orchestrator.
+    Hosts the mission state machine, waypoint queue, recovery policy,
+    and waypoint controller. Sole producer of `/cmd_vel_requested`
+    on the mission side. It does not own `/safety/state` and never
+    writes `/cmd_vel_authorized`.
+  - `rover_world_model` — the bounded world model. Owns the declared
+    keepout / restricted-speed / operational-boundary regions and the
+    forward-clearance summary derived from LiDAR. Publishes
+    `WorldModelState` and per-hazard `HazardReport` records.
+  - `rover_mission_diagnostics` — read-only summariser of mission
+    health.
+
+* **External surfaces**:
+
+  | Topic | Type | Purpose |
+  |---|---|---|
+  | `/mission/state` | `rover_msgs/MissionState` (latched) | The orchestrator's authoritative current state. |
+  | `/mission/events` | `std_msgs/String` (JSON) | Canonical event envelope for `mission_lifecycle.*`, `mission_waypoint.*`, `mission_recovery.*`, `world_model.*` events. |
+  | `/mission/progress` | `rover_msgs/WaypointStatus` | Per-tick distance / heading error / elapsed-vs-timeout for the active waypoint. |
+  | `/mission/waypoints` | `rover_msgs/WaypointEvent` | Discrete waypoint lifecycle events. |
+  | `/mission/recovery` | `rover_msgs/RecoveryEvent` | Recovery engagements and clears. |
+  | `/world_model/state` | `rover_msgs/WorldModelState` | World model snapshot. |
+  | `/world_model/hazards` | `rover_msgs/HazardReport` | One per active hazard. |
+  | `/diagnostics/mission` | `diagnostic_msgs/DiagnosticArray` | Aggregated mission health. |
+
+* **Nav2 boundary**: Nav2 controllers, when used, publish onto
+  `/cmd_vel_nav2`. The `rover_mission_runtime/nav2_velocity_clamp`
+  node reads that topic, clamps to the orchestrator's per-state
+  envelope, and republishes onto `/cmd_vel_requested`. Nav2 has **no**
+  path to `/cmd_vel_authorized` and **no** subscription to anything on
+  the actuator side.
+
+The mission state machine and the safety state machine remain
+independent. Mission state describes what the mission is doing; safety
+state describes what the supervisor will authorise. The two react to
+each other through observable topics, not through shared mutable state.
+
+---
+
 ## 9. Context Change Control
 
 Changes to the system context require:

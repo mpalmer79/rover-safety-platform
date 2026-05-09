@@ -26,6 +26,9 @@ REQUIRED_PACKAGES = {
     "rover_safety_bridge",
     "rover_observability",
     "rover_runtime_diagnostics",
+    "rover_mission_runtime",
+    "rover_world_model",
+    "rover_mission_diagnostics",
     "rover_bringup",
 }
 
@@ -91,6 +94,9 @@ def test_ament_cmake_packages_have_cmakelists(src_root, pkg_name):
         "rover_safety_bridge",
         "rover_observability",
         "rover_runtime_diagnostics",
+        "rover_mission_runtime",
+        "rover_world_model",
+        "rover_mission_diagnostics",
     ],
 )
 def test_ament_python_packages_have_setup(src_root, pkg_name):
@@ -111,6 +117,13 @@ def test_rover_msgs_lists_every_required_message(src_root):
         "SensorHealth.msg",
         "FaultEvent.msg",
         "ReplayMarker.msg",
+        # Phase 2 mission interfaces.
+        "MissionState.msg",
+        "WaypointStatus.msg",
+        "WaypointEvent.msg",
+        "RecoveryEvent.msg",
+        "WorldModelState.msg",
+        "HazardReport.msg",
     ):
         assert msg in cmakelists, f"{msg} not registered in CMakeLists.txt"
         assert (src_root / "rover_msgs" / "msg" / msg).exists()
