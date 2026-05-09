@@ -304,3 +304,23 @@ Recommended practices:
 - never delete a run directory referenced by an `incident-summary.md` in a published artifact
 
 Cloud or shared-storage policies are out of scope for this document and are deferred until the platform has a hardware deployment that requires them.
+
+---
+
+## 14. Phase 1B ROS 2 / Gazebo Wiring
+
+Phase 1B implements the replay contract on the ROS 2 side without
+relaxing it. Concretely:
+
+| Concern | Phase 1B implementation |
+|---|---|
+| Run lifecycle | `rover_observability/run_manager.py` allocates `run_id`, creates the run directory, publishes `ReplayMarker` records on `/replay/markers`, and finalises the recorder on shutdown. |
+| Structured event index | `rover_safety_bridge/safety_bridge_node.py` publishes canonical-JSON events on `/safety/events`. `rover_observability/event_recorder.py` validates each line against `app.telemetry.schemas.validate_event_dict` and appends it to `runs/<run_id>/events.jsonl`. |
+| rosbag2 / MCAP | `rover_observability/observability.launch.py` invokes `ros2 bag record -s mcap` against the topics enumerated in section 7. The bag is written to `runs/<run_id>/bags/`. |
+| Run directory layout | Identical to section 9 (`metadata.json`, `events.jsonl`, `bags/`, `traces/`, `incident-summary.md`). The recorder is the same `app.replay.RecorderFacade` used by the deterministic engine. |
+| Determinism level | Recorded as `pinned` when the launch was driven by a pinned scenario file; otherwise `best_effort`. |
+
+Run directories produced by the deterministic Python engine and by the
+ROS 2 launch are interchangeable as far as the replay validators are
+concerned: the metadata schema, event schema, and storage layout are
+identical.

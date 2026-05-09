@@ -1,0 +1,16 @@
+# Nominal scenario for the ROS-driven simulation.
+#
+# Mirrors backend/scenarios/nominal_run.json. The mission layer (a
+# small teleop-style publisher in tests/manual usage) issues this
+# request on /cmd_vel_requested. The safety supervisor authorises it
+# when the gates are healthy.
+scenario_id: ros_nominal_drive_v1
+description: |
+  Healthy run on the bounded validation world. No faults armed.
+  Expected outcome: ACTIVE_NORMAL throughout, rover drives forward at 0.4 m/s
+  until the operator stops the run.
+requested_motion:
+  linear: 0.4
+  angular: 0.0
+  command_lifetime_ms: 500
+faults: []

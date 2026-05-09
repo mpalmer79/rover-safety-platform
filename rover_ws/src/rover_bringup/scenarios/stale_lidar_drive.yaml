@@ -1,0 +1,20 @@
+# Stale-LiDAR scenario for the ROS-driven simulation.
+#
+# Activates the stale_lidar fault at t=2 s. Expected: supervisor
+# transitions to ACTIVE_DEGRADED, then SAFE_STOP once the safe-stop
+# threshold is exceeded.
+scenario_id: ros_stale_lidar_drive_v1
+description: |
+  Drive forward, drop the LiDAR mid-run; expect ACTIVE_DEGRADED then SAFE_STOP.
+requested_motion:
+  linear: 0.5
+  angular: 0.0
+  command_lifetime_ms: 500
+faults:
+  - fault_id: f-stale-lidar
+    fault_type: stale_lidar
+    target: /scan
+    activation_ms: 2000
+    duration_ms: -1
+    parameters:
+      mode: drop
