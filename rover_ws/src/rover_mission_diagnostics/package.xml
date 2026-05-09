@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>rover_mission_diagnostics</name>
+  <version>0.1.0</version>
+  <description>
+    Phase 2 mission diagnostics. Subscribes to /mission/state,
+    /mission/progress, /mission/recovery, /world_model/state, and
+    /world_model/hazards; publishes diagnostic_msgs/DiagnosticArray on
+    /diagnostics/mission and a structured /diagnostics/mission_summary
+    JSON record.
+  </description>
+  <maintainer email="rover-platform@example.com">Rover Safety Platform</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>diagnostic_msgs</depend>
+  <depend>builtin_interfaces</depend>
+  <depend>rover_msgs</depend>
+
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

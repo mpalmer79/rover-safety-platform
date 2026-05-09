@@ -41,7 +41,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 1A — Deterministic Autonomy Simulation Core (Python backend) | Implemented under `backend/` |
 | Phase 1B — ROS 2 + Gazebo Harmonic Simulation Bringup | Implemented under `rover_ws/` (static-validation tests pass; end-to-end Gazebo launch requires a Jazzy host — see `rover_ws/tests/manual.md`) |
 | Phase 1C — Runtime Validation, Operational Hardening, and Integration Verification | Implemented; see section 3c |
-| Phase 2 — Deterministic Autonomy Core (ROS 2) | Pending |
+| Phase 2 — Mission Runtime & Deterministic Navigation Orchestration | Implemented; see section 3d |
 | Phase 3 — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 4 — Replay, Telemetry, and Incident Reconstruction (ROS 2 / Foxglove) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
@@ -409,6 +409,143 @@ Implemented. See `tools/`, `backend/app/validation/`,
 - Demonstrates a diagnostics subsystem that respects the safety
   authority boundary: the diagnostic monitors describe liveliness,
   not safety state.
+
+---
+
+## 3d. Phase 2: Mission Runtime & Deterministic Navigation Orchestration
+
+### Status
+
+Implemented. See `backend/app/mission/`, `backend/app/world_model/`,
+the seven new `backend/scenarios/*_*.json` files, the new ROS
+packages (`rover_mission_runtime`, `rover_world_model`,
+`rover_mission_diagnostics`), and `tools/validate_mission_run.py`.
+
+### Objectives
+
+- Add a deterministic mission orchestration layer that produces
+  bounded waypoint navigation, recovery behaviour, world-state
+  awareness, and replayable mission execution — without conceding the
+  safety supervisor's authority.
+- Allow constrained Nav2 participation through a single architectural
+  bridge (the velocity-clamp boundary), proving that the platform can
+  use Nav2 controllers without ever putting Nav2 on the actuator
+  path.
+- Extend replay so a recorded run can be reconstructed at the mission
+  level (state transitions, waypoint timeline, recovery engagements,
+  world-model snapshots) in addition to the safety / sensor level.
+
+### Deliverables
+
+- `backend/app/mission/` — pure-logic mission runtime:
+  - `enums.py` (`MissionState`, `RecoveryBehavior`, `WaypointStatus`),
+  - `transitions.py` (allowed mission transitions with refusal events),
+  - `waypoints.py` (`Waypoint`, `WaypointQueue`, `WaypointProgress`),
+  - `constraints.py` (`MissionConstraints`, `evaluate_constraints`),
+  - `controller.py` (deterministic geometric waypoint controller),
+  - `recovery.py` (`RecoveryPolicy` with budgeted attempts),
+  - `mission_plan.py` (`MissionPlan`),
+  - `orchestrator.py` (`MissionOrchestrator`).
+- `backend/app/world_model/` — bounded world model:
+  - `keepout.py`, `boundaries.py`, `occupancy.py`, `snapshot.py`,
+  - `world_model.py` (`WorldModel`, `HazardReport`).
+- Seven new mission scenarios:
+  `nominal_waypoint_patrol`, `waypoint_timeout_recovery`,
+  `degraded_sensor_navigation`, `keepout_zone_violation`,
+  `restricted_mode_navigation`, `safe_stop_during_active_mission`,
+  `mission_abort_after_fault_escalation`.
+- Extended `RunRecorder`: `mission_state_transitions.jsonl`,
+  `waypoint_events.jsonl`, `recovery_events.jsonl`,
+  `world_model_snapshots.jsonl`. Incident summaries now include
+  mission lifecycle, completed/timed-out waypoints, and recovery
+  engagements.
+- Extended `EventCategory` with `mission_lifecycle`,
+  `mission_waypoint`, `mission_recovery`, `world_model`. Six new
+  ``rover_msgs`` interfaces.
+- Three new ROS packages:
+  - `rover_mission_runtime/mission_node.py` (embeds the orchestrator;
+    sole producer of `/cmd_vel_requested`),
+  - `rover_mission_runtime/nav2_velocity_clamp.py` (Nav2 boundary;
+    accepts `/cmd_vel_nav2`, clamps to the per-state envelope,
+    republishes onto `/cmd_vel_requested`),
+  - `rover_world_model/world_model_node.py`,
+  - `rover_mission_diagnostics/mission_diagnostics_node.py`.
+- New launches:
+  `rover_mission_runtime/launch/mission_runtime.launch.py`,
+  `rover_mission_runtime/launch/nav2_clamp.launch.py`,
+  `rover_world_model/launch/world_model.launch.py`,
+  `rover_mission_diagnostics/launch/mission_diagnostics.launch.py`,
+  `rover_bringup/launch/mission_only.launch.py`. The top-level
+  `full_system.launch.py` accepts `enable_mission` and
+  `mission_plan_path`.
+- `tools/validate_mission_run.py` and
+  `app.validation.mission_validator` (run-directory mission integrity).
+- New backend tests: `test_mission_state.py`, `test_waypoints.py`,
+  `test_mission_constraints.py`, `test_recovery_policy.py`,
+  `test_world_model.py`, `test_orchestrator.py`,
+  `test_mission_replay.py`. Scenario suite extended with the seven
+  Phase 2 cases.
+- New rover_ws test: `test_mission_runtime_packages.py`. Launch /
+  manifest / message tests extended.
+
+### Acceptance Criteria
+
+- Mission runtime exists and reaches MISSION_COMPLETE on the nominal
+  patrol scenario.
+- Waypoint execution is deterministic across re-runs (verified in
+  the scenario suite).
+- Recovery executes for timeout, keepout, and operator paths; budget
+  exhaustion forces MISSION_ABORT.
+- Mission replay artefacts are present in every run directory and
+  validated by `tools/validate_mission_run.py`.
+- World model integrates keepout / restricted / boundary zones and
+  emits `world_model.*` events.
+- Safety authority remains centralized: source-level scan asserts
+  the mission orchestrator never constructs ``AuthorizedMotionCommand``
+  and the Nav2 clamp never references `/cmd_vel_authorized`.
+- Mission diagnostics expose mission state, active waypoint,
+  recovery counts, and world-model hazards on `/diagnostics/mission`.
+- All 312 backend + rover_ws tests pass.
+- All seven CLI tools exit 0.
+
+### Risks
+
+- The orchestrator's geometric controller is intentionally simple. A
+  Nav2 controller is the supported path for production-class
+  navigation; the orchestrator is the bounded path that survives in
+  CI.
+- The wheel-slip-only path still reaches `MISSION_COMPLETE`
+  numerically because the platform has no state estimator; the
+  scenario uses a co-occurring IMU bias to demonstrate
+  ``MISSION_DEGRADED`` honestly. State-estimator-based slip detection
+  remains future work.
+- The ROS-side mission node reads the supervisor's confidence from
+  `/safety/state` but does not see the live `SensorFrame`; the
+  supervisor's freshness gates own that channel. The deterministic
+  engine, by contrast, drives the orchestrator with the full
+  `SensorFrame`. This asymmetry is intentional: ROS-side mission
+  state should not duplicate sensor-level reasoning.
+
+### Deferred Work
+
+- Full Nav2 integration (`Nav2 lifecycle node bring-up, costmap,
+  planner_server, controller_server) is out of scope; the velocity-
+  clamp boundary is the agreed integration surface.
+- BehaviorTree.CPP is intentionally not introduced; the orchestrator
+  is a deterministic state machine + waypoint queue. A behaviour-tree
+  layer is candidate Phase 3+ work if mission complexity warrants.
+- Live launch-based integration tests still require a Jazzy host;
+  manual.md instructions cover the end-to-end check.
+
+### Portfolio Signal
+
+- Demonstrates a mission orchestration layer that is deterministic by
+  construction, replay-grade by design, and architecturally unable to
+  bypass the safety supervisor.
+- Demonstrates a Nav2 integration model that preserves all earlier
+  contracts (only the supervisor authorises motion; only the gateway
+  consumes authorised motion; only the bridge YAML forwards it to
+  Gazebo).
 
 ---
 

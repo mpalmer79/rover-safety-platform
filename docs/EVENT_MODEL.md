@@ -125,6 +125,10 @@ fault_injection
 watchdog
 replay
 operator_action
+mission_lifecycle
+mission_waypoint
+mission_recovery
+world_model
 ```
 
 Recommended `event_type` values:
@@ -140,6 +144,10 @@ Recommended `event_type` values:
 | `watchdog` | `watchdog.armed`, `watchdog.petted`, `watchdog.expired` |
 | `replay` | `replay.started`, `replay.paused`, `replay.completed`, `replay.skipped_topic` |
 | `operator_action` | `operator_action.activate`, `operator_action.estop`, `operator_action.reset`, `operator_action.scenario_loaded` |
+| `mission_lifecycle` | `mission_lifecycle.entered`, `mission_lifecycle.refused` |
+| `mission_waypoint` | `mission_waypoint.activated`, `mission_waypoint.completed`, `mission_waypoint.timed_out`, `mission_waypoint.aborted` |
+| `mission_recovery` | `mission_recovery.engaged`, `mission_recovery.cleared` |
+| `world_model` | `world_model.keepout_pending`, `world_model.keepout_violation`, `world_model.restricted_speed_violation`, `world_model.operational_boundary_violation`, `world_model.obstacle_near`, `world_model.obstacle_blocking` |
 
 New types may be added by the owning subsystem. Adding a new category prefix requires updating this document.
 

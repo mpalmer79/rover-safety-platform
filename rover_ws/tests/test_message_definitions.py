@@ -105,3 +105,63 @@ def test_replay_marker_message(msg_dir):
     fields = _parse_msg(msg_dir / "ReplayMarker.msg")
     for required in ("kind", "label", "reason_code", "payload_json"):
         assert required in fields
+
+
+def test_mission_state_message(msg_dir):
+    fields = _parse_msg(msg_dir / "MissionState.msg")
+    for required in (
+        "mission_id",
+        "state",
+        "reason_code",
+        "safety_state",
+        "mission_progress",
+    ):
+        assert required in fields
+    assert fields["state"] == "string"
+    assert fields["mission_progress"] == "float32"
+
+
+def test_waypoint_status_message(msg_dir):
+    fields = _parse_msg(msg_dir / "WaypointStatus.msg")
+    for required in (
+        "waypoint_id",
+        "status",
+        "distance_to_goal_m",
+        "elapsed_ms",
+        "timeout_ms",
+        "waypoint_index",
+        "waypoint_total",
+    ):
+        assert required in fields
+
+
+def test_waypoint_event_message(msg_dir):
+    fields = _parse_msg(msg_dir / "WaypointEvent.msg")
+    for required in ("phase", "reason_code", "waypoint_id", "waypoint_index"):
+        assert required in fields
+
+
+def test_recovery_event_message(msg_dir):
+    fields = _parse_msg(msg_dir / "RecoveryEvent.msg")
+    for required in ("phase", "reason_code", "recovery_behavior", "attempt_count"):
+        assert required in fields
+
+
+def test_world_model_state_message(msg_dir):
+    fields = _parse_msg(msg_dir / "WorldModelState.msg")
+    for required in (
+        "pose_x",
+        "forward_clearance_m",
+        "forward_sector_clear",
+        "inside_keepout",
+        "speed_limit_linear",
+        "speed_limit_angular",
+    ):
+        assert required in fields
+    assert fields["forward_sector_clear"] == "bool"
+
+
+def test_hazard_report_message(msg_dir):
+    fields = _parse_msg(msg_dir / "HazardReport.msg")
+    for required in ("kind", "reason_code", "severity", "summary", "zone_id"):
+        assert required in fields

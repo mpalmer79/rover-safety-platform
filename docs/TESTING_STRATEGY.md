@@ -348,3 +348,33 @@ A feature is **not complete** in Phase 1C unless:
 - `tools/validate_safety_pipeline.py` exits 0,
 - the appropriate static validator (bridge / TF / events / replay) is
   in CI and exits 0 against the workspace artefacts.
+
+## 17. Phase 2 Mission Runtime Coverage
+
+Phase 2 adds the following test categories on top of Phase 1C:
+
+| Suite | Layer | Coverage |
+|---|---|---|
+| `backend/tests/test_mission_state.py` | `unit` | Allowed and forbidden mission state transitions; `MISSION_ABORTED` and `MISSION_COMPLETE` are terminal. |
+| `backend/tests/test_waypoints.py` | `unit` | Waypoint validation and `WaypointQueue` lifecycle. |
+| `backend/tests/test_mission_constraints.py` | `unit` | Constraint evaluation: confidence, sensor health, keepout, zone speed limits, safety-state inhibit, forward clearance. |
+| `backend/tests/test_recovery_policy.py` | `unit` | Recovery selection: timeout escalation, attempt budget, MISSION_ABORT terminality, keepout escalation, safety-state escalation, sensor-degraded wait, operator-recovery STOP_AND_REEVALUATE. |
+| `backend/tests/test_world_model.py` | `unit` | Zone evaluation, keepout pending vs. violation, restricted speed clamp, boundary classification, hazard emission. |
+| `backend/tests/test_orchestrator.py` | `integration` | Orchestrator drives the mission through the legal state graph; never constructs `AuthorizedMotionCommand`; operator commands propagate. |
+| `backend/tests/test_mission_replay.py` | `replay` | Run directories carry the four Phase 2 JSONL artefacts; the mission validator rejects out-of-vocabulary state values; recovery events list the expected behaviours. |
+| `backend/tests/test_scenario_suite.py` (extended) | `simulation` + `fault_injection` + `replay` | All 14 (Phase 1C + Phase 2) scenarios run end-to-end and pass mission-aware expectations. |
+| `rover_ws/tests/test_mission_runtime_packages.py` | `contract` | Mission node never publishes `/cmd_vel` or `/cmd_vel_authorized`; Nav2 clamp never references `/cmd_vel_authorized` (in code, with comments stripped); world model imports `app.world_model.WorldModel`; setup.py declares the expected console scripts. |
+
+The Phase 1C definition of done extends in Phase 2: a mission feature
+is **not complete** unless
+
+- the relevant scenario in
+  `app.validation.scenario_suite.builtin_scenarios()` has the
+  documented final state and reaches the documented mission state,
+- `tools/validate_mission_run.py` exits 0 against a representative run
+  directory,
+- `tools/run_scenario_suite.py` exits 0,
+- the mission node never references `/cmd_vel_authorized` (Nav2 clamp
+  test enforces this),
+- the orchestrator never constructs `AuthorizedMotionCommand`
+  (orchestrator test enforces this).

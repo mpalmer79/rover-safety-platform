@@ -1,0 +1,34 @@
+{
+  "scenario_id": "restricted_mode_navigation",
+  "duration_seconds": 25.0,
+  "time_step_ms": 100,
+  "initial_state": {
+    "operator_activate_at_ms": 200
+  },
+  "requested_motion": {
+    "linear_velocity": 0.0,
+    "angular_velocity": 0.0,
+    "command_lifetime_ms": 500
+  },
+  "faults": [],
+  "mission_plan": {
+    "mission_id": "restricted-corridor",
+    "waypoints": [
+      {"waypoint_id": "w_through_zone", "pose_x": 2.0, "pose_y": 0.0, "heading_rad": 0.0,
+       "position_tolerance": 0.20, "heading_tolerance": 0.40, "timeout_seconds": 40.0}
+    ],
+    "constraints": {
+      "max_linear_velocity": 0.5,
+      "max_angular_velocity": 1.0,
+      "minimum_confidence_for_motion": 0.4,
+      "minimum_sensor_health": 3
+    },
+    "restricted_zones": [
+      {"zone_id": "rz1", "min_x": 0.5, "min_y": -0.6, "max_x": 1.5, "max_y": 0.6,
+       "max_linear_velocity": 0.15, "max_angular_velocity": 0.4}
+    ]
+  },
+  "metadata": {
+    "description": "Rover crosses a restricted-speed zone enroute to its goal. Within the zone the orchestrator-side constraint evaluator clamps requested motion to 0.15 m/s; outside, full 0.5 m/s. Mission completes."
+  }
+}

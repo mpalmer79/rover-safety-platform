@@ -1,0 +1,34 @@
+{
+  "scenario_id": "nominal_waypoint_patrol",
+  "duration_seconds": 30.0,
+  "time_step_ms": 100,
+  "initial_state": {
+    "operator_activate_at_ms": 200
+  },
+  "requested_motion": {
+    "linear_velocity": 0.0,
+    "angular_velocity": 0.0,
+    "command_lifetime_ms": 500
+  },
+  "faults": [],
+  "mission_plan": {
+    "mission_id": "patrol-square",
+    "waypoints": [
+      {"waypoint_id": "w1", "pose_x": 1.5, "pose_y": 0.0, "heading_rad": 0.0,
+       "position_tolerance": 0.20, "heading_tolerance": 0.40, "timeout_seconds": 25.0},
+      {"waypoint_id": "w2", "pose_x": 1.5, "pose_y": 1.5, "heading_rad": 1.5708,
+       "position_tolerance": 0.20, "heading_tolerance": 0.40, "timeout_seconds": 25.0},
+      {"waypoint_id": "w3", "pose_x": 0.0, "pose_y": 0.0, "heading_rad": 3.14159,
+       "position_tolerance": 0.20, "heading_tolerance": 0.40, "timeout_seconds": 25.0}
+    ],
+    "constraints": {
+      "max_linear_velocity": 0.4,
+      "max_angular_velocity": 0.8,
+      "minimum_confidence_for_motion": 0.4,
+      "minimum_sensor_health": 3
+    }
+  },
+  "metadata": {
+    "description": "Three-waypoint nominal patrol. Expect MISSION_COMPLETE with no recovery engagements."
+  }
+}

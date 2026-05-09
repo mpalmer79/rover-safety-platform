@@ -43,6 +43,13 @@ class ScenarioCase:
     expected_transition_reason_codes: tuple[str, ...] = ()
     expected_min_transitions: int = 1
     description: str = ""
+    expected_mission_state: str | None = None
+    """Phase 2 mission cases: the orchestrator's terminal state."""
+
+    expected_min_waypoints_completed: int = 0
+    expected_min_recovery_engagements: int = 0
+    expected_world_model_events: tuple[str, ...] = ()
+    """Phase 2: ``world_model.*`` event types that must be present."""
 
 
 @dataclass
@@ -57,6 +64,10 @@ class ScenarioOutcome:
     errors: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     run_dir: Path | None = None
+    final_mission_state: str | None = None
+    waypoints_completed: int = 0
+    recovery_engagements: int = 0
+    world_model_event_types: tuple[str, ...] = ()
 
     def as_dict(self) -> dict:
         return {
@@ -70,6 +81,10 @@ class ScenarioOutcome:
             "errors": list(self.errors),
             "warnings": list(self.warnings),
             "run_dir": str(self.run_dir) if self.run_dir else None,
+            "final_mission_state": self.final_mission_state,
+            "waypoints_completed": self.waypoints_completed,
+            "recovery_engagements": self.recovery_engagements,
+            "world_model_event_types": list(self.world_model_event_types),
         }
 
 
@@ -147,6 +162,72 @@ def builtin_scenarios() -> tuple[ScenarioCase, ...]:
             expected_final_state=SafetyState.E_STOP_LATCHED,
             expected_transition_reason_codes=("operator_estop",),
             description="Operator E-stop latches; cannot self-clear.",
+        ),
+        # Phase 2 mission scenarios.
+        ScenarioCase(
+            scenario_file="nominal_waypoint_patrol.json",
+            expected_final_state=SafetyState.ACTIVE_NORMAL,
+            expected_mission_state="MISSION_COMPLETE",
+            expected_min_waypoints_completed=3,
+            description="Three-waypoint patrol; mission completes cleanly.",
+        ),
+        ScenarioCase(
+            scenario_file="waypoint_timeout_recovery.json",
+            expected_final_state=SafetyState.ACTIVE_NORMAL,
+            expected_mission_state="MISSION_ABORTED",
+            expected_min_recovery_engagements=2,
+            description=(
+                "Unreachable waypoint with budget=2; expect MISSION_ABORTED "
+                "after BACKUP_AND_RETRY exhaustion."
+            ),
+        ),
+        ScenarioCase(
+            scenario_file="degraded_sensor_navigation.json",
+            expected_final_state=SafetyState.ACTIVE_DEGRADED,
+            expected_fired_faults=("f-imu-bias",),
+            expected_mission_state="MISSION_COMPLETE",
+            expected_min_waypoints_completed=1,
+            description="Mission completes despite ACTIVE_DEGRADED supervisor state.",
+        ),
+        ScenarioCase(
+            scenario_file="keepout_zone_violation.json",
+            expected_final_state=SafetyState.ACTIVE_NORMAL,
+            expected_mission_state="MISSION_DEGRADED",
+            expected_world_model_events=(
+                "world_model.keepout_pending",
+                "world_model.keepout_violation",
+            ),
+            description=(
+                "Rover crosses into a keepout zone; mission orchestrator "
+                "escalates via SAFE_STOP_ESCALATION."
+            ),
+        ),
+        ScenarioCase(
+            scenario_file="restricted_mode_navigation.json",
+            expected_final_state=SafetyState.ACTIVE_NORMAL,
+            expected_mission_state="MISSION_COMPLETE",
+            expected_min_waypoints_completed=1,
+            expected_world_model_events=("world_model.restricted_speed_violation",),
+            description=(
+                "Rover passes through a restricted-speed zone; mission completes."
+            ),
+        ),
+        ScenarioCase(
+            scenario_file="safe_stop_during_active_mission.json",
+            expected_final_state=SafetyState.SAFE_STOP,
+            expected_fired_faults=("f-stale-lidar",),
+            expected_mission_state="MISSION_DEGRADED",
+            description=(
+                "Mid-mission LiDAR drop; supervisor SAFE_STOP and orchestrator "
+                "MISSION_DEGRADED."
+            ),
+        ),
+        ScenarioCase(
+            scenario_file="mission_abort_after_fault_escalation.json",
+            expected_final_state=SafetyState.ACTIVE_NORMAL,
+            expected_mission_state="MISSION_ABORTED",
+            expected_min_recovery_engagements=3,
+            description="Repeated waypoint timeouts; mission aborts after exhausting budget.",
         ),
     )
 
@@ -236,6 +317,58 @@ def _run_one(
     if not replay.ok:
         errors.append(f"replay validation failed: {replay.errors}")
 
+    # Phase 2 mission assertions.
+    final_mission_state: str | None = None
+    waypoints_completed = 0
+    recovery_engagements = 0
+    world_model_event_types: tuple[str, ...] = ()
+    if engine._mission_orchestrator is not None:
+        final_mission_state = engine._mission_orchestrator.state.value
+        waypoints_completed = engine._mission_orchestrator.queue.completed_count
+        recovery_engagements = sum(
+            1
+            for event in engine.event_store.all()
+            if event.event_type == "mission_recovery.engaged"
+        )
+        world_model_event_types = tuple(
+            sorted(
+                {
+                    event.event_type
+                    for event in engine.event_store.all()
+                    if event.event_type.startswith("world_model.")
+                }
+            )
+        )
+
+        if (
+            case.expected_mission_state is not None
+            and final_mission_state != case.expected_mission_state
+        ):
+            errors.append(
+                f"final mission state {final_mission_state} != "
+                f"expected {case.expected_mission_state}"
+            )
+        if waypoints_completed < case.expected_min_waypoints_completed:
+            errors.append(
+                f"completed waypoints {waypoints_completed} < "
+                f"expected min {case.expected_min_waypoints_completed}"
+            )
+        if recovery_engagements < case.expected_min_recovery_engagements:
+            errors.append(
+                f"recovery engagements {recovery_engagements} < "
+                f"expected min {case.expected_min_recovery_engagements}"
+            )
+        for required_event_type in case.expected_world_model_events:
+            if required_event_type not in world_model_event_types:
+                errors.append(
+                    f"expected world_model event type {required_event_type!r} not present"
+                )
+    elif (
+        case.expected_mission_state is not None
+        or case.expected_min_waypoints_completed > 0
+    ):
+        errors.append("scenario expected a mission but none was loaded")
+
     ok = not errors
     return ScenarioOutcome(
         case=case,
@@ -248,4 +381,8 @@ def _run_one(
         errors=errors,
         warnings=warnings,
         run_dir=engine.recorder.run_dir,
+        final_mission_state=final_mission_state,
+        waypoints_completed=waypoints_completed,
+        recovery_engagements=recovery_engagements,
+        world_model_event_types=world_model_event_types,
     )

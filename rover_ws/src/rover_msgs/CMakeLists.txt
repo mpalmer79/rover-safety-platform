@@ -18,6 +18,13 @@ set(msg_files
   msg/SensorHealth.msg
   msg/FaultEvent.msg
   msg/ReplayMarker.msg
+  # Phase 2 mission interfaces.
+  msg/MissionState.msg
+  msg/WaypointStatus.msg
+  msg/WaypointEvent.msg
+  msg/RecoveryEvent.msg
+  msg/WorldModelState.msg
+  msg/HazardReport.msg
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}

@@ -128,6 +128,36 @@ def generate_launch_description() -> LaunchDescription:
         ],
     )
 
+    enable_mission = LaunchConfiguration("enable_mission")
+    mission_plan_path = LaunchConfiguration("mission_plan_path")
+    mission = TimerAction(
+        period=9.0,
+        actions=[
+            LogInfo(msg="[full_system] starting mission runtime + world model"),
+            _include(
+                "rover_world_model",
+                "world_model.launch.py",
+                run_id=run_id,
+                scenario_id=scenario_id,
+                zones_path=mission_plan_path,
+                condition=IfCondition(enable_mission),
+            ),
+            _include(
+                "rover_mission_runtime",
+                "mission_runtime.launch.py",
+                run_id=run_id,
+                scenario_id=scenario_id,
+                mission_plan_path=mission_plan_path,
+                condition=IfCondition(enable_mission),
+            ),
+            _include(
+                "rover_mission_diagnostics",
+                "mission_diagnostics.launch.py",
+                condition=IfCondition(enable_mission),
+            ),
+        ],
+    )
+
     return LaunchDescription(
         [
             DeclareLaunchArgument(
@@ -163,11 +193,29 @@ def generate_launch_description() -> LaunchDescription:
                 choices=["true", "false"],
                 description="Whether to launch the rover_runtime_diagnostics nodes.",
             ),
+            DeclareLaunchArgument(
+                "enable_mission",
+                default_value="false",
+                choices=["true", "false"],
+                description=(
+                    "Whether to launch the Phase 2 mission stack "
+                    "(world model, mission orchestrator, mission diagnostics)."
+                ),
+            ),
+            DeclareLaunchArgument(
+                "mission_plan_path",
+                default_value="",
+                description=(
+                    "Path to a JSON file containing a mission_plan. Required when "
+                    "enable_mission is true."
+                ),
+            ),
             observability,
             sim,
             spawn,
             adapters,
             safety,
             diagnostics,
+            mission,
         ]
     )

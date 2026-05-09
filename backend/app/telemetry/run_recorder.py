@@ -47,6 +47,10 @@ class RunRecorder:
         self._states_file: Optional[IO[str]] = None
         self._commands_file: Optional[IO[str]] = None
         self._sensors_file: Optional[IO[str]] = None
+        self._mission_state_file: Optional[IO[str]] = None
+        self._waypoint_events_file: Optional[IO[str]] = None
+        self._recovery_events_file: Optional[IO[str]] = None
+        self._world_model_file: Optional[IO[str]] = None
         self._open()
         self._closed = False
         self._scenario_id = scenario_id
@@ -55,6 +59,16 @@ class RunRecorder:
         self._watchdog_expirations: set[str] = set()
         self._event_count = 0
         self._final_safety_state: SafetyState = SafetyState.BOOT
+        # Phase 2 counters.
+        self._mission_state_count = 0
+        self._waypoint_event_count = 0
+        self._recovery_event_count = 0
+        self._world_model_snapshot_count = 0
+        self._final_mission_state: str = "MISSION_IDLE"
+        self._mission_lifecycle: list[dict[str, Any]] = []
+        self._waypoints_completed: list[str] = []
+        self._waypoints_timed_out: list[str] = []
+        self._recovery_engagements: list[dict[str, Any]] = []
 
     @property
     def run_dir(self) -> Path:
@@ -69,6 +83,21 @@ class RunRecorder:
         self._states_file = (self._run_dir / "states.jsonl").open("w", encoding="utf-8")
         self._commands_file = (self._run_dir / "commands.jsonl").open("w", encoding="utf-8")
         self._sensors_file = (self._run_dir / "sensor_readings.jsonl").open("w", encoding="utf-8")
+        # Phase 2 mission artefacts. The files are always created (with
+        # zero records when no mission is active) so replay validators
+        # can rely on their presence.
+        self._mission_state_file = (
+            self._run_dir / "mission_state_transitions.jsonl"
+        ).open("w", encoding="utf-8")
+        self._waypoint_events_file = (
+            self._run_dir / "waypoint_events.jsonl"
+        ).open("w", encoding="utf-8")
+        self._recovery_events_file = (
+            self._run_dir / "recovery_events.jsonl"
+        ).open("w", encoding="utf-8")
+        self._world_model_file = (
+            self._run_dir / "world_model_snapshots.jsonl"
+        ).open("w", encoding="utf-8")
         # Initial metadata is written eagerly; finalize updates it.
         self._write_metadata()
 
@@ -103,6 +132,64 @@ class RunRecorder:
             name = event.attributes.get("watchdog_name")
             if isinstance(name, str):
                 self._watchdog_expirations.add(name)
+        # Phase 2 mission / world-model fan-out.
+        if event.event_type.startswith("mission_lifecycle."):
+            assert self._mission_state_file is not None
+            row = {
+                "sim_time_ns": event.timestamp.sim_time_ns,
+                "event_id": str(event.event_id),
+                "event_type": event.event_type,
+                "reason_code": event.reason_code,
+                "from_state": event.attributes.get("from_state"),
+                "to_state": event.attributes.get("to_state"),
+                "message": event.message,
+            }
+            self._mission_state_file.write(json.dumps(row, separators=(",", ":")))
+            self._mission_state_file.write("\n")
+            self._mission_state_file.flush()
+            self._mission_state_count += 1
+            self._mission_lifecycle.append(row)
+            to_state = event.attributes.get("to_state")
+            if isinstance(to_state, str):
+                self._final_mission_state = to_state
+        elif event.event_type.startswith("mission_waypoint."):
+            assert self._waypoint_events_file is not None
+            row = {
+                "sim_time_ns": event.timestamp.sim_time_ns,
+                "event_id": str(event.event_id),
+                "event_type": event.event_type,
+                "reason_code": event.reason_code,
+                "waypoint_id": event.attributes.get("waypoint_id"),
+                "elapsed_ms": event.attributes.get("elapsed_ms"),
+                "message": event.message,
+            }
+            self._waypoint_events_file.write(json.dumps(row, separators=(",", ":")))
+            self._waypoint_events_file.write("\n")
+            self._waypoint_events_file.flush()
+            self._waypoint_event_count += 1
+            wid = event.attributes.get("waypoint_id")
+            if event.event_type == "mission_waypoint.completed" and isinstance(wid, str):
+                self._waypoints_completed.append(wid)
+            elif event.event_type == "mission_waypoint.timed_out" and isinstance(wid, str):
+                self._waypoints_timed_out.append(wid)
+        elif event.event_type.startswith("mission_recovery."):
+            assert self._recovery_events_file is not None
+            row = {
+                "sim_time_ns": event.timestamp.sim_time_ns,
+                "event_id": str(event.event_id),
+                "event_type": event.event_type,
+                "reason_code": event.reason_code,
+                "recovery_behavior": event.attributes.get("recovery_behavior"),
+                "waypoint_id": event.attributes.get("waypoint_id"),
+                "attempt_count": event.attributes.get("attempt_count"),
+                "message": event.message,
+            }
+            self._recovery_events_file.write(json.dumps(row, separators=(",", ":")))
+            self._recovery_events_file.write("\n")
+            self._recovery_events_file.flush()
+            self._recovery_event_count += 1
+            if event.event_type == "mission_recovery.engaged":
+                self._recovery_engagements.append(row)
 
     def append_state(self, state: RoverState) -> None:
         if self._closed:
@@ -140,6 +227,45 @@ class RunRecorder:
         self._sensors_file.write("\n")
         self._sensors_file.flush()
 
+    def append_world_model_snapshot(self, snapshot, *, sim_time_ns: int | None = None) -> None:
+        """Append a :class:`WorldModelSnapshot` to ``world_model_snapshots.jsonl``.
+
+        ``sim_time_ns`` is optional because the snapshot already carries
+        its own. The argument is accepted only for API symmetry with the
+        other append methods.
+        """
+
+        if self._closed:
+            raise RuntimeError("Recorder is closed")
+        assert self._world_model_file is not None
+        payload = snapshot.to_dict()
+        self._world_model_file.write(json.dumps(payload, separators=(",", ":")))
+        self._world_model_file.write("\n")
+        self._world_model_file.flush()
+        self._world_model_snapshot_count += 1
+
+    def append_mission_progress(
+        self,
+        *,
+        mission_state,
+        progress,
+        recovery,
+        sim_time_ns: int,
+    ) -> None:
+        """Record one tick of mission progress.
+
+        The recorder always writes a row even when ``progress`` is None
+        (idle / paused / complete) so replay tooling can reason about
+        per-tick mission state without sparse-row handling.
+        """
+
+        if self._closed:
+            raise RuntimeError("Recorder is closed")
+        # Latest mission state lives on the lifecycle stream.
+        self._final_mission_state = (
+            mission_state.value if hasattr(mission_state, "value") else str(mission_state)
+        )
+
     def finalize(
         self,
         *,
@@ -164,7 +290,16 @@ class RunRecorder:
     def close(self) -> None:
         if self._closed:
             return
-        for f in (self._events_file, self._states_file, self._commands_file, self._sensors_file):
+        for f in (
+            self._events_file,
+            self._states_file,
+            self._commands_file,
+            self._sensors_file,
+            self._mission_state_file,
+            self._waypoint_events_file,
+            self._recovery_events_file,
+            self._world_model_file,
+        ):
             if isinstance(f, io.IOBase):
                 f.close()
         self._closed = True
@@ -189,8 +324,7 @@ class RunRecorder:
             event_count=self._event_count,
         )
 
-    @staticmethod
-    def _render_summary(summary: RunSummary) -> str:
+    def _render_summary(self, summary: RunSummary) -> str:
         lines: list[str] = []
         meta = summary.metadata
         lines.append(f"# Incident Summary — run {meta.run_id}")
@@ -199,6 +333,11 @@ class RunRecorder:
         lines.append(f"- duration: {summary.duration_ms} ms")
         lines.append(f"- events recorded: {summary.event_count}")
         lines.append(f"- final safety state: `{summary.final_safety_state.value}`")
+        if self._mission_state_count > 0:
+            lines.append(f"- final mission state: `{self._final_mission_state}`")
+            lines.append(
+                f"- mission lifecycle records: {self._mission_state_count}"
+            )
         lines.append(f"- supervisor version: {meta.supervisor_version}")
         lines.append(f"- simulator version: {meta.simulator_version}")
         lines.append("")
@@ -211,6 +350,42 @@ class RunRecorder:
                     f"- `t={t.sim_time_ns/1_000_000:.0f}ms` "
                     f"`{t.safety_state.value}` "
                     f"reason `{t.reason_code}` — {t.summary}"
+                )
+        lines.append("")
+        lines.append("## Mission lifecycle")
+        if not self._mission_lifecycle:
+            lines.append("_None._")
+        else:
+            for entry in self._mission_lifecycle:
+                lines.append(
+                    f"- `t={entry['sim_time_ns']/1_000_000:.0f}ms` "
+                    f"`{entry.get('to_state','?')}` reason `{entry['reason_code']}` — "
+                    f"{entry['message']}"
+                )
+        lines.append("")
+        lines.append("## Waypoints")
+        lines.append(f"- completed: {len(self._waypoints_completed)}")
+        lines.append(f"- timed out: {len(self._waypoints_timed_out)}")
+        if self._waypoints_completed:
+            lines.append("")
+            lines.append("Completed:")
+            for w in self._waypoints_completed:
+                lines.append(f"- `{w}`")
+        if self._waypoints_timed_out:
+            lines.append("")
+            lines.append("Timed out:")
+            for w in self._waypoints_timed_out:
+                lines.append(f"- `{w}`")
+        lines.append("")
+        lines.append("## Recovery engagements")
+        if not self._recovery_engagements:
+            lines.append("_None._")
+        else:
+            for r in self._recovery_engagements:
+                lines.append(
+                    f"- `t={r['sim_time_ns']/1_000_000:.0f}ms` "
+                    f"`{r.get('recovery_behavior','?')}` waypoint `{r.get('waypoint_id','-')}` — "
+                    f"{r['message']}"
                 )
         lines.append("")
         lines.append("## Fired faults")

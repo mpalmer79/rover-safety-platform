@@ -788,6 +788,67 @@ and `/cmd_vel_authorized`.
 
 ---
 
+# 15c. Mission Runtime and Bounded Navigation (Phase 2)
+
+Phase 2 adds a deterministic mission orchestration layer that produces
+bounded waypoint navigation, recovery behaviour, and world-state
+awareness, **without** changing any of the architectural guarantees
+established in earlier phases.
+
+The mission stack lives in three layers:
+
+- **`app.mission`** — the pure-logic mission runtime. It owns the
+  ``MissionState`` machine (`MISSION_IDLE` → `MISSION_PREPARING` →
+  `MISSION_ACTIVE` → … → `MISSION_COMPLETE` / `MISSION_ABORTED`), the
+  waypoint queue, the constraint evaluator, the recovery policy, and
+  the orchestrator that produces `RequestedMotionCommand` values.
+- **`app.world_model`** — the bounded world model. It evaluates
+  declared keepout / restricted-speed / operational-boundary regions
+  against the current pose and reduces the LiDAR to a coarse
+  forward-clearance summary. It emits `HazardReport` records and
+  per-tick `WorldModelSnapshot` records.
+- **ROS packages** — `rover_mission_runtime`, `rover_world_model`,
+  `rover_mission_diagnostics`. The mission node embeds the
+  deterministic orchestrator and is the only mission-side producer of
+  `/cmd_vel_requested`. The Nav2 velocity-clamp node accepts
+  `/cmd_vel_nav2` from a Nav2 controller and republishes onto
+  `/cmd_vel_requested` after clamping; this is the only path by which
+  Nav2 may participate.
+
+The motion authority chain is unchanged:
+
+```
+mission orchestrator        Nav2 controller (optional)
+        │                            │
+        ▼                            ▼
+  (RequestedMotion)              /cmd_vel_nav2
+        │                            │
+        └──────► /cmd_vel_requested ◄┘    (after clamp)
+                          │
+                          ▼
+              rover_safety_bridge
+                          │
+                          ▼
+                /cmd_vel_authorized
+                          │
+                          ▼
+               ros_gz_bridge → Gazebo diff-drive
+```
+
+Mission state is independent of safety state. Mission state describes
+what the mission is doing (idle, active, recovering, aborted). Safety
+state describes whether the supervisor is willing to authorise motion
+(BOOT, INACTIVE, ACTIVE_NORMAL, …, SAFE_STOP, E_STOP_LATCHED). The two
+state machines react to each other but neither owns the other.
+
+Replay artefacts now include `mission_state_transitions.jsonl`,
+`waypoint_events.jsonl`, `recovery_events.jsonl`, and
+`world_model_snapshots.jsonl`. Incident summaries include a Mission
+lifecycle section with reason codes per transition. The validator
+`tools/validate_mission_run.py` enforces the mission-side schema.
+
+---
+
 # 16. Final Architectural Principle
 
 Project Boundary is designed around a single governing principle:
