@@ -1,0 +1,21 @@
+{
+  "errors": [],
+  "final_state": "ACTIVE_NORMAL",
+  "ok": true,
+  "run_dir": "/tmp/p3-final-runs/verify-keepout_zone_violation",
+  "status": "passed",
+  "transition_count": 2,
+  "transitions": [
+    [
+      "BOOT",
+      "INACTIVE",
+      "boot_complete"
+    ],
+    [
+      "INACTIVE",
+      "ACTIVE_NORMAL",
+      "operator_activate"
+    ]
+  ],
+  "warnings": []
+}

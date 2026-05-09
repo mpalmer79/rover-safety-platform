@@ -1,0 +1,96 @@
+{
+  "checks": [
+    {
+      "detail": "engine completed; events=172",
+      "errors": [],
+      "name": "execution",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "final=SAFE_STOP",
+      "errors": [],
+      "name": "safety_state",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "all 3 present",
+      "errors": [],
+      "name": "required_events",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "observed ('f-stale-lidar',)",
+      "errors": [],
+      "name": "fired_faults",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "commands=80 clamped=5 zeroed=55 expired=0",
+      "errors": [],
+      "name": "command_path_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "transitions=4 final=SAFE_STOP",
+      "errors": [],
+      "name": "safety_transition_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "events=172 transitions=4 mission_states=0",
+      "errors": [],
+      "name": "replay_integrity",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "all safe-stop / e-stop commands zero",
+      "errors": [],
+      "name": "safe_stop_zero_motion",
+      "status": "passed",
+      "warnings": []
+    }
+  ],
+  "description": "LiDAR drop forces SAFE_STOP through freshness gates.",
+  "expected": {
+    "expected_fired_faults": [
+      "f-stale-lidar"
+    ],
+    "expected_safe_stop_zero_motion": true,
+    "forbidden_event_types": [],
+    "min_recovery_engagements": 0,
+    "mission_state": null,
+    "required_event_types": [
+      "fault_injection.fired",
+      "sensor_health.stale",
+      "safety_transition.entered"
+    ],
+    "safety_state": "SAFE_STOP"
+  },
+  "generated_at_utc": "2026-05-09T20:27:00+00:00",
+  "not_executed_reason": "",
+  "observed": {
+    "final_mission_state": null,
+    "final_safety_state": "SAFE_STOP",
+    "fired_faults": [
+      "f-stale-lidar"
+    ],
+    "recovery_engagement_count": 0,
+    "run_dir": "/tmp/p3-final-runs/verify-stale_lidar_restricted_mode"
+  },
+  "requirement_ids": [
+    "REQ-SAFE-001",
+    "REQ-SAFE-002",
+    "REQ-FAULT-001",
+    "REQ-FAULT-002"
+  ],
+  "scenario_file": "stale_lidar_restricted_mode.json",
+  "scenario_id": "stale_lidar_restricted_mode",
+  "status": "passed"
+}

@@ -1,0 +1,13 @@
+{
+  "clamped_count": 2,
+  "command_count": 180,
+  "errors": [],
+  "expired_count": 126,
+  "ok": true,
+  "rejected_count": 128,
+  "request_count": 52,
+  "run_dir": "/tmp/p3-final-runs/verify-degraded_sensor_navigation",
+  "status": "passed",
+  "warnings": [],
+  "zeroed_count": 2
+}

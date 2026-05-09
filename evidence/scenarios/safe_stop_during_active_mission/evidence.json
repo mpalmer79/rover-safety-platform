@@ -1,0 +1,102 @@
+{
+  "checks": [
+    {
+      "detail": "engine completed; events=479",
+      "errors": [],
+      "name": "execution",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "final=SAFE_STOP",
+      "errors": [],
+      "name": "safety_state",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "final=MISSION_DEGRADED",
+      "errors": [],
+      "name": "mission_state",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "all 3 present",
+      "errors": [],
+      "name": "required_events",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "observed ('f-stale-lidar',)",
+      "errors": [],
+      "name": "fired_faults",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "commands=150 clamped=5 zeroed=105 expired=1",
+      "errors": [],
+      "name": "command_path_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "transitions=4 final=SAFE_STOP",
+      "errors": [],
+      "name": "safety_transition_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "events=479 transitions=4 mission_states=3",
+      "errors": [],
+      "name": "replay_integrity",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "all safe-stop / e-stop commands zero",
+      "errors": [],
+      "name": "safe_stop_zero_motion",
+      "status": "passed",
+      "warnings": []
+    }
+  ],
+  "description": "Mid-mission LiDAR drop drives SAFE_STOP + MISSION_DEGRADED.",
+  "expected": {
+    "expected_fired_faults": [
+      "f-stale-lidar"
+    ],
+    "expected_safe_stop_zero_motion": true,
+    "forbidden_event_types": [],
+    "min_recovery_engagements": 0,
+    "mission_state": "MISSION_DEGRADED",
+    "required_event_types": [
+      "fault_injection.fired",
+      "safety_transition.entered",
+      "mission_lifecycle.entered"
+    ],
+    "safety_state": "SAFE_STOP"
+  },
+  "generated_at_utc": "2026-05-09T20:27:01+00:00",
+  "not_executed_reason": "",
+  "observed": {
+    "final_mission_state": "MISSION_DEGRADED",
+    "final_safety_state": "SAFE_STOP",
+    "fired_faults": [
+      "f-stale-lidar"
+    ],
+    "recovery_engagement_count": 2,
+    "run_dir": "/tmp/p3-final-runs/verify-safe_stop_during_active_mission"
+  },
+  "requirement_ids": [
+    "REQ-SAFE-002",
+    "REQ-MISSION-001",
+    "REQ-FAULT-001"
+  ],
+  "scenario_file": "safe_stop_during_active_mission.json",
+  "scenario_id": "safe_stop_during_active_mission",
+  "status": "passed"
+}

@@ -1,0 +1,15 @@
+{
+  "base_replay_ok": true,
+  "errors": [],
+  "event_count": 479,
+  "events_ok": true,
+  "final_mission_state": "MISSION_DEGRADED",
+  "mission_ok": true,
+  "mission_state_count": 3,
+  "ok": true,
+  "run_dir": "/tmp/p3-final-runs/verify-safe_stop_during_active_mission",
+  "status": "passed",
+  "transition_count": 4,
+  "warnings": [],
+  "waypoints_completed": []
+}

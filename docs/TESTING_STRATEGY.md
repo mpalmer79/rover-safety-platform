@@ -378,3 +378,32 @@ is **not complete** unless
   test enforces this),
 - the orchestrator never constructs `AuthorizedMotionCommand`
   (orchestrator test enforces this).
+
+## 18. Phase 3 Verification & Evidence
+
+Phase 3 introduces a verification layer that produces engineering
+evidence rather than additional behavioural tests.
+
+| Suite | Layer | Coverage |
+|---|---|---|
+| `backend/tests/test_requirements_registry.py` | `unit` | Registry hygiene: no duplicate IDs, every requirement has architecture + test/scenario coverage, scenario refs resolve. |
+| `backend/tests/test_command_audit.py` | `replay` | Command-path audit detects unauthorised sources, non-zero motion in SAFE_STOP, missing files. |
+| `backend/tests/test_safety_audit.py` | `replay` | Safety transition audit detects forbidden transitions, missing reason codes. |
+| `backend/tests/test_scenario_verifier.py` | `simulation` + `replay` | Every Phase 1C / Phase 2 scenario passes verification end-to-end. |
+| `backend/tests/test_evidence_and_traceability.py` | `replay` | Evidence directories contain the documented artefact set; traceability matrix covers every requirement; report renders summary + failed checks + known limitations. |
+
+The Phase 1C / Phase 2 definition of done extends with two
+Phase 3-specific gates:
+
+- Every safety-critical guarantee has a `REQ-*` ID in
+  [`backend/app/verification/requirements.py`](../backend/app/verification/requirements.py).
+- `tools/generate_verification_report.py` exits 0 against the
+  workspace, and the resulting
+  [`docs/SCENARIO_VERIFICATION_REPORT.md`](SCENARIO_VERIFICATION_REPORT.md)
+  shows `overall=passed` for every scenario in scope. A `failed`,
+  `partial`, or `not_executed` overall status indicates a regression
+  and must be triaged before merge.
+
+The platform is **not safety-certified.** This testing layer
+demonstrates verification discipline; it does not assert regulatory
+conformance.
