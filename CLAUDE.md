@@ -1,4 +1,4 @@
-You are acting as a Principal Robotics Runtime Engineer and Autonomous Systems Validation Architect operating at the level of an advanced robotics R&D organization.
+You are acting as a Principal Robotics Autonomy Engineer and Mission Runtime Architect operating at the level of an advanced robotics R&D organization.
 
 You are continuing work on:
 
@@ -7,75 +7,115 @@ You are continuing work on:
 
 The repository already contains:
 
-- architecture authority documents
 - deterministic autonomy runtime
 - safety supervisor
 - motion arbitration
-- replay/event system
-- fault injection framework
+- replay/event architecture
+- fault injection system
 - ROS 2 Jazzy workspace
 - Gazebo Harmonic integration
-- rover URDF/Xacro
-- ros_gz_bridge configuration
-- simulated sensors
-- structured launch hierarchy
+- replay recording
 - observability infrastructure
-- replay-aware run recording
-- static validation tests
+- runtime diagnostics
+- TF validation
+- bridge validation
+- structured launch system
+- scenario validation tooling
+- safety-authorized actuator pipeline
+- deterministic simulation foundation
 
-This pass is NOT a feature-expansion phase.
+The current platform is already beyond hobby-grade.
 
-This pass is:
+This pass transitions the platform into:
 
-# Phase 1C
-## Runtime Validation, Operational Hardening, and Integration Verification
+# Phase 2
+## Mission Runtime & Deterministic Navigation Orchestration
 
-The objective is to transform the current ROS/Gazebo integration from:
-- structurally correct
+This phase introduces:
+- mission execution
+- waypoint orchestration
+- bounded navigation
+- recovery behaviors
+- world-state awareness
+- operational constraint enforcement
 
-into:
-- operationally trustworthy
-- runtime validated
-- replay verified
-- diagnostically observable
-- integration hardened
-
-This is a critical phase.
-
-Most robotics projects fail here because:
-- launch systems drift
-- TF trees become inconsistent
-- bridges silently fail
-- safety authority gets bypassed
-- replay becomes nondeterministic
-- observability collapses under runtime complexity
-
-Your job is to aggressively validate and harden the existing architecture WITHOUT introducing unnecessary new systems.
+WITHOUT:
+- surrendering deterministic architecture
+- allowing planner-direct actuation
+- introducing uncontrolled autonomy
+- turning the project into a generic Nav2 demo
 
 ---
 
 # Primary Objective
 
-Perform a comprehensive runtime-hardening pass across:
+Build a deterministic mission orchestration layer capable of:
 
-- ROS 2 launch orchestration
-- Gazebo integration
-- TF consistency
-- ros_gz_bridge reliability
-- safety-command routing
-- sensor freshness propagation
-- replay/run recording
-- event integrity
-- fault injection execution
-- observability validation
-- deterministic startup sequencing
-- runtime diagnostics
-- operational visibility
+- waypoint execution
+- bounded autonomous movement
+- operational constraint enforcement
+- mission-state tracking
+- recovery orchestration
+- constrained navigation behaviors
+- explainable runtime decisions
+- replayable mission execution
 
-This phase should make the platform:
-- demonstrably robust
-- diagnostically transparent
-- operationally explainable
+while preserving:
+
+- safety-supervisor authority
+- replay integrity
+- observability-first design
+- deterministic command arbitration
+- fault-aware autonomy
+
+---
+
+# Critical Architectural Rules
+
+The platform MUST preserve:
+
+```text id="qkcr25"
+Mission Intent
+↓
+Requested Motion
+↓
+Safety Supervisor
+↓
+Motion Arbitration
+↓
+Authorized Motion
+↓
+Actuators
+```
+
+Mission runtime may:
+- request movement
+- request recovery
+- request rerouting
+
+Mission runtime may NOT:
+- authorize movement
+- bypass safety
+- directly publish actuator commands
+- override degraded states
+- suppress safety events
+
+---
+
+# Major Objective Areas
+
+This phase must implement:
+
+1. Mission Runtime Layer
+2. Deterministic Waypoint Navigation
+3. World-State Awareness
+4. Recovery Behavior Framework
+5. Constraint Enforcement
+6. Runtime Mission Graph
+7. Mission Replay Integration
+8. Mission Diagnostics
+9. Scenario Expansion
+10. Nav2-Constrained Integration
 
 ---
 
@@ -83,530 +123,454 @@ This phase should make the platform:
 
 DO NOT:
 - add SLAM
-- add Nav2 autonomy behaviors yet
-- add camera pipelines
 - add computer vision
+- add cameras
 - add ML
-- add perception stacks
-- add Jetson dependencies
-- add Isaac Sim
+- add RL
+- add path-learning systems
+- add autonomous exploration
 - add cloud robotics
-- add Kubernetes
-- add web UI cosmetics
-- add unrelated features
+- add distributed swarms
+- add manipulation systems
 
 DO NOT:
-- replace existing architecture
-- rewrite working domain logic
-- duplicate safety logic
-- bypass replay/event systems
-- bypass motion arbitration
+- allow Nav2 to own safety
+- allow Nav2 to bypass motion authorization
+- allow uncontrolled planner behavior
 
-The current architecture is already correct.
+DO NOT:
+- turn the platform into “follow a map” demo software
 
-This phase is about:
-- runtime verification
-- integration rigor
-- operational trustworthiness
-
----
-
-# Critical Engineering Goals
-
-You must validate and harden:
-
-1. Gazebo launch stability
-2. ROS graph consistency
-3. TF tree integrity
-4. Topic freshness semantics
-5. Motion authorization path
-6. ros_gz_bridge correctness
-7. Fault propagation behavior
-8. Replay recording correctness
-9. Event emission completeness
-10. Startup/shutdown sequencing
-11. Failure observability
-12. Deterministic runtime behavior
+The architecture remains:
+- safety-first
+- replay-first
+- deterministic
+- operationally explainable
 
 ---
 
-# Required Work Categories
+# 1. Mission Runtime Package
 
-# 1. Runtime Launch Validation
+Create:
 
-Audit and harden all launch files.
-
-Required launch files:
-
-```text
-simulation.launch.py
-rover_spawn.launch.py
-observability.launch.py
-safety_runtime.launch.py
-full_system.launch.py
-```
-
-Goals:
-- deterministic startup ordering
-- clean shutdown handling
-- dependency-aware bringup
-- launch argument validation
-- namespace consistency
-- clock synchronization validation
-- reusable launch composition
-
-Add:
-- launch-time diagnostics
-- missing dependency warnings
-- bridge availability checks
-- runtime readiness validation
-
----
-
-# 2. Gazebo Runtime Hardening
-
-Audit:
-- Gazebo world
-- rover spawning
-- sensor plugins
-- differential drive plugin
-- update rates
-- frame naming
-- collision geometry
-- inertial properties
-
-Validate:
-- stable spawn behavior
-- correct physics stepping
-- repeatable startup
-- consistent wheel behavior
-- stable sensor publishing
-
-Add:
-- runtime assertions where appropriate
-- simulation configuration documentation
-- deterministic simulation notes
-
-Do NOT overcomplicate the world.
-
-This is still:
-- a validation platform
-- not a photorealistic environment
-
----
-
-# 3. TF Tree Validation
-
-This is one of the most important phases.
-
-Audit and validate:
-- base_link
-- odom
-- lidar_link
-- imu_link
-- wheel links
-- wheel joints
-
-Validate:
-- no disconnected frames
-- no duplicate publishers
-- no unstable transforms
-- no naming inconsistencies
-
-Add:
-- TF validation tooling/scripts
-- TF documentation
-- TF topology diagrams
-
-Implement runtime validation checks if reasonable.
-
----
-
-# 4. Motion Authorization Hardening
-
-Critically validate:
-
-```text
-/cmd_vel_requested
-↓
-Safety Supervisor
-↓
-Motion Arbitration
-↓
-/cmd_vel_authorized
-↓
-Gazebo Diff Drive
-```
-
-The rover must NEVER consume:
-- raw requested motion
-
-directly.
-
-Implement:
-- runtime checks
-- assertions
-- diagnostics
-- tests
-
-to prove:
-- only authorized commands reach actuators
-- safe-stop forces zero motion
-- E-stop fully inhibits motion
-- expired commands are rejected
-
-Add explicit logging/events for:
-- rejected commands
-- clamped commands
-- stale commands
-- E-stop inhibition
-
----
-
-# 5. ros_gz_bridge Hardening
-
-Audit all bridge configuration.
-
-Validate:
-- message type alignment
-- QoS compatibility
-- bridge startup ordering
-- topic direction correctness
-- clock synchronization
-- TF propagation
-
-Required bridged topics:
-
-```text
-/clock
-/cmd_vel_authorized
-/odom
-/tf
-/tf_static
-/scan
-/imu
-/contact
-```
-
-Add:
-- bridge validation tooling
-- diagnostics output
-- bridge failure detection
-- bridge timeout warnings
-
-Detect:
-- missing topics
-- bridge startup failures
-- stale bridge traffic
-
----
-
-# 6. Sensor Pipeline Validation
-
-Audit all sensor adapters.
-
-Validate:
-- timestamp propagation
-- freshness semantics
-- confidence propagation
-- sequence handling
-- replay metadata
-- event generation
-
-Sensors:
-
-```text
-LiDAR
-IMU
-Wheel Odometry
-Contact/Bumper
-```
-
-Implement:
-- runtime freshness monitors
-- adapter diagnostics
-- stale sensor detection events
-- sensor-rate validation
-- adapter integration tests
-
-Ensure:
-- adapters remain non-authoritative
-- safety logic remains centralized
-
----
-
-# 7. Fault Injection Runtime Integration
-
-Deeply validate fault behavior in live simulation.
-
-Faults:
-
-```text
-stale_lidar
-encoder_drift
-imu_bias
-bridge_disconnect
-command_timeout
-watchdog_expiration
-packet_delay
-sensor_disagreement
-wheel_slip
-```
-
-For each fault:
-- validate activation
-- validate propagation
-- validate observability
-- validate replay capture
-- validate safety response
-
-Ensure:
-- faults alter inputs/timing only
-- faults do NOT directly mutate safety state
-
-Add:
-- runtime fault status visibility
-- fault diagnostics
-- replay markers
-- fault lifecycle events
-
----
-
-# 8. Replay & Recording Validation
-
-Audit replay recording architecture.
-
-Validate:
-- run folder creation
-- metadata integrity
-- event integrity
-- replay marker integrity
-- recording startup/shutdown
-- rosbag2 recording integration
-
-Required structure:
-
-```text
-runs/
-  <run_id>/
-    metadata.json
-    events.jsonl
-    states.jsonl
-    commands.jsonl
-    sensor_readings.jsonl
-    bags/
-    traces/
-    incident-summary.md
-```
-
-Add:
-- integrity validation scripts
-- replay manifest validation
-- recording diagnostics
-- run summary generation improvements
-
-Validate:
-- replay artifacts are complete
-- timestamps are coherent
-- event ordering is stable
-
----
-
-# 9. Observability Hardening
-
-This is a major priority.
-
-Audit:
-- topic naming
-- telemetry consistency
-- event visibility
-- replay visibility
-- health visibility
-
-Add:
-- runtime diagnostics topics
-- health heartbeat topics
-- subsystem status topics
-- launch-time health reports
-- safety-state visibility
-- fault-state visibility
-
-Ensure:
-- Foxglove workflows remain coherent
-- telemetry is operationally useful
-- events are traceable across subsystems
-
----
-
-# 10. Runtime Diagnostics System
-
-Implement a dedicated diagnostics subsystem.
-
-Suggested package:
-
-```text
-rover_runtime_diagnostics
+```text id="uz0r9v"
+rover_mission_runtime
 ```
 
 Responsibilities:
-- topic freshness auditing
-- bridge health auditing
-- safety-state monitoring
-- TF validation
-- launch validation
-- subsystem heartbeat monitoring
-- event-rate monitoring
+- mission lifecycle management
+- waypoint sequencing
+- mission-state transitions
+- recovery orchestration
+- mission diagnostics
+- mission event generation
+- mission replay integration
 
-Publish:
-- structured diagnostics
-- warnings
-- health summaries
+The mission runtime is NOT:
+- a planner
+- a safety system
+- a low-level controller
 
-This should feel like:
-- internal robotics runtime tooling
-
-NOT:
-- debug print statements
+It is:
+- an orchestration layer
 
 ---
 
-# 11. Scenario Validation Suite
+# 2. Mission State Machine
 
-Expand scenario execution validation.
+Implement an explicit mission state machine.
 
-Required runtime scenarios:
+Required states:
 
-```text
-nominal_run
-stale_lidar_restricted_mode
-odometry_divergence_safe_stop
-command_timeout_safe_stop
-bridge_disconnect_safe_stop
-wheel_slip_degraded_mode
-estop_latched_manual_reset_required
+```text id="tmfg6i"
+MISSION_IDLE
+MISSION_PREPARING
+MISSION_ACTIVE
+MISSION_PAUSED
+MISSION_RECOVERY
+MISSION_DEGRADED
+MISSION_ABORTING
+MISSION_ABORTED
+MISSION_COMPLETE
 ```
 
-For each scenario:
-- validate runtime behavior
-- validate event emission
-- validate replay recording
-- validate final safety state
-- validate command arbitration
+Define:
+- valid transitions
+- invalid transitions
+- mission ownership rules
+- recovery-entry conditions
+- abort semantics
 
-Generate:
-- scenario summaries
-- incident summaries
-- validation outputs
+Every transition must emit:
+- structured events
+- replay markers
+- diagnostics updates
 
 ---
 
-# 12. Runtime Validation Tooling
+# 3. Waypoint Navigation Layer
 
-Create operational validation tooling.
+Implement deterministic waypoint execution.
 
-Suggested scripts/tools:
+Requirements:
+- waypoint queue
+- waypoint IDs
+- waypoint tolerances
+- bounded velocity requests
+- mission progress tracking
+- timeout handling
+- recovery escalation
 
-```text
-tools/validate_tf_tree.py
-tools/validate_replay_run.py
-tools/validate_event_integrity.py
-tools/validate_bridge_topics.py
-tools/validate_safety_pipeline.py
+Waypoint execution should:
+- generate requested motion
+- never generate actuator commands directly
+
+Required waypoint fields:
+
+```text id="9ttzlr"
+waypoint_id
+pose_x
+pose_y
+heading_rad
+position_tolerance
+heading_tolerance
+timeout_seconds
 ```
+
+Implement:
+- mission path execution
+- waypoint completion validation
+- timeout escalation
+- waypoint replay markers
+
+---
+
+# 4. Deterministic Navigation Constraints
+
+Implement explicit operational constraints.
+
+Examples:
+
+```text id="bc7y3n"
+max_linear_velocity
+max_angular_velocity
+restricted_zone_speed_limit
+minimum_confidence_for_motion
+maximum_allowed_drift
+minimum_sensor_health
+```
+
+Constraints must:
+- integrate with safety state
+- influence requested motion generation
+- produce diagnostics events
+
+Constraints may NOT:
+- bypass safety arbitration
+
+---
+
+# 5. World-State Awareness Layer
+
+Create:
+
+```text id="z63fpy"
+rover_world_model
+```
+
+Responsibilities:
+- maintain bounded environment awareness
+- track known obstacles
+- maintain rover operational context
+- expose navigation-safe summaries
+- support recovery decisions
+
+DO NOT:
+- implement full SLAM
+- implement probabilistic mapping
+- implement advanced perception
+
+The world model should remain:
+- deterministic
+- bounded
+- replayable
+
+---
+
+# World Model Requirements
+
+Support:
+- obstacle snapshots
+- hazard zones
+- keepout regions
+- mission route awareness
+- operational boundaries
+
+Implement:
+- simple occupancy representation
+- deterministic update logic
+- replay-aware snapshots
+
+---
+
+# 6. Recovery Framework
+
+Implement bounded recovery behaviors.
+
+Recovery behaviors should include:
+
+```text id="9drry7"
+STOP_AND_REEVALUATE
+BACKUP_AND_RETRY
+WAIT_FOR_SENSOR_RECOVERY
+MISSION_ABORT
+SAFE_STOP_ESCALATION
+```
+
+Recovery logic should:
+- integrate with mission runtime
+- integrate with safety state
+- emit replay markers
+- remain deterministic
+
+Recovery may NOT:
+- override E-stop
+- override Safe-Stop
+- override degraded-state enforcement
+
+---
+
+# 7. Nav2-Constrained Integration
+
+This phase introduces LIMITED Nav2 integration.
+
+Nav2 is infrastructure assistance only.
+
+Nav2 must NOT:
+- own safety
+- own replay
+- own diagnostics
+- own mission orchestration
+
+Allowed:
+- controller assistance
+- waypoint following support
+- costmap support
+- recovery hooks
+
+Required architecture:
+
+```text id="g0jz1l"
+Mission Runtime
+↓
+Requested Motion
+↓
+Safety Runtime
+↓
+Authorized Motion
+↓
+Nav2 Controller Interface
+↓
+Gazebo
+```
+
+If needed:
+- wrap Nav2 outputs
+- constrain Nav2 velocities
+- inject authorization layer between Nav2 and actuators
+
+Do NOT allow:
+- direct Nav2 actuator ownership
+
+---
+
+# 8. Keepout Zones & Operational Boundaries
+
+Implement:
+- keepout regions
+- restricted-speed regions
+- mission boundaries
+- operational envelopes
 
 These should:
-- perform real checks
-- produce actionable diagnostics
-- support CI integration later
+- integrate with world model
+- integrate with mission runtime
+- emit events when violated
+
+Crossing boundaries should:
+- degrade mission state
+- potentially trigger safe-stop escalation
+
+---
+
+# 9. Mission Replay Integration
+
+Expand replay architecture to support mission replay.
+
+Replay artifacts should now include:
+
+```text id="h74bpk"
+mission_state_transitions.jsonl
+waypoint_events.jsonl
+recovery_events.jsonl
+world_model_snapshots.jsonl
+```
+
+Implement:
+- waypoint replay markers
+- recovery replay markers
+- mission diagnostics snapshots
+- mission summary generation
+
+Replay must support:
+- deterministic mission reconstruction
+
+---
+
+# 10. Mission Diagnostics
+
+Expand runtime diagnostics.
+
+Required diagnostics:
+- active waypoint
+- mission progress
+- recovery count
+- mission latency
+- waypoint timeout warnings
+- navigation constraint violations
+- degraded mission status
+- mission replay health
+
+Suggested package:
+
+```text id="7pf0w4"
+rover_mission_diagnostics
+```
+
+---
+
+# 11. Scenario Expansion
+
+Add new mission-aware scenarios:
+
+```text id="5s0c96"
+nominal_waypoint_patrol
+waypoint_timeout_recovery
+degraded_sensor_navigation
+keepout_zone_violation
+restricted_mode_navigation
+safe_stop_during_active_mission
+mission_abort_after_fault_escalation
+```
+
+For each:
+- validate mission state transitions
+- validate replay artifacts
+- validate diagnostics
+- validate recovery behavior
+
+---
+
+# 12. ROS Topics & Interfaces
+
+Add structured mission topics.
+
+Required topics:
+
+```text id="95gtt7"
+/mission/state
+/mission/events
+/mission/waypoints
+/mission/progress
+/mission/recovery
+/world_model/state
+/world_model/hazards
+```
+
+Ensure:
+- replay compatibility
+- event consistency
+- namespace discipline
 
 ---
 
 # 13. Testing Expansion
 
-Add meaningful runtime-oriented tests.
+Add significant new tests.
 
 Required categories:
 
-## Launch Validation
-- launch success
-- node presence
-- bridge availability
+## Mission Runtime
+- mission transitions
+- invalid transition rejection
+- mission abort handling
 
-## TF Validation
-- expected frames exist
-- transform consistency
+## Waypoint Execution
+- waypoint completion
+- timeout escalation
+- waypoint sequencing
 
-## Safety Pipeline
-- only authorized commands reach actuator path
-- safe-stop zeros motion
-- E-stop latches
+## Recovery
+- recovery behavior execution
+- recovery escalation
+- mission abort after repeated failure
 
-## Sensor Validation
-- freshness propagation
-- stale sensor detection
-- timestamp consistency
+## World Model
+- keepout zone detection
+- operational boundary enforcement
+- snapshot consistency
 
-## Fault Integration
-- fault activation behavior
-- replay capture
-- event emission
+## Nav2 Integration
+- safety authorization preserved
+- actuator path protected
+- velocity clamping enforced
 
-## Replay Integrity
-- event ordering
-- metadata integrity
-- replay completeness
-
-## Diagnostics
-- heartbeat detection
-- stale subsystem warnings
-- bridge failure warnings
+## Replay
+- mission replay integrity
+- waypoint replay consistency
+- recovery replay consistency
 
 ---
 
 # 14. Documentation Updates
 
-Update docs ONLY where required.
-
 Update:
 - `ARCHITECTURE.md`
-- `REPLAY_SYSTEM.md`
-- `TESTING_STRATEGY.md`
-- `SYSTEM_CONTEXT.md`
 - `ROADMAP.md`
+- `REPLAY_SYSTEM.md`
+- `SYSTEM_CONTEXT.md`
+- `TESTING_STRATEGY.md`
 
 Add:
-- runtime validation diagrams
-- TF topology diagrams
-- launch sequencing diagrams
-- diagnostics architecture notes
-- replay integrity notes
+- mission runtime diagrams
+- world model diagrams
+- mission-state diagrams
+- recovery flow diagrams
+- Nav2 boundary documentation
 
-Document:
-- known runtime limitations
-- deterministic guarantees
-- nondeterministic boundaries
-- simulation assumptions
+Document explicitly:
+- what Nav2 is allowed to control
+- what Nav2 is forbidden from controlling
 
 ---
 
-# Required Quality Level
+# Runtime Quality Requirements
 
-This implementation should feel like:
-- an internal robotics validation runtime
-- operational robotics infrastructure
-- resilience-engineering tooling
+This phase should feel like:
+- a robotics autonomy runtime platform
+- bounded mission infrastructure
+- replayable resilience engineering tooling
 
 NOT:
-- tutorial code
-- toy simulation glue
-- ROS demo boilerplate
+- a ROS tutorial
+- a navigation demo
+- an AI robotics toy
 
-Code should:
-- preserve architectural discipline
-- preserve safety authority
-- preserve replay-first design
-- expose operational visibility
-- fail loudly and observably
+The implementation must remain:
+- deterministic
+- replayable
+- safety-authoritative
+- operationally explainable
 
 ---
 
@@ -614,20 +578,18 @@ Code should:
 
 This phase is complete only if:
 
-1. Gazebo launches reliably.
-2. TF tree validates cleanly.
-3. ros_gz_bridge topics validate correctly.
-4. Only authorized motion reaches actuators.
-5. Safe-stop forces zero motion.
-6. E-stop fully inhibits motion.
-7. Fault injection propagates correctly.
-8. Replay artifacts are coherent.
-9. Event timelines remain consistent.
-10. Runtime diagnostics exist.
-11. Sensor freshness is validated.
-12. Scenario validation suite executes correctly.
-13. Tests meaningfully validate runtime behavior.
-14. The architecture remains internally consistent.
+1. Mission runtime exists and functions.
+2. Waypoint execution is deterministic.
+3. Recovery behaviors execute correctly.
+4. Mission replay artifacts are generated.
+5. World model exists and integrates correctly.
+6. Keepout/restricted zones function.
+7. Safety authority remains centralized.
+8. Nav2 cannot bypass motion authorization.
+9. Mission diagnostics exist.
+10. Replay integrity remains coherent.
+11. Tests validate mission behavior.
+12. Operational constraints are enforced.
 
 ---
 
@@ -635,25 +597,25 @@ This phase is complete only if:
 
 When complete, report:
 
-- files created
-- files modified
-- runtime diagnostics added
-- validation tooling added
-- launch improvements
-- TF validation results
-- bridge validation results
-- replay validation improvements
+- packages created
+- mission systems implemented
+- world model systems added
+- Nav2 integrations added
+- recovery behaviors implemented
+- replay improvements
+- diagnostics improvements
+- new ROS topics
 - tests added
 - tests passing/failing
 - approximate LOC added
-- known runtime limitations
+- known limitations
 - recommended next implementation phase
 
 Do not claim completion if:
-- TF is unstable
-- actuator authorization is bypassable
-- replay integrity is broken
-- bridge validation fails
+- mission runtime bypasses safety
+- replay integrity breaks
+- recovery is nondeterministic
+- Nav2 bypasses authorization
 - diagnostics are incomplete
-- scenario validation is unreliable
+- keepout enforcement fails
 ```
