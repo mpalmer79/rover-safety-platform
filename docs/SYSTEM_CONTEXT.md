@@ -253,6 +253,37 @@ This section is informative. The binding contracts remain in
 
 ---
 
+## 8b. Runtime Diagnostics (Phase 1C)
+
+Phase 1C introduces a new actor — the **runtime diagnostics** subsystem
+— and a new external surface, the diagnostics topics.
+
+* **Actor**: `rover_runtime_diagnostics`. Its role is to describe
+  liveliness; it never sets safety state. It subscribes to documented
+  runtime topics (sensors, `/safety/state`, `/cmd_vel_authorized`),
+  feeds observations into the pure-logic monitors in
+  `app.diagnostics`, and publishes structured health.
+* **External surface**: four diagnostic topics for Foxglove and
+  operator visibility:
+
+  | Topic | Type | Purpose |
+  |---|---|---|
+  | `/diagnostics/topic_freshness` | `diagnostic_msgs/DiagnosticArray` | Per-topic freshness with attributes (age_ms, sample_count). |
+  | `/diagnostics/bridge_health` | `diagnostic_msgs/DiagnosticArray` | Per-bridged-topic advertisement and freshness. |
+  | `/diagnostics/tf_validator` | `diagnostic_msgs/DiagnosticArray` | URDF tree validation + `/tf` / `/tf_static` advertisement. |
+  | `/diagnostics/runtime_summary` | `std_msgs/String` (JSON) | Aggregated worst-of severity across all monitors. |
+
+  Plus a `rover_msgs/SystemHealth` message on `/system/health`,
+  bringing the runtime summary into the canonical health vocabulary.
+
+These topics are read-only from the perspective of the safety
+pipeline. A diagnostics monitor reporting "bridge unhealthy" never
+trips the supervisor — the supervisor reacts to the underlying
+freshness gates. This separation is essential: diagnostics liveliness
+and safety authority are independent dimensions.
+
+---
+
 ## 9. Context Change Control
 
 Changes to the system context require:

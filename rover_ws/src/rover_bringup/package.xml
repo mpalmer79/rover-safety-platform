@@ -18,6 +18,7 @@
   <exec_depend>rover_sensor_adapters</exec_depend>
   <exec_depend>rover_safety_bridge</exec_depend>
   <exec_depend>rover_observability</exec_depend>
+  <exec_depend>rover_runtime_diagnostics</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

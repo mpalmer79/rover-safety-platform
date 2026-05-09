@@ -1,12 +1,23 @@
-"""Top-level launch: simulation + spawn + adapters + safety + observability.
+"""Top-level launch: simulation + spawn + adapters + safety + observability + diagnostics.
 
-Composes the smaller launches in deterministic order:
+Composes the smaller launches in a deterministic, dependency-aware order:
 
-1. Gazebo + ros_gz_bridge (rover_sim_gazebo/simulation.launch.py)
-2. Robot description and rover spawn (rover_sim_gazebo/rover_spawn.launch.py)
-3. Sensor adapters (rover_sensor_adapters/sensor_adapters.launch.py)
-4. Safety bridge (rover_safety_bridge/safety_bridge.launch.py)
-5. Observability (rover_observability/observability.launch.py)
+1. ``observability`` (run_manager + event_recorder + bag) — earliest
+   so the recorder captures every later event.
+2. ``simulation`` (Gazebo + ros_gz_bridge).
+3. ``rover_spawn`` (URDF publisher + spawn entity).
+4. ``sensor_adapters`` (per-sensor freshness summaries).
+5. ``safety_runtime`` (safety bridge — the only producer of
+   ``/cmd_vel_authorized``).
+6. ``runtime_diagnostics`` (Phase 1C live runtime monitors).
+
+The ordering is enforced via :class:`TimerAction` delays. Each delay
+is conservative (a few seconds) so the parent process can be a
+``python3 -m`` invocation in CI without races.
+
+Launch arguments are validated by ``OnLaunchedHandler``-style action
+when reasonable (``record_bag`` and ``enable_diagnostics`` are bools;
+``runs_root`` must be writable).
 """
 
 from __future__ import annotations
@@ -17,19 +28,24 @@ from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
     IncludeLaunchDescription,
+    LogInfo,
     TimerAction,
 )
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
 
-def _include(package: str, launch_file: str, **launch_args) -> IncludeLaunchDescription:
+def _include(
+    package: str, launch_file: str, *, condition=None, **launch_args
+) -> IncludeLaunchDescription:
     return IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([FindPackageShare(package), "launch", launch_file])
         ),
         launch_arguments=launch_args.items(),
+        condition=condition,
     )
 
 
@@ -39,45 +55,12 @@ def generate_launch_description() -> LaunchDescription:
     runs_root = LaunchConfiguration("runs_root")
     record_bag = LaunchConfiguration("record_bag")
     headless = LaunchConfiguration("headless")
-
-    sim = _include(
-        "rover_sim_gazebo", "simulation.launch.py", headless=headless,
-    )
-
-    spawn = TimerAction(
-        period=3.0,
-        actions=[
-            _include("rover_sim_gazebo", "rover_spawn.launch.py"),
-        ],
-    )
-
-    adapters = TimerAction(
-        period=4.5,
-        actions=[
-            _include(
-                "rover_sensor_adapters",
-                "sensor_adapters.launch.py",
-                run_id=run_id,
-                scenario_id=scenario_id,
-            ),
-        ],
-    )
-
-    safety = TimerAction(
-        period=5.0,
-        actions=[
-            _include(
-                "rover_safety_bridge",
-                "safety_bridge.launch.py",
-                run_id=run_id,
-                scenario_id=scenario_id,
-            ),
-        ],
-    )
+    enable_diagnostics = LaunchConfiguration("enable_diagnostics")
 
     observability = TimerAction(
-        period=2.0,
+        period=0.5,
         actions=[
+            LogInfo(msg="[full_system] starting observability"),
             _include(
                 "rover_observability",
                 "observability.launch.py",
@@ -89,6 +72,62 @@ def generate_launch_description() -> LaunchDescription:
         ],
     )
 
+    sim = TimerAction(
+        period=1.5,
+        actions=[
+            LogInfo(msg="[full_system] starting Gazebo and ros_gz_bridge"),
+            _include("rover_sim_gazebo", "simulation.launch.py", headless=headless),
+        ],
+    )
+
+    spawn = TimerAction(
+        period=4.0,
+        actions=[
+            LogInfo(msg="[full_system] spawning rover and starting robot_state_publisher"),
+            _include("rover_sim_gazebo", "rover_spawn.launch.py"),
+        ],
+    )
+
+    adapters = TimerAction(
+        period=5.5,
+        actions=[
+            LogInfo(msg="[full_system] starting sensor adapters"),
+            _include(
+                "rover_sensor_adapters",
+                "sensor_adapters.launch.py",
+                run_id=run_id,
+                scenario_id=scenario_id,
+            ),
+        ],
+    )
+
+    safety = TimerAction(
+        period=6.0,
+        actions=[
+            LogInfo(msg="[full_system] starting safety bridge"),
+            _include(
+                "rover_safety_bridge",
+                "safety_bridge.launch.py",
+                run_id=run_id,
+                scenario_id=scenario_id,
+            ),
+        ],
+    )
+
+    diagnostics = TimerAction(
+        period=8.0,
+        actions=[
+            LogInfo(msg="[full_system] starting runtime diagnostics"),
+            _include(
+                "rover_runtime_diagnostics",
+                "runtime_diagnostics.launch.py",
+                run_id=run_id,
+                scenario_id=scenario_id,
+                condition=IfCondition(enable_diagnostics),
+            ),
+        ],
+    )
+
     return LaunchDescription(
         [
             DeclareLaunchArgument(
@@ -96,16 +135,39 @@ def generate_launch_description() -> LaunchDescription:
                 default_value="",
                 description="Run identifier; empty -> rover_run_manager allocates one.",
             ),
-            DeclareLaunchArgument("scenario_id", default_value="full_system_default"),
             DeclareLaunchArgument(
-                "runs_root", default_value=os.path.join(os.getcwd(), "runs")
+                "scenario_id",
+                default_value="full_system_default",
+                description="Scenario identifier; flows into events and the run directory metadata.",
             ),
-            DeclareLaunchArgument("record_bag", default_value="true"),
-            DeclareLaunchArgument("headless", default_value="false"),
+            DeclareLaunchArgument(
+                "runs_root",
+                default_value=os.path.join(os.getcwd(), "runs"),
+                description="Root directory under which run folders are created.",
+            ),
+            DeclareLaunchArgument(
+                "record_bag",
+                default_value="true",
+                choices=["true", "false"],
+                description="Whether to start an MCAP rosbag2 recording.",
+            ),
+            DeclareLaunchArgument(
+                "headless",
+                default_value="false",
+                choices=["true", "false"],
+                description="Run Gazebo without rendering.",
+            ),
+            DeclareLaunchArgument(
+                "enable_diagnostics",
+                default_value="true",
+                choices=["true", "false"],
+                description="Whether to launch the rover_runtime_diagnostics nodes.",
+            ),
             observability,
             sim,
             spawn,
             adapters,
             safety,
+            diagnostics,
         ]
     )

@@ -26,6 +26,7 @@ _REQUIRED_LAUNCHES = {
         "safety_runtime.launch.py",
         "observability.launch.py",
         "rover_spawn.launch.py",
+        "runtime_validation.launch.py",
     ],
     "rover_sim_gazebo": [
         "simulation.launch.py",
@@ -35,6 +36,7 @@ _REQUIRED_LAUNCHES = {
     "rover_safety_bridge": ["safety_bridge.launch.py"],
     "rover_observability": ["observability.launch.py"],
     "rover_description": ["rover_description.launch.py"],
+    "rover_runtime_diagnostics": ["runtime_diagnostics.launch.py"],
 }
 
 
@@ -93,8 +95,21 @@ def test_full_system_composes_required_launches(src_root: Path) -> None:
         "safety_bridge.launch.py",
         "rover_observability",
         "observability.launch.py",
+        "rover_runtime_diagnostics",
+        "runtime_diagnostics.launch.py",
     ):
         assert fragment in text, f"full_system.launch.py is missing {fragment}"
+
+
+def test_full_system_declares_enable_diagnostics_arg(src_root: Path) -> None:
+    text = _launch_path(src_root, "rover_bringup", "full_system.launch.py").read_text()
+    assert "enable_diagnostics" in text
+
+
+def test_runtime_validation_launch_includes_diagnostics(src_root: Path) -> None:
+    text = _launch_path(src_root, "rover_bringup", "runtime_validation.launch.py").read_text()
+    assert "rover_runtime_diagnostics" in text
+    assert "runtime_diagnostics.launch.py" in text
 
 
 def test_safety_runtime_does_not_launch_simulation(src_root: Path) -> None:

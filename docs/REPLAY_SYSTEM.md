@@ -324,3 +324,26 @@ Run directories produced by the deterministic Python engine and by the
 ROS 2 launch are interchangeable as far as the replay validators are
 concerned: the metadata schema, event schema, and storage layout are
 identical.
+
+---
+
+## 15. Phase 1C Replay Integrity Validation
+
+Phase 1C operationalises the replay contract through executable
+validators. Every claim made in this document has a corresponding
+check.
+
+| Validator | What it asserts | How to run |
+|---|---|---|
+| `app.validation.replay_validator.validate_run_directory` | Run directory layout (section 9), `metadata.json` schema, every line of `events.jsonl` validates against `app.telemetry.schemas.validate_event_dict`, per-producer event ordering, `parent_event_id` resolution within the run. | `python tools/validate_replay_run.py <runs/<run_id>>` |
+| `app.validation.event_validator.validate_events_file` | Canonical event envelope on every line; rejects duplicate `event_id` values. | `python tools/validate_event_integrity.py <events.jsonl>` |
+| `app.validation.scenario_suite.run_scenario_suite` | Each of the seven Phase 1C scenarios produces a replay-validated run directory with the documented final state. | `python tools/run_scenario_suite.py <runs_root>` |
+| `app.validation.bridge_validator.validate_bridge_yaml` | The bridge YAML conforms to ADR-004 (only `/cmd_vel_authorized` ROS_TO_GZ; no `/cmd_vel*` forwarding). | `python tools/validate_bridge_topics.py <bridge.yaml>` |
+| `app.validation.tf_validator.validate_urdf_tf_tree` | URDF link/joint topology is a single connected tree rooted at `base_footprint`. | `python tools/validate_tf_tree.py <rover.urdf.xacro>` |
+| `app.validation.safety_pipeline_validator.validate_safety_pipeline` | Six in-process supervisor invariants. | `python tools/validate_safety_pipeline.py` |
+
+These tools run without ROS 2 or Gazebo; they exercise the
+deterministic engine and the static artefacts in the workspace. The
+ROS 2 path produces interchangeable run directories that pass the same
+validators. A run is considered replay-eligible only when every
+applicable validator returns OK.
