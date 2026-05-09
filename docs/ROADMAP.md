@@ -39,7 +39,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 |---|---|
 | Phase 0 — Architecture Authority Layer | Implemented |
 | Phase 1A — Deterministic Autonomy Simulation Core (Python backend) | Implemented under `backend/` |
-| Phase 1 — Gazebo Simulation Bringup (ROS 2 / Gazebo) | Pending |
+| Phase 1B — ROS 2 + Gazebo Harmonic Simulation Bringup | Implemented under `rover_ws/` (static-validation tests pass; end-to-end Gazebo launch requires a Jazzy host — see `rover_ws/tests/manual.md`) |
 | Phase 2 — Deterministic Autonomy Core (ROS 2) | Pending |
 | Phase 3 — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 4 — Replay, Telemetry, and Incident Reconstruction (ROS 2 / Foxglove) | Pending |
@@ -186,6 +186,111 @@ Implemented under `backend/`. See `backend/README.md`.
   enforced by types and tests, independent of any robotics framework.
 - Demonstrates that the same contracts can be transplanted into ROS 2
   without redesign.
+
+---
+
+## 3b. Phase 1B: ROS 2 + Gazebo Harmonic Simulation Bringup
+
+### Status
+
+Implemented under `rover_ws/`. See `rover_ws/README.md`.
+
+### Objectives
+
+- Wrap the deterministic Phase 1A runtime with a ROS 2 Jazzy graph and
+  a Gazebo Harmonic simulation, without ceding architectural authority
+  to either layer.
+- Establish a colcon workspace, custom interfaces, the rover URDF, the
+  ros_gz_bridge configuration, sensor adapter nodes, the safety bridge
+  node (which embeds the deterministic supervisor), and the
+  observability layer.
+- Preserve the motion authority pipeline: only `/cmd_vel_authorized`
+  reaches the Gazebo diff-drive plugin, and only the safety bridge
+  publishes that topic.
+
+### Deliverables
+
+- `rover_ws/src/rover_msgs` — six custom interfaces (`SafetyState`,
+  `MotionAuthorization`, `SystemHealth`, `SensorHealth`, `FaultEvent`,
+  `ReplayMarker`).
+- `rover_ws/src/rover_description` — Xacro URDF with chassis, two drive
+  wheels, caster, LiDAR, IMU, and contact links; Gazebo plugin
+  declarations.
+- `rover_ws/src/rover_sim_gazebo` — bounded indoor validation world,
+  `ros_gz_bridge` YAML, simulation and rover-spawn launches.
+- `rover_ws/src/rover_sensor_adapters` — four adapter nodes (LiDAR,
+  IMU, odometry, contact) that publish per-sensor `SensorHealth`
+  summaries and re-publish raw streams under the
+  `/rover/sensors/<name>/normalized` namespace.
+- `rover_ws/src/rover_safety_bridge` — `SafetyBridgeCore` (pure logic)
+  + `safety_bridge_node` (rclpy facade). The core hosts
+  `app.safety.SafetySupervisor` from the Python backend; the node is
+  the only producer of `/cmd_vel_authorized` in the system.
+- `rover_ws/src/rover_observability` — `run_manager` (allocates run
+  directories, publishes `ReplayMarker` records), `event_recorder`
+  (subscribes to `/safety/events` and appends validated JSON to
+  `events.jsonl`), and the rosbag2 record launch integration.
+- `rover_ws/src/rover_bringup` — top-level launches: `full_system`,
+  `simulation`, `safety_runtime`, `observability`, `rover_spawn`.
+- `rover_ws/tests/` — pytest suite that runs without ROS 2 / Gazebo:
+  manifests, message definitions, URDF structure, ros_gz_bridge YAML,
+  launch files, node modules, and the `SafetyBridgeCore` integration
+  contract. End-to-end Jazzy / Gazebo validation steps live in
+  `rover_ws/tests/manual.md`.
+
+### Acceptance Criteria
+
+- All seven packages exist with valid manifests and build files.
+- The URDF declares the documented links and joints; the Gazebo
+  plugin block subscribes to `/cmd_vel_authorized` only.
+- `ros_gz_bridge.yaml` forwards `/cmd_vel_authorized` ROS_TO_GZ and
+  forwards none of `/cmd_vel`, `/cmd_vel_requested` to Gazebo. A test
+  enforces this.
+- `SafetyBridgeCore` produces `AuthorizedMotionCommand` values whose
+  `source` field is `safety.supervisor.arbitration`. A test enforces
+  this.
+- Operator E-stop latches and is not self-cleared by the supervisor.
+- A pytest run in this repository (without ROS 2 / Gazebo) passes
+  every static-validation test.
+- A Jazzy host running `colcon build && ros2 launch rover_bringup
+  full_system.launch.py` produces a populated `runs/<run_id>/` with
+  `metadata.json`, `events.jsonl`, an MCAP bag, and the expected
+  `safety_transition.entered` event sequence (manual validation, see
+  `rover_ws/tests/manual.md`).
+
+### Risks
+
+- The Phase 1B implementation cannot be exercised end-to-end inside
+  this repo's CI sandbox: ROS 2 and Gazebo are not installed there.
+  Static validation catches structural regressions; the manual
+  acceptance script catches behavioural regressions on a Jazzy host.
+- The `app.*` Python package must be importable to the ROS nodes.
+  `rover_safety_bridge` and `rover_observability` declare it as a
+  pip-installed dependency (`rover-safety-platform-backend>=0.1.0`).
+  Forgetting `pip install -e ../backend` before `colcon build` is the
+  most likely setup error and should be checked in `manual.md`.
+- The diff_drive plugin's exact topic conventions evolve across
+  Gazebo Harmonic patch releases; the URDF pins
+  `gz-sim-diff-drive-system` and the bridge YAML pins the
+  ROS-side topic name, so any drift is contained to the URDF.
+
+### Deferred Work
+
+- A second-stage Phase 1 / 2 / 3 / 4 will replace static-validation
+  tests with launch-based integration tests that actually start
+  Gazebo and assert TF / topic behaviour.
+- BehaviorTree.CPP-based mission orchestration.
+- Nav2 integration (gated by an ADR; out of scope for the ODD until
+  the supervisor's freshness gates cover Nav2's outputs).
+
+### Portfolio Signal
+
+- Demonstrates that the deterministic core remains authoritative when
+  wrapped in a ROS 2 graph: the supervisor's logic is reused verbatim
+  rather than duplicated.
+- Demonstrates topic-level architectural enforcement: the supervisor's
+  authority is visible in the bridge YAML, in the URDF plugin
+  configuration, and in the contract tests under `rover_ws/tests/`.
 
 ---
 

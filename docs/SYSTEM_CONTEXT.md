@@ -221,6 +221,38 @@ These exclusions are not aspirational. They define the surface the platform is w
 
 ---
 
+## 8a. ROS 2 / Gazebo Layer (Phase 1B)
+
+The system context above is unchanged by Phase 1B; the ROS 2 graph and
+the Gazebo simulator are infrastructure layers that realise the same
+boundaries.
+
+* The **simulation boundary** is materialised by `ros_gz_bridge`. The
+  YAML config in `rover_ws/src/rover_sim_gazebo/config/ros_gz_bridge.yaml`
+  is the binding artefact: only `/cmd_vel_authorized` is forwarded
+  ROS_TO_GZ on a motion topic. Everything else is GZ_TO_ROS.
+* The **mission boundary** is materialised by topic naming.
+  Mission/teleop/Nav2 producers publish to `/cmd_vel_requested`. The
+  safety bridge is the only subscriber to that topic (besides
+  observers); the only producer of `/cmd_vel_authorized`; and embeds
+  the deterministic supervisor verbatim.
+* The **operator boundary** is materialised by four `std_msgs/Bool`
+  topics: `/operator/activate`, `/operator/estop`, `/operator/recovery`,
+  `/operator/reset`. Asserting `/operator/estop` immediately latches
+  `E_STOP_LATCHED`; recovery requires `/operator/reset` followed by
+  successful revalidation.
+* The **telemetry boundary** is materialised by the observability
+  package: `rover_run_manager` allocates the run directory,
+  `rover_event_recorder` persists `/safety/events` JSON to
+  `events.jsonl`, and `ros2 bag record` produces the MCAP bag under
+  `runs/<run_id>/bags/`.
+
+This section is informative. The binding contracts remain in
+`docs/SAFETY_MODEL.md`, `docs/EVENT_MODEL.md`, and
+`docs/REPLAY_SYSTEM.md`.
+
+---
+
 ## 9. Context Change Control
 
 Changes to the system context require:

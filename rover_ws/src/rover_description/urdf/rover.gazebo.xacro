@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!--
+  Gazebo Harmonic plugins and sensor blocks for the rover.
+
+  IMPORTANT: the diff_drive plugin subscribes to a Gazebo topic that we
+  intentionally name "/cmd_vel_authorized". The ros_gz bridge maps the
+  ROS topic /cmd_vel_authorized to that Gazebo topic. There is no path
+  for /cmd_vel_requested or any other producer to write to the actuator
+  interface — the safety supervisor is the only authority that publishes
+  /cmd_vel_authorized. See docs/SAFETY_MODEL.md and
+  docs/adr/ADR-004.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="rover_gazebo" params="wheel_separation wheel_radius">
+
+    <!-- World plugins are declared in the world SDF, not here. -->
+
+    <!-- Differential drive plugin. -->
+    <gazebo>
+      <plugin filename="gz-sim-diff-drive-system"
+              name="gz::sim::systems::DiffDrive">
+        <left_joint>left_wheel_joint</left_joint>
+        <right_joint>right_wheel_joint</right_joint>
+        <wheel_separation>${wheel_separation}</wheel_separation>
+        <wheel_radius>${wheel_radius}</wheel_radius>
+        <odom_publish_frequency>50</odom_publish_frequency>
+        <topic>/cmd_vel_authorized</topic>
+        <odom_topic>/odom</odom_topic>
+        <tf_topic>/tf</tf_topic>
+        <frame_id>odom</frame_id>
+        <child_frame_id>base_footprint</child_frame_id>
+        <max_linear_acceleration>1.0</max_linear_acceleration>
+        <max_angular_acceleration>2.0</max_angular_acceleration>
+      </plugin>
+    </gazebo>
+
+    <!-- Joint state publisher for wheel encoders. -->
+    <gazebo>
+      <plugin filename="gz-sim-joint-state-publisher-system"
+              name="gz::sim::systems::JointStatePublisher">
+        <topic>/joint_states</topic>
+        <update_rate>50</update_rate>
+        <joint_name>left_wheel_joint</joint_name>
+        <joint_name>right_wheel_joint</joint_name>
+      </plugin>
+    </gazebo>
+
+    <!-- LiDAR sensor on lidar_link. -->
+    <gazebo reference="lidar_link">
+      <sensor name="rover_lidar" type="gpu_lidar">
+        <topic>/scan</topic>
+        <update_rate>10</update_rate>
+        <gz_frame_id>lidar_link</gz_frame_id>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>720</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.14159</min_angle>
+              <max_angle>3.14159</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.10</min>
+            <max>12.0</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </lidar>
+        <always_on>1</always_on>
+        <visualize>true</visualize>
+      </sensor>
+    </gazebo>
+
+    <!-- IMU sensor on imu_link. -->
+    <gazebo reference="imu_link">
+      <sensor name="rover_imu" type="imu">
+        <topic>/imu</topic>
+        <update_rate>50</update_rate>
+        <gz_frame_id>imu_link</gz_frame_id>
+        <imu>
+          <angular_velocity>
+            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.001</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.0</mean><stddev>0.001</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.001</stddev></noise></z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.01</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.0</mean><stddev>0.01</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.01</stddev></noise></z>
+          </linear_acceleration>
+        </imu>
+        <always_on>1</always_on>
+      </sensor>
+    </gazebo>
+
+    <!-- Contact sensor on contact_link. -->
+    <gazebo reference="contact_link">
+      <sensor name="rover_contact" type="contact">
+        <topic>/contact</topic>
+        <update_rate>20</update_rate>
+        <contact>
+          <collision>contact_link_collision</collision>
+        </contact>
+        <always_on>1</always_on>
+      </sensor>
+    </gazebo>
+
+  </xacro:macro>
+</robot>

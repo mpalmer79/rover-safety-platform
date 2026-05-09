@@ -709,6 +709,50 @@ These remain subordinate to:
 
 ---
 
+# 15a. ROS 2 Integration Layer (Phase 1B)
+
+The deterministic runtime described above is wrapped — not replaced —
+by a ROS 2 Jazzy graph and a Gazebo Harmonic simulation.
+
+The integration is realised by the `rover_ws/` colcon workspace:
+
+- `rover_msgs` defines the ROS interfaces that mirror the documented
+  event and authorization vocabularies.
+- `rover_description` provides the rover URDF/Xacro and Gazebo plugin
+  declarations.
+- `rover_sim_gazebo` provides the validation world, the `ros_gz_bridge`
+  YAML, and the simulation launch.
+- `rover_sensor_adapters` normalises raw ROS sensor streams into
+  freshness-aware summaries.
+- `rover_safety_bridge` is the **only** producer of
+  `/cmd_vel_authorized` in the system. It hosts an in-process
+  `app.safety.SafetySupervisor` instance and translates ROS messages
+  to and from the supervisor's domain types.
+- `rover_observability` hosts the run lifecycle, the structured event
+  recorder, and the rosbag2 launch hooks.
+- `rover_bringup` composes the layers into a small set of top-level
+  launches.
+
+The architectural rules from sections 2–14 are preserved by topic-level
+discipline:
+
+- Mission and operator code publish `/cmd_vel_requested`.
+- The safety bridge subscribes to `/cmd_vel_requested`, evaluates the
+  supervisor, and publishes `/cmd_vel_authorized`.
+- The Gazebo `ros_gz_bridge` configuration only forwards
+  `/cmd_vel_authorized` ROS_TO_GZ.
+- The diff-drive plugin in `rover_description/urdf/rover.gazebo.xacro`
+  subscribes to `/cmd_vel_authorized` only.
+
+Tests under `rover_ws/tests/` enforce these rules statically; the
+end-to-end launch is validated by the manual procedure in
+`rover_ws/tests/manual.md` on a Jazzy host.
+
+ROS 2 and Gazebo are infrastructure. The deterministic runtime stays
+the architectural centre.
+
+---
+
 # 16. Final Architectural Principle
 
 Project Boundary is designed around a single governing principle:
