@@ -1,4 +1,4 @@
-You are acting as a Principal Robotics Autonomy Engineer and Mission Runtime Architect operating at the level of an advanced robotics R&D organization.
+You are acting as a Principal Robotics Reliability Engineer and Autonomous Systems Verification Architect.
 
 You are continuing work on:
 
@@ -6,571 +6,355 @@ You are continuing work on:
 ## Deterministic Autonomy Validation & Safety Orchestration Platform
 
 The repository already contains:
-
 - deterministic autonomy runtime
+- ROS 2 / Gazebo simulation layer
 - safety supervisor
 - motion arbitration
-- replay/event architecture
-- fault injection system
-- ROS 2 Jazzy workspace
-- Gazebo Harmonic integration
-- replay recording
-- observability infrastructure
+- replay/event system
+- fault injection
 - runtime diagnostics
-- TF validation
-- bridge validation
-- structured launch system
-- scenario validation tooling
-- safety-authorized actuator pipeline
-- deterministic simulation foundation
+- mission runtime
+- waypoint execution
+- recovery framework
+- world model
+- keepout/restricted zones
+- mission replay artifacts
+- mission diagnostics
 
-The current platform is already beyond hobby-grade.
+This next pass is:
 
-This pass transitions the platform into:
+# Phase 3
+## Verification, Scenario Certification, and Evidence Generation
 
-# Phase 2
-## Mission Runtime & Deterministic Navigation Orchestration
+The goal is to turn the project from “implemented systems” into a credible engineering validation platform.
 
-This phase introduces:
-- mission execution
-- waypoint orchestration
-- bounded navigation
-- recovery behaviors
-- world-state awareness
-- operational constraint enforcement
+This phase should focus on:
+- scenario verification
+- evidence artifacts
+- deterministic replay checks
+- safety-case style reporting
+- traceability between requirements, tests, scenarios, and observed behavior
+- operational credibility
 
-WITHOUT:
-- surrendering deterministic architecture
-- allowing planner-direct actuation
-- introducing uncontrolled autonomy
-- turning the project into a generic Nav2 demo
+Do NOT add major new autonomy features yet.
 
 ---
 
 # Primary Objective
 
-Build a deterministic mission orchestration layer capable of:
+Build a verification and evidence layer that proves:
 
-- waypoint execution
-- bounded autonomous movement
-- operational constraint enforcement
-- mission-state tracking
-- recovery orchestration
-- constrained navigation behaviors
-- explainable runtime decisions
-- replayable mission execution
+1. safety supervisor authority is enforced
+2. mission runtime cannot bypass safety
+3. degraded modes behave deterministically
+4. recovery behavior is bounded and explainable
+5. replay artifacts reconstruct incidents correctly
+6. fault injection produces expected state transitions
+7. scenario outcomes are measurable and reportable
+8. tests map back to architecture requirements
 
-while preserving:
-
-- safety-supervisor authority
-- replay integrity
-- observability-first design
-- deterministic command arbitration
-- fault-aware autonomy
-
----
-
-# Critical Architectural Rules
-
-The platform MUST preserve:
-
-```text id="qkcr25"
-Mission Intent
-↓
-Requested Motion
-↓
-Safety Supervisor
-↓
-Motion Arbitration
-↓
-Authorized Motion
-↓
-Actuators
-```
-
-Mission runtime may:
-- request movement
-- request recovery
-- request rerouting
-
-Mission runtime may NOT:
-- authorize movement
-- bypass safety
-- directly publish actuator commands
-- override degraded states
-- suppress safety events
-
----
-
-# Major Objective Areas
-
-This phase must implement:
-
-1. Mission Runtime Layer
-2. Deterministic Waypoint Navigation
-3. World-State Awareness
-4. Recovery Behavior Framework
-5. Constraint Enforcement
-6. Runtime Mission Graph
-7. Mission Replay Integration
-8. Mission Diagnostics
-9. Scenario Expansion
-10. Nav2-Constrained Integration
+This should feel like engineering evidence generation, not extra demo code.
 
 ---
 
 # Hard Constraints
 
 DO NOT:
-- add SLAM
-- add computer vision
 - add cameras
 - add ML
 - add RL
-- add path-learning systems
-- add autonomous exploration
+- add SLAM
 - add cloud robotics
-- add distributed swarms
-- add manipulation systems
+- add physical hardware drivers
+- add Jetson-specific work
+- add UI polish
+- expand scope into unrelated features
 
 DO NOT:
-- allow Nav2 to own safety
-- allow Nav2 to bypass motion authorization
-- allow uncontrolled planner behavior
-
-DO NOT:
-- turn the platform into “follow a map” demo software
-
-The architecture remains:
-- safety-first
-- replay-first
-- deterministic
-- operationally explainable
+- weaken the safety authority model
+- allow mission or Nav2 paths to authorize motion
+- hide failures behind broad exception handling
+- create fake passing reports
+- claim safety certification
 
 ---
 
-# 1. Mission Runtime Package
+# Required Work Areas
 
-Create:
+## 1. Verification Package
 
-```text id="uz0r9v"
-rover_mission_runtime
+Create a dedicated verification layer.
+
+Suggested structure:
+
+```text
+backend/app/verification/
+  __init__.py
+  requirements.py
+  evidence.py
+  scenario_verifier.py
+  traceability.py
+  report_generator.py
+  acceptance.py
 ```
 
-Responsibilities:
-- mission lifecycle management
-- waypoint sequencing
-- mission-state transitions
-- recovery orchestration
-- mission diagnostics
-- mission event generation
-- mission replay integration
-
-The mission runtime is NOT:
-- a planner
-- a safety system
-- a low-level controller
-
-It is:
-- an orchestration layer
+If a better existing structure already exists, integrate cleanly.
 
 ---
 
-# 2. Mission State Machine
+## 2. Requirement IDs
 
-Implement an explicit mission state machine.
-
-Required states:
-
-```text id="tmfg6i"
-MISSION_IDLE
-MISSION_PREPARING
-MISSION_ACTIVE
-MISSION_PAUSED
-MISSION_RECOVERY
-MISSION_DEGRADED
-MISSION_ABORTING
-MISSION_ABORTED
-MISSION_COMPLETE
-```
-
-Define:
-- valid transitions
-- invalid transitions
-- mission ownership rules
-- recovery-entry conditions
-- abort semantics
-
-Every transition must emit:
-- structured events
-- replay markers
-- diagnostics updates
-
----
-
-# 3. Waypoint Navigation Layer
-
-Implement deterministic waypoint execution.
-
-Requirements:
-- waypoint queue
-- waypoint IDs
-- waypoint tolerances
-- bounded velocity requests
-- mission progress tracking
-- timeout handling
-- recovery escalation
-
-Waypoint execution should:
-- generate requested motion
-- never generate actuator commands directly
-
-Required waypoint fields:
-
-```text id="9ttzlr"
-waypoint_id
-pose_x
-pose_y
-heading_rad
-position_tolerance
-heading_tolerance
-timeout_seconds
-```
-
-Implement:
-- mission path execution
-- waypoint completion validation
-- timeout escalation
-- waypoint replay markers
-
----
-
-# 4. Deterministic Navigation Constraints
-
-Implement explicit operational constraints.
+Introduce explicit requirement IDs for major platform guarantees.
 
 Examples:
 
-```text id="bc7y3n"
-max_linear_velocity
-max_angular_velocity
-restricted_zone_speed_limit
-minimum_confidence_for_motion
-maximum_allowed_drift
-minimum_sensor_health
+```text
+REQ-SAFE-001: Motion commands must pass through safety supervisor.
+REQ-SAFE-002: Safe-stop must force zero authorized motion.
+REQ-SAFE-003: E-stop latched state must require explicit reset.
+REQ-FAULT-001: Fault injection must not directly mutate safety state.
+REQ-REPLAY-001: Every scenario run must emit replayable event artifacts.
+REQ-MISSION-001: Mission runtime may request but not authorize motion.
+REQ-WORLD-001: Keepout boundary violation must emit event and constrain mission behavior.
+REQ-DIAG-001: Runtime diagnostics must report subsystem health.
 ```
-
-Constraints must:
-- integrate with safety state
-- influence requested motion generation
-- produce diagnostics events
-
-Constraints may NOT:
-- bypass safety arbitration
-
----
-
-# 5. World-State Awareness Layer
 
 Create:
+- a requirements registry
+- requirement metadata
+- mapping to tests/scenarios/docs
 
-```text id="z63fpy"
-rover_world_model
+---
+
+## 3. Traceability Matrix
+
+Create a generated or maintained traceability system linking:
+
+```text
+Requirement
+Architecture Doc Section
+Implementation Module
+Scenario
+Test
+Evidence Artifact
+Status
 ```
 
-Responsibilities:
-- maintain bounded environment awareness
-- track known obstacles
-- maintain rover operational context
-- expose navigation-safe summaries
-- support recovery decisions
+Output format:
+- Markdown table
+- JSON manifest
 
-DO NOT:
-- implement full SLAM
-- implement probabilistic mapping
-- implement advanced perception
+Suggested files:
 
-The world model should remain:
-- deterministic
-- bounded
-- replayable
-
----
-
-# World Model Requirements
-
-Support:
-- obstacle snapshots
-- hazard zones
-- keepout regions
-- mission route awareness
-- operational boundaries
-
-Implement:
-- simple occupancy representation
-- deterministic update logic
-- replay-aware snapshots
-
----
-
-# 6. Recovery Framework
-
-Implement bounded recovery behaviors.
-
-Recovery behaviors should include:
-
-```text id="9drry7"
-STOP_AND_REEVALUATE
-BACKUP_AND_RETRY
-WAIT_FOR_SENSOR_RECOVERY
-MISSION_ABORT
-SAFE_STOP_ESCALATION
-```
-
-Recovery logic should:
-- integrate with mission runtime
-- integrate with safety state
-- emit replay markers
-- remain deterministic
-
-Recovery may NOT:
-- override E-stop
-- override Safe-Stop
-- override degraded-state enforcement
-
----
-
-# 7. Nav2-Constrained Integration
-
-This phase introduces LIMITED Nav2 integration.
-
-Nav2 is infrastructure assistance only.
-
-Nav2 must NOT:
-- own safety
-- own replay
-- own diagnostics
-- own mission orchestration
-
-Allowed:
-- controller assistance
-- waypoint following support
-- costmap support
-- recovery hooks
-
-Required architecture:
-
-```text id="g0jz1l"
-Mission Runtime
-↓
-Requested Motion
-↓
-Safety Runtime
-↓
-Authorized Motion
-↓
-Nav2 Controller Interface
-↓
-Gazebo
-```
-
-If needed:
-- wrap Nav2 outputs
-- constrain Nav2 velocities
-- inject authorization layer between Nav2 and actuators
-
-Do NOT allow:
-- direct Nav2 actuator ownership
-
----
-
-# 8. Keepout Zones & Operational Boundaries
-
-Implement:
-- keepout regions
-- restricted-speed regions
-- mission boundaries
-- operational envelopes
-
-These should:
-- integrate with world model
-- integrate with mission runtime
-- emit events when violated
-
-Crossing boundaries should:
-- degrade mission state
-- potentially trigger safe-stop escalation
-
----
-
-# 9. Mission Replay Integration
-
-Expand replay architecture to support mission replay.
-
-Replay artifacts should now include:
-
-```text id="h74bpk"
-mission_state_transitions.jsonl
-waypoint_events.jsonl
-recovery_events.jsonl
-world_model_snapshots.jsonl
-```
-
-Implement:
-- waypoint replay markers
-- recovery replay markers
-- mission diagnostics snapshots
-- mission summary generation
-
-Replay must support:
-- deterministic mission reconstruction
-
----
-
-# 10. Mission Diagnostics
-
-Expand runtime diagnostics.
-
-Required diagnostics:
-- active waypoint
-- mission progress
-- recovery count
-- mission latency
-- waypoint timeout warnings
-- navigation constraint violations
-- degraded mission status
-- mission replay health
-
-Suggested package:
-
-```text id="7pf0w4"
-rover_mission_diagnostics
+```text
+docs/TRACEABILITY_MATRIX.md
+verification/requirements.json
+verification/traceability.json
 ```
 
 ---
 
-# 11. Scenario Expansion
+## 4. Scenario Verification
 
-Add new mission-aware scenarios:
+Create a scenario verification engine that can run or evaluate existing scenarios and produce structured outcomes.
 
-```text id="5s0c96"
+Required verified scenarios:
+
+```text
 nominal_waypoint_patrol
-waypoint_timeout_recovery
-degraded_sensor_navigation
+stale_lidar_restricted_mode
+odometry_divergence_safe_stop
+command_timeout_safe_stop
+bridge_disconnect_safe_stop
+wheel_slip_degraded_mode
 keepout_zone_violation
-restricted_mode_navigation
 safe_stop_during_active_mission
 mission_abort_after_fault_escalation
+estop_latched_manual_reset_required
 ```
 
-For each:
-- validate mission state transitions
-- validate replay artifacts
-- validate diagnostics
-- validate recovery behavior
+For each scenario, verify:
+- expected final safety state
+- expected mission state
+- required events emitted
+- forbidden events absent
+- command authorization constraints
+- replay artifact completeness
+- diagnostic health changes
+- recovery behavior if applicable
 
 ---
 
-# 12. ROS Topics & Interfaces
+## 5. Evidence Artifacts
 
-Add structured mission topics.
+Create structured evidence outputs.
 
-Required topics:
+Suggested structure:
 
-```text id="95gtt7"
-/mission/state
-/mission/events
-/mission/waypoints
-/mission/progress
-/mission/recovery
-/world_model/state
-/world_model/hazards
+```text
+evidence/
+  scenarios/
+    <scenario_id>/
+      evidence.json
+      evidence.md
+      events-summary.md
+      replay-integrity.json
+      command-audit.json
+      safety-transition-audit.json
 ```
 
-Ensure:
-- replay compatibility
-- event consistency
-- namespace discipline
+Evidence should include:
+- scenario metadata
+- expected outcome
+- observed outcome
+- pass/fail status
+- relevant events
+- safety transitions
+- command authorization audit
+- replay artifact status
+- known limitations
 
 ---
 
-# 13. Testing Expansion
+## 6. Safety Command Audit
 
-Add significant new tests.
+Implement a command audit tool.
 
-Required categories:
+It must verify:
+- requested command exists before authorized command
+- authorized command never exceeds active safety constraints
+- safe-stop commands are zeroed
+- E-stop commands remain inhibited
+- restricted mode clamps velocity
+- no unauthorized actuator path exists
 
-## Mission Runtime
-- mission transitions
-- invalid transition rejection
-- mission abort handling
+Suggested file:
 
-## Waypoint Execution
-- waypoint completion
-- timeout escalation
-- waypoint sequencing
-
-## Recovery
-- recovery behavior execution
-- recovery escalation
-- mission abort after repeated failure
-
-## World Model
-- keepout zone detection
-- operational boundary enforcement
-- snapshot consistency
-
-## Nav2 Integration
-- safety authorization preserved
-- actuator path protected
-- velocity clamping enforced
-
-## Replay
-- mission replay integrity
-- waypoint replay consistency
-- recovery replay consistency
+```text
+tools/audit_command_path.py
+```
 
 ---
 
-# 14. Documentation Updates
+## 7. Replay Integrity Verification
 
-Update:
-- `ARCHITECTURE.md`
-- `ROADMAP.md`
-- `REPLAY_SYSTEM.md`
-- `SYSTEM_CONTEXT.md`
-- `TESTING_STRATEGY.md`
+Implement replay integrity validation.
 
-Add:
-- mission runtime diagrams
-- world model diagrams
-- mission-state diagrams
-- recovery flow diagrams
-- Nav2 boundary documentation
+Verify:
+- metadata exists
+- events exist
+- events are ordered
+- run_id is consistent
+- scenario_id is consistent
+- required artifact files exist
+- safety transitions are reconstructable
+- mission transitions are reconstructable
+- replay markers exist where expected
 
-Document explicitly:
-- what Nav2 is allowed to control
-- what Nav2 is forbidden from controlling
+Suggested file:
+
+```text
+tools/verify_replay_integrity.py
+```
 
 ---
 
-# Runtime Quality Requirements
+## 8. Safety Transition Audit
+
+Implement an audit that validates safety state transitions against allowed transitions.
+
+Verify:
+- no invalid transition occurred
+- E-stop is latched
+- Safe-Stop only exits through Recovery where applicable
+- Recovery validates required streams before active state
+- degraded/restricted transitions include reason codes
+
+Suggested file:
+
+```text
+tools/audit_safety_transitions.py
+```
+
+---
+
+## 9. Scenario Report Generator
+
+Create a report generator that produces:
+
+```text
+docs/SCENARIO_VERIFICATION_REPORT.md
+```
+
+The report should include:
+- summary table
+- scenario-by-scenario results
+- requirement coverage
+- failed checks
+- known limitations
+- next verification gaps
+
+Do not fake results.
+If a scenario cannot be executed in the current environment, report it as:
+`not_executed`
+with a clear reason.
+
+---
+
+## 10. Testing Expansion
+
+Add tests for:
+
+- requirement registry validity
+- traceability matrix completeness
+- scenario verifier logic
+- evidence generation
+- command audit logic
+- replay integrity validation
+- safety transition auditing
+- report generation
+
+Tests should not depend on real Gazebo unless clearly marked or skipped when unavailable.
+
+---
+
+## 11. Documentation Updates
+
+Update or create:
+
+```text
+docs/TRACEABILITY_MATRIX.md
+docs/SCENARIO_VERIFICATION_REPORT.md
+docs/VERIFICATION_STRATEGY.md
+docs/ROADMAP.md
+docs/TESTING_STRATEGY.md
+```
+
+Add a clear statement:
+
+This project is not safety-certified. It demonstrates safety-oriented architecture, deterministic validation, and evidence generation for portfolio and engineering learning purposes.
+
+---
+
+# Quality Requirements
 
 This phase should feel like:
-- a robotics autonomy runtime platform
-- bounded mission infrastructure
-- replayable resilience engineering tooling
+- verification infrastructure
+- engineering evidence
+- robotics validation tooling
+- safety-case preparation discipline
 
 NOT:
-- a ROS tutorial
-- a navigation demo
-- an AI robotics toy
+- marketing
+- fake certification
+- demo-only reporting
+- generic documentation
 
-The implementation must remain:
-- deterministic
-- replayable
-- safety-authoritative
-- operationally explainable
+Reports must be honest.
+
+If something is partial, say partial.
+If something is simulated-only, say simulated-only.
+If Gazebo execution is not verified in the current environment, say so.
 
 ---
 
@@ -578,18 +362,18 @@ The implementation must remain:
 
 This phase is complete only if:
 
-1. Mission runtime exists and functions.
-2. Waypoint execution is deterministic.
-3. Recovery behaviors execute correctly.
-4. Mission replay artifacts are generated.
-5. World model exists and integrates correctly.
-6. Keepout/restricted zones function.
-7. Safety authority remains centralized.
-8. Nav2 cannot bypass motion authorization.
-9. Mission diagnostics exist.
-10. Replay integrity remains coherent.
-11. Tests validate mission behavior.
-12. Operational constraints are enforced.
+1. Requirements registry exists.
+2. Traceability matrix exists.
+3. Scenario verifier exists.
+4. Evidence artifacts can be generated.
+5. Command-path audit exists.
+6. Replay integrity verifier exists.
+7. Safety transition audit exists.
+8. Scenario verification report exists.
+9. Tests cover verification infrastructure.
+10. Reports distinguish passed, failed, partial, skipped, and not_executed.
+11. Documentation is updated honestly.
+12. Safety authority model remains intact.
 
 ---
 
@@ -597,25 +381,19 @@ This phase is complete only if:
 
 When complete, report:
 
-- packages created
-- mission systems implemented
-- world model systems added
-- Nav2 integrations added
-- recovery behaviors implemented
-- replay improvements
-- diagnostics improvements
-- new ROS topics
+- files created
+- files modified
+- verification tools added
+- evidence artifacts added
 - tests added
 - tests passing/failing
+- scenarios verified
+- scenarios not executed
+- requirement coverage
 - approximate LOC added
 - known limitations
-- recommended next implementation phase
+- recommended next phase
 
-Do not claim completion if:
-- mission runtime bypasses safety
-- replay integrity breaks
-- recovery is nondeterministic
-- Nav2 bypasses authorization
-- diagnostics are incomplete
-- keepout enforcement fails
-```
+Do not claim safety certification.
+Do not hide failed or skipped verification.
+Do not add unrelated features.
