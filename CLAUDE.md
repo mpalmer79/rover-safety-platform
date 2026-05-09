@@ -1,211 +1,231 @@
-You are acting as a principal robotics systems architect and documentation engineer.
+You are acting as a principal robotics systems engineer and senior software architect.
 
-You are working inside my existing GitHub repository for a robotics portfolio project currently named:
+You are working inside my existing repository:
 
 `rover-safety-platform`
 
-This repository is intended to become a 2026-level, principal-quality autonomous robotics portfolio project inspired by serious robotics R&D environments such as DEKA Research and Development, industrial robotics, safety-critical autonomy, medical-device-grade engineering discipline, and mission-aware robotic systems.
+The repo already contains the foundational authority documents:
 
-This is NOT a hobby rover.
+- `docs/ARCHITECTURE.md`
+- `docs/ODD.md`
+- `docs/SAFETY_MODEL.md`
+- `docs/EVENT_MODEL.md`
+- `docs/FAULT_INJECTION.md`
+- `docs/REPLAY_SYSTEM.md`
+- `docs/ROADMAP.md`
+- `docs/SYSTEM_CONTEXT.md`
+- `docs/TESTING_STRATEGY.md`
+- `docs/adr/`
 
-The project direction is:
+Your job is to perform the first substantial implementation pass.
 
-# Autonomous Safety Validation Rover Platform
+This is NOT a toy rover project.
 
-A simulation-first robotics platform for validating deterministic autonomous rover behavior under degraded operational conditions.
+This is a simulation-first autonomous safety validation platform intended to demonstrate principal-level robotics architecture, deterministic control, fault-aware autonomy, replayable operational state, and safety-supervisor authority.
 
-The system should demonstrate:
+Do not build shallow demo code.
 
-- ROS 2 Jazzy-based autonomy architecture
-- Gazebo Harmonic simulation-first workflow
-- deterministic rover execution
-- lifecycle-managed nodes
-- explicit safety supervisor authority
-- bounded operational design domain
+Do not build UI cosmetics.
+
+Do not add AI, camera perception, SLAM, Jetson-specific code, cloud infrastructure, Kubernetes, or hardware drivers yet.
+
+This pass must build the core software foundation that future ROS 2 / Gazebo integration can plug into.
+
+---
+
+# Primary Goal
+
+Build the first executable core of the platform:
+
+## Phase 1A: Deterministic Autonomy Simulation Core
+
+Implement a substantial, testable backend/domain foundation that models:
+
+- rover state
+- motion commands
+- sensor readings
+- sensor freshness
+- confidence scoring
+- safety states
+- safety transitions
+- motion arbitration
 - fault injection
-- degraded-mode operation
-- replayable incident timelines
-- telemetry-first observability
-- rosbag2 / MCAP replay strategy
-- Foxglove-based visualization
-- future Raspberry Pi 5 + MCU hardware split
-- Jetson-class hardware only when perception workloads justify it
+- structured event emission
+- replay-ready run recording
+- deterministic simulation stepping
+- scenario execution
 
-The repository currently has early architecture material. Your job in this pass is NOT to implement runtime code.
+The implementation should be large enough and complete enough to become the real foundation for later ROS 2 / Gazebo integration.
 
-Your job is to create the foundational documentation authority layer that will control all later implementation work.
-
-These files must be written as if they are guiding a serious engineering team, not explaining a beginner robotics tutorial.
-
-Avoid hype.
-Avoid shallow marketing language.
-Avoid overclaiming.
-Avoid pretending this is safety-certified.
-Avoid claiming medical, industrial, or automotive compliance unless clearly framed as design inspiration only.
-
-Use clear engineering language.
+Target substantial implementation depth. Do not stop after a thin scaffold. Build meaningful modules, models, tests, and examples.
 
 ---
 
-# Primary Objective
+# Hard Rules
 
-Create or update the following documentation files:
+1. Read the docs first.
+2. Treat the docs as source of truth.
+3. Do not contradict `ARCHITECTURE.md`, `SAFETY_MODEL.md`, `EVENT_MODEL.md`, or `FAULT_INJECTION.md`.
+4. Mission logic may request motion, but only the safety supervisor may authorize motion.
+5. The motor gateway may only receive authorized commands.
+6. Fault injection must not directly mutate safety state.
+7. Every meaningful safety decision must emit an event.
+8. Every simulation run must be replay-addressable by `run_id`.
+9. Keep code deterministic and testable.
+10. Prefer clean domain models over framework-heavy code.
+11. Do not add real ROS 2 dependencies yet unless the repo already has them configured. Build ROS-compatible domain boundaries first.
+12. Do not create placeholder files with empty classes just to inflate scope.
+13. Do not write vague TODO-only modules.
+14. No generated fluff.
+15. No runtime code that bypasses tests.
+
+---
+
+# Expected Implementation Scale
+
+This should be a substantial first build pass.
+
+Aim to create a real internal platform foundation across multiple packages/modules, with meaningful tests.
+
+Do not optimize for raw line count, but do not underbuild. A strong implementation here should naturally produce several thousand lines across:
+
+- domain models
+- safety supervisor
+- motion arbitration
+- sensor simulation
+- fault injection
+- event system
+- replay recording
+- scenario runner
+- tests
+- examples
+- docs updates
+
+---
+
+# Recommended Backend Structure
+
+If the repo already has a backend structure, adapt carefully.
+
+If not, create this structure:
 
 ```text
-docs/ODD.md
-docs/SAFETY_MODEL.md
-docs/EVENT_MODEL.md
-docs/FAULT_INJECTION.md
-docs/REPLAY_SYSTEM.md
-docs/ROADMAP.md
-docs/SYSTEM_CONTEXT.md
-docs/TESTING_STRATEGY.md
-docs/adr/ADR-001-ros2-jazzy-selection.md
-docs/adr/ADR-002-gazebo-harmonic-selection.md
-docs/adr/ADR-003-simulation-first-strategy.md
-docs/adr/ADR-004-safety-supervisor-authority-model.md
-docs/adr/ADR-005-companion-computer-mcu-split.md
+backend/
+  app/
+    __init__.py
+
+    domain/
+      __init__.py
+      enums.py
+      identifiers.py
+      motion.py
+      rover_state.py
+      sensors.py
+      safety.py
+      events.py
+      faults.py
+      scenarios.py
+      replay.py
+      time.py
+
+    safety/
+      __init__.py
+      supervisor.py
+      transitions.py
+      confidence.py
+      freshness.py
+      arbitration.py
+      watchdog.py
+
+    simulation/
+      __init__.py
+      engine.py
+      vehicle_model.py
+      sensor_simulator.py
+      scenario_runner.py
+      clock.py
+
+    faults/
+      __init__.py
+      injector.py
+      models.py
+      profiles.py
+
+    telemetry/
+      __init__.py
+      event_bus.py
+      event_store.py
+      schemas.py
+      run_recorder.py
+
+    replay/
+      __init__.py
+      manifest.py
+      loader.py
+      recorder.py
+
+    api/
+      __init__.py
+      main.py
+      routes/
+        __init__.py
+        health.py
+        simulation.py
+        runs.py
+
+  tests/
+    test_event_model.py
+    test_safety_transitions.py
+    test_motion_arbitration.py
+    test_freshness_monitoring.py
+    test_confidence_scoring.py
+    test_fault_injection.py
+    test_simulation_engine.py
+    test_replay_recorder.py
+    test_scenario_runner.py
 ```
 
-If `docs/` or `docs/adr/` does not exist, create it.
-
-If any file already exists, preserve valuable existing content, but rewrite weak, generic, or conflicting sections so the documentation is internally consistent.
-
-Do not delete unrelated files.
-
-Do not implement application code in this pass.
+If the repo uses another structure, preserve it unless it conflicts with the docs.
 
 ---
 
-# Source of Truth
+# Domain Model Requirements
 
-Use the following technical direction as the controlling architecture:
+Implement strong typed domain models using Python.
+
+Use:
+
+- dataclasses or Pydantic models
+- enums for controlled states
+- explicit validation
+- immutable-style behavior where useful
+- clear serialization methods
+- deterministic timestamps through injectable clock abstraction
+
+Avoid global mutable state.
+
+---
+
+## Required Enums
+
+Create enums for:
 
 ```text
-ROS 2 Jazzy
-Ubuntu 24.04
-Gazebo Harmonic
-Nav2
-BehaviorTree.CPP
-robot_localization
-rosbag2 / MCAP
-ros2_tracing
-Foxglove
-Raspberry Pi 5 + dedicated MCU safety layer later
-Jetson only if camera/perception is justified later
+SafetyState
+LifecycleState
+SensorType
+SensorStatus
+FaultType
+FaultStatus
+EventSeverity
+EventCategory
+MotionDecision
+MotionConstraintReason
+ScenarioStatus
+ReplayStatus
 ```
 
-The preferred repository-level workspace shape is:
-
-```text
-rover_ws/
-  src/
-    rover_msgs/
-    rover_description/
-    rover_bringup/
-    rover_sim_gazebo/
-    rover_hw_gateway/
-    rover_sensor_adapters/
-    rover_state_estimation/
-    rover_world_model/
-    rover_safety_supervisor/
-    rover_mission_bt/
-    rover_observability/
-    rover_fault_injection/
-    rover_dashboard_gateway/
-    rover_tests/
-    rover_docs/
-```
-
-Do not change repo structure unless needed for docs directories.
-
----
-
-# Core Architectural Rules
-
-All created files must reinforce these rules:
-
-1. ROS 2 is middleware, not the full system architecture.
-2. The safety supervisor has final authority over actuator commands.
-3. Mission logic may request motion, but may not authorize motion.
-4. The motor gateway is the only subsystem allowed to write actuator commands.
-5. Simulation and hardware must share message contracts.
-6. Fault injection must be independent from mission logic.
-7. Observability is a first-class subsystem, not a debugging afterthought.
-8. Replayability is a platform requirement.
-9. Camera-first perception, GNSS-first autonomy, SLAM-heavy work, Isaac Sim, and Jetson hardware are deferred.
-10. The project succeeds only if degraded behavior is bounded, explainable, and replayable.
-
----
-
-# File Requirements
-
-## 1. `docs/ODD.md`
-
-Create the Operational Design Domain.
-
-Must include:
-
-- purpose of the ODD
-- supported environment
-- unsupported environment
-- operational assumptions
-- allowed terrain
-- indoor/outdoor assumptions
-- lighting assumptions
-- obstacle assumptions
-- connectivity assumptions
-- velocity limits
-- slope limits
-- sensor assumptions
-- simulation assumptions
-- safe-stop triggers
-- ODD exit conditions
-- recovery requirements
-- explicit non-goals
-
-Use realistic MVP constraints.
-
-Do NOT write broad “works anywhere” language.
-
-The ODD should make clear that the MVP operates in constrained indoor or semi-structured simulated environments first.
-
-Include a table for:
-
-```text
-Condition
-Supported Range
-Out-of-Domain Trigger
-Expected System Response
-```
-
----
-
-## 2. `docs/SAFETY_MODEL.md`
-
-Create the safety authority and state-transition model.
-
-Must include:
-
-- purpose
-- safety authority hierarchy
-- motion authorization rules
-- safety supervisor responsibilities
-- mission layer restrictions
-- hardware gateway restrictions
-- state machine
-- state definitions
-- transition rules
-- watchdog model
-- freshness monitoring
-- degraded-mode semantics
-- safe-stop semantics
-- E-stop latch semantics
-- recovery semantics
-- failure escalation examples
-- anti-bypass rules
-
-Use these states:
+Safety states must include exactly:
 
 ```text
 BOOT
@@ -218,38 +238,225 @@ E_STOP_LATCHED
 RECOVERY
 ```
 
-Make clear:
+Event severity must include exactly:
 
-- `SAFE_STOP` commands zero motion.
-- `E_STOP_LATCHED` requires explicit operator reset.
-- `RECOVERY` must revalidate required streams before reactivation.
-- The planner cannot override safety.
+```text
+DEBUG
+INFO
+NOTICE
+WARNING
+ERROR
+CRITICAL
+```
 
-Include a Mermaid state diagram if appropriate.
+Event categories must include at least:
+
+```text
+system_lifecycle
+sensor_health
+state_estimation
+safety_transition
+motion_arbitration
+fault_injection
+watchdog
+replay
+operator_action
+```
 
 ---
 
-## 3. `docs/EVENT_MODEL.md`
+# Motion Model Requirements
 
-Create the canonical event model.
+Implement models for:
 
-Must include:
+```text
+MotionCommand
+RequestedMotionCommand
+AuthorizedMotionCommand
+MotionLimits
+MotionArbitrationResult
+```
 
-- purpose
-- event design principles
-- event envelope schema
-- required fields
-- optional fields
-- severity levels
-- event categories
-- reason code strategy
-- event ordering rules
-- timestamp strategy
-- correlation IDs
-- run IDs
-- scenario IDs
-- replay requirements
-- example events
+Motion command fields should include:
+
+```text
+linear_velocity
+angular_velocity
+source
+issued_at
+expires_at
+```
+
+Motion arbitration must support:
+
+- full authorization
+- restricted authorization
+- zero-motion safe stop
+- rejection due to stale input
+- rejection due to E-stop
+- rejection due to degraded confidence
+- clamping velocity to restricted limits
+
+---
+
+# Rover State Requirements
+
+Implement a canonical rover state model with:
+
+```text
+pose_x
+pose_y
+heading_rad
+linear_velocity
+angular_velocity
+safety_state
+lifecycle_state
+last_update
+```
+
+Include deterministic update logic for a differential-drive style simplified simulation.
+
+Do not overbuild physics. Keep it deterministic and explainable.
+
+---
+
+# Sensor Model Requirements
+
+Implement sensor models for:
+
+```text
+LiDAR
+IMU
+Wheel Encoder
+Contact/Bumper
+```
+
+Each reading should include:
+
+```text
+sensor_id
+sensor_type
+timestamp
+status
+confidence
+data
+source
+sequence_number
+```
+
+Implement freshness evaluation:
+
+```text
+is_fresh(reading, now, max_age_ms)
+```
+
+Implement confidence evaluation rules:
+
+- stale readings reduce confidence
+- missing required readings reduce system confidence
+- contradictory distance readings produce disagreement
+- IMU/encoder divergence produces disagreement
+- contact/bumper activation produces high-priority safety signal
+
+Do not use ML.
+
+This pass is deterministic validation only.
+
+---
+
+# Safety Supervisor Requirements
+
+Implement a real safety supervisor.
+
+It must:
+
+- maintain current safety state
+- evaluate sensor freshness
+- evaluate sensor confidence
+- evaluate disagreement
+- evaluate active faults
+- evaluate command freshness
+- decide next safety state
+- authorize or reject motion
+- emit structured events for transitions
+- enforce safe-stop
+- enforce E-stop latch
+- require explicit reset from E-stop
+- support recovery validation
+
+---
+
+## Safety Transition Expectations
+
+Implement transition logic for at least:
+
+```text
+BOOT -> INACTIVE
+INACTIVE -> ACTIVE_NORMAL
+ACTIVE_NORMAL -> ACTIVE_RESTRICTED
+ACTIVE_NORMAL -> ACTIVE_DEGRADED
+ACTIVE_RESTRICTED -> ACTIVE_DEGRADED
+ACTIVE_DEGRADED -> SAFE_STOP
+ACTIVE_NORMAL -> SAFE_STOP
+ACTIVE_RESTRICTED -> SAFE_STOP
+SAFE_STOP -> RECOVERY
+RECOVERY -> ACTIVE_NORMAL
+ANY -> E_STOP_LATCHED
+```
+
+Prevent invalid transitions.
+
+Invalid transitions must emit an event or return a clear rejection reason.
+
+---
+
+# Fault Injection Requirements
+
+Implement deterministic fault injection.
+
+Fault injection must alter inputs, timing, or simulated sensor outputs.
+
+It must NOT directly set safety state.
+
+Required fault classes:
+
+```text
+stale_lidar
+encoder_drift
+imu_bias
+bridge_disconnect
+command_timeout
+watchdog_expiration
+packet_delay
+sensor_disagreement
+wheel_slip
+```
+
+For each fault, implement:
+
+- fault profile model
+- activation time
+- duration
+- target sensor/subsystem
+- deterministic effect
+- event emission
+- deactivation behavior
+
+Examples:
+
+- `stale_lidar` stops updating LiDAR readings.
+- `encoder_drift` modifies encoder delta.
+- `imu_bias` biases heading.
+- `packet_delay` shifts timestamps.
+- `sensor_disagreement` forces LiDAR and ultrasonic/proximity readings apart.
+- `command_timeout` causes requested command expiration.
+- `watchdog_expiration` simulates missed heartbeat.
+
+---
+
+# Event System Requirements
+
+Implement canonical structured events matching `docs/EVENT_MODEL.md`.
 
 Required event fields:
 
@@ -272,437 +479,245 @@ reason_code
 message
 ```
 
-Event severity levels:
+Implement:
 
-```text
-DEBUG
-INFO
-NOTICE
-WARNING
-ERROR
-CRITICAL
-```
+- event factory helpers
+- JSON serialization
+- event validation
+- event bus
+- in-memory event store
+- JSONL writer for run recording
 
-Event categories should include:
+Events must be emitted for:
 
-```text
-system_lifecycle
-sensor_health
-state_estimation
-safety_transition
-motion_arbitration
-fault_injection
-watchdog
-replay
-operator_action
-```
-
-Include JSON examples for:
-
-- stale LiDAR event
-- degraded-mode transition
-- safe-stop event
-- E-stop latched event
+- system startup
+- scenario start
+- scenario completion
+- fault injection activation
+- fault injection deactivation
+- sensor stale detection
+- confidence degradation
+- safety transition
+- motion arbitration
+- safe-stop
+- E-stop latch
+- recovery attempt
+- replay recording start/stop
 
 ---
 
-## 4. `docs/FAULT_INJECTION.md`
+# Replay Recording Requirements
 
-Create the fault injection strategy.
+Implement a replay-ready run recorder.
 
-Must include:
+Use local filesystem storage.
 
-- purpose
-- fault injection principles
-- supported MVP fault classes
-- fault scope boundaries
-- fault lifecycle
-- injection points
-- expected system responses
-- observability requirements
-- replay requirements
-- safety constraints
-- test acceptance criteria
-
-Initial fault classes:
-
-```text
-stale_lidar
-encoder_drift
-imu_bias
-bridge_disconnect
-command_timeout
-watchdog_expiration
-packet_delay
-sensor_disagreement
-wheel_slip
-```
-
-For each fault class include:
-
-```text
-Description
-Injection Point
-Expected Detection
-Expected Safety Response
-Required Events
-Replay Requirement
-```
-
-Make clear that fault injection must not directly mutate safety state. It should alter inputs or timing and allow the safety system to respond through normal mechanisms.
-
----
-
-## 5. `docs/REPLAY_SYSTEM.md`
-
-Create the replay and incident reconstruction architecture.
-
-Must include:
-
-- purpose
-- replay goals
-- replay non-goals
-- rosbag2 / MCAP role
-- structured event index role
-- Foxglove role
-- replay timeline model
-- synchronization strategy
-- deterministic replay limits
-- incident reconstruction workflow
-- required recorded topics
-- required event types
-- replay acceptance criteria
-- storage layout proposal
-
-Required recorded data should include:
-
-```text
-/sensor/lidar or /scan
-/odom
-/imu
-/tf
-/tf_static
-/cmd_vel_requested
-/cmd_vel_authorized
-/safety/state
-/safety/events
-/faults/injected
-/mission/status
-```
-
-Include a proposed storage layout:
+Proposed structure:
 
 ```text
 runs/
   <run_id>/
     metadata.json
     events.jsonl
-    bags/
-    traces/
-    foxglove-layout.json
+    states.jsonl
+    commands.jsonl
+    sensor_readings.jsonl
     incident-summary.md
 ```
 
+Implement:
+
+- run creation
+- metadata writing
+- append event
+- append state
+- append command
+- append sensor reading
+- incident summary generation
+- deterministic run IDs or injectable run ID generation for tests
+
+Do not implement rosbag2 yet.
+
+But design the recorder so rosbag2 / MCAP can be added later.
+
 ---
 
-## 6. `docs/ROADMAP.md`
+# Simulation Engine Requirements
 
-Create the phased implementation roadmap.
+Implement a deterministic simulation engine.
 
-Must include:
+It should support:
 
-- project vision
-- phase gates
-- deliverables
-- acceptance criteria
-- risks
-- deferred features
-- portfolio value
+- fixed timestep
+- injectable clock
+- rover state update
+- sensor generation
+- fault application
+- safety supervisor evaluation
+- motion arbitration
+- run recording
+- event emission
+- scenario completion
 
-Use these phases:
+The engine should support a scenario definition such as:
+
+```json
+{
+  "scenario_id": "stale-lidar-safe-stop-demo",
+  "duration_seconds": 30,
+  "time_step_ms": 100,
+  "initial_state": {},
+  "requested_motion": {},
+  "faults": []
+}
+```
+
+Implement several example scenario profiles in code or JSON:
 
 ```text
-Phase 0: Architecture Authority Layer
-Phase 1: Gazebo Simulation Bringup
-Phase 2: Deterministic Autonomy Core
-Phase 3: Safety Supervision & Degraded Modes
-Phase 4: Replay, Telemetry & Incident Reconstruction
-Phase 5: Bench Hardware Integration
-Phase 6: Optional Perception Expansion
+nominal_run
+stale_lidar_restricted_mode
+odometry_divergence_safe_stop
+command_timeout_safe_stop
+estop_latched_manual_reset_required
 ```
 
-Each phase must include:
+---
+
+# API Requirements
+
+If FastAPI is already present, integrate lightly.
+
+If not present, add a minimal FastAPI app only if dependency files already support it or can be safely updated.
+
+API should include:
 
 ```text
-Objectives
-Deliverables
-Acceptance Criteria
-Risks
-Deferred Work
-Portfolio Signal
+GET /health
+POST /simulation/run
+GET /runs
+GET /runs/{run_id}
+GET /runs/{run_id}/events
+GET /runs/{run_id}/summary
 ```
 
-Make this practical enough that later Claude Code sessions can build from it.
+Do not build frontend in this pass.
+
+The API should call real simulation services, not dummy placeholders.
 
 ---
 
-## 7. `docs/SYSTEM_CONTEXT.md`
+# Testing Requirements
 
-Create the system context document.
+Build a meaningful test suite.
 
-Must include:
+Tests must verify:
 
-- system purpose
-- primary actors
-- external systems
-- runtime environments
-- trust boundaries
-- simulation boundary
-- hardware boundary
-- operator boundary
-- telemetry boundary
-- data flow summary
-- system context diagram
+## Event Model
+- required fields exist
+- JSON serialization works
+- invalid severity fails
+- event IDs are unique or deterministic under injected generator
 
-Primary actors:
+## Safety Transitions
+- valid transitions succeed
+- invalid transitions fail
+- E-stop latches
+- E-stop cannot self-clear
+- recovery requires valid streams
 
-```text
-Operator
-Developer
-Simulation Runtime
-Safety Supervisor
-Mission Runtime
-Hardware Gateway
-Telemetry Consumer
-Replay Analyst
-```
+## Motion Arbitration
+- normal state authorizes request
+- restricted state clamps velocity
+- safe-stop forces zero
+- E-stop forces zero
+- expired command rejected
 
-External systems:
+## Freshness Monitoring
+- stale LiDAR detected
+- missing required sensor reduces confidence
+- packet delay triggers stale reading
 
-```text
-Gazebo Harmonic
-ROS 2 graph
-Foxglove
-rosbag2
-Future physical rover
-Future MCU safety island
-```
+## Confidence Scoring
+- healthy sensors produce high confidence
+- stale sensor lowers confidence
+- disagreement lowers confidence
+- bumper/contact trigger escalates
 
-Include one Mermaid context diagram.
+## Fault Injection
+- faults alter inputs but do not directly set safety state
+- stale_lidar produces stale sensor event
+- encoder_drift creates odometry divergence
+- command_timeout expires command
 
----
+## Simulation Engine
+- nominal scenario completes
+- stale LiDAR scenario transitions out of normal
+- odometry divergence reaches safe-stop
+- E-stop scenario latches
+- run recorder writes expected files
 
-## 8. `docs/TESTING_STRATEGY.md`
-
-Create the testing strategy.
-
-Must include:
-
-- testing philosophy
-- test layers
-- deterministic simulation tests
-- safety-state transition tests
-- fault injection tests
-- replay validation tests
-- event schema tests
-- watchdog tests
-- timeout tests
-- sim-vs-hardware parity tests
-- acceptance gates
-- CI expectations
-
-Test categories:
-
-```text
-unit
-integration
-simulation
-fault_injection
-replay
-contract
-hardware_bench
-```
-
-Include examples of tests that should exist later.
-
-Make clear that no feature is complete until:
-
-- it emits events
-- it participates in replay
-- it has safety-state tests where applicable
-- it does not bypass the safety supervisor
+## Replay Recorder
+- creates run directory
+- writes metadata
+- writes events.jsonl
+- writes state/command/sensor files
+- writes incident summary
 
 ---
 
-# ADR Requirements
+# Documentation Updates Required
 
-Create the ADR directory and these files.
+After implementation, update docs only where necessary:
 
-Use a consistent ADR structure:
+- `docs/ROADMAP.md`: mark Phase 1A foundation as implemented or partially implemented.
+- `docs/TESTING_STRATEGY.md`: add implemented test categories.
+- `docs/EVENT_MODEL.md`: align any final event field names.
+- `docs/FAULT_INJECTION.md`: align fault class names if needed.
 
-```md
-# ADR-XXX: Title
-
-## Status
-Accepted
-
-## Context
-
-## Decision
-
-## Consequences
-
-## Alternatives Considered
-
-## Follow-up Work
-```
+Do not rewrite all docs unnecessarily.
 
 ---
 
-## ADR-001: ROS 2 Jazzy Selection
+# Quality Requirements
 
-Must state why ROS 2 Jazzy is selected:
+Code should be:
 
-- LTS release
-- Ubuntu 24.04 alignment
-- ecosystem support
-- DDS communication
-- lifecycle nodes
-- Nav2 compatibility
-- simulation integration
+- typed
+- readable
+- deterministic
+- testable
+- modular
+- boring where safety matters
+- explicit about tradeoffs
 
-Alternatives:
-- ROS 2 Rolling
-- older ROS 2 distributions
-- custom middleware
+Avoid:
 
----
-
-## ADR-002: Gazebo Harmonic Selection
-
-Must state why Gazebo Harmonic is primary:
-
-- ROS 2 Jazzy alignment
-- ROS-native simulation path
-- physics and sensor simulation
-- plugin ecosystem
-- ros_gz_bridge support
-- lower practical risk than Isaac Sim for MVP
-
-Alternatives:
-- Webots
-- PyBullet
-- Isaac Sim
+- clever abstractions
+- hidden global state
+- uncontrolled async behavior
+- random timestamps in tests
+- silent failures
+- broad exception swallowing
+- direct safety-state mutation by faults
+- planner-direct actuator authorization
 
 ---
 
-## ADR-003: Simulation-First Strategy
+# Acceptance Criteria
 
-Must state why simulation precedes hardware:
+This pass is complete only if:
 
-- deterministic iteration
-- safety testing before physical motion
-- fault injection
-- cost control
-- repeatable scenarios
-- faster debugging
-- hardware abstraction validation
-
-Alternatives:
-- hardware-first
-- hybrid-first
-- perception-first
-
----
-
-## ADR-004: Safety Supervisor Authority Model
-
-Must state:
-
-- safety supervisor owns final motion authorization
-- mission layer cannot write actuator commands
-- hardware gateway accepts only authorized commands
-- fault injection cannot directly set safety state
-- safety transitions must emit events
-- degraded and safe-stop states are enforced centrally
-
-Alternatives:
-- planner-direct actuator control
-- distributed safety decisions
-- mission-owned safety transitions
-
----
-
-## ADR-005: Companion Computer + MCU Split
-
-Must state:
-
-- Raspberry Pi 5 or similar SBC handles ROS 2 companion compute
-- MCU handles timing-sensitive safety and actuator control later
-- Linux SBC is not treated as hard real-time motor controller
-- micro-ROS or narrow MCU protocol remains a future integration option
-
-Alternatives:
-- SBC-only control
-- Jetson-first hardware
-- MCU-only robotics control
-
----
-
-# Style Requirements
-
-Write these documents with:
-
-- serious engineering tone
-- direct language
-- precise constraints
-- realistic scope
-- strong boundaries
-- implementation-ready detail
-
-Do not use:
-- sales language
-- AI hype
-- vague claims
-- generic filler
-- “cutting edge” without architectural meaning
-- claims of certification
-- claims of production safety compliance
-
-Use Markdown tables where helpful.
-
-Use Mermaid diagrams only where they add clarity.
-
-Use consistent terminology:
-
-```text
-safety supervisor
-motion arbitration
-authorized command
-requested command
-degraded mode
-safe-stop
-E-stop latched
-run_id
-scenario_id
-event_id
-ODD
-```
-
----
-
-# Quality Bar
-
-Before finishing, self-review all created files for:
-
-1. Internal consistency
-2. No contradiction with ARCHITECTURE.md
-3. No premature hardware commitment
-4. No AI/perception scope creep
-5. Clear safety authority model
-6. Clear replay expectations
-7. Clear testing expectations
-8. Usable as source-of-truth docs for future implementation prompts
+1. The platform has a working deterministic simulation core.
+2. Safety supervisor authority is enforced.
+3. Motion requests are separated from authorized commands.
+4. Fault injection exists and does not directly mutate safety state.
+5. Events are emitted for safety-relevant behavior.
+6. Run recording writes replay-ready artifacts.
+7. Multiple scenario profiles can execute.
+8. Tests cover safety transitions, faults, events, replay, and simulation.
+9. Docs remain consistent with implementation.
+10. The implementation is substantial, not a thin placeholder scaffold.
 
 ---
 
@@ -711,9 +726,14 @@ Before finishing, self-review all created files for:
 When finished, report:
 
 - files created
-- files updated
-- major decisions encoded
-- any conflicts found in existing docs
-- recommended next Claude Code build phase
+- files modified
+- approximate LOC added
+- tests added
+- tests passing or failing
+- major architectural decisions made
+- known limitations
+- recommended next implementation phase
 
-Do not implement runtime code in this pass.
+Do not claim completion if tests fail.
+Do not hide partial implementation.
+Do not add unrelated features.
