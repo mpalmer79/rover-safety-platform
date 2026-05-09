@@ -299,3 +299,24 @@ The platform tracks test coverage at the architectural level:
 - every required event class in `docs/REPLAY_SYSTEM.md` is asserted present in at least one recorded run
 
 Coverage at the line level is a useful but secondary metric. Architectural coverage is primary.
+
+## 15. Phase 1A Implementation Status
+
+The Phase 1A Python backend (under `backend/`) implements the
+following test categories from this document:
+
+| Layer | Implemented (Phase 1A) | Notes |
+|---|---|---|
+| `unit` | Yes | `tests/test_event_model.py`, `tests/test_safety_transitions.py`, `tests/test_motion_arbitration.py` |
+| `integration` | Yes | `tests/test_freshness_monitoring.py`, `tests/test_confidence_scoring.py` |
+| `simulation` | Yes (deterministic Python engine) | `tests/test_simulation_engine.py`, `tests/test_scenario_runner.py` |
+| `fault_injection` | Yes | `tests/test_fault_injection.py` plus engine-level fault scenarios |
+| `replay` | Yes | `tests/test_replay_recorder.py` validates run directory layout, metadata, and `events.jsonl` |
+| `contract` | Yes (architectural invariants) | `tests/test_simulation_engine.py::test_supervisor_is_only_publisher_of_authorized_motion`, `tests/test_simulation_engine.py::test_fault_injection_does_not_emit_safety_transitions` |
+| `hardware_bench` | Pending Phase 5 | n/a in Phase 1A |
+
+The full ROS 2 / Gazebo equivalents of these tests are pending Phases
+1 through 4. The intent is that the Phase 1A test suite is portable to
+the ROS 2 implementation by replacing the deterministic Python engine
+with a ROS 2 launch-based engine while keeping the assertions
+unchanged.

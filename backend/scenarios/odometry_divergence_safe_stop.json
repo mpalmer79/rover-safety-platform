@@ -1,0 +1,26 @@
+{
+  "scenario_id": "odometry_divergence_safe_stop",
+  "duration_seconds": 8.0,
+  "time_step_ms": 100,
+  "initial_state": {
+    "operator_activate_at_ms": 200
+  },
+  "requested_motion": {
+    "linear_velocity": 0.45,
+    "angular_velocity": 0.0,
+    "command_lifetime_ms": 500
+  },
+  "faults": [
+    {
+      "fault_id": "f-disagreement",
+      "fault_type": "sensor_disagreement",
+      "target": "/odom",
+      "activation_ms": 1500,
+      "duration_ms": -1,
+      "parameters": { "angular_offset_rad_s": 0.7 }
+    }
+  ],
+  "metadata": {
+    "description": "Encoder/IMU angular disagreement; expect ACTIVE_DEGRADED, possible SAFE_STOP."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "scenario_id": "stale_lidar_restricted_mode",
+  "duration_seconds": 8.0,
+  "time_step_ms": 100,
+  "initial_state": {
+    "operator_activate_at_ms": 200
+  },
+  "requested_motion": {
+    "linear_velocity": 0.5,
+    "angular_velocity": 0.0,
+    "command_lifetime_ms": 500
+  },
+  "faults": [
+    {
+      "fault_id": "f-stale-lidar",
+      "fault_type": "stale_lidar",
+      "target": "/scan",
+      "activation_ms": 2000,
+      "duration_ms": -1,
+      "parameters": { "mode": "drop" }
+    }
+  ],
+  "metadata": {
+    "description": "LiDAR drops mid-run; expect ACTIVE_DEGRADED then SAFE_STOP."
+  }
+}
