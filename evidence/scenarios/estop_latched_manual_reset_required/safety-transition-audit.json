@@ -2,7 +2,7 @@
   "errors": [],
   "final_state": "E_STOP_LATCHED",
   "ok": true,
-  "run_dir": "/tmp/p3-final-runs/verify-estop_latched_manual_reset_required",
+  "run_dir": "runs/verify/verify-estop_latched_manual_reset_required",
   "status": "passed",
   "transition_count": 3,
   "transitions": [

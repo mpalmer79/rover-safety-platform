@@ -1,0 +1,46 @@
+{
+  "generated_at_utc": "2026-05-09T21:28:29+00:00",
+  "mode": "static-only",
+  "run_id": "static-2026-05-09",
+  "static": {
+    "authorized_publishers": [
+      {
+        "file": "rover_ws/src/rover_safety_bridge/rover_safety_bridge/safety_bridge_node.py",
+        "line": 97,
+        "package": "rover_safety_bridge",
+        "snippet": "_AUTHORIZED_TOPIC -> self._auth_pub = self.create_publisher(Twist, _AUTHORIZED_TOPIC, 10)"
+      }
+    ],
+    "invariants": [
+      {
+        "detail": "1 publisher declaration(s) for /cmd_vel_authorized",
+        "name": "authorized_publisher_present",
+        "status": "passed"
+      },
+      {
+        "detail": "all 1 publisher(s) live in package 'rover_safety_bridge'",
+        "name": "authorized_publisher_is_safety_bridge",
+        "status": "passed"
+      },
+      {
+        "detail": "no source publishes /cmd_vel",
+        "name": "raw_cmd_vel_not_published_by_workspace",
+        "status": "passed"
+      },
+      {
+        "detail": "bridge YAML does not route /cmd_vel or /cmd_vel_requested; /cmd_vel_authorized is the only command-path entry (ROS -> Gazebo)",
+        "name": "bridge_yaml_does_not_route_cmd_vel",
+        "status": "passed"
+      }
+    ],
+    "raw_cmd_vel_publishers": [],
+    "requested_publishers": [
+      {
+        "file": "rover_ws/src/rover_mission_runtime/rover_mission_runtime/mission_node.py",
+        "line": 119,
+        "package": "rover_mission_runtime",
+        "snippet": "_REQUESTED_TOPIC -> self._cmd_pub = self.create_publisher(Twist, _REQUESTED_TOPIC, 10)"
+      }
+    ]
+  }
+}

@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Unreachable waypoint; recovery exhausts budget; MISSION_ABORTED.
 - **Requirements covered:** `REQ-MISSION-001`, `REQ-MISSION-002`
-- **Run directory:** `/tmp/p3-final-runs/verify-waypoint_timeout_recovery`
+- **Run directory:** `runs/verify/verify-waypoint_timeout_recovery`
 
 ## Expected vs observed
 

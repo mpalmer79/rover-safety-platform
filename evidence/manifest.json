@@ -1,0 +1,202 @@
+{
+  "evidence_root": "evidence",
+  "runs_root": "runs/verify",
+  "scenarios": [
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/nominal_run",
+      "scenario_id": "nominal_run",
+      "status": "passed",
+      "summary": "7 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/stale_lidar_restricted_mode",
+      "scenario_id": "stale_lidar_restricted_mode",
+      "status": "passed",
+      "summary": "8 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/odometry_divergence_safe_stop",
+      "scenario_id": "odometry_divergence_safe_stop",
+      "status": "passed",
+      "summary": "7 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/command_timeout_safe_stop",
+      "scenario_id": "command_timeout_safe_stop",
+      "status": "passed",
+      "summary": "8 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/bridge_disconnect_safe_stop",
+      "scenario_id": "bridge_disconnect_safe_stop",
+      "status": "passed",
+      "summary": "8 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/wheel_slip_degraded_mode",
+      "scenario_id": "wheel_slip_degraded_mode",
+      "status": "passed",
+      "summary": "7 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/estop_latched_manual_reset_required",
+      "scenario_id": "estop_latched_manual_reset_required",
+      "status": "passed",
+      "summary": "7 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/nominal_waypoint_patrol",
+      "scenario_id": "nominal_waypoint_patrol",
+      "status": "passed",
+      "summary": "8 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/waypoint_timeout_recovery",
+      "scenario_id": "waypoint_timeout_recovery",
+      "status": "passed",
+      "summary": "8 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/degraded_sensor_navigation",
+      "scenario_id": "degraded_sensor_navigation",
+      "status": "passed",
+      "summary": "8 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/keepout_zone_violation",
+      "scenario_id": "keepout_zone_violation",
+      "status": "passed",
+      "summary": "7 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/restricted_mode_navigation",
+      "scenario_id": "restricted_mode_navigation",
+      "status": "passed",
+      "summary": "7 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/safe_stop_during_active_mission",
+      "scenario_id": "safe_stop_during_active_mission",
+      "status": "passed",
+      "summary": "9 checks passed"
+    },
+    {
+      "artefacts": [
+        "evidence.json",
+        "evidence.md",
+        "events-summary.md",
+        "replay-integrity.json",
+        "command-audit.json",
+        "safety-transition-audit.json"
+      ],
+      "evidence_dir": "evidence/scenarios/mission_abort_after_fault_escalation",
+      "scenario_id": "mission_abort_after_fault_escalation",
+      "status": "passed",
+      "summary": "8 checks passed"
+    }
+  ]
+}

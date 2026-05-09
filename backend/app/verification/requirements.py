@@ -29,6 +29,7 @@ class RequirementKind(str, Enum):
     WORLD = "world"
     DIAGNOSTICS = "diagnostics"
     OPERATOR = "operator"
+    RUNTIME = "runtime"
 
 
 @dataclass(frozen=True)
@@ -427,6 +428,132 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         test_refs=(
             "backend/tests/test_simulation_engine.py::test_estop_scenario_latches",
             "rover_ws/tests/test_safety_bridge_core.py::test_estop_latches_until_explicit_reset",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-RUNTIME-001",
+        kind=RequirementKind.RUNTIME,
+        title="Full system launch must be runtime-verifiable",
+        description=(
+            "rover_bringup/full_system.launch.py must be invocable on a "
+            "ROS 2 Jazzy host and produce the expected node graph + "
+            "topic graph. The runtime smoke test asserts process "
+            "startup, node presence, and clean shutdown."
+        ),
+        architecture_refs=(
+            "ARCHITECTURE.md#15a-ros-2-integration-layer-phase-1b",
+            "rover_ws/tests/manual.md",
+            "docs/RUNTIME_VALIDATION_RUNBOOK.md",
+        ),
+        implementation_refs=(
+            "rover_ws/src/rover_bringup/launch/full_system.launch.py",
+            "rover_ws/tools/launch_smoke_test.py",
+            "rover_ws/tools/live_runtime_validator.py",
+        ),
+        test_refs=(
+            "rover_ws/tests/test_runtime_validation_tooling.py::test_launch_smoke_static_mode_passes",
+            "rover_ws/tests/test_launch_files.py::test_full_system_composes_required_launches",
+        ),
+        notes=(
+            "Live execution requires a Jazzy host. CI runs in static-only "
+            "mode; live evidence is collected via the runbook procedure."
+        ),
+    ),
+    Requirement(
+        req_id="REQ-RUNTIME-002",
+        kind=RequirementKind.RUNTIME,
+        title="Required ROS topics must be discoverable and type-checked",
+        description=(
+            "Every topic listed in app.runtime_validation.expected_topics "
+            "must be advertised by the running graph with the documented "
+            "message type. The topic probe records advertisement status, "
+            "type match, and freshness for each topic."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_SYSTEM.md#7-required-recorded-topics",
+            "docs/SYSTEM_CONTEXT.md#8a-ros-2-gazebo-layer-phase-1b",
+        ),
+        implementation_refs=(
+            "backend/app/runtime_validation/expected_topics.py",
+            "rover_ws/tools/topic_probe.py",
+            "rover_ws/src/rover_sim_gazebo/config/ros_gz_bridge.yaml",
+        ),
+        test_refs=(
+            "rover_ws/tests/test_runtime_validation_tooling.py::test_topic_probe_static_mode_lists_expected_topics",
+            "rover_ws/tests/test_runtime_validation_tooling.py::test_topic_probe_static_mode_marks_live_checks_not_executed",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-RUNTIME-003",
+        kind=RequirementKind.RUNTIME,
+        title="TF tree must expose expected critical frames",
+        description=(
+            "The live TF tree must contain odom -> base_link and the "
+            "documented sensor / wheel frames. The TF probe asserts "
+            "frame presence, single-root structure, and that "
+            "static transforms exist for fixed sensor mounts."
+        ),
+        architecture_refs=(
+            "rover_ws/src/rover_description/urdf/rover.urdf.xacro",
+            "docs/SYSTEM_CONTEXT.md#8a-ros-2-gazebo-layer-phase-1b",
+        ),
+        implementation_refs=(
+            "backend/app/runtime_validation/expected_tf_frames.py",
+            "rover_ws/tools/tf_probe.py",
+        ),
+        test_refs=(
+            "rover_ws/tests/test_runtime_validation_tooling.py::test_tf_probe_static_mode_passes_against_workspace_urdf",
+            "rover_ws/tests/test_urdf.py::test_required_links_present",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-RUNTIME-004",
+        kind=RequirementKind.RUNTIME,
+        title="Authorized command path must be verified at runtime",
+        description=(
+            "The command-path probe must publish a /cmd_vel_requested "
+            "stream and observe /cmd_vel_authorized to confirm the "
+            "supervisor is the only producer. SAFE_STOP / E_STOP / "
+            "expired-command pathways must be exercised and the "
+            "authorised stream must zero accordingly. No producer "
+            "other than the supervisor may publish on "
+            "/cmd_vel_authorized at runtime."
+        ),
+        architecture_refs=(
+            "docs/SAFETY_MODEL.md#3-motion-authorization-rules",
+            "docs/adr/ADR-004-safety-supervisor-authority-model.md",
+        ),
+        implementation_refs=(
+            "rover_ws/tools/command_path_probe.py",
+            "rover_ws/src/rover_safety_bridge/rover_safety_bridge/safety_bridge_node.py",
+        ),
+        test_refs=(
+            "rover_ws/tests/test_runtime_validation_tooling.py::test_command_path_probe_static_mode_passes",
+            "rover_ws/tests/test_node_modules.py::test_safety_bridge_node_only_publishes_authorized",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-RUNTIME-005",
+        kind=RequirementKind.RUNTIME,
+        title="Live validation reports must distinguish status categories",
+        description=(
+            "RUNTIME_VALIDATION_REPORT.md and the JSON manifest must "
+            "carry one of {passed, failed, partial, skipped, "
+            "not_executed} per check. A check that requires a Jazzy "
+            "host but ran in CI must be reported as not_executed with "
+            "an explicit reason; never as passed."
+        ),
+        architecture_refs=(
+            "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary",
+            "docs/RUNTIME_VALIDATION_REPORT.md",
+        ),
+        implementation_refs=(
+            "backend/app/runtime_validation/report_renderer.py",
+            "backend/app/runtime_validation/static_validator.py",
+        ),
+        test_refs=(
+            "rover_ws/tests/test_runtime_validation_tooling.py::test_runtime_report_distinguishes_status_categories",
+            "rover_ws/tests/test_runtime_validation_tooling.py::test_runtime_report_includes_known_limitations",
         ),
     ),
 )

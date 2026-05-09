@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Three-waypoint patrol; mission completes cleanly.
 - **Requirements covered:** `REQ-SAFE-001`, `REQ-MISSION-001`, `REQ-REPLAY-001`
-- **Run directory:** `/tmp/p3-final-runs/verify-nominal_waypoint_patrol`
+- **Run directory:** `runs/verify/verify-nominal_waypoint_patrol`
 
 ## Expected vs observed
 

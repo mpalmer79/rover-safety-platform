@@ -66,7 +66,7 @@
     ],
     "safety_state": "ACTIVE_DEGRADED"
   },
-  "generated_at_utc": "2026-05-09T20:27:01+00:00",
+  "generated_at_utc": "2026-05-09T21:28:27+00:00",
   "not_executed_reason": "",
   "observed": {
     "final_mission_state": null,
@@ -76,7 +76,7 @@
       "f-slip"
     ],
     "recovery_engagement_count": 0,
-    "run_dir": "/tmp/p3-final-runs/verify-wheel_slip_degraded_mode"
+    "run_dir": "runs/verify/verify-wheel_slip_degraded_mode"
   },
   "requirement_ids": [
     "REQ-SAFE-001",

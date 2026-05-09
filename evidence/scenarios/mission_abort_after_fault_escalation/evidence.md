@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Repeated waypoint timeouts; mission aborts after exhausting budget.
 - **Requirements covered:** `REQ-MISSION-002`
-- **Run directory:** `/tmp/p3-final-runs/verify-mission_abort_after_fault_escalation`
+- **Run directory:** `runs/verify/verify-mission_abort_after_fault_escalation`
 
 ## Expected vs observed
 

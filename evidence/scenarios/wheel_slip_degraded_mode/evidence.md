@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Rough-terrain slip + IMU bias; ACTIVE_DEGRADED.
 - **Requirements covered:** `REQ-SAFE-001`, `REQ-FAULT-001`, `REQ-FAULT-002`
-- **Run directory:** `/tmp/p3-final-runs/verify-wheel_slip_degraded_mode`
+- **Run directory:** `runs/verify/verify-wheel_slip_degraded_mode`
 
 ## Expected vs observed
 

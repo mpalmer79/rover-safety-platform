@@ -7,7 +7,7 @@
   "mission_ok": true,
   "mission_state_count": 0,
   "ok": true,
-  "run_dir": "/tmp/p3-final-runs/verify-odometry_divergence_safe_stop",
+  "run_dir": "runs/verify/verify-odometry_divergence_safe_stop",
   "status": "passed",
   "transition_count": 3,
   "warnings": [],

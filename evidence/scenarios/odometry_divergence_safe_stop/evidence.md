@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Encoder/IMU disagreement; ACTIVE_DEGRADED.
 - **Requirements covered:** `REQ-SAFE-001`, `REQ-FAULT-001`, `REQ-FAULT-002`
-- **Run directory:** `/tmp/p3-final-runs/verify-odometry_divergence_safe_stop`
+- **Run directory:** `runs/verify/verify-odometry_divergence_safe_stop`
 
 ## Expected vs observed
 

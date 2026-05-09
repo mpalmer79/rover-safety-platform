@@ -61,6 +61,7 @@ launch.
 | [`evidence`](../backend/app/verification/evidence.py) | Writes per-scenario evidence directories under `evidence/scenarios/<scenario_id>/`. | `tools/generate_evidence.py` |
 | [`traceability`](../backend/app/verification/traceability.py) | Generates `verification/traceability.json` and `docs/TRACEABILITY_MATRIX.md`. | `tools/generate_traceability.py` |
 | [`report_generator`](../backend/app/verification/report_generator.py) | Generates `docs/SCENARIO_VERIFICATION_REPORT.md` and `verification/verification_report.json`. | `tools/generate_verification_report.py` |
+| [`runtime_validation`](../backend/app/runtime_validation/) | Phase 4. Declares the expected ROS topic / node / TF graph and runs a static workspace validator plus the live probes orchestrated by `live_runtime_validator.py`. Honest about `not_executed` when ROS / Gazebo are unavailable. | `rover_ws/tools/live_runtime_validator.py` |
 
 ## 4. Per-scenario expectations
 

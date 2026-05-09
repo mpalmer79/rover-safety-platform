@@ -3,7 +3,7 @@
 - **Status:** `passed`
 - **Description:** Keepout violation triggers SAFE_STOP_ESCALATION recovery.
 - **Requirements covered:** `REQ-MISSION-001`, `REQ-WORLD-001`
-- **Run directory:** `/tmp/p3-final-runs/verify-keepout_zone_violation`
+- **Run directory:** `runs/verify/verify-keepout_zone_violation`
 
 ## Expected vs observed
 

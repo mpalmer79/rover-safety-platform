@@ -6,7 +6,7 @@
   "ok": true,
   "rejected_count": 106,
   "request_count": 147,
-  "run_dir": "/tmp/p3-final-runs/verify-safe_stop_during_active_mission",
+  "run_dir": "runs/verify/verify-safe_stop_during_active_mission",
   "status": "passed",
   "warnings": [],
   "zeroed_count": 105
