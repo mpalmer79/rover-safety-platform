@@ -1,0 +1,18 @@
+{
+  "scenario_id": "estop_latched_manual_reset_required",
+  "duration_seconds": 6.0,
+  "time_step_ms": 100,
+  "initial_state": {
+    "operator_activate_at_ms": 200,
+    "operator_estop_at_ms": 1500
+  },
+  "requested_motion": {
+    "linear_velocity": 0.4,
+    "angular_velocity": 0.0,
+    "command_lifetime_ms": 500
+  },
+  "faults": [],
+  "metadata": {
+    "description": "Operator E-stop mid-run; supervisor latches and never self-clears."
+  }
+}

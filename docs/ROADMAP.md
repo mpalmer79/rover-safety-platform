@@ -33,6 +33,28 @@ A phase is complete when all acceptance criteria are demonstrably met against pi
 
 Skipping a phase, partially completing a phase, or working ahead of a phase requires an ADR.
 
+### Status Snapshot
+
+| Phase | Status |
+|---|---|
+| Phase 0 — Architecture Authority Layer | Implemented |
+| Phase 1A — Deterministic Autonomy Simulation Core (Python backend) | Implemented under `backend/` |
+| Phase 1 — Gazebo Simulation Bringup (ROS 2 / Gazebo) | Pending |
+| Phase 2 — Deterministic Autonomy Core (ROS 2) | Pending |
+| Phase 3 — Safety Supervision and Degraded Modes (ROS 2) | Pending |
+| Phase 4 — Replay, Telemetry, and Incident Reconstruction (ROS 2 / Foxglove) | Pending |
+| Phase 5 — Bench Hardware Integration | Pending |
+| Phase 6 — Optional Perception Expansion | Pending |
+
+Phase 1A is a pre-ROS-2 software foundation. It implements the safety
+authority model, motion arbitration, freshness gates, watchdogs,
+confidence scoring, fault injection, structured event emission, run
+recording, and a deterministic scenario engine entirely in Python with
+no external runtime dependencies. The contracts established in this
+foundation (events, motion authority, fault injection boundaries,
+replay layout) are the same contracts the ROS 2 implementation will
+honour.
+
 ---
 
 ## 3. Phase 0: Architecture Authority Layer
@@ -83,6 +105,87 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 - Demonstrates serious systems thinking.
 - Demonstrates discipline around safety boundaries.
 - Demonstrates understanding that documentation is an architectural artifact, not a deliverable byproduct.
+
+---
+
+## 3a. Phase 1A: Deterministic Autonomy Simulation Core
+
+### Status
+
+Implemented under `backend/`. See `backend/README.md`.
+
+### Objectives
+
+- Establish a deterministic, Python-only software foundation for the
+  safety authority model, fault injection, observability, and replay.
+- Make the safety supervisor, motion arbitration, freshness gates,
+  watchdog registry, confidence scorer, and fault injector all
+  testable in isolation, before any ROS 2 dependencies are introduced.
+- Provide a clean ROS-compatible domain boundary so the Phase 1
+  ROS 2 / Gazebo integration can plug into the existing types and
+  events without redesign.
+
+### Deliverables
+
+- Domain layer (`backend/app/domain/`): enums, identifiers, time
+  abstractions, motion commands, rover state, sensor readings,
+  events, faults, scenarios, replay metadata.
+- Safety layer (`backend/app/safety/`): allowed transition table,
+  freshness evaluator, confidence scorer, motion arbiter, watchdog
+  registry, full safety supervisor.
+- Simulation engine (`backend/app/simulation/`): manual clock,
+  differential-drive vehicle model, deterministic sensor simulator,
+  scenario runner, end-to-end engine.
+- Fault injection subsystem (`backend/app/faults/`): fault profiles
+  for all nine MVP fault classes; injector that perturbs inputs and
+  timing without mutating safety state.
+- Telemetry (`backend/app/telemetry/`): synchronous event bus,
+  in-memory event store, JSONL run recorder writing the canonical
+  run directory layout from `docs/REPLAY_SYSTEM.md`.
+- Replay (`backend/app/replay/`): manifest, recorder facade, run
+  loader.
+- Optional FastAPI gateway (`backend/app/api/`): `/health`,
+  `POST /simulation/run`, `GET /runs`, `GET /runs/{id}`,
+  `GET /runs/{id}/events`, `GET /runs/{id}/summary`. Disabled
+  unless the `api` extra is installed.
+- Five bundled scenarios (nominal, stale-LiDAR, odometry divergence,
+  command timeout, E-stop latched).
+- Three runnable example scripts under `backend/examples/`.
+- Pytest suite (82 tests at the time of writing) covering events,
+  transitions, arbitration, freshness, confidence, fault injection,
+  replay, and the simulation engine.
+
+### Acceptance Criteria
+
+- Authority model enforced: only the supervisor produces
+  `AuthorizedMotionCommand`; the gateway only consumes it.
+- Faults alter inputs and timing only; an explicit test asserts the
+  fault subsystem emits no `safety_transition.*` events itself.
+- Every safety state transition is reachable through scenario runs
+  and is recorded to `events.jsonl`.
+- A pinned scenario re-run produces the same event timeline.
+- Run directories conform to `docs/REPLAY_SYSTEM.md` section 9.
+
+### Risks
+
+- The Python core will diverge from the future ROS 2 implementation if
+  the contracts (event envelope, motion topics, fault classes) are not
+  kept in sync. Mitigated by treating these documents as binding.
+- Confidence scoring uses fixed weights chosen for explainability,
+  not for fidelity. They will need tuning when real sensor data is
+  available.
+
+### Deferred Work
+
+- Real ROS 2 nodes, real Gazebo Harmonic integration, real rosbag2 /
+  MCAP recording, Foxglove integration.
+
+### Portfolio Signal
+
+- Demonstrates a deterministic, replay-grade safety architecture
+  enforced by types and tests, independent of any robotics framework.
+- Demonstrates that the same contracts can be transplanted into ROS 2
+  without redesign.
 
 ---
 

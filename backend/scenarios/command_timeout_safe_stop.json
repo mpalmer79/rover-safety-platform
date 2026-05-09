@@ -1,0 +1,26 @@
+{
+  "scenario_id": "command_timeout_safe_stop",
+  "duration_seconds": 8.0,
+  "time_step_ms": 100,
+  "initial_state": {
+    "operator_activate_at_ms": 200
+  },
+  "requested_motion": {
+    "linear_velocity": 0.4,
+    "angular_velocity": 0.0,
+    "command_lifetime_ms": 500
+  },
+  "faults": [
+    {
+      "fault_id": "f-cmd-timeout",
+      "fault_type": "command_timeout",
+      "target": "rover_hw_gateway",
+      "activation_ms": 2000,
+      "duration_ms": -1,
+      "parameters": { "mode": "silent_consumer" }
+    }
+  ],
+  "metadata": {
+    "description": "Hardware gateway stops heartbeating; expect SAFE_STOP via gateway watchdog."
+  }
+}
