@@ -1,0 +1,1073 @@
+{
+  "generated_at_utc": "",
+  "known_limitations": [
+    "The platform is **not** safety-certified. This report demonstrates engineering verification discipline, not regulatory compliance.",
+    "Scenarios run against the deterministic Python engine. End-to-end Gazebo / ROS 2 verification on a Jazzy host is documented in `rover_ws/tests/manual.md`; results from those runs are not captured automatically by this report.",
+    "The wheel-slip-only scenario does not by itself reach `MISSION_DEGRADED` because the platform has no state estimator; the corresponding scenario combines slip with a co-occurring IMU bias to demonstrate the degraded mode honestly.",
+    "Nav2 is integrated only via the velocity-clamp boundary node; full Nav2 lifecycle coverage is out of scope for Phase 3."
+  ],
+  "overall_status": "passed",
+  "scenarios": [
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=6",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 2 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 1 absent",
+          "errors": [],
+          "name": "forbidden_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=80 clamped=0 zeroed=2 expired=0",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=2 final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=6 transitions=2 mission_states=0",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": null,
+      "expected_safety_state": "ACTIVE_NORMAL",
+      "final_mission_state": null,
+      "final_safety_state": "ACTIVE_NORMAL",
+      "fired_faults": [],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 0,
+      "requirement_ids": [
+        "REQ-SAFE-001",
+        "REQ-REPLAY-001"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-nominal_run",
+      "scenario_file": "nominal_run.json",
+      "scenario_id": "nominal_run",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=172",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=SAFE_STOP",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 3 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "observed ('f-stale-lidar',)",
+          "errors": [],
+          "name": "fired_faults",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=80 clamped=5 zeroed=55 expired=0",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=4 final=SAFE_STOP",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=172 transitions=4 mission_states=0",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all safe-stop / e-stop commands zero",
+          "errors": [],
+          "name": "safe_stop_zero_motion",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": null,
+      "expected_safety_state": "SAFE_STOP",
+      "final_mission_state": null,
+      "final_safety_state": "SAFE_STOP",
+      "fired_faults": [
+        "f-stale-lidar"
+      ],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 0,
+      "requirement_ids": [
+        "REQ-SAFE-001",
+        "REQ-SAFE-002",
+        "REQ-FAULT-001",
+        "REQ-FAULT-002"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-stale_lidar_restricted_mode",
+      "scenario_file": "stale_lidar_restricted_mode.json",
+      "scenario_id": "stale_lidar_restricted_mode",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=74",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=ACTIVE_DEGRADED",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 2 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "observed ('f-disagreement',)",
+          "errors": [],
+          "name": "fired_faults",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=80 clamped=65 zeroed=2 expired=0",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=3 final=ACTIVE_DEGRADED",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=74 transitions=3 mission_states=0",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": null,
+      "expected_safety_state": "ACTIVE_DEGRADED",
+      "final_mission_state": null,
+      "final_safety_state": "ACTIVE_DEGRADED",
+      "fired_faults": [
+        "f-disagreement"
+      ],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 0,
+      "requirement_ids": [
+        "REQ-SAFE-001",
+        "REQ-FAULT-001",
+        "REQ-FAULT-002"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-odometry_divergence_safe_stop",
+      "scenario_file": "odometry_divergence_safe_stop.json",
+      "scenario_id": "odometry_divergence_safe_stop",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=119",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=SAFE_STOP",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 3 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "observed ('f-cmd-timeout',)",
+          "errors": [],
+          "name": "fired_faults",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=80 clamped=0 zeroed=57 expired=0",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=3 final=SAFE_STOP",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=119 transitions=3 mission_states=0",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all safe-stop / e-stop commands zero",
+          "errors": [],
+          "name": "safe_stop_zero_motion",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": null,
+      "expected_safety_state": "SAFE_STOP",
+      "final_mission_state": null,
+      "final_safety_state": "SAFE_STOP",
+      "fired_faults": [
+        "f-cmd-timeout"
+      ],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 0,
+      "requirement_ids": [
+        "REQ-SAFE-001",
+        "REQ-SAFE-002",
+        "REQ-FAULT-001",
+        "REQ-FAULT-002"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-command_timeout_safe_stop",
+      "scenario_file": "command_timeout_safe_stop.json",
+      "scenario_id": "command_timeout_safe_stop",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=384",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=SAFE_STOP",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 2 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "observed ('f-bridge',)",
+          "errors": [],
+          "name": "fired_faults",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=80 clamped=4 zeroed=56 expired=0",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=4 final=SAFE_STOP",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=384 transitions=4 mission_states=0",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all safe-stop / e-stop commands zero",
+          "errors": [],
+          "name": "safe_stop_zero_motion",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": null,
+      "expected_safety_state": "SAFE_STOP",
+      "final_mission_state": null,
+      "final_safety_state": "SAFE_STOP",
+      "fired_faults": [
+        "f-bridge"
+      ],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 0,
+      "requirement_ids": [
+        "REQ-SAFE-001",
+        "REQ-SAFE-002",
+        "REQ-FAULT-001",
+        "REQ-FAULT-002"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-bridge_disconnect_safe_stop",
+      "scenario_file": "bridge_disconnect_safe_stop.json",
+      "scenario_id": "bridge_disconnect_safe_stop",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=73",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=ACTIVE_DEGRADED",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 2 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "observed ('f-imu-bias', 'f-slip')",
+          "errors": [],
+          "name": "fired_faults",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=60 clamped=45 zeroed=2 expired=0",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=3 final=ACTIVE_DEGRADED",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=73 transitions=3 mission_states=0",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": null,
+      "expected_safety_state": "ACTIVE_DEGRADED",
+      "final_mission_state": null,
+      "final_safety_state": "ACTIVE_DEGRADED",
+      "fired_faults": [
+        "f-imu-bias",
+        "f-slip"
+      ],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 0,
+      "requirement_ids": [
+        "REQ-SAFE-001",
+        "REQ-FAULT-001",
+        "REQ-FAULT-002"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-wheel_slip_degraded_mode",
+      "scenario_file": "wheel_slip_degraded_mode.json",
+      "scenario_id": "wheel_slip_degraded_mode",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=52",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=E_STOP_LATCHED",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 1 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=60 clamped=0 zeroed=47 expired=0",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=3 final=E_STOP_LATCHED",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=52 transitions=3 mission_states=0",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all safe-stop / e-stop commands zero",
+          "errors": [],
+          "name": "safe_stop_zero_motion",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": null,
+      "expected_safety_state": "E_STOP_LATCHED",
+      "final_mission_state": null,
+      "final_safety_state": "E_STOP_LATCHED",
+      "fired_faults": [],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 0,
+      "requirement_ids": [
+        "REQ-SAFE-003",
+        "REQ-OP-001"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-estop_latched_manual_reset_required",
+      "scenario_file": "estop_latched_manual_reset_required.json",
+      "scenario_id": "estop_latched_manual_reset_required",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=318",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=MISSION_COMPLETE",
+          "errors": [],
+          "name": "mission_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 2 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 1 absent",
+          "errors": [],
+          "name": "forbidden_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=300 clamped=0 zeroed=2 expired=4",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=2 final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=318 transitions=2 mission_states=3",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": "MISSION_COMPLETE",
+      "expected_safety_state": "ACTIVE_NORMAL",
+      "final_mission_state": "MISSION_COMPLETE",
+      "final_safety_state": "ACTIVE_NORMAL",
+      "fired_faults": [],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 1,
+      "requirement_ids": [
+        "REQ-SAFE-001",
+        "REQ-MISSION-001",
+        "REQ-REPLAY-001"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-nominal_waypoint_patrol",
+      "scenario_file": "nominal_waypoint_patrol.json",
+      "scenario_id": "nominal_waypoint_patrol",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=369",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=MISSION_ABORTED",
+          "errors": [],
+          "name": "mission_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 2 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "observed 4; expected at least 2",
+          "errors": [],
+          "name": "recovery_engagements",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=250 clamped=0 zeroed=2 expired=98",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=2 final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=369 transitions=2 mission_states=8",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": "MISSION_ABORTED",
+      "expected_safety_state": "ACTIVE_NORMAL",
+      "final_mission_state": "MISSION_ABORTED",
+      "final_safety_state": "ACTIVE_NORMAL",
+      "fired_faults": [],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 4,
+      "requirement_ids": [
+        "REQ-MISSION-001",
+        "REQ-MISSION-002"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-waypoint_timeout_recovery",
+      "scenario_file": "waypoint_timeout_recovery.json",
+      "scenario_id": "waypoint_timeout_recovery",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=323",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=ACTIVE_DEGRADED",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=MISSION_COMPLETE",
+          "errors": [],
+          "name": "mission_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 2 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "observed ('f-imu-bias',)",
+          "errors": [],
+          "name": "fired_faults",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=180 clamped=2 zeroed=2 expired=126",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=3 final=ACTIVE_DEGRADED",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=323 transitions=3 mission_states=3",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": "MISSION_COMPLETE",
+      "expected_safety_state": "ACTIVE_DEGRADED",
+      "final_mission_state": "MISSION_COMPLETE",
+      "final_safety_state": "ACTIVE_DEGRADED",
+      "fired_faults": [
+        "f-imu-bias"
+      ],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 1,
+      "requirement_ids": [
+        "REQ-MISSION-001",
+        "REQ-FAULT-001"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-degraded_sensor_navigation",
+      "scenario_file": "degraded_sensor_navigation.json",
+      "scenario_id": "degraded_sensor_navigation",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=235",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=MISSION_DEGRADED",
+          "errors": [],
+          "name": "mission_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 3 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=120 clamped=0 zeroed=2 expired=1",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=2 final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=235 transitions=2 mission_states=3",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": "MISSION_DEGRADED",
+      "expected_safety_state": "ACTIVE_NORMAL",
+      "final_mission_state": "MISSION_DEGRADED",
+      "final_safety_state": "ACTIVE_NORMAL",
+      "fired_faults": [],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 2,
+      "requirement_ids": [
+        "REQ-MISSION-001",
+        "REQ-WORLD-001"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-keepout_zone_violation",
+      "scenario_file": "keepout_zone_violation.json",
+      "scenario_id": "keepout_zone_violation",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=472",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=MISSION_COMPLETE",
+          "errors": [],
+          "name": "mission_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 1 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=250 clamped=0 zeroed=2 expired=82",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=2 final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=472 transitions=2 mission_states=3",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": "MISSION_COMPLETE",
+      "expected_safety_state": "ACTIVE_NORMAL",
+      "final_mission_state": "MISSION_COMPLETE",
+      "final_safety_state": "ACTIVE_NORMAL",
+      "fired_faults": [],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 1,
+      "requirement_ids": [
+        "REQ-SAFE-004",
+        "REQ-MISSION-001",
+        "REQ-WORLD-001"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-restricted_mode_navigation",
+      "scenario_file": "restricted_mode_navigation.json",
+      "scenario_id": "restricted_mode_navigation",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=479",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=SAFE_STOP",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=MISSION_DEGRADED",
+          "errors": [],
+          "name": "mission_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 3 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "observed ('f-stale-lidar',)",
+          "errors": [],
+          "name": "fired_faults",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=150 clamped=5 zeroed=105 expired=1",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=4 final=SAFE_STOP",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=479 transitions=4 mission_states=3",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all safe-stop / e-stop commands zero",
+          "errors": [],
+          "name": "safe_stop_zero_motion",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": "MISSION_DEGRADED",
+      "expected_safety_state": "SAFE_STOP",
+      "final_mission_state": "MISSION_DEGRADED",
+      "final_safety_state": "SAFE_STOP",
+      "fired_faults": [
+        "f-stale-lidar"
+      ],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 2,
+      "requirement_ids": [
+        "REQ-SAFE-002",
+        "REQ-MISSION-001",
+        "REQ-FAULT-001"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-safe_stop_during_active_mission",
+      "scenario_file": "safe_stop_during_active_mission.json",
+      "scenario_id": "safe_stop_during_active_mission",
+      "status": "passed"
+    },
+    {
+      "checks": [
+        {
+          "detail": "engine completed; events=358",
+          "errors": [],
+          "name": "execution",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "final=MISSION_ABORTED",
+          "errors": [],
+          "name": "mission_state",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "all 2 present",
+          "errors": [],
+          "name": "required_events",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "observed 5; expected at least 3",
+          "errors": [],
+          "name": "recovery_engagements",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "commands=250 clamped=0 zeroed=2 expired=83",
+          "errors": [],
+          "name": "command_path_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "transitions=2 final=ACTIVE_NORMAL",
+          "errors": [],
+          "name": "safety_transition_audit",
+          "status": "passed",
+          "warnings": []
+        },
+        {
+          "detail": "events=358 transitions=2 mission_states=10",
+          "errors": [],
+          "name": "replay_integrity",
+          "status": "passed",
+          "warnings": []
+        }
+      ],
+      "expected_mission_state": "MISSION_ABORTED",
+      "expected_safety_state": "ACTIVE_NORMAL",
+      "final_mission_state": "MISSION_ABORTED",
+      "final_safety_state": "ACTIVE_NORMAL",
+      "fired_faults": [],
+      "not_executed_reason": "",
+      "ok": true,
+      "recovery_engagement_count": 5,
+      "requirement_ids": [
+        "REQ-MISSION-002"
+      ],
+      "run_dir": "/tmp/p3-final-runs/verify-mission_abort_after_fault_escalation",
+      "scenario_file": "mission_abort_after_fault_escalation.json",
+      "scenario_id": "mission_abort_after_fault_escalation",
+      "status": "passed"
+    }
+  ],
+  "status_counts": {
+    "failed": 0,
+    "not_executed": 0,
+    "partial": 0,
+    "passed": 14,
+    "skipped": 0
+  }
+}

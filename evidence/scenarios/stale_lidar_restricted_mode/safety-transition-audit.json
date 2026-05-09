@@ -1,0 +1,31 @@
+{
+  "errors": [],
+  "final_state": "SAFE_STOP",
+  "ok": true,
+  "run_dir": "/tmp/p3-final-runs/verify-stale_lidar_restricted_mode",
+  "status": "passed",
+  "transition_count": 4,
+  "transitions": [
+    [
+      "BOOT",
+      "INACTIVE",
+      "boot_complete"
+    ],
+    [
+      "INACTIVE",
+      "ACTIVE_NORMAL",
+      "operator_activate"
+    ],
+    [
+      "ACTIVE_NORMAL",
+      "ACTIVE_DEGRADED",
+      "stale_lidar"
+    ],
+    [
+      "ACTIVE_DEGRADED",
+      "SAFE_STOP",
+      "stale_lidar"
+    ]
+  ],
+  "warnings": []
+}

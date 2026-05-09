@@ -1,0 +1,83 @@
+{
+  "checks": [
+    {
+      "detail": "engine completed; events=235",
+      "errors": [],
+      "name": "execution",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "final=ACTIVE_NORMAL",
+      "errors": [],
+      "name": "safety_state",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "final=MISSION_DEGRADED",
+      "errors": [],
+      "name": "mission_state",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "all 3 present",
+      "errors": [],
+      "name": "required_events",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "commands=120 clamped=0 zeroed=2 expired=1",
+      "errors": [],
+      "name": "command_path_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "transitions=2 final=ACTIVE_NORMAL",
+      "errors": [],
+      "name": "safety_transition_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "events=235 transitions=2 mission_states=3",
+      "errors": [],
+      "name": "replay_integrity",
+      "status": "passed",
+      "warnings": []
+    }
+  ],
+  "description": "Keepout violation triggers SAFE_STOP_ESCALATION recovery.",
+  "expected": {
+    "expected_fired_faults": [],
+    "expected_safe_stop_zero_motion": false,
+    "forbidden_event_types": [],
+    "min_recovery_engagements": 0,
+    "mission_state": "MISSION_DEGRADED",
+    "required_event_types": [
+      "world_model.keepout_pending",
+      "world_model.keepout_violation",
+      "mission_recovery.engaged"
+    ],
+    "safety_state": "ACTIVE_NORMAL"
+  },
+  "generated_at_utc": "2026-05-09T20:27:01+00:00",
+  "not_executed_reason": "",
+  "observed": {
+    "final_mission_state": "MISSION_DEGRADED",
+    "final_safety_state": "ACTIVE_NORMAL",
+    "fired_faults": [],
+    "recovery_engagement_count": 2,
+    "run_dir": "/tmp/p3-final-runs/verify-keepout_zone_violation"
+  },
+  "requirement_ids": [
+    "REQ-MISSION-001",
+    "REQ-WORLD-001"
+  ],
+  "scenario_file": "keepout_zone_violation.json",
+  "scenario_id": "keepout_zone_violation",
+  "status": "passed"
+}

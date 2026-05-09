@@ -1,0 +1,13 @@
+{
+  "clamped_count": 0,
+  "command_count": 250,
+  "errors": [],
+  "expired_count": 98,
+  "ok": true,
+  "rejected_count": 100,
+  "request_count": 150,
+  "run_dir": "/tmp/p3-final-runs/verify-waypoint_timeout_recovery",
+  "status": "passed",
+  "warnings": [],
+  "zeroed_count": 2
+}

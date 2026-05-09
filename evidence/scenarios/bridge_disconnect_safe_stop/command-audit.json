@@ -1,0 +1,13 @@
+{
+  "clamped_count": 4,
+  "command_count": 80,
+  "errors": [],
+  "expired_count": 0,
+  "ok": true,
+  "rejected_count": 56,
+  "request_count": 80,
+  "run_dir": "/tmp/p3-final-runs/verify-bridge_disconnect_safe_stop",
+  "status": "passed",
+  "warnings": [],
+  "zeroed_count": 56
+}

@@ -1,0 +1,81 @@
+{
+  "checks": [
+    {
+      "detail": "engine completed; events=52",
+      "errors": [],
+      "name": "execution",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "final=E_STOP_LATCHED",
+      "errors": [],
+      "name": "safety_state",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "all 1 present",
+      "errors": [],
+      "name": "required_events",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "commands=60 clamped=0 zeroed=47 expired=0",
+      "errors": [],
+      "name": "command_path_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "transitions=3 final=E_STOP_LATCHED",
+      "errors": [],
+      "name": "safety_transition_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "events=52 transitions=3 mission_states=0",
+      "errors": [],
+      "name": "replay_integrity",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "all safe-stop / e-stop commands zero",
+      "errors": [],
+      "name": "safe_stop_zero_motion",
+      "status": "passed",
+      "warnings": []
+    }
+  ],
+  "description": "Operator E-stop latches and does not self-clear.",
+  "expected": {
+    "expected_fired_faults": [],
+    "expected_safe_stop_zero_motion": true,
+    "forbidden_event_types": [],
+    "min_recovery_engagements": 0,
+    "mission_state": null,
+    "required_event_types": [
+      "safety_transition.entered"
+    ],
+    "safety_state": "E_STOP_LATCHED"
+  },
+  "generated_at_utc": "2026-05-09T20:27:01+00:00",
+  "not_executed_reason": "",
+  "observed": {
+    "final_mission_state": null,
+    "final_safety_state": "E_STOP_LATCHED",
+    "fired_faults": [],
+    "recovery_engagement_count": 0,
+    "run_dir": "/tmp/p3-final-runs/verify-estop_latched_manual_reset_required"
+  },
+  "requirement_ids": [
+    "REQ-SAFE-003",
+    "REQ-OP-001"
+  ],
+  "scenario_file": "estop_latched_manual_reset_required.json",
+  "scenario_id": "estop_latched_manual_reset_required",
+  "status": "passed"
+}

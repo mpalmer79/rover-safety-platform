@@ -1,0 +1,95 @@
+{
+  "checks": [
+    {
+      "detail": "engine completed; events=384",
+      "errors": [],
+      "name": "execution",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "final=SAFE_STOP",
+      "errors": [],
+      "name": "safety_state",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "all 2 present",
+      "errors": [],
+      "name": "required_events",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "observed ('f-bridge',)",
+      "errors": [],
+      "name": "fired_faults",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "commands=80 clamped=4 zeroed=56 expired=0",
+      "errors": [],
+      "name": "command_path_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "transitions=4 final=SAFE_STOP",
+      "errors": [],
+      "name": "safety_transition_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "events=384 transitions=4 mission_states=0",
+      "errors": [],
+      "name": "replay_integrity",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "all safe-stop / e-stop commands zero",
+      "errors": [],
+      "name": "safe_stop_zero_motion",
+      "status": "passed",
+      "warnings": []
+    }
+  ],
+  "description": "Bridge disconnect; multi-stream freshness violation.",
+  "expected": {
+    "expected_fired_faults": [
+      "f-bridge"
+    ],
+    "expected_safe_stop_zero_motion": true,
+    "forbidden_event_types": [],
+    "min_recovery_engagements": 0,
+    "mission_state": null,
+    "required_event_types": [
+      "fault_injection.fired",
+      "safety_transition.entered"
+    ],
+    "safety_state": "SAFE_STOP"
+  },
+  "generated_at_utc": "2026-05-09T20:27:01+00:00",
+  "not_executed_reason": "",
+  "observed": {
+    "final_mission_state": null,
+    "final_safety_state": "SAFE_STOP",
+    "fired_faults": [
+      "f-bridge"
+    ],
+    "recovery_engagement_count": 0,
+    "run_dir": "/tmp/p3-final-runs/verify-bridge_disconnect_safe_stop"
+  },
+  "requirement_ids": [
+    "REQ-SAFE-001",
+    "REQ-SAFE-002",
+    "REQ-FAULT-001",
+    "REQ-FAULT-002"
+  ],
+  "scenario_file": "bridge_disconnect_safe_stop.json",
+  "scenario_id": "bridge_disconnect_safe_stop",
+  "status": "passed"
+}

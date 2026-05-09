@@ -1,0 +1,276 @@
+# Events summary
+
+Source: `/tmp/p3-final-runs/verify-safe_stop_during_active_mission/events.jsonl`
+
+## Safety transitions
+- `t=0ms` `safety_transition.entered` reason `boot_complete` safety=`INACTIVE` — BOOT -> INACTIVE: boot complete; awaiting activation
+- `t=200ms` `safety_transition.entered` reason `operator_activate` safety=`ACTIVE_NORMAL` — INACTIVE -> ACTIVE_NORMAL: operator activation accepted
+- `t=4200ms` `safety_transition.entered` reason `stale_lidar` safety=`ACTIVE_DEGRADED` — ACTIVE_NORMAL -> ACTIVE_DEGRADED: degraded inputs detected
+- `t=4700ms` `safety_transition.entered` reason `stale_lidar` safety=`SAFE_STOP` — ACTIVE_DEGRADED -> SAFE_STOP: stale or missing required input
+
+## Mission lifecycle
+- `t=200ms` `mission_lifecycle.entered` reason `operator_start` safety=`INACTIVE` — MISSION_IDLE -> MISSION_PREPARING: operator requested mission start
+- `t=300ms` `mission_lifecycle.entered` reason `preparing_complete` safety=`ACTIVE_NORMAL` — MISSION_PREPARING -> MISSION_ACTIVE: mission preparation complete
+- `t=4800ms` `mission_lifecycle.entered` reason `safety_state_inhibits_motion` safety=`SAFE_STOP` — MISSION_ACTIVE -> MISSION_DEGRADED: recovery follows supervisor: safety_state_inhibits_motion
+
+## Mission waypoint events
+_None._
+
+## Mission recovery events
+- `t=0ms` `mission_recovery.engaged` reason `safety_state_inhibits_motion` safety=`BOOT` — recovery follows supervisor: safety_state_inhibits_motion
+- `t=300ms` `mission_recovery.cleared` reason `recovery_cleared` safety=`ACTIVE_NORMAL` — recovery cleared: safe_stop_escalation
+- `t=4800ms` `mission_recovery.engaged` reason `safety_state_inhibits_motion` safety=`SAFE_STOP` — recovery follows supervisor: safety_state_inhibits_motion
+
+## World model events
+- `t=0ms` `world_model.obstacle_near` reason `obstacle_near` safety=`BOOT` — forward obstacle within 0.30 m
+- `t=100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`INACTIVE` — forward obstacle within 0.30 m
+- `t=200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`INACTIVE` — forward obstacle within 0.30 m
+- `t=300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=400ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=600ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=800ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=1000ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=1100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=1200ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=1300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=1400ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=1500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=1600ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=1700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=1800ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=1900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=2000ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=2100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=2200ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=2300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=2400ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=2500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=2600ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=2700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=2800ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=2900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=3000ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=3100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=3200ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=3300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=3400ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=3500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=3600ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=3700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=3800ms` `world_model.obstacle_blocking` reason `obstacle_blocking` safety=`ACTIVE_NORMAL` — forward obstacle within 0.26 m
+- `t=3900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=4000ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=4100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=4200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_NORMAL` — forward obstacle within 0.30 m
+- `t=4300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_DEGRADED` — forward obstacle within 0.30 m
+- `t=4400ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_DEGRADED` — forward obstacle within 0.30 m
+- `t=4500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_DEGRADED` — forward obstacle within 0.30 m
+- `t=4600ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_DEGRADED` — forward obstacle within 0.30 m
+- `t=4700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`ACTIVE_DEGRADED` — forward obstacle within 0.30 m
+- `t=4800ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=4900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=5000ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=5100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=5200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=5300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=5400ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=5500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=5600ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=5700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=5800ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=5900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=6000ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=6100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=6200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=6300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=6400ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=6500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=6600ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=6700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=6800ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=6900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=7000ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=7100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=7200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=7300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=7400ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=7500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=7600ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=7700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=7800ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=7900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=8000ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=8100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=8200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=8300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=8400ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=8500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=8600ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=8700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=8800ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=8900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=9000ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=9100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=9200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=9300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=9400ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=9500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=9600ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=9700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=9800ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=9900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=10000ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=10100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=10200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=10300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=10400ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=10500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=10600ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=10700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=10800ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=10900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=11000ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=11100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=11200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=11300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=11400ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=11500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=11600ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=11700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=11800ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=11900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=12000ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=12100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=12200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=12300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=12400ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=12500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=12600ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=12700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=12800ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=12900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=13000ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=13100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=13200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=13300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=13400ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=13500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=13600ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=13700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=13800ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=13900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=14000ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=14100ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=14200ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=14300ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=14400ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=14500ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=14600ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=14700ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=14800ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+- `t=14900ms` `world_model.obstacle_near` reason `obstacle_near` safety=`SAFE_STOP` — forward obstacle within 0.30 m
+
+## Fault lifecycle
+- `t=0ms` `fault_injection.armed` reason `fault_armed` safety=`BOOT` — fault armed: f-stale-lidar (stale_lidar)
+- `t=4000ms` `fault_injection.fired` reason `fault_fired` safety=`BOOT` — fault fired: f-stale-lidar (stale_lidar)
+
+## Watchdogs
+- `t=5400ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=5500ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=5600ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=5700ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=5800ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=5900ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=6000ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=6100ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=6200ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=6300ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=6400ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=6500ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=6600ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=6700ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=6800ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=6900ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=7000ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=7100ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=7200ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=7300ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=7400ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=7500ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=7600ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=7700ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=7800ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=7900ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=8000ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=8100ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=8200ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=8300ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=8400ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=8500ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=8600ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=8700ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=8800ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=8900ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=9000ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=9100ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=9200ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=9300ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=9400ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=9500ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=9600ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=9700ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=9800ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=9900ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=10000ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=10100ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=10200ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=10300ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=10400ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=10500ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=10600ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=10700ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=10800ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=10900ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=11000ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=11100ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=11200ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=11300ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=11400ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=11500ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=11600ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=11700ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=11800ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=11900ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=12000ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=12100ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=12200ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=12300ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=12400ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=12500ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=12600ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=12700ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=12800ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=12900ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=13000ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=13100ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=13200ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=13300ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=13400ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=13500ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=13600ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=13700ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=13800ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=13900ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=14000ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=14100ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=14200ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=14300ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=14400ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=14500ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=14600ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=14700ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=14800ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness
+- `t=14900ms` `watchdog.expired` reason `stale_lidar` safety=`SAFE_STOP` — watchdog expired: lidar_freshness

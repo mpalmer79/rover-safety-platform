@@ -1,0 +1,15 @@
+{
+  "base_replay_ok": true,
+  "errors": [],
+  "event_count": 369,
+  "events_ok": true,
+  "final_mission_state": "MISSION_ABORTED",
+  "mission_ok": true,
+  "mission_state_count": 8,
+  "ok": true,
+  "run_dir": "/tmp/p3-final-runs/verify-waypoint_timeout_recovery",
+  "status": "passed",
+  "transition_count": 2,
+  "warnings": [],
+  "waypoints_completed": []
+}

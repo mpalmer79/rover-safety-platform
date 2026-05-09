@@ -1,0 +1,13 @@
+{
+  "clamped_count": 0,
+  "command_count": 80,
+  "errors": [],
+  "expired_count": 0,
+  "ok": true,
+  "rejected_count": 57,
+  "request_count": 80,
+  "run_dir": "/tmp/p3-final-runs/verify-command_timeout_safe_stop",
+  "status": "passed",
+  "warnings": [],
+  "zeroed_count": 57
+}

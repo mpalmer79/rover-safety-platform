@@ -1,0 +1,17 @@
+{
+  "base_replay_ok": true,
+  "errors": [],
+  "event_count": 472,
+  "events_ok": true,
+  "final_mission_state": "MISSION_COMPLETE",
+  "mission_ok": true,
+  "mission_state_count": 3,
+  "ok": true,
+  "run_dir": "/tmp/p3-final-runs/verify-restricted_mode_navigation",
+  "status": "passed",
+  "transition_count": 2,
+  "warnings": [],
+  "waypoints_completed": [
+    "w_through_zone"
+  ]
+}

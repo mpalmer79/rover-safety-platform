@@ -1,0 +1,13 @@
+{
+  "clamped_count": 0,
+  "command_count": 120,
+  "errors": [],
+  "expired_count": 1,
+  "ok": true,
+  "rejected_count": 3,
+  "request_count": 117,
+  "run_dir": "/tmp/p3-final-runs/verify-keepout_zone_violation",
+  "status": "passed",
+  "warnings": [],
+  "zeroed_count": 2
+}

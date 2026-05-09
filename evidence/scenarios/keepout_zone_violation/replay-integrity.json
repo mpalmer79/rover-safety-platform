@@ -1,0 +1,15 @@
+{
+  "base_replay_ok": true,
+  "errors": [],
+  "event_count": 235,
+  "events_ok": true,
+  "final_mission_state": "MISSION_DEGRADED",
+  "mission_ok": true,
+  "mission_state_count": 3,
+  "ok": true,
+  "run_dir": "/tmp/p3-final-runs/verify-keepout_zone_violation",
+  "status": "passed",
+  "transition_count": 2,
+  "warnings": [],
+  "waypoints_completed": []
+}

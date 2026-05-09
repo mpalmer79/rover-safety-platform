@@ -42,7 +42,8 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 1B — ROS 2 + Gazebo Harmonic Simulation Bringup | Implemented under `rover_ws/` (static-validation tests pass; end-to-end Gazebo launch requires a Jazzy host — see `rover_ws/tests/manual.md`) |
 | Phase 1C — Runtime Validation, Operational Hardening, and Integration Verification | Implemented; see section 3c |
 | Phase 2 — Mission Runtime & Deterministic Navigation Orchestration | Implemented; see section 3d |
-| Phase 3 — Safety Supervision and Degraded Modes (ROS 2) | Pending |
+| Phase 3 — Verification, Scenario Certification, and Evidence Generation | Implemented; see section 3e |
+| Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 4 — Replay, Telemetry, and Incident Reconstruction (ROS 2 / Foxglove) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -546,6 +547,123 @@ packages (`rover_mission_runtime`, `rover_world_model`,
   contracts (only the supervisor authorises motion; only the gateway
   consumes authorised motion; only the bridge YAML forwards it to
   Gazebo).
+
+---
+
+## 3e. Phase 3: Verification, Scenario Certification, and Evidence Generation
+
+### Status
+
+Implemented. See `backend/app/verification/`,
+`tools/audit_*.py`, `tools/verify_replay_integrity.py`,
+`tools/generate_evidence.py`, `tools/generate_traceability.py`,
+`tools/generate_verification_report.py`,
+[`docs/VERIFICATION_STRATEGY.md`](VERIFICATION_STRATEGY.md),
+[`docs/TRACEABILITY_MATRIX.md`](TRACEABILITY_MATRIX.md), and
+[`docs/SCENARIO_VERIFICATION_REPORT.md`](SCENARIO_VERIFICATION_REPORT.md).
+
+### Objectives
+
+- Convert the platform from "implemented systems" into "engineering
+  evidence". Every safety-critical guarantee is bound to a stable
+  `REQ-*` ID, an architecture reference, an implementation, a test,
+  a scenario, and an evidence artefact.
+- Reuse — not replace — the Phase 1C / Phase 2 validators
+  (`replay_validator`, `mission_validator`, `safety_pipeline_validator`,
+  scenario suite). Phase 3 composes them into a verification surface
+  that distinguishes ``passed``, ``failed``, ``partial``, ``skipped``,
+  and ``not_executed``.
+- Produce reproducible artefacts (JSON + Markdown) that a reviewer
+  can scrub through to understand what was checked, where the
+  evidence is, and what is intentionally out of scope.
+
+### Deliverables
+
+- `backend/app/verification/` — nine modules:
+  - `acceptance.py` (status vocabulary + aggregation),
+  - `requirements.py` (13 stable `REQ-*` requirements with
+    architecture / implementation / test / scenario bindings),
+  - `command_audit.py` (audits `commands.jsonl` against the safety
+    contract: source provenance, forced-zero states, per-state
+    limit envelopes, expired-request handling),
+  - `safety_audit.py` (audits `events.jsonl` safety transitions
+    against `app.safety.transitions`; enforces `E_STOP_LATCHED`
+    and `SAFE_STOP` outbound restrictions),
+  - `replay_integrity.py` (Phase 3 wrapper around the Phase 1C +
+    Phase 2 validators),
+  - `scenario_verifier.py` (per-scenario expectations + verifier),
+  - `evidence.py` (per-scenario artefact directory + Markdown
+    summary + events timeline),
+  - `traceability.py` (registry-driven matrix to JSON + Markdown),
+  - `report_generator.py` (`docs/SCENARIO_VERIFICATION_REPORT.md`).
+- `tools/` — six new CLIs:
+  - `audit_command_path.py`,
+  - `audit_safety_transitions.py`,
+  - `verify_replay_integrity.py`,
+  - `generate_evidence.py`,
+  - `generate_traceability.py`,
+  - `generate_verification_report.py`.
+- `verification/traceability.json`, `verification/verification_report.json`,
+  `evidence/scenarios/<id>/...` — artefacts checked into the repo on
+  the latest deterministic-engine run.
+- `docs/VERIFICATION_STRATEGY.md`, `docs/TRACEABILITY_MATRIX.md`,
+  `docs/SCENARIO_VERIFICATION_REPORT.md`.
+- New backend tests: `test_requirements_registry.py`,
+  `test_command_audit.py`, `test_safety_audit.py`,
+  `test_scenario_verifier.py`, `test_evidence_and_traceability.py`.
+
+### Acceptance Criteria
+
+- Requirement registry exists with at least one requirement per
+  category and stable IDs (REQ-SAFE-*, REQ-FAULT-*, REQ-REPLAY-*,
+  REQ-MISSION-*, REQ-WORLD-*, REQ-DIAG-*, REQ-OP-*).
+- Traceability matrix is generated from the registry plus a real
+  verification run; every requirement appears once with status.
+- Scenario verifier runs every Phase 1C / Phase 2 scenario and
+  produces a `ScenarioVerification` with at least 8 checks each.
+- Evidence directories are written per scenario with the documented
+  artefact set.
+- Command-path audit, safety-transition audit, and replay-integrity
+  verifier all run as standalone tools and from inside the
+  scenario verifier.
+- Report distinguishes `passed`, `failed`, `partial`, `skipped`,
+  and `not_executed` and surfaces failed-check details + known
+  limitations.
+- Tests cover the verification infrastructure (48 new tests).
+- Safety authority model remains intact: the scenario verifier's
+  `command_path_audit` would fail any scenario that bypasses the
+  supervisor.
+
+### Risks
+
+- The verification layer reads only the deterministic engine's
+  artefacts. ROS 2 / Gazebo runs on a Jazzy host produce
+  interchangeable run directories that pass the same verifiers, but
+  this Phase 3 implementation does not invoke those runs in CI; the
+  Jazzy procedure stays in `rover_ws/tests/manual.md`.
+- Requirements coverage is bounded by the requirement registry. A
+  guarantee that has no `REQ-*` ID is invisible to the matrix; the
+  registry must be expanded as the platform grows.
+- The report's "passed" status reflects scenarios + tests only.
+  Architecture, ADRs, and design rationale remain narrative
+  documents; they are referenced but not parsed.
+
+### Deferred Work
+
+- Live launch-based ROS 2 verification in CI (still requires a
+  Jazzy host).
+- Foxglove-driven evidence: video / topic captures attached to
+  evidence directories.
+- Long-running soak scenarios.
+- Cross-build artefact comparison (Phase 4 candidate).
+
+### Portfolio Signal
+
+- Demonstrates verification discipline appropriate for a
+  safety-oriented robotics codebase: every guarantee has an ID, a
+  test, a scenario, and an evidence artefact.
+- Demonstrates honest reporting: skipped and not-executed checks
+  are surfaced; the report explicitly disclaims certification.
 
 ---
 

@@ -1,0 +1,87 @@
+{
+  "checks": [
+    {
+      "detail": "engine completed; events=74",
+      "errors": [],
+      "name": "execution",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "final=ACTIVE_DEGRADED",
+      "errors": [],
+      "name": "safety_state",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "all 2 present",
+      "errors": [],
+      "name": "required_events",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "observed ('f-disagreement',)",
+      "errors": [],
+      "name": "fired_faults",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "commands=80 clamped=65 zeroed=2 expired=0",
+      "errors": [],
+      "name": "command_path_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "transitions=3 final=ACTIVE_DEGRADED",
+      "errors": [],
+      "name": "safety_transition_audit",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "events=74 transitions=3 mission_states=0",
+      "errors": [],
+      "name": "replay_integrity",
+      "status": "passed",
+      "warnings": []
+    }
+  ],
+  "description": "Encoder/IMU disagreement; ACTIVE_DEGRADED.",
+  "expected": {
+    "expected_fired_faults": [
+      "f-disagreement"
+    ],
+    "expected_safe_stop_zero_motion": false,
+    "forbidden_event_types": [],
+    "min_recovery_engagements": 0,
+    "mission_state": null,
+    "required_event_types": [
+      "fault_injection.fired",
+      "safety_transition.entered"
+    ],
+    "safety_state": "ACTIVE_DEGRADED"
+  },
+  "generated_at_utc": "2026-05-09T20:27:01+00:00",
+  "not_executed_reason": "",
+  "observed": {
+    "final_mission_state": null,
+    "final_safety_state": "ACTIVE_DEGRADED",
+    "fired_faults": [
+      "f-disagreement"
+    ],
+    "recovery_engagement_count": 0,
+    "run_dir": "/tmp/p3-final-runs/verify-odometry_divergence_safe_stop"
+  },
+  "requirement_ids": [
+    "REQ-SAFE-001",
+    "REQ-FAULT-001",
+    "REQ-FAULT-002"
+  ],
+  "scenario_file": "odometry_divergence_safe_stop.json",
+  "scenario_id": "odometry_divergence_safe_stop",
+  "status": "passed"
+}

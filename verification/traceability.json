@@ -1,0 +1,363 @@
+{
+  "generated_at_utc": "2026-05-09T20:27:03+00:00",
+  "overall_status": "passed",
+  "row_count": 13,
+  "rows": [
+    {
+      "architecture_refs": [
+        "ARCHITECTURE.md#2-2-safety-centric-autonomy",
+        "docs/SAFETY_MODEL.md#3-motion-authorization-rules",
+        "docs/adr/ADR-004-safety-supervisor-authority-model.md"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/nominal_run/evidence.json",
+        "evidence/scenarios/nominal_waypoint_patrol/evidence.json",
+        "evidence/scenarios/stale_lidar_restricted_mode/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/app/safety/supervisor.py",
+        "backend/app/safety/arbitration.py",
+        "rover_ws/src/rover_safety_bridge/rover_safety_bridge/safety_bridge_node.py"
+      ],
+      "kind": "safety",
+      "requirement_id": "REQ-SAFE-001",
+      "scenario_refs": [
+        "nominal_run",
+        "nominal_waypoint_patrol",
+        "stale_lidar_restricted_mode"
+      ],
+      "status": "passed",
+      "status_detail": "3 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_simulation_engine.py::test_supervisor_is_only_publisher_of_authorized_motion",
+        "backend/tests/test_validation_module.py::test_validate_safety_pipeline",
+        "backend/tests/test_orchestrator.py::test_orchestrator_does_not_construct_authorized_motion",
+        "rover_ws/tests/test_node_modules.py::test_safety_bridge_node_only_publishes_authorized",
+        "rover_ws/tests/test_mission_runtime_packages.py::test_nav2_clamp_does_not_subscribe_to_authorized"
+      ],
+      "title": "Motion authority is centralised on the safety supervisor"
+    },
+    {
+      "architecture_refs": [
+        "docs/SAFETY_MODEL.md#9-safe-stop-semantics"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/stale_lidar_restricted_mode/evidence.json",
+        "evidence/scenarios/command_timeout_safe_stop/evidence.json",
+        "evidence/scenarios/bridge_disconnect_safe_stop/evidence.json",
+        "evidence/scenarios/safe_stop_during_active_mission/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/app/safety/arbitration.py",
+        "backend/app/safety/supervisor.py"
+      ],
+      "kind": "safety",
+      "requirement_id": "REQ-SAFE-002",
+      "scenario_refs": [
+        "stale_lidar_restricted_mode",
+        "command_timeout_safe_stop",
+        "bridge_disconnect_safe_stop",
+        "safe_stop_during_active_mission"
+      ],
+      "status": "passed",
+      "status_detail": "4 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_motion_arbitration.py::test_safe_stop_forces_zero",
+        "rover_ws/tests/test_safety_bridge_core.py::test_safe_stop_zeros_motion",
+        "backend/tests/test_validation_module.py::test_validate_safety_pipeline"
+      ],
+      "title": "SAFE_STOP forces zero authorized motion"
+    },
+    {
+      "architecture_refs": [
+        "docs/SAFETY_MODEL.md#10-e-stop-latch-semantics"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/estop_latched_manual_reset_required/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/app/safety/supervisor.py"
+      ],
+      "kind": "safety",
+      "requirement_id": "REQ-SAFE-003",
+      "scenario_refs": [
+        "estop_latched_manual_reset_required"
+      ],
+      "status": "passed",
+      "status_detail": "1 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_safety_transitions.py::test_estop_latched_only_to_recovery",
+        "backend/tests/test_simulation_engine.py::test_estop_does_not_self_clear",
+        "rover_ws/tests/test_safety_bridge_core.py::test_estop_latches_until_explicit_reset"
+      ],
+      "title": "E_STOP_LATCHED requires explicit operator reset"
+    },
+    {
+      "architecture_refs": [
+        "docs/ODD.md#6-operational-limits",
+        "docs/SAFETY_MODEL.md#3-motion-authorization-rules"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/restricted_mode_navigation/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/app/safety/arbitration.py"
+      ],
+      "kind": "safety",
+      "requirement_id": "REQ-SAFE-004",
+      "scenario_refs": [
+        "restricted_mode_navigation"
+      ],
+      "status": "passed",
+      "status_detail": "1 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_motion_arbitration.py::test_active_restricted_clamps_more_aggressively",
+        "backend/tests/test_motion_arbitration.py::test_active_normal_clamps_overspeed"
+      ],
+      "title": "Restricted-mode authorized motion is clamped to per-state limits"
+    },
+    {
+      "architecture_refs": [
+        "docs/FAULT_INJECTION.md#2-1-faults-alter-inputs-and-timing-not-safety-state"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/stale_lidar_restricted_mode/evidence.json",
+        "evidence/scenarios/odometry_divergence_safe_stop/evidence.json",
+        "evidence/scenarios/bridge_disconnect_safe_stop/evidence.json",
+        "evidence/scenarios/wheel_slip_degraded_mode/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/app/faults/injector.py"
+      ],
+      "kind": "fault",
+      "requirement_id": "REQ-FAULT-001",
+      "scenario_refs": [
+        "stale_lidar_restricted_mode",
+        "odometry_divergence_safe_stop",
+        "bridge_disconnect_safe_stop",
+        "wheel_slip_degraded_mode"
+      ],
+      "status": "passed",
+      "status_detail": "4 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_fault_injection.py::test_injector_does_not_emit_safety_transitions",
+        "backend/tests/test_simulation_engine.py::test_fault_injection_does_not_emit_safety_transitions",
+        "backend/tests/test_validation_module.py::test_validate_safety_pipeline"
+      ],
+      "title": "Fault injection alters inputs only; never sets safety state"
+    },
+    {
+      "architecture_refs": [
+        "docs/FAULT_INJECTION.md#4-supported-mvp-fault-classes"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/stale_lidar_restricted_mode/evidence.json",
+        "evidence/scenarios/odometry_divergence_safe_stop/evidence.json",
+        "evidence/scenarios/command_timeout_safe_stop/evidence.json",
+        "evidence/scenarios/bridge_disconnect_safe_stop/evidence.json",
+        "evidence/scenarios/wheel_slip_degraded_mode/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/scenarios/"
+      ],
+      "kind": "fault",
+      "requirement_id": "REQ-FAULT-002",
+      "scenario_refs": [
+        "stale_lidar_restricted_mode",
+        "odometry_divergence_safe_stop",
+        "command_timeout_safe_stop",
+        "bridge_disconnect_safe_stop",
+        "wheel_slip_degraded_mode"
+      ],
+      "status": "passed",
+      "status_detail": "5 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_scenario_suite.py::test_full_suite_passes"
+      ],
+      "title": "Every supported fault class has a corresponding scenario"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_SYSTEM.md#9-storage-layout",
+        "docs/EVENT_MODEL.md#3-event-envelope-schema"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/nominal_run/evidence.json",
+        "evidence/scenarios/stale_lidar_restricted_mode/evidence.json",
+        "evidence/scenarios/nominal_waypoint_patrol/evidence.json",
+        "evidence/scenarios/keepout_zone_violation/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/app/telemetry/run_recorder.py",
+        "backend/app/replay/recorder.py"
+      ],
+      "kind": "replay",
+      "requirement_id": "REQ-REPLAY-001",
+      "scenario_refs": [
+        "nominal_run",
+        "stale_lidar_restricted_mode",
+        "nominal_waypoint_patrol",
+        "keepout_zone_violation"
+      ],
+      "status": "passed",
+      "status_detail": "4 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_replay_recorder.py::test_run_directory_layout",
+        "backend/tests/test_validation_module.py::test_validate_run_directory_on_real_run",
+        "backend/tests/test_mission_replay.py::test_mission_run_directory_has_phase2_artefacts"
+      ],
+      "title": "Every scenario run emits replayable event artefacts"
+    },
+    {
+      "architecture_refs": [
+        "docs/EVENT_MODEL.md#8-event-ordering-rules"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/nominal_run/evidence.json",
+        "evidence/scenarios/stale_lidar_restricted_mode/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/app/validation/replay_validator.py"
+      ],
+      "kind": "replay",
+      "requirement_id": "REQ-REPLAY-002",
+      "scenario_refs": [
+        "nominal_run",
+        "stale_lidar_restricted_mode"
+      ],
+      "status": "passed",
+      "status_detail": "2 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_validation_module.py::test_validate_run_directory_on_real_run"
+      ],
+      "title": "Per-producer event ordering is monotonic in sim_time_ns"
+    },
+    {
+      "architecture_refs": [
+        "ARCHITECTURE.md#15c-mission-runtime-and-bounded-navigation-phase-2",
+        "docs/ROADMAP.md#3d-phase-2-mission-runtime-deterministic-navigation-orchestration"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/nominal_waypoint_patrol/evidence.json",
+        "evidence/scenarios/waypoint_timeout_recovery/evidence.json",
+        "evidence/scenarios/keepout_zone_violation/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/app/mission/orchestrator.py",
+        "rover_ws/src/rover_mission_runtime/rover_mission_runtime/mission_node.py",
+        "rover_ws/src/rover_mission_runtime/rover_mission_runtime/nav2_velocity_clamp.py"
+      ],
+      "kind": "mission",
+      "requirement_id": "REQ-MISSION-001",
+      "scenario_refs": [
+        "nominal_waypoint_patrol",
+        "waypoint_timeout_recovery",
+        "keepout_zone_violation"
+      ],
+      "status": "passed",
+      "status_detail": "3 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_orchestrator.py::test_orchestrator_does_not_construct_authorized_motion",
+        "rover_ws/tests/test_mission_runtime_packages.py::test_mission_node_publishes_only_cmd_vel_requested",
+        "rover_ws/tests/test_mission_runtime_packages.py::test_nav2_clamp_does_not_subscribe_to_authorized"
+      ],
+      "title": "Mission runtime requests motion but never authorises it"
+    },
+    {
+      "architecture_refs": [
+        "docs/ROADMAP.md#3d-phase-2-mission-runtime-deterministic-navigation-orchestration"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/waypoint_timeout_recovery/evidence.json",
+        "evidence/scenarios/mission_abort_after_fault_escalation/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/app/mission/recovery.py",
+        "backend/app/mission/orchestrator.py"
+      ],
+      "kind": "mission",
+      "requirement_id": "REQ-MISSION-002",
+      "scenario_refs": [
+        "waypoint_timeout_recovery",
+        "mission_abort_after_fault_escalation"
+      ],
+      "status": "passed",
+      "status_detail": "2 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_recovery_policy.py::test_attempts_exceeded_engages_mission_abort",
+        "backend/tests/test_recovery_policy.py::test_mission_abort_is_terminal",
+        "backend/tests/test_mission_replay.py::test_recovery_events_recorded_when_mission_aborts"
+      ],
+      "title": "Recovery is bounded and terminates in MISSION_ABORT"
+    },
+    {
+      "architecture_refs": [
+        "ARCHITECTURE.md#15c-mission-runtime-and-bounded-navigation-phase-2"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/keepout_zone_violation/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/app/world_model/world_model.py",
+        "backend/app/mission/orchestrator.py",
+        "backend/app/mission/recovery.py"
+      ],
+      "kind": "world",
+      "requirement_id": "REQ-WORLD-001",
+      "scenario_refs": [
+        "keepout_zone_violation"
+      ],
+      "status": "passed",
+      "status_detail": "1 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_world_model.py::test_world_model_emits_keepout_violation_hazard",
+        "backend/tests/test_recovery_policy.py::test_keepout_violation_escalates_to_safe_stop_escalation"
+      ],
+      "title": "Keepout violations emit events and constrain mission behavior"
+    },
+    {
+      "architecture_refs": [
+        "ARCHITECTURE.md#15b-runtime-validation-and-diagnostics-phase-1c"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/diagnostics/topic_monitor.py",
+        "backend/app/diagnostics/bridge_health.py",
+        "rover_ws/src/rover_runtime_diagnostics/"
+      ],
+      "kind": "diagnostics",
+      "requirement_id": "REQ-DIAG-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_diagnostics_core.py::test_observed_topic_starts_fresh_then_goes_warn_then_error",
+        "backend/tests/test_diagnostics_core.py::test_bridge_monitor_unadvertised_topic_is_error"
+      ],
+      "title": "Runtime diagnostics report subsystem health without owning safety"
+    },
+    {
+      "architecture_refs": [
+        "docs/SAFETY_MODEL.md#10-e-stop-latch-semantics"
+      ],
+      "evidence_paths": [
+        "evidence/scenarios/estop_latched_manual_reset_required/evidence.json"
+      ],
+      "implementation_refs": [
+        "backend/app/safety/supervisor.py"
+      ],
+      "kind": "operator",
+      "requirement_id": "REQ-OP-001",
+      "scenario_refs": [
+        "estop_latched_manual_reset_required"
+      ],
+      "status": "passed",
+      "status_detail": "1 scenario(s) verified",
+      "test_refs": [
+        "backend/tests/test_simulation_engine.py::test_estop_scenario_latches",
+        "rover_ws/tests/test_safety_bridge_core.py::test_estop_latches_until_explicit_reset"
+      ],
+      "title": "Operator E-stop transitions to E_STOP_LATCHED on the same tick"
+    }
+  ]
+}
