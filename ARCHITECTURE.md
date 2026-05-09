@@ -753,6 +753,41 @@ the architectural centre.
 
 ---
 
+# 15b. Runtime Validation and Diagnostics (Phase 1C)
+
+Phase 1C adds two reinforcing layers to the architecture without
+changing it.
+
+**Static + behavioural validators** under `backend/app/validation/`
+encode every architectural invariant that has so far been enforced by
+documentation. Each validator has a CLI runner under `tools/` and a
+pytest test under `backend/tests/`. The validators cover:
+
+- the ros_gz_bridge YAML (only `/cmd_vel_authorized` is bridged
+  ROS_TO_GZ on a motion topic),
+- the URDF / TF graph (required frames present, single root, no
+  orphans),
+- the canonical event envelope (every line in `events.jsonl`),
+- the run directory layout (every required artefact, per-producer
+  ordering, linked-event resolution),
+- the safety pipeline itself (six in-process supervisor invariants),
+- the seven Phase 1C scenarios (deterministic engine drives each
+  scenario end-to-end and asserts the documented outcome).
+
+**Live runtime diagnostics** in
+`rover_ws/src/rover_runtime_diagnostics/` operationalise the same
+contracts at runtime. Four nodes monitor topic freshness, ros_gz_bridge
+health, the TF graph, and aggregate the results into a single
+`/diagnostics/runtime_summary` plus a `rover_msgs/SystemHealth`
+message on `/system/health`. They publish `diagnostic_msgs/DiagnosticArray`
+on per-component topics for Foxglove.
+
+The diagnostics monitors describe liveliness; they never set safety
+state. The supervisor remains the only authority over `/safety/state`
+and `/cmd_vel_authorized`.
+
+---
+
 # 16. Final Architectural Principle
 
 Project Boundary is designed around a single governing principle:

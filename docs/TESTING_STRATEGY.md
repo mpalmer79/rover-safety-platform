@@ -320,3 +320,31 @@ The full ROS 2 / Gazebo equivalents of these tests are pending Phases
 the ROS 2 implementation by replacing the deterministic Python engine
 with a ROS 2 launch-based engine while keeping the assertions
 unchanged.
+
+## 16. Phase 1C Validation Suite
+
+Phase 1C adds a dedicated validation layer on top of Phase 1A's test
+categories. Every architectural invariant now has both a unit test
+and a CLI runner.
+
+| Validator | Layer | Test fixture | CLI |
+|---|---|---|---|
+| `replay_validator.validate_run_directory` | `replay` | `backend/tests/test_validation_module.py::test_validate_run_directory_on_real_run` | `tools/validate_replay_run.py` |
+| `event_validator.validate_events_file` | `replay` | `backend/tests/test_validation_module.py::test_validate_events_file_on_real_run` | `tools/validate_event_integrity.py` |
+| `bridge_validator.validate_bridge_yaml` | `contract` | `backend/tests/test_validation_module.py::test_validate_bridge_yaml_against_workspace` | `tools/validate_bridge_topics.py` |
+| `tf_validator.validate_urdf_tf_tree` | `contract` | `backend/tests/test_validation_module.py::test_validate_urdf_tf_tree_against_workspace` | `tools/validate_tf_tree.py` |
+| `safety_pipeline_validator.validate_safety_pipeline` | `contract` + `simulation` | `backend/tests/test_validation_module.py::test_validate_safety_pipeline` | `tools/validate_safety_pipeline.py` |
+| `scenario_suite.run_scenario_suite` | `simulation` + `fault_injection` + `replay` | `backend/tests/test_scenario_suite.py::test_full_suite_passes` | `tools/run_scenario_suite.py` |
+
+Phase 1C also adds tests for the diagnostics core
+(`backend/tests/test_diagnostics_core.py`) and for the new ROS package
+(`rover_ws/tests/test_runtime_diagnostics.py`).
+
+A feature is **not complete** in Phase 1C unless:
+
+- the relevant scenario in `app.validation.scenario_suite.builtin_scenarios()`
+  has the documented expected outcome,
+- `tools/run_scenario_suite.py` exits 0,
+- `tools/validate_safety_pipeline.py` exits 0,
+- the appropriate static validator (bridge / TF / events / replay) is
+  in CI and exits 0 against the workspace artefacts.

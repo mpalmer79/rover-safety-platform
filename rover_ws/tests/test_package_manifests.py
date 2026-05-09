@@ -25,6 +25,7 @@ REQUIRED_PACKAGES = {
     "rover_sensor_adapters",
     "rover_safety_bridge",
     "rover_observability",
+    "rover_runtime_diagnostics",
     "rover_bringup",
 }
 
@@ -85,7 +86,12 @@ def test_ament_cmake_packages_have_cmakelists(src_root, pkg_name):
 
 @pytest.mark.parametrize(
     "pkg_name",
-    ["rover_sensor_adapters", "rover_safety_bridge", "rover_observability"],
+    [
+        "rover_sensor_adapters",
+        "rover_safety_bridge",
+        "rover_observability",
+        "rover_runtime_diagnostics",
+    ],
 )
 def test_ament_python_packages_have_setup(src_root, pkg_name):
     pkg_dir = src_root / pkg_name

@@ -40,6 +40,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 0 — Architecture Authority Layer | Implemented |
 | Phase 1A — Deterministic Autonomy Simulation Core (Python backend) | Implemented under `backend/` |
 | Phase 1B — ROS 2 + Gazebo Harmonic Simulation Bringup | Implemented under `rover_ws/` (static-validation tests pass; end-to-end Gazebo launch requires a Jazzy host — see `rover_ws/tests/manual.md`) |
+| Phase 1C — Runtime Validation, Operational Hardening, and Integration Verification | Implemented; see section 3c |
 | Phase 2 — Deterministic Autonomy Core (ROS 2) | Pending |
 | Phase 3 — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 4 — Replay, Telemetry, and Incident Reconstruction (ROS 2 / Foxglove) | Pending |
@@ -291,6 +292,123 @@ Implemented under `rover_ws/`. See `rover_ws/README.md`.
 - Demonstrates topic-level architectural enforcement: the supervisor's
   authority is visible in the bridge YAML, in the URDF plugin
   configuration, and in the contract tests under `rover_ws/tests/`.
+
+---
+
+## 3c. Phase 1C: Runtime Validation, Operational Hardening, and Integration Verification
+
+### Status
+
+Implemented. See `tools/`, `backend/app/validation/`,
+`backend/app/diagnostics/`, and
+`rover_ws/src/rover_runtime_diagnostics/`.
+
+### Objectives
+
+- Move the integration from "structurally correct" to "operationally
+  trustworthy": every Phase 1B contract is now exercised end-to-end by
+  the deterministic engine against the seven Phase 1C scenarios, and
+  every contract has a CLI-runnable validator under `tools/`.
+- Add live runtime diagnostics: a `rover_runtime_diagnostics` package
+  that monitors topic freshness, ros_gz_bridge health, TF graph, and
+  publishes an aggregated `/diagnostics/runtime_summary`.
+- Harden the launch hierarchy: deterministic startup ordering,
+  argument validation (`record_bag`, `enable_diagnostics`), and a
+  `runtime_validation.launch.py` that attaches diagnostics to a
+  running stack without restarting it.
+- Build a scenario validation suite that drives every required
+  scenario through the deterministic engine and asserts each outcome,
+  producing replay-validated run directories under
+  `runs/scenario_suite/`.
+
+### Deliverables
+
+- `backend/app/validation/` — five validators:
+  - `replay_validator.py` (run directory layout, metadata schema,
+    `events.jsonl` schema, per-producer ordering, linked-event
+    resolution),
+  - `event_validator.py` (standalone event-stream validator with
+    duplicate-id detection),
+  - `bridge_validator.py` (ros_gz_bridge YAML against ADR-004),
+  - `tf_validator.py` (URDF link/joint topology, root, reachability),
+  - `safety_pipeline_validator.py` (six in-process supervisor
+    invariants: only-supervisor authorisation, SAFE_STOP zero motion,
+    E_STOP_LATCHED persistence, clamping events, fault subsystem
+    cannot emit `safety_transition.*`, AuthorizedMotionCommand
+    constructed only inside the arbiter),
+  - `scenario_suite.py` (runs the seven Phase 1C scenarios and
+    validates each).
+- `backend/app/diagnostics/` — pure-logic monitors:
+  - `topic_monitor.py` (`TopicFreshnessMonitor`, `TopicSpec`,
+    `DEFAULT_TOPIC_SPECS`),
+  - `bridge_health.py` (`BridgeHealthMonitor`),
+  - `runtime_summary.py` (`HealthReport`, `HealthSeverity`,
+    `RuntimeSummary`, `aggregate_health`).
+- `tools/` — six CLI scripts:
+  `validate_bridge_topics.py`, `validate_tf_tree.py`,
+  `validate_event_integrity.py`, `validate_replay_run.py`,
+  `validate_safety_pipeline.py`, `run_scenario_suite.py`. Each accepts
+  `--json` for CI piping.
+- New scenarios:
+  `backend/scenarios/bridge_disconnect_safe_stop.json` and
+  `backend/scenarios/wheel_slip_degraded_mode.json`.
+- `rover_ws/src/rover_runtime_diagnostics/` — ament_python package
+  with four nodes (`topic_freshness_node`, `bridge_health_node`,
+  `tf_validator_node`, `runtime_summary_node`) plus
+  `runtime_diagnostics.launch.py`.
+- Hardened `full_system.launch.py` and `safety_runtime.launch.py`
+  with deterministic timer-based ordering, declared
+  `enable_diagnostics` and `record_bag` arguments, and
+  `LogInfo` markers for every subsystem startup.
+- New `rover_bringup/launch/runtime_validation.launch.py`.
+- Backend tests: `test_diagnostics_core.py`,
+  `test_validation_module.py`, `test_scenario_suite.py`.
+- rover_ws tests: `test_runtime_diagnostics.py`; updates to
+  `test_package_manifests.py` and `test_launch_files.py` to require
+  the new package and launch.
+
+### Acceptance Criteria
+
+- The seven required scenarios all pass through the deterministic
+  engine with the documented final state, with replay validation
+  passing on each run directory.
+- The safety-pipeline validator's six invariants hold (the validator
+  exits 0).
+- The bridge YAML validator rejects any attempt to bridge `/cmd_vel`
+  or `/cmd_vel_requested`.
+- The URDF validator rejects unreachable links.
+- The diagnostics core produces consistent freshness severity under
+  the documented warmup / warn / error thresholds.
+
+### Risks
+
+- The runtime diagnostics nodes import `rclpy` and so cannot be
+  exercised in this repo's CI sandbox. They are AST-validated and
+  their pure-logic core is fully tested. Behavioural validation on a
+  Jazzy host is documented in `rover_ws/tests/manual.md`.
+- The `wheel_slip` scenario reaches `ACTIVE_DEGRADED` only when paired
+  with an additional signal (here: a small co-occurring `imu_bias`).
+  Single-fault wheel-slip detection is a state-estimator concern and
+  is intentionally deferred to Phase 2.
+- The scenario suite produces real run directories; if disk space is
+  constrained, point `--runs_root` at a path that the runner can
+  delete and recreate (`clean=True` by default).
+
+### Deferred Work
+
+- Live launch-based integration tests (would require a Jazzy host in
+  CI).
+- Foxglove layout files for the new diagnostic topics (Phase 4).
+- A `ros2_tracing`-based latency study of the safety pathway (Phase
+  4).
+
+### Portfolio Signal
+
+- Demonstrates a runtime that is not just structurally correct but
+  validated end-to-end through every documented scenario.
+- Demonstrates a diagnostics subsystem that respects the safety
+  authority boundary: the diagnostic monitors describe liveliness,
+  not safety state.
 
 ---
 
