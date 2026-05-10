@@ -279,11 +279,25 @@ def load_scenario_evidence(
 
     if loaded.evidence:
         loaded.scenario_id = loaded.evidence.get("scenario_id") or scenario_dir.name
-        # Resolve the underlying run dir.
+        # Resolve the events stream. The canonical layout ships
+        # events.jsonl alongside the scenario summaries (so the
+        # scenario evidence directory is self-contained on a fresh
+        # checkout). When that file is present, it is the gold
+        # source; when it is absent, fall back to the recording
+        # directory referenced by evidence.json.
         observed = loaded.evidence.get("observed", {})
         run_dir_raw = observed.get("run_dir") or ""
+
+        local_events_path = scenario_dir / "events.jsonl"
         run_dir: Optional[Path] = None
-        if run_dir_raw:
+        events_source: Optional[Path] = None
+        if local_events_path.exists():
+            events_source = local_events_path
+            # The events live in the scenario fixture; the scenario
+            # directory is the effective run directory for analysis
+            # purposes.
+            run_dir = scenario_dir
+        elif run_dir_raw:
             candidate = Path(run_dir_raw)
             if candidate.is_absolute() and candidate.exists():
                 run_dir = candidate
@@ -296,9 +310,11 @@ def load_scenario_evidence(
                 run_dir = candidate
             elif (Path.cwd() / candidate).exists():
                 run_dir = Path.cwd() / candidate
+            if run_dir is not None:
+                events_source = run_dir / "events.jsonl"
         loaded.run_dir = run_dir
-        if run_dir is not None:
-            loaded.events = _load_jsonl(run_dir / "events.jsonl", loaded.warnings)
+        if events_source is not None:
+            loaded.events = _load_jsonl(events_source, loaded.warnings)
             if not loaded.events:
                 # An empty event stream is a warning, not a failure.
                 loaded.warnings.append(
@@ -308,14 +324,18 @@ def load_scenario_evidence(
                             f"events.jsonl produced 0 events for scenario "
                             f"{loaded.scenario_id!r}"
                         ),
-                        source=run_dir / "events.jsonl",
+                        source=events_source,
                     )
                 )
         elif run_dir_raw:
             loaded.warnings.append(
                 LoaderWarning(
                     category="missing_run_dir",
-                    detail=f"evidence references run_dir {run_dir_raw!r} which is not present",
+                    detail=(
+                        f"evidence references run_dir {run_dir_raw!r} but "
+                        f"neither {local_events_path.name!r} in the scenario "
+                        f"directory nor the recording dir is present"
+                    ),
                     source=scenario_dir / "evidence.json",
                 )
             )

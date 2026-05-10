@@ -63,6 +63,12 @@ generator preserve the origin so reviewers see whether a transition
 was observed in `events.jsonl` (live-recorded) or rolled up from a
 scenario summary file.
 
+The canonical scenario evidence directories ship a versioned
+`events.jsonl` snapshot so the analysis layer can run end-to-end
+without the gitignored `runs/` directory. Such events still carry
+`evidence_origin = scenario-evidence` because their source is a
+committed scenario fixture, not a live ROS recording.
+
 ## 6. Determinism
 
 Timeline ordering is deterministic for a given evidence set. The

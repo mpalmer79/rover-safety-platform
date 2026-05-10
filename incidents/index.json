@@ -2,7 +2,7 @@
   "root": "incidents",
   "rows": [
     {
-      "created_at": "2026-05-10T00:39:55+00:00",
+      "created_at": "2026-05-10T17:06:56+00:00",
       "evidence_status": "complete",
       "first_fault": "",
       "incident_id": "canonical-estop-latched",
@@ -16,7 +16,7 @@
       "terminal_safety_state": "E_STOP_LATCHED"
     },
     {
-      "created_at": "2026-05-10T00:39:50+00:00",
+      "created_at": "2026-05-10T17:06:56+00:00",
       "evidence_status": "complete",
       "first_fault": "stale_lidar",
       "incident_id": "canonical-stale-lidar",
@@ -30,7 +30,7 @@
       "terminal_safety_state": "SAFE_STOP"
     },
     {
-      "created_at": "2026-05-10T00:39:56+00:00",
+      "created_at": "2026-05-10T17:06:56+00:00",
       "evidence_status": "static_only",
       "first_fault": "",
       "incident_id": "canonical-static-qualification",
