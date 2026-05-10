@@ -1,0 +1,44 @@
+{
+  "detail": "static workspace declares every required topic/node; live evaluation not run in static-only mode",
+  "expected_outcome": "passed",
+  "findings": [],
+  "observed_status": "partial",
+  "scenario_definition": {
+    "description": "",
+    "expected_outcome": "passed",
+    "forbidden_events": [
+      "safety.violation.injector_set_state"
+    ],
+    "purpose": "Inject stale-LiDAR fault and verify the supervisor transitions to a\nrestricted mode and ultimately SAFE_STOP. The injector must NOT\ndirectly mutate /safety/state \u2014 only fault inputs may degrade.\n",
+    "qualification_rules": [
+      "command_path_invariants",
+      "zero_motion_in_safe_stop",
+      "replay_integrity"
+    ],
+    "required_events": [
+      "safety.state.entered",
+      "sensor.health.degraded"
+    ],
+    "required_nodes": [
+      "lidar_adapter",
+      "rover_safety_bridge"
+    ],
+    "required_replay_artifacts": [
+      "metadata.json",
+      "events.jsonl",
+      "commands.jsonl"
+    ],
+    "required_safety_state": "SAFE_STOP",
+    "required_topics": [
+      "/scan",
+      "/cmd_vel_requested",
+      "/cmd_vel_authorized",
+      "/safety/state",
+      "/safety/events",
+      "/system/health"
+    ],
+    "scenario_id": "stale_lidar_restricted_mode",
+    "source_path": "/home/user/rover-safety-platform/qualification/scenarios/stale_lidar_restricted_mode.yaml"
+  },
+  "scenario_id": "stale_lidar_restricted_mode"
+}

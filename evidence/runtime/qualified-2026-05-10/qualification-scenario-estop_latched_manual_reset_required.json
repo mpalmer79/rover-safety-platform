@@ -1,0 +1,41 @@
+{
+  "detail": "static workspace declares every required topic/node; live evaluation not run in static-only mode",
+  "expected_outcome": "passed",
+  "findings": [],
+  "observed_status": "partial",
+  "scenario_definition": {
+    "description": "",
+    "expected_outcome": "passed",
+    "forbidden_events": [
+      "safety.estop.cleared_without_operator",
+      "safety.command.non_zero_in_estop"
+    ],
+    "purpose": "Trigger an operator E-stop, observe the supervisor enter\nE_STOP_LATCHED, attempt re-arming via every non-operator path, and\nverify the supervisor refuses to leave E_STOP_LATCHED until an\nexplicit operator reset is delivered.\n",
+    "qualification_rules": [
+      "command_path_invariants",
+      "no_authorized_motion_in_estop",
+      "safety_transitions"
+    ],
+    "required_events": [
+      "safety.state.entered",
+      "safety.estop.latched"
+    ],
+    "required_nodes": [
+      "rover_safety_bridge"
+    ],
+    "required_replay_artifacts": [
+      "metadata.json",
+      "events.jsonl",
+      "commands.jsonl"
+    ],
+    "required_safety_state": "E_STOP_LATCHED",
+    "required_topics": [
+      "/cmd_vel_authorized",
+      "/safety/state",
+      "/safety/events"
+    ],
+    "scenario_id": "estop_latched_manual_reset_required",
+    "source_path": "/home/user/rover-safety-platform/qualification/scenarios/estop_latched_manual_reset_required.yaml"
+  },
+  "scenario_id": "estop_latched_manual_reset_required"
+}

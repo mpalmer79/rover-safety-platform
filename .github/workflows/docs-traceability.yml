@@ -1,0 +1,49 @@
+# Traceability matrix and verification report freshness check.
+#
+# Regenerates the traceability matrix and verification report on every
+# push, then fails if the regenerated docs differ from the committed
+# ones. This keeps docs/TRACEABILITY_MATRIX.md and
+# docs/SCENARIO_VERIFICATION_REPORT.md honest.
+
+name: docs-traceability
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  traceability:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pyyaml
+
+      - name: Regenerate traceability matrix
+        run: |
+          python tools/generate_traceability.py --with-verification
+
+      - name: Regenerate scenario verification report
+        run: |
+          python tools/generate_verification_report.py
+
+      - name: Detect drift
+        run: |
+          if ! git diff --quiet docs/TRACEABILITY_MATRIX.md verification/traceability.json \
+              docs/SCENARIO_VERIFICATION_REPORT.md verification/verification_report.json; then
+            echo "::error ::generated docs differ from committed; rerun the generators"
+            git --no-pager diff -- docs/TRACEABILITY_MATRIX.md verification/traceability.json \
+              docs/SCENARIO_VERIFICATION_REPORT.md verification/verification_report.json
+            exit 1
+          fi

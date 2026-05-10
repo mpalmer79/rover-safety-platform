@@ -207,10 +207,15 @@ Continuous integration must run, at minimum:
 | Event schema tests on representative events | `unit` | Yes |
 | Replay validators on a representative recorded run | `replay` | Yes |
 | Phase 4 runtime validation tests (static-only) | `runtime` | Yes |
+| Phase 5 runtime qualification tests (static-only) | `runtime` | Yes |
 | `live_runtime_validator.py --static-only` regression | `runtime` | Yes |
+| `qualified_runtime_run.py --static-only` regression | `runtime` | Yes |
+| Docs traceability freshness | `docs` | Yes |
+| Evidence regeneration manifest | `evidence` | Yes |
 | A short simulation smoke test | `simulation` | When the simulator can be provisioned |
 | At least one fault injection scenario | `fault_injection` | When the simulator can be provisioned |
-| `live_runtime_validator.py --ros-launch` against a live stack | `runtime` | When Jazzy + Gazebo can be provisioned |
+| `live_runtime_validator.py --ros-launch` against a live stack | `runtime` | When Jazzy + Gazebo can be provisioned (self-hosted) |
+| `qualified_runtime_run.py --ros-launch` against a live stack | `runtime` | When Jazzy + Gazebo can be provisioned (self-hosted) |
 
 CI must not pass when:
 
@@ -223,6 +228,10 @@ CI must not pass when:
   `not_executed` and do not fail CI)
 - the runtime validation test module
   (`rover_ws/tests/test_runtime_validation_tooling.py`) regresses
+- the Phase 5 qualification orchestrator reports `failed` for any
+  qualification check in static-only mode
+- the runtime qualification test module
+  (`rover_ws/tests/test_runtime_qualification.py`) regresses
 
 ---
 

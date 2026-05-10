@@ -1,0 +1,41 @@
+{
+  "detail": "static workspace declares every required topic/node; live evaluation not run in static-only mode",
+  "expected_outcome": "passed",
+  "findings": [],
+  "observed_status": "partial",
+  "scenario_definition": {
+    "description": "Drives a short, bounded forward request and verifies the authorized\nstream contains only commands published by rover_safety_bridge.\n",
+    "expected_outcome": "passed",
+    "forbidden_events": [
+      "safety.violation.unauthorized_publisher",
+      "safety.violation.cmd_vel_bypass"
+    ],
+    "purpose": "Prove that motion commands flow only through:\nMission/Nav -> /cmd_vel_requested -> Safety Supervisor ->\n/cmd_vel_authorized -> Gazebo bridge -> actuator.\n",
+    "qualification_rules": [
+      "command_path_invariants"
+    ],
+    "required_events": [
+      "safety.state.entered",
+      "safety.command.authorized"
+    ],
+    "required_nodes": [
+      "rover_safety_bridge",
+      "rover_event_recorder"
+    ],
+    "required_replay_artifacts": [
+      "metadata.json",
+      "events.jsonl",
+      "commands.jsonl"
+    ],
+    "required_safety_state": "ACTIVE_NORMAL",
+    "required_topics": [
+      "/cmd_vel_requested",
+      "/cmd_vel_authorized",
+      "/safety/state",
+      "/safety/events"
+    ],
+    "scenario_id": "authorized_motion_path",
+    "source_path": "/home/user/rover-safety-platform/qualification/scenarios/authorized_motion_path.yaml"
+  },
+  "scenario_id": "authorized_motion_path"
+}

@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-09T21:28:29+00:00",
+  "generated_at_utc": "2026-05-10T00:01:12+00:00",
   "overall_status": "passed",
-  "row_count": 18,
+  "row_count": 23,
   "rows": [
     {
       "architecture_refs": [
@@ -466,6 +466,114 @@
         "rover_ws/tests/test_runtime_validation_tooling.py::test_runtime_report_includes_known_limitations"
       ],
       "title": "Live validation reports must distinguish status categories"
+    },
+    {
+      "architecture_refs": [
+        "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
+        "docs/SYSTEM_CONTEXT.md#8a-ros-2-gazebo-layer-phase-1b"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/runtime_validation/host_qualification.py",
+        "rover_ws/tools/qualify_ros_host.py"
+      ],
+      "kind": "runtime",
+      "requirement_id": "REQ-RUNTIME-006",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "rover_ws/tests/test_runtime_qualification.py::test_host_qualification_runs_without_ros",
+        "rover_ws/tests/test_runtime_qualification.py::test_host_qualification_marks_ros_not_executed",
+        "rover_ws/tests/test_runtime_qualification.py::test_host_qualification_distro_parsing"
+      ],
+      "title": "ROS host prerequisites must be qualifiable"
+    },
+    {
+      "architecture_refs": [
+        "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
+        "docs/EVIDENCE_INDEX.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/runtime_validation/evidence_index.py",
+        "rover_ws/tools/qualified_runtime_run.py"
+      ],
+      "kind": "runtime",
+      "requirement_id": "REQ-RUNTIME-007",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "rover_ws/tests/test_runtime_qualification.py::test_qualified_runtime_run_writes_full_evidence_dir",
+        "rover_ws/tests/test_runtime_qualification.py::test_evidence_index_lists_runs_in_chronological_order"
+      ],
+      "title": "Runtime qualification runs must produce evidence artefacts"
+    },
+    {
+      "architecture_refs": [
+        "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
+        "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/runtime_validation/baselines.py",
+        "rover_ws/tools/compare_runtime_baseline.py"
+      ],
+      "kind": "runtime",
+      "requirement_id": "REQ-RUNTIME-008",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "rover_ws/tests/test_runtime_qualification.py::test_baseline_diff_classifies_expected_differences",
+        "rover_ws/tests/test_runtime_qualification.py::test_baseline_diff_flags_missing_topic_as_critical",
+        "rover_ws/tests/test_runtime_qualification.py::test_baseline_diff_flags_extra_node_as_warning"
+      ],
+      "title": "Runtime evidence must support baseline comparison"
+    },
+    {
+      "architecture_refs": [
+        "docs/RUNTIME_QUALIFICATION_REPORT.md",
+        "docs/LIVE_RUNTIME_STATUS.md",
+        "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/runtime_validation/qualification_report.py",
+        "backend/app/runtime_validation/report_renderer.py"
+      ],
+      "kind": "runtime",
+      "requirement_id": "REQ-RUNTIME-009",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "rover_ws/tests/test_runtime_qualification.py::test_qualification_report_labels_check_origin",
+        "rover_ws/tests/test_runtime_qualification.py::test_live_runtime_status_distinguishes_static_from_live"
+      ],
+      "title": "Qualification reports must distinguish static vs live runtime checks"
+    },
+    {
+      "architecture_refs": [
+        "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
+        "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/runtime_validation/regression.py",
+        "backend/app/runtime_validation/baselines.py"
+      ],
+      "kind": "runtime",
+      "requirement_id": "REQ-RUNTIME-010",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "rover_ws/tests/test_runtime_qualification.py::test_regression_detector_classifies_severity",
+        "rover_ws/tests/test_runtime_qualification.py::test_regression_detector_emits_evidence_references"
+      ],
+      "title": "Runtime regressions must be classified and reportable"
     }
   ]
 }

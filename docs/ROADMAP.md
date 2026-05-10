@@ -44,8 +44,9 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 2 — Mission Runtime & Deterministic Navigation Orchestration | Implemented; see section 3d |
 | Phase 3 — Verification, Scenario Certification, and Evidence Generation | Implemented; see section 3e |
 | Phase 4 — Live ROS 2 / Gazebo Runtime Verification and Evidence Capture | Implemented (static-only fall-back); see section 3f |
+| Phase 5 — ROS Host Qualification and Continuous Runtime Validation | Implemented (static-only fall-back); see section 3g |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
-| Phase 5 — Replay, Telemetry, and Incident Reconstruction (ROS 2 / Foxglove) | Pending |
+| Phase 6 — Replay, Telemetry, and Incident Reconstruction (ROS 2 / Foxglove) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
 
@@ -743,6 +744,94 @@ requires a Jazzy host with Gazebo Harmonic.
   consistent” from “the live graph behaved as documented.”
 - Demonstrates a CI-friendly fallback that never claims live success
   unless live evidence was actually captured.
+
+---
+
+## 3g. Phase 5: ROS Host Qualification and Continuous Runtime Validation
+
+### Status
+
+Implemented in this branch. Static-only mode runs in CI; live mode
+requires a self-hosted Jazzy + Gazebo Harmonic runner.
+
+### Objectives
+
+- Qualify a ROS 2 Jazzy host (Ubuntu, ROS, Gazebo, colcon, packages,
+  workspace structure) before the runtime stack is launched.
+- Orchestrate a complete qualification run: host -> Phase-4 probes ->
+  scenario evaluation -> regression detection -> baseline comparison ->
+  qualification report -> evidence index.
+- Detect runtime regressions across runs via per-category baseline
+  comparison.
+- Publish CI workflows that distinguish static-only checks (every
+  push) from self-hosted live qualification (manual / opt-in).
+
+### Deliverables
+
+- `backend/app/runtime_validation/host_qualification.py` — host
+  qualifier (Ubuntu, ROS, Gazebo, colcon, packages, workspace,
+  launch files, bridge config).
+- `backend/app/runtime_validation/qualification_scenarios.py` —
+  YAML scenario format + loader/validator.
+- `backend/app/runtime_validation/baselines.py` — per-category
+  baseline + diff classifier.
+- `backend/app/runtime_validation/regression.py` — per-run regression
+  detector.
+- `backend/app/runtime_validation/evidence_index.py` — evidence
+  index manifest.
+- `backend/app/runtime_validation/qualification_report.py` —
+  qualification report + live-runtime status renderer.
+- `rover_ws/tools/qualify_ros_host.py` — host qualification CLI.
+- `rover_ws/tools/compare_runtime_baseline.py` — baseline capture +
+  comparison CLI.
+- `rover_ws/tools/qualified_runtime_run.py` — qualification
+  orchestrator.
+- `qualification/scenarios/*.yaml` — six qualification scenario
+  packs.
+- `.github/workflows/{backend-tests,runtime-static-validation,docs-traceability,evidence-validation}.yml`
+  + the manual `ros-jazzy-runtime.yml`.
+- `docs/RUNTIME_QUALIFICATION_RUNBOOK.md` — operational runbook.
+- `docs/RUNTIME_QUALIFICATION_REPORT.md` — generated canonical
+  qualification report.
+- `docs/LIVE_RUNTIME_STATUS.md` — generated short-form status page.
+- `docs/EVIDENCE_INDEX.md` — generated evidence index.
+- REQ-RUNTIME-006..010 with traceability rows.
+
+### Acceptance Criteria
+
+- The qualification orchestrator returns non-zero only on a `failed`
+  aggregate; `not_executed` is honest reporting and does not fail CI.
+- The orchestrator writes every documented evidence file even when
+  some live probes are `not_executed`.
+- The qualification report and live-runtime status report **label
+  every check by origin** (`static-source`, `static-workspace`, or
+  `live-runtime`) and never claim a static check as a live pass.
+- The baseline comparator classifies each delta as
+  `expected_difference`, `warning`, `regression`, or
+  `critical_regression`. No regression is silently auto-ignored.
+- Tests exercise host qualification, scenario validation, baseline
+  comparison, regression detection, evidence indexing, and report
+  rendering without requiring ROS.
+
+### Risks
+
+- Drift between qualification scenarios and the runtime contract.
+  Mitigated by static workspace cross-references during evaluation.
+- Self-hosted runner availability for live qualification. Mitigated
+  by static-only mode remaining first-class.
+
+### Deferred Work
+
+- Foxglove integration for visual replay (Phase 6).
+- Cross-run trend analysis on the evidence index.
+
+### Portfolio Signal
+
+- Demonstrates engineering qualification discipline: host
+  qualification, scenario packs, baseline comparison, regression
+  classification, and a CI workflow that does not fake live success.
+- Demonstrates honest reporting: static and live evidence are
+  distinguished in every artefact.
 
 ---
 

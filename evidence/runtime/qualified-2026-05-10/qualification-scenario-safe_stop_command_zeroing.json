@@ -1,0 +1,40 @@
+{
+  "detail": "static workspace declares every required topic/node; live evaluation not run in static-only mode",
+  "expected_outcome": "passed",
+  "findings": [],
+  "observed_status": "partial",
+  "scenario_definition": {
+    "description": "",
+    "expected_outcome": "passed",
+    "forbidden_events": [
+      "safety.command.non_zero_in_safe_stop"
+    ],
+    "purpose": "Trigger a SAFE_STOP transition (operator request or sensor stale)\nand verify every published /cmd_vel_authorized between the\ntransition and the end of the run carries linear=0 and angular=0.\n",
+    "qualification_rules": [
+      "command_path_invariants",
+      "zero_motion_in_safe_stop"
+    ],
+    "required_events": [
+      "safety.state.entered",
+      "safety.command.zeroed"
+    ],
+    "required_nodes": [
+      "rover_safety_bridge"
+    ],
+    "required_replay_artifacts": [
+      "metadata.json",
+      "events.jsonl",
+      "commands.jsonl"
+    ],
+    "required_safety_state": "SAFE_STOP",
+    "required_topics": [
+      "/cmd_vel_requested",
+      "/cmd_vel_authorized",
+      "/safety/state",
+      "/safety/events"
+    ],
+    "scenario_id": "safe_stop_command_zeroing",
+    "source_path": "/home/user/rover-safety-platform/qualification/scenarios/safe_stop_command_zeroing.yaml"
+  },
+  "scenario_id": "safe_stop_command_zeroing"
+}

@@ -556,6 +556,140 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "rover_ws/tests/test_runtime_validation_tooling.py::test_runtime_report_includes_known_limitations",
         ),
     ),
+    Requirement(
+        req_id="REQ-RUNTIME-006",
+        kind=RequirementKind.RUNTIME,
+        title="ROS host prerequisites must be qualifiable",
+        description=(
+            "Before launching the runtime stack, the platform must be "
+            "able to qualify the host: Ubuntu version, ROS 2 distro, "
+            "Gazebo Harmonic presence, colcon, ros_gz_bridge, the "
+            "required ROS packages, the Python backend importability, "
+            "and the workspace structure. Each check returns one of "
+            "passed / failed / partial / skipped / not_executed with a "
+            "machine-readable reason."
+        ),
+        architecture_refs=(
+            "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
+            "docs/SYSTEM_CONTEXT.md#8a-ros-2-gazebo-layer-phase-1b",
+        ),
+        implementation_refs=(
+            "backend/app/runtime_validation/host_qualification.py",
+            "rover_ws/tools/qualify_ros_host.py",
+        ),
+        test_refs=(
+            "rover_ws/tests/test_runtime_qualification.py::test_host_qualification_runs_without_ros",
+            "rover_ws/tests/test_runtime_qualification.py::test_host_qualification_marks_ros_not_executed",
+            "rover_ws/tests/test_runtime_qualification.py::test_host_qualification_distro_parsing",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-RUNTIME-007",
+        kind=RequirementKind.RUNTIME,
+        title="Runtime qualification runs must produce evidence artefacts",
+        description=(
+            "Each qualified runtime run materialises a complete "
+            "evidence directory under evidence/runtime/<run_id>/ with "
+            "host-qualification, runtime-validation, topic / TF / node "
+            "snapshots, command-path audit, replay-integrity (when "
+            "applicable), per-scenario summaries, and a "
+            "qualification-summary.md. The evidence index must list "
+            "every retained run so reviewers can navigate without ad-hoc "
+            "filesystem queries."
+        ),
+        architecture_refs=(
+            "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
+            "docs/EVIDENCE_INDEX.md",
+        ),
+        implementation_refs=(
+            "backend/app/runtime_validation/evidence_index.py",
+            "rover_ws/tools/qualified_runtime_run.py",
+        ),
+        test_refs=(
+            "rover_ws/tests/test_runtime_qualification.py::test_qualified_runtime_run_writes_full_evidence_dir",
+            "rover_ws/tests/test_runtime_qualification.py::test_evidence_index_lists_runs_in_chronological_order",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-RUNTIME-008",
+        kind=RequirementKind.RUNTIME,
+        title="Runtime evidence must support baseline comparison",
+        description=(
+            "A baseline captured from a known-good qualification run "
+            "must be comparable to subsequent runs. The comparator "
+            "emits per-category deltas (topic inventory, TF inventory, "
+            "node inventory, event counts, safety-state transitions, "
+            "command authorisation, replay artefacts, diagnostic "
+            "health) and classifies each delta as expected_difference, "
+            "warning, regression, or critical_regression. No regression "
+            "is silently auto-ignored."
+        ),
+        architecture_refs=(
+            "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
+            "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary",
+        ),
+        implementation_refs=(
+            "backend/app/runtime_validation/baselines.py",
+            "rover_ws/tools/compare_runtime_baseline.py",
+        ),
+        test_refs=(
+            "rover_ws/tests/test_runtime_qualification.py::test_baseline_diff_classifies_expected_differences",
+            "rover_ws/tests/test_runtime_qualification.py::test_baseline_diff_flags_missing_topic_as_critical",
+            "rover_ws/tests/test_runtime_qualification.py::test_baseline_diff_flags_extra_node_as_warning",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-RUNTIME-009",
+        kind=RequirementKind.RUNTIME,
+        title="Qualification reports must distinguish static vs live runtime checks",
+        description=(
+            "RUNTIME_QUALIFICATION_REPORT.md and LIVE_RUNTIME_STATUS.md "
+            "must label every check as static-source, static-workspace, "
+            "or live-runtime. A check that requires a Jazzy host but "
+            "ran in static mode is reported as not_executed with an "
+            "explicit reason; never rolled up as a live pass."
+        ),
+        architecture_refs=(
+            "docs/RUNTIME_QUALIFICATION_REPORT.md",
+            "docs/LIVE_RUNTIME_STATUS.md",
+            "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary",
+        ),
+        implementation_refs=(
+            "backend/app/runtime_validation/qualification_report.py",
+            "backend/app/runtime_validation/report_renderer.py",
+        ),
+        test_refs=(
+            "rover_ws/tests/test_runtime_qualification.py::test_qualification_report_labels_check_origin",
+            "rover_ws/tests/test_runtime_qualification.py::test_live_runtime_status_distinguishes_static_from_live",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-RUNTIME-010",
+        kind=RequirementKind.RUNTIME,
+        title="Runtime regressions must be classified and reportable",
+        description=(
+            "Runtime regression detection runs as part of the "
+            "qualification orchestrator: missing topics, missing nodes, "
+            "missing TF frames, stale topics, unexpected safety "
+            "transitions, replay corruption, missing replay artefacts, "
+            "unexpected command authorisation, and launch instability "
+            "are detected with severity (warning / regression / "
+            "critical_regression) and each carries an evidence "
+            "reference."
+        ),
+        architecture_refs=(
+            "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
+            "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary",
+        ),
+        implementation_refs=(
+            "backend/app/runtime_validation/regression.py",
+            "backend/app/runtime_validation/baselines.py",
+        ),
+        test_refs=(
+            "rover_ws/tests/test_runtime_qualification.py::test_regression_detector_classifies_severity",
+            "rover_ws/tests/test_runtime_qualification.py::test_regression_detector_emits_evidence_references",
+        ),
+    ),
 )
 
 

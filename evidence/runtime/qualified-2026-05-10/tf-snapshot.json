@@ -1,0 +1,203 @@
+{
+  "expected_root_frame": "odom",
+  "generated_at_utc": "2026-05-10T00:01:44+00:00",
+  "mode": "static-only",
+  "run_id": "qualified-2026-05-10",
+  "static": {
+    "rows": [
+      {
+        "declared_in_urdf": false,
+        "frame": "odom",
+        "is_static_expected": false,
+        "live_resolvable": false,
+        "live_resolvable_reason": "live mode unavailable / disabled",
+        "live_resolvable_status": "not_executed",
+        "parent_actual": null,
+        "parent_expected": null,
+        "parent_match_reason": "runtime root frame is published by the simulator, not declared in URDF",
+        "parent_match_status": "skipped",
+        "required": true,
+        "transform_kind": null,
+        "transform_kind_status": "not_executed"
+      },
+      {
+        "declared_in_urdf": true,
+        "frame": "base_footprint",
+        "is_static_expected": false,
+        "live_resolvable": false,
+        "live_resolvable_reason": "live mode unavailable / disabled",
+        "live_resolvable_status": "not_executed",
+        "parent_actual": null,
+        "parent_expected": "odom",
+        "parent_match_reason": "parent edge published by simulator at runtime (odom -> base_footprint); URDF declares the link only",
+        "parent_match_status": "skipped",
+        "required": true,
+        "transform_kind": null,
+        "transform_kind_status": "not_executed"
+      },
+      {
+        "declared_in_urdf": true,
+        "frame": "base_link",
+        "is_static_expected": true,
+        "live_resolvable": false,
+        "live_resolvable_reason": "live mode unavailable / disabled",
+        "live_resolvable_status": "not_executed",
+        "parent_actual": "base_footprint",
+        "parent_expected": "base_footprint",
+        "parent_match_reason": "",
+        "parent_match_status": "passed",
+        "required": true,
+        "transform_kind": null,
+        "transform_kind_status": "not_executed"
+      },
+      {
+        "declared_in_urdf": true,
+        "frame": "lidar_link",
+        "is_static_expected": true,
+        "live_resolvable": false,
+        "live_resolvable_reason": "live mode unavailable / disabled",
+        "live_resolvable_status": "not_executed",
+        "parent_actual": "base_link",
+        "parent_expected": "base_link",
+        "parent_match_reason": "",
+        "parent_match_status": "passed",
+        "required": true,
+        "transform_kind": null,
+        "transform_kind_status": "not_executed"
+      },
+      {
+        "declared_in_urdf": true,
+        "frame": "imu_link",
+        "is_static_expected": true,
+        "live_resolvable": false,
+        "live_resolvable_reason": "live mode unavailable / disabled",
+        "live_resolvable_status": "not_executed",
+        "parent_actual": "base_link",
+        "parent_expected": "base_link",
+        "parent_match_reason": "",
+        "parent_match_status": "passed",
+        "required": true,
+        "transform_kind": null,
+        "transform_kind_status": "not_executed"
+      },
+      {
+        "declared_in_urdf": true,
+        "frame": "contact_link",
+        "is_static_expected": true,
+        "live_resolvable": false,
+        "live_resolvable_reason": "live mode unavailable / disabled",
+        "live_resolvable_status": "not_executed",
+        "parent_actual": "base_link",
+        "parent_expected": "base_link",
+        "parent_match_reason": "",
+        "parent_match_status": "passed",
+        "required": true,
+        "transform_kind": null,
+        "transform_kind_status": "not_executed"
+      },
+      {
+        "declared_in_urdf": true,
+        "frame": "left_wheel_link",
+        "is_static_expected": false,
+        "live_resolvable": false,
+        "live_resolvable_reason": "live mode unavailable / disabled",
+        "live_resolvable_status": "not_executed",
+        "parent_actual": "base_link",
+        "parent_expected": "base_link",
+        "parent_match_reason": "",
+        "parent_match_status": "passed",
+        "required": true,
+        "transform_kind": null,
+        "transform_kind_status": "not_executed"
+      },
+      {
+        "declared_in_urdf": true,
+        "frame": "right_wheel_link",
+        "is_static_expected": false,
+        "live_resolvable": false,
+        "live_resolvable_reason": "live mode unavailable / disabled",
+        "live_resolvable_status": "not_executed",
+        "parent_actual": "base_link",
+        "parent_expected": "base_link",
+        "parent_match_reason": "",
+        "parent_match_status": "passed",
+        "required": true,
+        "transform_kind": null,
+        "transform_kind_status": "not_executed"
+      },
+      {
+        "declared_in_urdf": true,
+        "frame": "caster_link",
+        "is_static_expected": true,
+        "live_resolvable": false,
+        "live_resolvable_reason": "live mode unavailable / disabled",
+        "live_resolvable_status": "not_executed",
+        "parent_actual": "base_link",
+        "parent_expected": "base_link",
+        "parent_match_reason": "",
+        "parent_match_status": "passed",
+        "required": false,
+        "transform_kind": null,
+        "transform_kind_status": "not_executed"
+      }
+    ],
+    "static_failures": [],
+    "urdf_errors": [],
+    "urdf_joints": [
+      [
+        "base_footprint_joint",
+        "fixed",
+        "base_footprint",
+        "base_link"
+      ],
+      [
+        "caster_joint",
+        "fixed",
+        "base_link",
+        "caster_link"
+      ],
+      [
+        "lidar_joint",
+        "fixed",
+        "base_link",
+        "lidar_link"
+      ],
+      [
+        "imu_joint",
+        "fixed",
+        "base_link",
+        "imu_link"
+      ],
+      [
+        "contact_joint",
+        "fixed",
+        "base_link",
+        "contact_link"
+      ],
+      [
+        "left_wheel_joint",
+        "continuous",
+        "base_link",
+        "left_wheel_link"
+      ],
+      [
+        "right_wheel_joint",
+        "continuous",
+        "base_link",
+        "right_wheel_link"
+      ]
+    ],
+    "urdf_links": [
+      "base_footprint",
+      "base_link",
+      "caster_link",
+      "contact_link",
+      "imu_link",
+      "left_wheel_link",
+      "lidar_link",
+      "right_wheel_link"
+    ],
+    "urdf_source": "/home/user/rover-safety-platform/rover_ws/src/rover_description/urdf/rover.urdf.xacro",
+    "urdf_warnings": []
+  }
+}

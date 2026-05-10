@@ -1,0 +1,76 @@
+{
+  "checks": [
+    {
+      "detail": "Ubuntu 24.04 detected",
+      "name": "ubuntu_version",
+      "observed": {
+        "NAME": "Ubuntu",
+        "PRETTY_NAME": "Ubuntu 24.04.4 LTS",
+        "VERSION_ID": "24.04"
+      },
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "ros2 CLI not on PATH",
+      "name": "ros2_distro",
+      "observed": {},
+      "reason": "source /opt/ros/jazzy/setup.bash before invoking the qualifier; CI runs without ROS and reports this check as not_executed",
+      "status": "not_executed"
+    },
+    {
+      "detail": "`gz` CLI not on PATH",
+      "name": "gazebo_harmonic",
+      "observed": {},
+      "reason": "install Gazebo Harmonic for Ubuntu 24.04 / Jazzy",
+      "status": "not_executed"
+    },
+    {
+      "detail": "`colcon` CLI not on PATH",
+      "name": "colcon_available",
+      "observed": {},
+      "reason": "install python3-colcon-common-extensions for Jazzy",
+      "status": "not_executed"
+    },
+    {
+      "detail": "ros2 CLI not on PATH",
+      "name": "required_ros_packages",
+      "observed": {},
+      "reason": "source ROS to enumerate available packages",
+      "status": "not_executed"
+    },
+    {
+      "detail": "backend.app imports cleanly under the host interpreter",
+      "name": "python_backend_importable",
+      "observed": {},
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "all 10 packages present but rover_ws/install is missing",
+      "name": "workspace_structure",
+      "observed": {
+        "install_present": false
+      },
+      "reason": "run `colcon build --symlink-install` before live qualification",
+      "status": "partial"
+    },
+    {
+      "detail": "7 required launch file(s) present",
+      "name": "required_launch_files",
+      "observed": {},
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "bridge YAML at rover_ws/src/rover_sim_gazebo/config/ros_gz_bridge.yaml",
+      "name": "bridge_config_present",
+      "observed": {},
+      "reason": "",
+      "status": "passed"
+    }
+  ],
+  "generated_at_utc": "2026-05-10T00:01:44+00:00",
+  "status": "partial",
+  "workspace_root": "/home/user/rover-safety-platform"
+}

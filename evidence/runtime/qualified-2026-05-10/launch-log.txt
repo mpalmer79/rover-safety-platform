@@ -1,0 +1,4 @@
+# launch_smoke_test — static-only run
+# generated: 2026-05-10T00:01:44+00:00
+# reason: rclpy not importable: No module named 'rclpy'
+# no ros2 subprocess was launched.

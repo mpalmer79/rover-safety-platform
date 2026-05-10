@@ -1,0 +1,11 @@
+{
+  "findings": [],
+  "run_dir": "evidence/runtime/qualified-2026-05-10",
+  "severity": "expected_difference",
+  "summary_counts": {
+    "critical_regression": 0,
+    "expected_difference": 0,
+    "regression": 0,
+    "warning": 0
+  }
+}

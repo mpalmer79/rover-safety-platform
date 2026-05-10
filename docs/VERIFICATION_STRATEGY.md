@@ -62,6 +62,12 @@ launch.
 | [`traceability`](../backend/app/verification/traceability.py) | Generates `verification/traceability.json` and `docs/TRACEABILITY_MATRIX.md`. | `tools/generate_traceability.py` |
 | [`report_generator`](../backend/app/verification/report_generator.py) | Generates `docs/SCENARIO_VERIFICATION_REPORT.md` and `verification/verification_report.json`. | `tools/generate_verification_report.py` |
 | [`runtime_validation`](../backend/app/runtime_validation/) | Phase 4. Declares the expected ROS topic / node / TF graph and runs a static workspace validator plus the live probes orchestrated by `live_runtime_validator.py`. Honest about `not_executed` when ROS / Gazebo are unavailable. | `rover_ws/tools/live_runtime_validator.py` |
+| [`host_qualification`](../backend/app/runtime_validation/host_qualification.py) | Phase 5. Qualifies the ROS 2 Jazzy host: Ubuntu, ROS distro, Gazebo Harmonic, colcon, required packages, backend importability, workspace structure, launch files, bridge config. | `rover_ws/tools/qualify_ros_host.py` |
+| [`qualification_scenarios`](../backend/app/runtime_validation/qualification_scenarios.py) | Phase 5. YAML pack format + loader for qualification scenarios (one YAML per scenario; required topics / nodes / events / replay artefacts; expected outcome). | (consumed by the orchestrator) |
+| [`baselines`](../backend/app/runtime_validation/baselines.py) | Phase 5. Per-category baseline + comparator (topics, nodes, TF, transitions, commands, events, replay artefacts, diagnostic health). Classifies deltas as `expected_difference`, `warning`, `regression`, or `critical_regression`. | `rover_ws/tools/compare_runtime_baseline.py` |
+| [`regression`](../backend/app/runtime_validation/regression.py) | Phase 5. Per-run regression detector run on the captured evidence; emits findings with severity and evidence references. | (consumed by the orchestrator) |
+| [`evidence_index`](../backend/app/runtime_validation/evidence_index.py) | Phase 5. Builds `docs/EVIDENCE_INDEX.md` and `evidence/runtime/index.json` from retained runs. | (consumed by the orchestrator) |
+| [`qualification_report`](../backend/app/runtime_validation/qualification_report.py) | Phase 5. Aggregate report renderer; labels every check as `static-source`, `static-workspace`, or `live-runtime`. | `rover_ws/tools/qualified_runtime_run.py` |
 
 ## 4. Per-scenario expectations
 

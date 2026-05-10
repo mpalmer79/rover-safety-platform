@@ -1,0 +1,62 @@
+# Qualification scenario: nominal_runtime_launch
+#
+# Verify the platform can be brought up with full_system.launch.py and
+# reach steady state with every documented topic, node, and TF frame
+# advertised. No fault injection.
+
+scenario_id: nominal_runtime_launch
+purpose: |
+  Bring up rover_bringup/full_system.launch.py and verify the live
+  graph matches the documented runtime contract. This is the smoke
+  test every later scenario depends on.
+description: |
+  Equivalent to the Phase 4 launch_smoke + topic + tf + command-path
+  probes wrapped into a single qualification scenario.
+
+required_topics:
+  - /clock
+  - /scan
+  - /imu
+  - /odom
+  - /tf
+  - /tf_static
+  - /cmd_vel_authorized
+  - /safety/state
+  - /safety/events
+  - /system/health
+  - /diagnostics/runtime_summary
+  - /replay/markers
+
+required_nodes:
+  - ros_gz_bridge
+  - robot_state_publisher
+  - rover_safety_bridge
+  - lidar_adapter
+  - imu_adapter
+  - odometry_adapter
+  - contact_adapter
+  - rover_run_manager
+  - rover_event_recorder
+  - rover_topic_freshness_diagnostics
+  - rover_bridge_health_diagnostics
+  - rover_runtime_summary
+
+required_safety_state: ACTIVE_NORMAL
+
+required_events:
+  - safety.state.entered
+
+forbidden_events:
+  - safety.violation.unauthorized_publisher
+
+required_replay_artifacts:
+  - metadata.json
+  - events.jsonl
+  - commands.jsonl
+
+qualification_rules:
+  - command_path_invariants
+  - tf_tree_complete
+  - topic_freshness
+
+expected_outcome: passed
