@@ -1,0 +1,67 @@
+[
+  {
+    "alignment": "exact",
+    "confidence": "direct",
+    "description": "First fault_injection.fired entry observed in evidence",
+    "evidence_origin": "scenario-evidence",
+    "label": "First fault",
+    "marker_id": "first_fault",
+    "relative_time_ms": 0,
+    "sim_time_ns": 0,
+    "source_event_id": "evt-0000000002",
+    "source_file": "events.jsonl",
+    "timeline_index": 1
+  },
+  {
+    "alignment": "exact",
+    "confidence": "direct",
+    "description": "First safety_transition.entered entry observed in evidence",
+    "evidence_origin": "scenario-evidence",
+    "label": "First safety transition",
+    "marker_id": "first_safety_transition",
+    "relative_time_ms": 0,
+    "sim_time_ns": 0,
+    "source_event_id": "evt-0000000004",
+    "source_file": "events.jsonl",
+    "timeline_index": 3
+  },
+  {
+    "alignment": "exact",
+    "confidence": "direct",
+    "description": "First motion arbitration entry that clamped, zeroed, or rejected a command",
+    "evidence_origin": "scenario-evidence",
+    "label": "First command intervention",
+    "marker_id": "first_command_intervention",
+    "relative_time_ms": 0,
+    "sim_time_ns": 0,
+    "source_event_id": "evt-0000000005",
+    "source_file": "events.jsonl",
+    "timeline_index": 4
+  },
+  {
+    "alignment": "exact",
+    "confidence": "direct",
+    "description": "Terminal entry; outcome=safe_stop_success",
+    "evidence_origin": "scenario-evidence",
+    "label": "Terminal outcome",
+    "marker_id": "terminal_outcome",
+    "relative_time_ms": 2700,
+    "sim_time_ns": 2700000000,
+    "source_event_id": "evt-0000000020",
+    "source_file": "events.jsonl",
+    "timeline_index": 19
+  },
+  {
+    "alignment": "exact",
+    "confidence": "direct",
+    "description": "First entry with safety_state=SAFE_STOP",
+    "evidence_origin": "scenario-evidence",
+    "label": "First SAFE_STOP transition",
+    "marker_id": "safe_stop",
+    "relative_time_ms": 2700,
+    "sim_time_ns": 2700000000,
+    "source_event_id": "evt-0000000020",
+    "source_file": "events.jsonl",
+    "timeline_index": 19
+  }
+]

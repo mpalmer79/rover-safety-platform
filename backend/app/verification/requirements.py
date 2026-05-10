@@ -817,6 +817,135 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "backend/tests/test_incident_analysis.py::test_incident_index_filters_by_evidence_status",
         ),
     ),
+    Requirement(
+        req_id="REQ-REPLAY-006",
+        kind=RequirementKind.REPLAY,
+        title="Incident bundles must support replay review manifest generation",
+        description=(
+            "Each incident bundle must be able to produce a replay "
+            "review manifest that lists the required topics, the bag "
+            "artefacts available, the timeline markers, and a pointer "
+            "to the Foxglove layout. The manifest is read-only with "
+            "respect to runtime evidence and never fabricates a bag "
+            "inventory."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_REVIEW_RUNBOOK.md",
+            "docs/FOXGLOVE_REPLAY_WORKFLOW.md",
+        ),
+        implementation_refs=(
+            "backend/app/replay_review/manifest.py",
+            "backend/app/replay_review/bundle.py",
+            "rover_ws/tools/build_replay_review_bundle.py",
+        ),
+        test_refs=(
+            "backend/tests/test_replay_review.py::test_manifest_lists_expected_topics",
+            "backend/tests/test_replay_review.py::test_manifest_records_missing_topics",
+            "backend/tests/test_replay_review.py::test_manifest_includes_known_limitations",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-REPLAY-007",
+        kind=RequirementKind.REPLAY,
+        title="Replay review reports must distinguish missing, partial, static-only, and bag-backed evidence",
+        description=(
+            "Replay review reports use a controlled status vocabulary "
+            "(ready, partial, missing_bag, static_only, not_executed, "
+            "failed, passed). A static scenario fixture is never "
+            "marked bag-backed; a missing bag never becomes a passing "
+            "review. Status downgrades carry an explicit reason."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_REVIEW_RUNBOOK.md",
+            "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary",
+        ),
+        implementation_refs=(
+            "backend/app/replay_review/models.py",
+            "backend/app/replay_review/reporter.py",
+            "backend/app/replay_review/validator.py",
+        ),
+        test_refs=(
+            "backend/tests/test_replay_review.py::test_validator_flags_missing_bag",
+            "backend/tests/test_replay_review.py::test_validator_static_only_remains_static_only",
+            "backend/tests/test_replay_review.py::test_reporter_includes_status_section",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-REPLAY-008",
+        kind=RequirementKind.REPLAY,
+        title="Timeline markers must preserve evidence origin and confidence",
+        description=(
+            "Replay markers are derived from incident timeline entries. "
+            "Each marker carries the source event id, the source file, "
+            "the evidence_origin, and the causality confidence label. "
+            "Markers without sim_time_ns are emitted with relative-time "
+            "alignment marked partial; markers are never invented when "
+            "the timeline has no matching entry."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_REVIEW_RUNBOOK.md",
+            "docs/INCIDENT_RECONSTRUCTION.md",
+        ),
+        implementation_refs=(
+            "backend/app/replay_review/marker.py",
+        ),
+        test_refs=(
+            "backend/tests/test_replay_review.py::test_markers_preserve_evidence_origin",
+            "backend/tests/test_replay_review.py::test_markers_partial_alignment_when_sim_time_missing",
+            "backend/tests/test_replay_review.py::test_markers_never_fabricated",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-REPLAY-009",
+        kind=RequirementKind.REPLAY,
+        title="Foxglove review artefacts must be generated without requiring Foxglove installation in unit tests",
+        description=(
+            "The Foxglove session bundle is metadata only: layout "
+            "pointer, panel hints, marker overlays, recommended data "
+            "source. The repository ships a canonical layout JSON; "
+            "unit tests parse it as JSON and never require Foxglove "
+            "Studio to be installed. The bundle is a plain JSON "
+            "document; the repo documents this explicitly rather than "
+            "implying an official Foxglove import format."
+        ),
+        architecture_refs=(
+            "docs/FOXGLOVE_REPLAY_WORKFLOW.md",
+            "docs/REPLAY_REVIEW_RUNBOOK.md",
+        ),
+        implementation_refs=(
+            "backend/app/replay_review/foxglove_session.py",
+            "foxglove/layouts/incident-review-layout.json",
+        ),
+        test_refs=(
+            "backend/tests/test_replay_review.py::test_foxglove_session_is_valid_json",
+            "backend/tests/test_replay_review.py::test_foxglove_session_lists_expected_panels",
+            "backend/tests/test_replay_review.py::test_foxglove_session_does_not_require_runtime",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-REPLAY-010",
+        kind=RequirementKind.REPLAY,
+        title="Live replay workflows must run only on self-hosted ROS / Gazebo runners",
+        description=(
+            "The replay-review GitHub workflow is workflow_dispatch "
+            "only and uses a self-hosted runner labelled with "
+            "ros-jazzy. github-hosted runners cannot drive Gazebo "
+            "Harmonic reliably; running there would produce "
+            "misleading evidence. The workflow does not run on "
+            "github-hosted runners."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_REVIEW_RUNBOOK.md",
+            "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
+        ),
+        implementation_refs=(
+            ".github/workflows/ros-jazzy-replay-review.yml",
+        ),
+        test_refs=(
+            "backend/tests/test_replay_review.py::test_replay_workflow_uses_self_hosted_runner",
+            "backend/tests/test_replay_review.py::test_replay_workflow_is_dispatch_only",
+        ),
+    ),
 )
 
 

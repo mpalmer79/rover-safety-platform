@@ -98,8 +98,21 @@ When committing a new layout:
   what was recorded. Use the runtime validator and qualification
   orchestrator (Phase 4 / Phase 5) for live verification.
 
-## 6. Related documents
+## 6. Phase 7 replay review bundles
+
+Phase 7 augments the per-incident bundle with a replay review
+manifest, a Foxglove session JSON (internal `rover-replay-review/1`
+schema), markers aligned to replay time, and a validator. The
+canonical workflow is documented in
+[docs/REPLAY_REVIEW_RUNBOOK.md](REPLAY_REVIEW_RUNBOOK.md). Bundle
+files (`replay-review-manifest.json`, `replay-review-report.md`,
+`foxglove-session.json`, `replay-markers.json`) live alongside the
+incident report under `incidents/<incident_id>/`.
+
+## 7. Related documents
 
 - [docs/INCIDENT_RECONSTRUCTION.md](INCIDENT_RECONSTRUCTION.md)
 - [docs/INCIDENT_ANALYSIS_STRATEGY.md](INCIDENT_ANALYSIS_STRATEGY.md)
 - [docs/REPLAY_SYSTEM.md](REPLAY_SYSTEM.md)
+- [docs/REPLAY_REVIEW_RUNBOOK.md](REPLAY_REVIEW_RUNBOOK.md)
+- [docs/REPLAY_REVIEW_INDEX.md](REPLAY_REVIEW_INDEX.md)

@@ -142,10 +142,30 @@ The index supports filters (`severity`, `outcome`, `scenario_id`,
   named in the chain's `missing_links` list.
 - Every report carries the certification disclaimer.
 
-## 9. Related documents
+## 9. Phase 7 replay review extension
+
+Each incident bundle can be extended into a replay review bundle
+via `rover_ws/tools/build_replay_review_bundle.py`. The replay
+review layer adds:
+
+* `replay-review-manifest.json` — bag inventory, expected vs
+  available topics, layout pointer, marker count;
+* `replay-markers.json` — timeline markers aligned to replay time;
+* `foxglove-session.json` — internal `rover-replay-review/1`
+  metadata that points at the canonical Foxglove layout;
+* `replay-review-report.{md,json}` — per-incident report with
+  validation results, operator checklist, and the certification
+  disclaimer.
+
+See [docs/REPLAY_REVIEW_RUNBOOK.md](REPLAY_REVIEW_RUNBOOK.md) for
+the operator workflow.
+
+## 10. Related documents
 
 - [docs/INCIDENT_ANALYSIS_STRATEGY.md](INCIDENT_ANALYSIS_STRATEGY.md) — strategic principles.
 - [docs/INCIDENT_INDEX.md](INCIDENT_INDEX.md) — generated index.
+- [docs/REPLAY_REVIEW_RUNBOOK.md](REPLAY_REVIEW_RUNBOOK.md) — Phase 7 operator runbook.
+- [docs/REPLAY_REVIEW_INDEX.md](REPLAY_REVIEW_INDEX.md) — generated replay-review status index.
 - [docs/FOXGLOVE_REPLAY_WORKFLOW.md](FOXGLOVE_REPLAY_WORKFLOW.md) — operator workflow for the Foxglove layout.
 - [docs/REPLAY_SYSTEM.md](REPLAY_SYSTEM.md) — underlying replay contract.
 - [docs/VERIFICATION_STRATEGY.md](VERIFICATION_STRATEGY.md) — Phase-3 verification context.

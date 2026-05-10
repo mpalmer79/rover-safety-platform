@@ -1,0 +1,171 @@
+{
+  "available_topics": [],
+  "bag_status": "missing_bag",
+  "evidence_origin": "scenario-evidence",
+  "expected_topics": [
+    "/clock",
+    "/scan",
+    "/imu",
+    "/odom",
+    "/tf",
+    "/tf_static",
+    "/cmd_vel_requested",
+    "/cmd_vel_authorized",
+    "/safety/state",
+    "/safety/events",
+    "/system/health",
+    "/mission/state",
+    "/mission/events",
+    "/mission/progress",
+    "/world_model/state"
+  ],
+  "foxglove_layout_path": "foxglove/layouts/incident-review-layout.json",
+  "foxglove_session_path": "foxglove-session.json",
+  "generated_at_utc": "2026-05-10T17:42:28+00:00",
+  "incident_id": "canonical-estop-latched",
+  "known_limitations": [
+    "The platform is **not** safety-certified. This replay review is engineering analysis material.",
+    "Live bag replay requires Foxglove Studio + a recorded bag on a ROS 2 Jazzy host. CI runs do not exercise live replay.",
+    "When the bag directory is missing the manifest reports `bag_status=missing_bag`; the review remains valid as a static incident report but the visual playback step cannot be performed.",
+    "Markers without `sim_time_ns` are aligned to relative time only; the Foxglove playhead must be aligned manually using the surrounding context."
+  ],
+  "missing_topics": [],
+  "operator_checklist": [
+    "[ ] Bag status reviewed",
+    "[ ] Missing topics reviewed",
+    "[ ] Markers loaded into the Foxglove timeline",
+    "[ ] Safety state matches incident-report.md",
+    "[ ] cmd_vel arbitration matches command-audit.json",
+    "[ ] Replay integrity checked",
+    "[ ] Discrepancies recorded outside the incident bundle"
+  ],
+  "replay_execution_status": "missing_bag",
+  "review_workflow": [
+    "Confirm the incident bundle is current (re-run reconstruct_incident.py if needed).",
+    "Inspect bag_status and missing_topics in this report.",
+    "If bag_status is ready or partial, open the bag in Foxglove with the canonical layout.",
+    "Use timeline_markers to align the playhead to first_fault, first_safety_transition, first_command_intervention, and the terminal entry.",
+    "Compare the safety state and cmd_vel plots against the incident report's claims.",
+    "Record any discrepancy in a separate document; do not mutate the incident bundle."
+  ],
+  "run_id": "estop_latched_manual_reset_required",
+  "scenario_id": "estop_latched_manual_reset_required",
+  "status_counts": {
+    "failed": 0,
+    "not_executed": 2,
+    "partial": 0,
+    "passed": 5,
+    "skipped": 0
+  },
+  "timeline_markers": [
+    {
+      "alignment": "exact",
+      "confidence": "moderate",
+      "description": "First safety_transition.entered entry observed in evidence",
+      "evidence_origin": "scenario-evidence",
+      "label": "First safety transition",
+      "marker_id": "first_safety_transition",
+      "relative_time_ms": 0,
+      "sim_time_ns": 0,
+      "source_event_id": "evt-0000000003",
+      "source_file": "events.jsonl",
+      "timeline_index": 2
+    },
+    {
+      "alignment": "exact",
+      "confidence": "moderate",
+      "description": "First motion arbitration entry that clamped, zeroed, or rejected a command",
+      "evidence_origin": "scenario-evidence",
+      "label": "First command intervention",
+      "marker_id": "first_command_intervention",
+      "relative_time_ms": 0,
+      "sim_time_ns": 0,
+      "source_event_id": "evt-0000000004",
+      "source_file": "events.jsonl",
+      "timeline_index": 3
+    },
+    {
+      "alignment": "exact",
+      "confidence": "moderate",
+      "description": "Terminal entry; outcome=estop_latched",
+      "evidence_origin": "scenario-evidence",
+      "label": "Terminal outcome",
+      "marker_id": "terminal_outcome",
+      "relative_time_ms": 1500,
+      "sim_time_ns": 1500000000,
+      "source_event_id": "evt-0000000007",
+      "source_file": "events.jsonl",
+      "timeline_index": 6
+    },
+    {
+      "alignment": "exact",
+      "confidence": "moderate",
+      "description": "First entry with safety_state=E_STOP_LATCHED",
+      "evidence_origin": "scenario-evidence",
+      "label": "First E_STOP_LATCHED transition",
+      "marker_id": "estop_latched",
+      "relative_time_ms": 1500,
+      "sim_time_ns": 1500000000,
+      "source_event_id": "evt-0000000007",
+      "source_file": "events.jsonl",
+      "timeline_index": 6
+    }
+  ],
+  "validation_results": [
+    {
+      "detail": "incident-report.json present",
+      "evidence_paths": [
+        "incidents/canonical-estop-latched/incident-report.json"
+      ],
+      "name": "incident_report_present",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "timeline.json present",
+      "evidence_paths": [
+        "incidents/canonical-estop-latched/timeline.json"
+      ],
+      "name": "timeline_present",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "4 marker(s) with exact alignment",
+      "evidence_paths": [],
+      "name": "markers_generated",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "layout at foxglove/layouts/incident-review-layout.json",
+      "evidence_paths": [
+        "foxglove/layouts/incident-review-layout.json"
+      ],
+      "name": "foxglove_layout_present",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "schema_version=rover-replay-review/1; 5 panel hint(s)",
+      "evidence_paths": [],
+      "name": "foxglove_session_well_formed",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "no bag artefacts detected",
+      "evidence_paths": [],
+      "name": "bag_artefacts_present",
+      "reason": "live bag replay requires rosbag2 output on a Jazzy host; see docs/REPLAY_REVIEW_RUNBOOK.md",
+      "status": "not_executed"
+    },
+    {
+      "detail": "bag not present; topic coverage cannot be checked",
+      "evidence_paths": [],
+      "name": "expected_topics_present",
+      "reason": "record a bag on a Jazzy host to enable this check",
+      "status": "not_executed"
+    }
+  ]
+}

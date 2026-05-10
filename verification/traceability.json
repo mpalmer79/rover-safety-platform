@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-10T17:09:26+00:00",
+  "generated_at_utc": "2026-05-10T17:44:56+00:00",
   "overall_status": "passed",
-  "row_count": 28,
+  "row_count": 33,
   "rows": [
     {
       "architecture_refs": [
@@ -683,6 +683,115 @@
         "backend/tests/test_incident_analysis.py::test_incident_index_filters_by_evidence_status"
       ],
       "title": "Incident index must support scenario, severity, outcome, and evidence-status review"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_REVIEW_RUNBOOK.md",
+        "docs/FOXGLOVE_REPLAY_WORKFLOW.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_review/manifest.py",
+        "backend/app/replay_review/bundle.py",
+        "rover_ws/tools/build_replay_review_bundle.py"
+      ],
+      "kind": "replay",
+      "requirement_id": "REQ-REPLAY-006",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_review.py::test_manifest_lists_expected_topics",
+        "backend/tests/test_replay_review.py::test_manifest_records_missing_topics",
+        "backend/tests/test_replay_review.py::test_manifest_includes_known_limitations"
+      ],
+      "title": "Incident bundles must support replay review manifest generation"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_REVIEW_RUNBOOK.md",
+        "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_review/models.py",
+        "backend/app/replay_review/reporter.py",
+        "backend/app/replay_review/validator.py"
+      ],
+      "kind": "replay",
+      "requirement_id": "REQ-REPLAY-007",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_review.py::test_validator_flags_missing_bag",
+        "backend/tests/test_replay_review.py::test_validator_static_only_remains_static_only",
+        "backend/tests/test_replay_review.py::test_reporter_includes_status_section"
+      ],
+      "title": "Replay review reports must distinguish missing, partial, static-only, and bag-backed evidence"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_REVIEW_RUNBOOK.md",
+        "docs/INCIDENT_RECONSTRUCTION.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_review/marker.py"
+      ],
+      "kind": "replay",
+      "requirement_id": "REQ-REPLAY-008",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_review.py::test_markers_preserve_evidence_origin",
+        "backend/tests/test_replay_review.py::test_markers_partial_alignment_when_sim_time_missing",
+        "backend/tests/test_replay_review.py::test_markers_never_fabricated"
+      ],
+      "title": "Timeline markers must preserve evidence origin and confidence"
+    },
+    {
+      "architecture_refs": [
+        "docs/FOXGLOVE_REPLAY_WORKFLOW.md",
+        "docs/REPLAY_REVIEW_RUNBOOK.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_review/foxglove_session.py",
+        "foxglove/layouts/incident-review-layout.json"
+      ],
+      "kind": "replay",
+      "requirement_id": "REQ-REPLAY-009",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_review.py::test_foxglove_session_is_valid_json",
+        "backend/tests/test_replay_review.py::test_foxglove_session_lists_expected_panels",
+        "backend/tests/test_replay_review.py::test_foxglove_session_does_not_require_runtime"
+      ],
+      "title": "Foxglove review artefacts must be generated without requiring Foxglove installation in unit tests"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_REVIEW_RUNBOOK.md",
+        "docs/RUNTIME_QUALIFICATION_RUNBOOK.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        ".github/workflows/ros-jazzy-replay-review.yml"
+      ],
+      "kind": "replay",
+      "requirement_id": "REQ-REPLAY-010",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_review.py::test_replay_workflow_uses_self_hosted_runner",
+        "backend/tests/test_replay_review.py::test_replay_workflow_is_dispatch_only"
+      ],
+      "title": "Live replay workflows must run only on self-hosted ROS / Gazebo runners"
     }
   ]
 }

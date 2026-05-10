@@ -1,0 +1,196 @@
+{
+  "available_topics": [],
+  "bag_indices": [
+    {
+      "artifacts": [],
+      "bag_root": "/home/user/rover-safety-platform/incidents/canonical-estop-latched/bags",
+      "end_time_ns": null,
+      "has_bag_chunks": false,
+      "has_metadata": false,
+      "inventory_topics": [],
+      "message_counts": {},
+      "metadata_path": "",
+      "notes": [
+        "bag directory does not exist: /home/user/rover-safety-platform/incidents/canonical-estop-latched/bags"
+      ],
+      "start_time_ns": null,
+      "status": "missing_bag"
+    },
+    {
+      "artifacts": [],
+      "bag_root": "/home/user/rover-safety-platform/incidents/canonical-estop-latched/bag",
+      "end_time_ns": null,
+      "has_bag_chunks": false,
+      "has_metadata": false,
+      "inventory_topics": [],
+      "message_counts": {},
+      "metadata_path": "",
+      "notes": [
+        "bag directory does not exist: /home/user/rover-safety-platform/incidents/canonical-estop-latched/bag"
+      ],
+      "start_time_ns": null,
+      "status": "missing_bag"
+    },
+    {
+      "artifacts": [],
+      "bag_root": "/home/user/rover-safety-platform/incidents/canonical-estop-latched/rosbag",
+      "end_time_ns": null,
+      "has_bag_chunks": false,
+      "has_metadata": false,
+      "inventory_topics": [],
+      "message_counts": {},
+      "metadata_path": "",
+      "notes": [
+        "bag directory does not exist: /home/user/rover-safety-platform/incidents/canonical-estop-latched/rosbag"
+      ],
+      "start_time_ns": null,
+      "status": "missing_bag"
+    },
+    {
+      "artifacts": [],
+      "bag_root": "/home/user/rover-safety-platform/runs/verify/estop_latched_manual_reset_required/bags",
+      "end_time_ns": null,
+      "has_bag_chunks": false,
+      "has_metadata": false,
+      "inventory_topics": [],
+      "message_counts": {},
+      "metadata_path": "",
+      "notes": [
+        "bag directory does not exist: /home/user/rover-safety-platform/runs/verify/estop_latched_manual_reset_required/bags"
+      ],
+      "start_time_ns": null,
+      "status": "missing_bag"
+    },
+    {
+      "artifacts": [],
+      "bag_root": "/home/user/rover-safety-platform/runs/verify/estop_latched_manual_reset_required/bag",
+      "end_time_ns": null,
+      "has_bag_chunks": false,
+      "has_metadata": false,
+      "inventory_topics": [],
+      "message_counts": {},
+      "metadata_path": "",
+      "notes": [
+        "bag directory does not exist: /home/user/rover-safety-platform/runs/verify/estop_latched_manual_reset_required/bag"
+      ],
+      "start_time_ns": null,
+      "status": "missing_bag"
+    },
+    {
+      "artifacts": [],
+      "bag_root": "/home/user/rover-safety-platform/runs/verify/estop_latched_manual_reset_required/rosbag",
+      "end_time_ns": null,
+      "has_bag_chunks": false,
+      "has_metadata": false,
+      "inventory_topics": [],
+      "message_counts": {},
+      "metadata_path": "",
+      "notes": [
+        "bag directory does not exist: /home/user/rover-safety-platform/runs/verify/estop_latched_manual_reset_required/rosbag"
+      ],
+      "start_time_ns": null,
+      "status": "missing_bag"
+    }
+  ],
+  "bag_status": "missing_bag",
+  "evidence_status": "complete",
+  "expected_topics": [
+    {
+      "name": "/clock",
+      "purpose": "ROS time reference",
+      "required": true
+    },
+    {
+      "name": "/scan",
+      "purpose": "LiDAR sensor stream",
+      "required": false
+    },
+    {
+      "name": "/imu",
+      "purpose": "IMU sensor stream",
+      "required": false
+    },
+    {
+      "name": "/odom",
+      "purpose": "Wheel odometry",
+      "required": false
+    },
+    {
+      "name": "/tf",
+      "purpose": "Dynamic transforms",
+      "required": false
+    },
+    {
+      "name": "/tf_static",
+      "purpose": "Static transforms",
+      "required": false
+    },
+    {
+      "name": "/cmd_vel_requested",
+      "purpose": "Mission / Nav2 motion request",
+      "required": true
+    },
+    {
+      "name": "/cmd_vel_authorized",
+      "purpose": "Safety supervisor authorised motion",
+      "required": true
+    },
+    {
+      "name": "/safety/state",
+      "purpose": "Safety supervisor state",
+      "required": true
+    },
+    {
+      "name": "/safety/events",
+      "purpose": "Safety supervisor event stream",
+      "required": true
+    },
+    {
+      "name": "/system/health",
+      "purpose": "Aggregate diagnostics",
+      "required": true
+    },
+    {
+      "name": "/mission/state",
+      "purpose": "Mission state",
+      "required": false
+    },
+    {
+      "name": "/mission/events",
+      "purpose": "Mission event stream",
+      "required": false
+    },
+    {
+      "name": "/mission/progress",
+      "purpose": "Waypoint progress",
+      "required": false
+    },
+    {
+      "name": "/world_model/state",
+      "purpose": "World model snapshot",
+      "required": false
+    }
+  ],
+  "foxglove_layout_path": "foxglove/layouts/incident-review-layout.json",
+  "foxglove_session_path": "foxglove-session.json",
+  "generated_at_utc": "2026-05-10T17:42:28+00:00",
+  "incident_id": "canonical-estop-latched",
+  "known_limitations": [
+    "The platform is **not** safety-certified. This replay review is engineering analysis material.",
+    "Live bag replay requires Foxglove Studio + a recorded bag on a ROS 2 Jazzy host. CI runs do not exercise live replay.",
+    "When the bag directory is missing the manifest reports `bag_status=missing_bag`; the review remains valid as a static incident report but the visual playback step cannot be performed.",
+    "Markers without `sim_time_ns` are aligned to relative time only; the Foxglove playhead must be aligned manually using the surrounding context."
+  ],
+  "missing_topics": [],
+  "review_steps": [
+    "Open Foxglove Studio.",
+    "Layout -> Import from file -> select foxglove/layouts/incident-review-layout.json.",
+    "Data source -> Open local file -> select the bag listed in bag_indices[].path (when present).",
+    "Use the timeline_markers list to scrub the playhead to first_fault, first_safety_transition, first_command_intervention, and the terminal entry.",
+    "Cross-reference the safety state plot, the cmd_vel plot, and the safety-events log against the incident report's claims.",
+    "Record any discrepancy in a separate document; do not mutate the incident bundle."
+  ],
+  "run_id": "estop_latched_manual_reset_required",
+  "scenario_id": "estop_latched_manual_reset_required",
+  "timeline_marker_count": 4
+}

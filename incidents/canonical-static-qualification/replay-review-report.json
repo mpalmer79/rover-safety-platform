@@ -1,0 +1,132 @@
+{
+  "available_topics": [],
+  "bag_status": "static_only",
+  "evidence_origin": "scenario-evidence",
+  "expected_topics": [
+    "/clock",
+    "/scan",
+    "/imu",
+    "/odom",
+    "/tf",
+    "/tf_static",
+    "/cmd_vel_requested",
+    "/cmd_vel_authorized",
+    "/safety/state",
+    "/safety/events",
+    "/system/health",
+    "/mission/state",
+    "/mission/events",
+    "/mission/progress",
+    "/world_model/state"
+  ],
+  "foxglove_layout_path": "foxglove/layouts/incident-review-layout.json",
+  "foxglove_session_path": "foxglove-session.json",
+  "generated_at_utc": "2026-05-10T17:42:28+00:00",
+  "incident_id": "canonical-static-qualification",
+  "known_limitations": [
+    "The platform is **not** safety-certified. This replay review is engineering analysis material.",
+    "Live bag replay requires Foxglove Studio + a recorded bag on a ROS 2 Jazzy host. CI runs do not exercise live replay.",
+    "When the bag directory is missing the manifest reports `bag_status=missing_bag`; the review remains valid as a static incident report but the visual playback step cannot be performed.",
+    "Markers without `sim_time_ns` are aligned to relative time only; the Foxglove playhead must be aligned manually using the surrounding context."
+  ],
+  "missing_topics": [],
+  "operator_checklist": [
+    "[ ] Bag status reviewed",
+    "[ ] Missing topics reviewed",
+    "[ ] Markers loaded into the Foxglove timeline",
+    "[ ] Safety state matches incident-report.md",
+    "[ ] cmd_vel arbitration matches command-audit.json",
+    "[ ] Replay integrity checked",
+    "[ ] Discrepancies recorded outside the incident bundle"
+  ],
+  "replay_execution_status": "static_only",
+  "review_workflow": [
+    "Confirm the incident bundle is current (re-run reconstruct_incident.py if needed).",
+    "Inspect bag_status and missing_topics in this report.",
+    "If bag_status is ready or partial, open the bag in Foxglove with the canonical layout.",
+    "Use timeline_markers to align the playhead to first_fault, first_safety_transition, first_command_intervention, and the terminal entry.",
+    "Compare the safety state and cmd_vel plots against the incident report's claims.",
+    "Record any discrepancy in a separate document; do not mutate the incident bundle."
+  ],
+  "run_id": "qualified-2026-05-10",
+  "scenario_id": null,
+  "status_counts": {
+    "failed": 0,
+    "not_executed": 1,
+    "partial": 1,
+    "passed": 4,
+    "skipped": 1
+  },
+  "timeline_markers": [
+    {
+      "alignment": "unaligned",
+      "confidence": "unknown",
+      "description": "Terminal entry; outcome=inconclusive",
+      "evidence_origin": "runtime-evidence",
+      "label": "Terminal outcome",
+      "marker_id": "terminal_outcome",
+      "relative_time_ms": null,
+      "sim_time_ns": null,
+      "source_event_id": "checks[8]",
+      "source_file": "host-qualification.json",
+      "timeline_index": 19
+    }
+  ],
+  "validation_results": [
+    {
+      "detail": "incident-report.json present",
+      "evidence_paths": [
+        "incidents/canonical-static-qualification/incident-report.json"
+      ],
+      "name": "incident_report_present",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "timeline.json present",
+      "evidence_paths": [
+        "incidents/canonical-static-qualification/timeline.json"
+      ],
+      "name": "timeline_present",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "1 marker(s) without exact alignment",
+      "evidence_paths": [],
+      "name": "markers_generated",
+      "reason": "no marker carries sim_time_ns; relative-time alignment only",
+      "status": "partial"
+    },
+    {
+      "detail": "layout at foxglove/layouts/incident-review-layout.json",
+      "evidence_paths": [
+        "foxglove/layouts/incident-review-layout.json"
+      ],
+      "name": "foxglove_layout_present",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "schema_version=rover-replay-review/1; 5 panel hint(s)",
+      "evidence_paths": [],
+      "name": "foxglove_session_well_formed",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "detail": "static-only incident; bag not required",
+      "evidence_paths": [],
+      "name": "bag_artefacts_present",
+      "reason": "incident evidence_status=static_only",
+      "status": "skipped"
+    },
+    {
+      "detail": "bag not present; topic coverage cannot be checked",
+      "evidence_paths": [],
+      "name": "expected_topics_present",
+      "reason": "record a bag on a Jazzy host to enable this check",
+      "status": "not_executed"
+    }
+  ]
+}
