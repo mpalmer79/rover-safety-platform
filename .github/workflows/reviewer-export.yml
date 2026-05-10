@@ -1,0 +1,51 @@
+# Phase-11 reviewer-export package generation.
+#
+# Runs on push and pull_request. Generates the reviewer-export
+# bundle from the existing programme-review / analytics / incidents
+# / reliability-impact / traceability artefacts in the repo, then
+# validates the bundle. Read-only with respect to upstream evidence;
+# never requires ROS, Gazebo, Foxglove, or live runtime evidence.
+
+name: reviewer-export
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  reviewer-export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest pyyaml
+
+      - name: Generate reviewer export
+        run: |
+          python rover_ws/tools/generate_reviewer_export.py \
+            --output reviewer-export
+
+      - name: Validate reviewer export
+        run: |
+          python rover_ws/tools/validate_reviewer_export.py \
+            --bundle reviewer-export
+
+      - name: Upload reviewer-export bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reviewer-export-${{ github.run_id }}
+          path: reviewer-export/
+          retention-days: 14

@@ -1,0 +1,4 @@
+{"count": 1, "gate_status": "passed", "history_status": "available", "last_transition": null, "latest_status": "passed", "volatility": "unknown"}
+{"count": 0, "gate_status": "warning", "history_status": "available", "last_transition": null, "latest_status": "passed", "volatility": "unknown"}
+{"count": 0, "gate_status": "failed", "history_status": "available", "last_transition": null, "latest_status": "passed", "volatility": "unknown"}
+{"count": 0, "gate_status": "not_executed", "history_status": "available", "last_transition": null, "latest_status": "passed", "volatility": "unknown"}

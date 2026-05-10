@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "affected_metric": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "baseline_value": {
+      "type": [
+        "number",
+        "string",
+        "null"
+      ]
+    },
+    "current_value": {
+      "type": [
+        "number",
+        "string",
+        "null"
+      ]
+    },
+    "description": {
+      "type": "string"
+    },
+    "drift_type": {
+      "type": "string"
+    },
+    "evidence_origin": {
+      "enum": [
+        "scenario-evidence",
+        "runtime-evidence",
+        "live-runtime",
+        "bag-backed",
+        "static-source",
+        "static-workspace",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "finding_id": {
+      "type": "string"
+    },
+    "severity": {
+      "enum": [
+        "informational",
+        "warning",
+        "regression",
+        "critical_regression"
+      ],
+      "type": "string"
+    },
+    "triggering_artifact": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "finding_id",
+    "drift_type",
+    "severity",
+    "description",
+    "affected_metric",
+    "current_value",
+    "baseline_value",
+    "triggering_artifact",
+    "evidence_origin"
+  ],
+  "title": "reviewer-export/drift_findings",
+  "type": "object"
+}

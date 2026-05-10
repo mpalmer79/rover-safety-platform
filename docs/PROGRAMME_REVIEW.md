@@ -110,7 +110,14 @@ labels in the resulting bundle.
   causation or blame.
 * Trends are deterministic projections, not forecasts.
 
-## 8. Related documents
+## 8. Phase 11 reviewer export
+
+Phase 11 packages the programme-review outputs (plus replay
+analytics, incident index, reliability impact, and traceability)
+into reviewer-friendly CSV / JSONL / JSON Schema / notebook
+artefacts. See [docs/REVIEWER_EXPORTS.md](REVIEWER_EXPORTS.md).
+
+## 9. Related documents
 
 - [docs/GOVERNANCE_HEALTH_MODEL.md](GOVERNANCE_HEALTH_MODEL.md)
 - [docs/RELIABILITY_TREND_ANALYSIS.md](RELIABILITY_TREND_ANALYSIS.md)

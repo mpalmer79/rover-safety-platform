@@ -1,0 +1,4 @@
+incident_id,run_id,scenario_id,severity,outcome,evidence_status,first_fault,terminal_safety_state,replay_integrity_status,report_path
+canonical-estop-latched,estop_latched_manual_reset_required,estop_latched_manual_reset_required,high,estop_latched,complete,,E_STOP_LATCHED,passed,incidents/canonical-estop-latched/incident-report.json
+canonical-stale-lidar,stale_lidar_restricted_mode,stale_lidar_restricted_mode,moderate,safe_stop_success,complete,stale_lidar,SAFE_STOP,passed,incidents/canonical-stale-lidar/incident-report.json
+canonical-static-qualification,qualified-2026-05-10,,informational,inconclusive,static_only,,,,incidents/canonical-static-qualification/incident-report.json

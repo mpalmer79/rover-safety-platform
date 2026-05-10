@@ -1,0 +1,5 @@
+gate_status,count,latest_status,volatility,last_transition,history_status
+passed,1,passed,unknown,,available
+warning,0,passed,unknown,,available
+failed,0,passed,unknown,,available
+not_executed,0,passed,unknown,,available

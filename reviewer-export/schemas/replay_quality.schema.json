@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bag_status": {
+      "enum": [
+        "ready",
+        "partial",
+        "missing_bag",
+        "static_only",
+        "not_executed",
+        "failed",
+        "passed",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "moderate",
+        "low",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "coverage_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "evidence_origin": {
+      "enum": [
+        "scenario-evidence",
+        "runtime-evidence",
+        "live-runtime",
+        "bag-backed",
+        "static-source",
+        "static-workspace",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "evidence_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "incident_id": {
+      "type": "string"
+    },
+    "missing_bag": {
+      "type": "boolean"
+    },
+    "review_completion_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "score": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "static_only": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "incident_id",
+    "score",
+    "coverage_status",
+    "confidence",
+    "bag_status",
+    "evidence_status",
+    "review_completion_status",
+    "evidence_origin",
+    "static_only",
+    "missing_bag"
+  ],
+  "title": "reviewer-export/replay_quality",
+  "type": "object"
+}

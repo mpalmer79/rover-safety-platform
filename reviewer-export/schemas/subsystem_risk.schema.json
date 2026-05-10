@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "causality_claimed": {
+      "const": false,
+      "type": "boolean"
+    },
+    "critical_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "failure_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "highest_risk": {
+      "enum": [
+        "none",
+        "low",
+        "moderate",
+        "high",
+        "critical",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "representative_artifacts": {
+      "type": "string"
+    },
+    "risk_frequency": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "subsystem": {
+      "type": "string"
+    },
+    "warning_count": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "subsystem",
+    "risk_frequency",
+    "highest_risk",
+    "warning_count",
+    "failure_count",
+    "critical_count",
+    "representative_artifacts",
+    "causality_claimed"
+  ],
+  "title": "reviewer-export/subsystem_risk",
+  "type": "object"
+}
