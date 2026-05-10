@@ -158,7 +158,18 @@ gateable CI signals — see
 [docs/RELIABILITY_IMPACT_ANALYSIS.md](RELIABILITY_IMPACT_ANALYSIS.md)
 and [docs/CI_RELIABILITY_GATE.md](CI_RELIABILITY_GATE.md).
 
-## 11. Related documents
+## 11. Phase 13 live-runtime input
+
+When a Phase 13 live capture lands a bag-backed bundle in
+`evidence/runtime/<run_id>/`, the
+`process_live_runtime_evidence.py` orchestrator drives the same
+analytics pipeline as a fixture-backed run. The honesty rules
+remain unchanged: `static_only` and `missing_bag` flags propagate
+verbatim, and `not_executed` runs are reported, never silently
+upgraded. See
+[docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md](LIVE_RUNTIME_EVIDENCE_PIPELINE.md).
+
+## 12. Related documents
 
 - [docs/REPLAY_QUALITY_SCORING.md](REPLAY_QUALITY_SCORING.md)
 - [docs/REPLAY_REVIEW_AUDIT.md](REPLAY_REVIEW_AUDIT.md)

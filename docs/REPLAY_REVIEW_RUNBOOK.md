@@ -179,6 +179,16 @@ full live path on a self-hosted Jazzy + Gazebo runner labelled
 **not** run on github-hosted runners. The runbook in
 `docs/RUNTIME_QUALIFICATION_RUNBOOK.md` covers runner setup.
 
+Phase 13 adds a parallel
+`.github/workflows/live-runtime-evidence.yml` that captures
+live bags into `evidence/runtime/<run_id>/` and feeds them into
+incident reconstruction → replay-review-bundle build → replay
+analytics → programme review → reviewer export. The replay-review
+runbook above is the next step in that chain once a real bag
+exists. See
+[docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md](LIVE_RUNTIME_EVIDENCE_PIPELINE.md)
+and [docs/LIVE_BAG_CAPTURE_RUNBOOK.md](LIVE_BAG_CAPTURE_RUNBOOK.md).
+
 ## 12. Known limitations
 
 - The platform is **not** safety-certified.

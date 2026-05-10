@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "colcon_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "gazebo_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "host_os": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "known_limitations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "last_qualified_at": {
+      "type": "string"
+    },
+    "qualification_status": {
+      "enum": [
+        "qualified",
+        "partial",
+        "not_qualified",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "ros_distro": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "runner_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "runner_labels": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "supports_foxglove_optional": {
+      "type": "boolean"
+    },
+    "supports_gazebo": {
+      "type": "boolean"
+    },
+    "supports_rosbag2": {
+      "type": "boolean"
+    },
+    "workspace_path": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "runner_id",
+    "host_os",
+    "ros_distro",
+    "gazebo_version",
+    "colcon_version",
+    "workspace_path",
+    "supports_gazebo",
+    "supports_rosbag2",
+    "supports_foxglove_optional"
+  ],
+  "title": "Live runner profile",
+  "type": "object"
+}

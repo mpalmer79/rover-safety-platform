@@ -1,0 +1,99 @@
+name: live-runtime-evidence
+
+# Phase 13 - live ROS 2 / Gazebo runtime evidence pipeline.
+#
+# This workflow MUST run on a self-hosted runner with the labels
+# 'self-hosted', 'ros-jazzy', and 'gazebo'. It is NEVER allowed to
+# run on a GitHub-hosted ubuntu-* runner. The platform is not
+# safety-certified; this workflow produces engineering qualification
+# evidence, not regulatory artefacts.
+
+on:
+  workflow_dispatch:
+    inputs:
+      plan:
+        description: "Scenario plan path"
+        required: true
+        default: live-runtime/scenario-plans/core-live-qualification.yaml
+      run_id:
+        description: "Run id (for the evidence directory)"
+        required: true
+        default: live-${{ github.run_id }}
+
+permissions:
+  contents: read
+
+jobs:
+  live-runtime-evidence:
+    runs-on: [self-hosted, ros-jazzy, gazebo]
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Refuse GitHub-hosted runners
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${RUNNER_NAME:-}" == GitHub* || "${RUNNER_OS:-}" == "" ]]; then
+            echo "::error::live-runtime-evidence must run on self-hosted Jazzy + Gazebo"
+            exit 1
+          fi
+          if [[ "${ROS_DISTRO:-}" != "jazzy" ]]; then
+            echo "::error::ROS_DISTRO=$ROS_DISTRO; expected jazzy"
+            exit 1
+          fi
+
+      - name: Qualify host
+        run: |
+          python rover_ws/tools/qualify_ros_host.py \
+              --evidence-root evidence/host \
+              --run-id "${{ github.event.inputs.run_id }}"
+
+      - name: Build workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          cd rover_ws
+          colcon build --event-handlers console_direct+ status-
+
+      - name: Capture live bag
+        shell: bash
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          source rover_ws/install/setup.bash
+          python rover_ws/tools/live_bag_capture.py \
+              --plan "${{ github.event.inputs.plan }}" \
+              --evidence-root evidence/runtime \
+              --run-id "${{ github.event.inputs.run_id }}" \
+              --runner-profile live-runtime/runner-profile.json
+
+      - name: Validate live evidence
+        run: |
+          python rover_ws/tools/validate_live_runtime_evidence.py \
+              --bundle "evidence/runtime/${{ github.event.inputs.run_id }}" \
+              --json
+
+      - name: Process live evidence into downstream pipelines
+        run: |
+          python rover_ws/tools/process_live_runtime_evidence.py \
+              --bundle "evidence/runtime/${{ github.event.inputs.run_id }}" \
+              --apply \
+              --json
+
+      - name: Regenerate maturity report
+        run: |
+          python rover_ws/tools/generate_live_runtime_maturity_report.py \
+              --evidence-root evidence/runtime
+
+      - name: Upload evidence bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-runtime-evidence-${{ github.event.inputs.run_id }}
+          path: |
+            evidence/runtime/${{ github.event.inputs.run_id }}
+            live-runtime/live-runtime-maturity.json
+            docs/LIVE_RUNTIME_MATURITY_REPORT.md

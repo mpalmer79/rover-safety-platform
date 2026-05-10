@@ -35,6 +35,7 @@ class RequirementKind(str, Enum):
     IMPACT = "impact"
     PROGRAMME = "programme"
     EXPORT = "export"
+    LIVE = "live"
     MISSION_COMPILER = "mission_compiler"
 
 
@@ -1791,6 +1792,122 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         test_refs=(
             "backend/tests/test_natural_language_mission.py::test_replay_binding_marks_runtime_not_executed",
             "backend/tests/test_natural_language_mission.py::test_replay_binding_emits_stable_markers",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-LIVE-001",
+        kind=RequirementKind.LIVE,
+        title="Self-hosted live runtime runs must validate runner prerequisites before executing",
+        description=(
+            "Before any live ROS 2 / Gazebo execution, the runner "
+            "profile is loaded and validated; missing ROS distro, "
+            "Gazebo version, workspace, or rosbag2 support causes "
+            "the run to abort with status ``not_executed`` and a "
+            "structured reason. GitHub-hosted runners always abort."
+        ),
+        architecture_refs=(
+            "docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md",
+            "docs/LIVE_RUNNER_PROFILE.md",
+        ),
+        implementation_refs=(
+            "backend/app/live_runtime/runner_profile.py",
+            "backend/app/live_runtime/evidence_capture.py",
+        ),
+        test_refs=(
+            "backend/tests/test_live_runtime.py::test_runner_profile_load_and_validate",
+            "backend/tests/test_live_runtime.py::test_runner_profile_missing_required_fields",
+            "backend/tests/test_live_runtime.py::test_evidence_capture_aborts_without_ros",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-LIVE-002",
+        kind=RequirementKind.LIVE,
+        title="Live runtime evidence must include a bag manifest or explicit not_executed reason",
+        description=(
+            "Every ``evidence/runtime/<run_id>/`` bundle includes "
+            "either a ``bag-manifest.json`` describing real bag "
+            "artefacts, or a ``bag-manifest.json`` with status "
+            "``not_executed`` and a structured reason. Missing "
+            "manifests are themselves a validator failure."
+        ),
+        architecture_refs=(
+            "docs/LIVE_BAG_CAPTURE_RUNBOOK.md",
+        ),
+        implementation_refs=(
+            "backend/app/live_runtime/bag_manifest.py",
+            "backend/app/live_runtime/evidence_capture.py",
+        ),
+        test_refs=(
+            "backend/tests/test_live_runtime.py::test_bag_manifest_required_fields",
+            "backend/tests/test_live_runtime.py::test_bag_manifest_not_executed_reason_required",
+            "backend/tests/test_live_runtime.py::test_validator_fails_when_manifest_missing",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-LIVE-003",
+        kind=RequirementKind.LIVE,
+        title="Bag-backed status must require real bag artefacts and metadata",
+        description=(
+            "A bag manifest with ``bag_status=bag_backed`` must "
+            "list at least one bag path that exists on disk and a "
+            "metadata YAML. Static fixtures, fabricated paths, and "
+            "empty inventories never qualify as ``bag_backed``."
+        ),
+        architecture_refs=(
+            "docs/LIVE_BAG_CAPTURE_RUNBOOK.md",
+        ),
+        implementation_refs=(
+            "backend/app/live_runtime/bag_manifest.py",
+        ),
+        test_refs=(
+            "backend/tests/test_live_runtime.py::test_bag_backed_requires_real_artefacts",
+            "backend/tests/test_live_runtime.py::test_static_fixture_cannot_be_marked_bag_backed",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-LIVE-004",
+        kind=RequirementKind.LIVE,
+        title="Live runtime evidence must integrate with downstream evidence pipelines",
+        description=(
+            "``process_live_runtime_evidence.py`` accepts an "
+            "``evidence/runtime/<run_id>`` directory and invokes "
+            "incident reconstruction, replay-review bundle build, "
+            "replay analytics, programme review, and reviewer "
+            "export integration hooks - preserving the manifest's "
+            "``bag_status`` verbatim through every layer."
+        ),
+        architecture_refs=(
+            "docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md",
+        ),
+        implementation_refs=(
+            "backend/app/live_runtime/maturity.py",
+        ),
+        test_refs=(
+            "backend/tests/test_live_runtime.py::test_process_live_runtime_evidence_dry_run_preserves_status",
+            "backend/tests/test_live_runtime.py::test_maturity_report_counts_match_inputs",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-LIVE-005",
+        kind=RequirementKind.LIVE,
+        title="GitHub-hosted CI must not claim live runtime execution",
+        description=(
+            "The ``live-runtime-evidence.yml`` workflow declares "
+            "``runs-on: [self-hosted, ros-jazzy, gazebo]`` and "
+            "``workflow_dispatch`` only - no push, pull_request, "
+            "or schedule triggers. A static check fails the build "
+            "if a ``ubuntu-`` runner ever appears in the file."
+        ),
+        architecture_refs=(
+            "docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md",
+        ),
+        implementation_refs=(
+            ".github/workflows/live-runtime-evidence.yml",
+        ),
+        test_refs=(
+            "backend/tests/test_live_runtime.py::test_workflow_is_self_hosted_only",
+            "backend/tests/test_live_runtime.py::test_workflow_does_not_target_github_hosted_runners",
+            "backend/tests/test_live_runtime.py::test_workflow_uses_workflow_dispatch_only",
         ),
     ),
 )

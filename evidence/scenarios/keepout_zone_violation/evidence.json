@@ -64,7 +64,7 @@
     ],
     "safety_state": "ACTIVE_NORMAL"
   },
-  "generated_at_utc": "2026-05-11T02:15:47+00:00",
+  "generated_at_utc": "2026-05-10T22:14:32+00:00",
   "not_executed_reason": "",
   "observed": {
     "final_mission_state": "MISSION_DEGRADED",

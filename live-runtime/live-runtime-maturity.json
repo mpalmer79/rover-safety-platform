@@ -1,0 +1,34 @@
+{
+  "analytics_integration": "integrated",
+  "bag_counters": {
+    "bag_backed": 0,
+    "invalid": 0,
+    "missing_bag": 0,
+    "not_executed": 2,
+    "partial": 0
+  },
+  "disclaimer": "This project is not safety-certified. Live runtime evidence demonstrates engineering qualification discipline; it is not a regulatory artefact.",
+  "evidence_root": "evidence/runtime",
+  "generated_at_utc": "2026-05-12T00:00:00+00:00",
+  "known_limitations": [
+    "no bag-backed evidence on disk; downstream replay review and analytics still consume canonical fixtures",
+    "2 live runs are marked not_executed (honest fall-back)",
+    "runner profile does not currently certify Jazzy + Gazebo + rosbag2"
+  ],
+  "latest_run_id": "static-2026-05-09",
+  "latest_run_status": "not_executed",
+  "next_actions": [
+    "provision a self-hosted Jazzy + Gazebo runner",
+    "execute live-runtime-evidence.yml on a self-hosted runner to produce bag-backed artefacts",
+    "feed bag-backed evidence into incident reconstruction and replay analytics so programme review picks up live trends"
+  ],
+  "programme_review_integration": "integrated",
+  "replay_review_integration": "not_started",
+  "required_topic_coverage": {},
+  "runner_status": "unknown",
+  "runs_by_status": {
+    "not_executed": 2
+  },
+  "runs_total": 2,
+  "scenario_coverage": {}
+}

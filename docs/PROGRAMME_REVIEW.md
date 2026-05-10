@@ -117,7 +117,20 @@ analytics, incident index, reliability impact, and traceability)
 into reviewer-friendly CSV / JSONL / JSON Schema / notebook
 artefacts. See [docs/REVIEWER_EXPORTS.md](REVIEWER_EXPORTS.md).
 
-## 9. Related documents
+## 9. Phase 13 live runtime input
+
+Phase 13 introduces the live-runtime evidence pipeline. When real
+bag-backed live runs land in `evidence/runtime/<run_id>/`, they
+flow through incident reconstruction, replay review, replay
+analytics, reliability impact, and into programme review — without
+any change to programme-review's contracts. Honesty rules
+continue to apply: `static_only` and `missing_bag` flags propagate
+verbatim, `causality_claimed=false` remains pinned in
+subsystem-risk outputs, and `not_executed` runs surface as
+`insufficient_history` rather than being synthesised. See
+[docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md](LIVE_RUNTIME_EVIDENCE_PIPELINE.md).
+
+## 10. Related documents
 
 - [docs/GOVERNANCE_HEALTH_MODEL.md](GOVERNANCE_HEALTH_MODEL.md)
 - [docs/RELIABILITY_TREND_ANALYSIS.md](RELIABILITY_TREND_ANALYSIS.md)
@@ -126,3 +139,5 @@ artefacts. See [docs/REVIEWER_EXPORTS.md](REVIEWER_EXPORTS.md).
 - [docs/RELIABILITY_IMPACT_ANALYSIS.md](RELIABILITY_IMPACT_ANALYSIS.md)
 - [docs/REPLAY_ANALYTICS.md](REPLAY_ANALYTICS.md)
 - [docs/CI_RELIABILITY_GATE.md](CI_RELIABILITY_GATE.md)
+- [docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md](LIVE_RUNTIME_EVIDENCE_PIPELINE.md)
+- [docs/LIVE_RUNTIME_MATURITY_REPORT.md](LIVE_RUNTIME_MATURITY_REPORT.md)

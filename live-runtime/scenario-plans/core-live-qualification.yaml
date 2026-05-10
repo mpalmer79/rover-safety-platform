@@ -1,0 +1,138 @@
+plan_id: core-live-qualification
+description: "Core Phase 13 live qualification scenarios. Each entry is intended to be executed by a self-hosted ROS 2 Jazzy + Gazebo Harmonic runner via rover_ws/tools/live_bag_capture.py. The platform is not safety-certified; these scenarios produce engineering qualification evidence, not regulatory artefacts."
+scenarios:
+  - scenario_id: nominal_runtime_launch
+    purpose: "Bring up the full system launch and confirm the supervisor enters ACTIVE_NORMAL with no faults."
+    launch_file: rover_ws/launch/full_system.launch.py
+    expected_topics:
+      - /safety/state
+      - /safety/transition
+      - /cmd_vel
+      - /odom
+      - /scan
+    expected_safety_states:
+      - ACTIVE_NORMAL
+    expected_events:
+      - safety.state_entered
+      - bridge.connected
+    required_bag_topics:
+      - /safety/state
+      - /safety/transition
+      - /cmd_vel
+    timeout_seconds: 90
+    evidence_required:
+      - bag-manifest.json
+      - events.jsonl
+      - logs/launch.log
+    failure_mode: not_executed_if_no_jazzy_host
+  - scenario_id: authorized_motion_path
+    purpose: "Exercise the full request -> authorise -> arbitrate -> actuate pipeline on a healthy host and capture the authorised command events."
+    launch_file: rover_ws/launch/full_system.launch.py
+    expected_topics:
+      - /cmd_vel
+      - /cmd_vel/requested
+      - /cmd_vel/authorized
+      - /safety/state
+    expected_safety_states:
+      - ACTIVE_NORMAL
+    expected_events:
+      - command.requested
+      - command.authorised
+      - command.actuated
+    required_bag_topics:
+      - /cmd_vel
+      - /cmd_vel/requested
+      - /cmd_vel/authorized
+    timeout_seconds: 90
+    evidence_required:
+      - bag-manifest.json
+      - events.jsonl
+    failure_mode: not_executed_if_no_jazzy_host
+  - scenario_id: safe_stop_command_zeroing
+    purpose: "Force SAFE_STOP and confirm authorised commands are zeroed irrespective of incoming requests."
+    launch_file: rover_ws/launch/full_system.launch.py
+    expected_topics:
+      - /safety/state
+      - /cmd_vel
+      - /cmd_vel/authorized
+    expected_safety_states:
+      - ACTIVE_NORMAL
+      - SAFE_STOP
+    expected_events:
+      - safety.transition
+      - command.zeroed_in_safe_stop
+    required_bag_topics:
+      - /safety/state
+      - /cmd_vel/authorized
+    timeout_seconds: 120
+    evidence_required:
+      - bag-manifest.json
+      - events.jsonl
+    failure_mode: not_executed_if_no_jazzy_host
+  - scenario_id: stale_lidar_restricted_mode
+    purpose: "Inject lidar staleness via the fault library and confirm the supervisor enters RESTRICTED then SAFE_STOP, with the authorised commands clamped or zeroed accordingly."
+    launch_file: rover_ws/launch/full_system_with_faults.launch.py
+    expected_topics:
+      - /safety/state
+      - /scan
+      - /cmd_vel/authorized
+    expected_safety_states:
+      - ACTIVE_NORMAL
+      - RESTRICTED
+      - SAFE_STOP
+    expected_events:
+      - fault.injected
+      - safety.transition
+    required_bag_topics:
+      - /scan
+      - /safety/state
+      - /cmd_vel/authorized
+    timeout_seconds: 180
+    evidence_required:
+      - bag-manifest.json
+      - events.jsonl
+    failure_mode: not_executed_if_no_jazzy_host
+  - scenario_id: command_timeout_safe_stop
+    purpose: "Drop the command channel and confirm the supervisor transitions to SAFE_STOP with a reason code."
+    launch_file: rover_ws/launch/full_system_with_faults.launch.py
+    expected_topics:
+      - /safety/state
+      - /cmd_vel
+      - /cmd_vel/authorized
+    expected_safety_states:
+      - ACTIVE_NORMAL
+      - SAFE_STOP
+    expected_events:
+      - fault.cmd_timeout
+      - safety.transition
+    required_bag_topics:
+      - /safety/state
+      - /cmd_vel/authorized
+    timeout_seconds: 120
+    evidence_required:
+      - bag-manifest.json
+      - events.jsonl
+    failure_mode: not_executed_if_no_jazzy_host
+  - scenario_id: estop_latched_manual_reset_required
+    purpose: "Trigger E-stop and confirm the supervisor latches in E_STOP_LATCHED until an explicit operator reset."
+    launch_file: rover_ws/launch/full_system.launch.py
+    expected_topics:
+      - /safety/state
+      - /operator/estop
+      - /operator/reset
+    expected_safety_states:
+      - ACTIVE_NORMAL
+      - E_STOP_LATCHED
+    expected_events:
+      - operator.estop
+      - safety.estop_latched
+      - operator.reset
+    required_bag_topics:
+      - /safety/state
+      - /operator/estop
+      - /operator/reset
+    timeout_seconds: 180
+    evidence_required:
+      - bag-manifest.json
+      - events.jsonl
+    failure_mode: not_executed_if_no_jazzy_host
