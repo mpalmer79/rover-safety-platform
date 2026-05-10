@@ -102,6 +102,22 @@ The bundle (`incidents/<incident_id>/`) contains:
 | `evidence-manifest.json` | Per-file presence, origin, and notes. |
 | `foxglove-replay-hints.json` | Topics, layout pointer, timeline markers. |
 
+### 6.1 Scenario evidence is self-contained
+
+Each `evidence/scenarios/<scenario_id>/` directory ships its own
+`events.jsonl`. The analysis layer prefers that file; if it is
+absent the loader falls back to the recording dir referenced by
+`evidence.json` (`observed.run_dir`). The `runs/` directory is
+gitignored — it holds full-fidelity recordings (bags, traces, raw
+sensor logs) that are too large to version. CI runs and fresh
+clones rely on the in-fixture `events.jsonl` for incident
+reconstruction; full-fidelity replay (bags / Foxglove) requires the
+`runs/` directory and a Jazzy host.
+
+When `events.jsonl` is missing from both locations the loader
+records a structured `missing_run_dir` warning and the classifier
+downgrades evidence status accordingly.
+
 ## 7. Indexing and comparison
 
 ```bash
