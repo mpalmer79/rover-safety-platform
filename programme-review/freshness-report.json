@@ -1,0 +1,101 @@
+{
+  "entries": [
+    {
+      "age_seconds": 15448,
+      "generated_at_utc": "2026-05-10T19:42:32+00:00",
+      "notes": "",
+      "record_id": "canonical",
+      "record_type": "reliability_impact",
+      "source_path": "reliability-impact/canonical/impact-report.json",
+      "status": "fresh",
+      "threshold_seconds": 1209600
+    },
+    {
+      "age_seconds": 17179,
+      "generated_at_utc": "2026-05-10T19:13:41+00:00",
+      "notes": "",
+      "record_id": "replay-analytics-report",
+      "record_type": "replay_analytics",
+      "source_path": "incidents/analytics/replay-analytics-report.json",
+      "status": "fresh",
+      "threshold_seconds": 1209600
+    },
+    {
+      "age_seconds": 86296,
+      "generated_at_utc": "2026-05-10T00:01:44+00:00",
+      "notes": "",
+      "record_id": "qualified-2026-05-10",
+      "record_type": "runtime_qualification",
+      "source_path": "evidence/runtime/qualified-2026-05-10/qualification-summary.json",
+      "status": "fresh",
+      "threshold_seconds": 2592000
+    },
+    {
+      "age_seconds": 22652,
+      "generated_at_utc": "2026-05-10T17:42:28+00:00",
+      "notes": "",
+      "record_id": "canonical-estop-latched",
+      "record_type": "replay_review",
+      "source_path": "incidents/canonical-estop-latched/replay-review-report.json",
+      "status": "fresh",
+      "threshold_seconds": 2592000
+    },
+    {
+      "age_seconds": 22652,
+      "generated_at_utc": "2026-05-10T17:42:28+00:00",
+      "notes": "",
+      "record_id": "canonical-stale-lidar",
+      "record_type": "replay_review",
+      "source_path": "incidents/canonical-stale-lidar/replay-review-report.json",
+      "status": "fresh",
+      "threshold_seconds": 2592000
+    },
+    {
+      "age_seconds": 22652,
+      "generated_at_utc": "2026-05-10T17:42:28+00:00",
+      "notes": "",
+      "record_id": "canonical-static-qualification",
+      "record_type": "replay_review",
+      "source_path": "incidents/canonical-static-qualification/replay-review-report.json",
+      "status": "fresh",
+      "threshold_seconds": 2592000
+    },
+    {
+      "age_seconds": 24784,
+      "generated_at_utc": "2026-05-10T17:06:56+00:00",
+      "notes": "",
+      "record_id": "canonical-estop-latched",
+      "record_type": "incident",
+      "source_path": "incidents/canonical-estop-latched/incident-report.json",
+      "status": "fresh",
+      "threshold_seconds": 5184000
+    },
+    {
+      "age_seconds": 24784,
+      "generated_at_utc": "2026-05-10T17:06:56+00:00",
+      "notes": "",
+      "record_id": "canonical-stale-lidar",
+      "record_type": "incident",
+      "source_path": "incidents/canonical-stale-lidar/incident-report.json",
+      "status": "fresh",
+      "threshold_seconds": 5184000
+    },
+    {
+      "age_seconds": 24784,
+      "generated_at_utc": "2026-05-10T17:06:56+00:00",
+      "notes": "",
+      "record_id": "canonical-static-qualification",
+      "record_type": "incident",
+      "source_path": "incidents/canonical-static-qualification/incident-report.json",
+      "status": "fresh",
+      "threshold_seconds": 5184000
+    }
+  ],
+  "notes": [],
+  "reference_time_utc": "2026-05-11T00:00:00+00:00",
+  "status_counts": {
+    "fresh": 9,
+    "stale": 0,
+    "unknown": 0
+  }
+}

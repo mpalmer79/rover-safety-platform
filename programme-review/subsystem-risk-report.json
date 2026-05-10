@@ -1,0 +1,57 @@
+{
+  "notes": [],
+  "rows": [
+    {
+      "frequency": 1,
+      "gate_failure_count": 0,
+      "repeat_regression_count": 0,
+      "representative_artifacts": [
+        "reliability-impact/canonical/impact-report.json"
+      ],
+      "severity_distribution": {
+        "moderate": 2
+      },
+      "subsystem": "ci",
+      "unresolved_warning_count": 2
+    },
+    {
+      "frequency": 1,
+      "gate_failure_count": 0,
+      "repeat_regression_count": 0,
+      "representative_artifacts": [
+        "reliability-impact/canonical/impact-report.json"
+      ],
+      "severity_distribution": {
+        "moderate": 2
+      },
+      "subsystem": "docs",
+      "unresolved_warning_count": 2
+    },
+    {
+      "frequency": 1,
+      "gate_failure_count": 0,
+      "repeat_regression_count": 0,
+      "representative_artifacts": [
+        "reliability-impact/canonical/impact-report.json"
+      ],
+      "severity_distribution": {
+        "moderate": 2
+      },
+      "subsystem": "replay_analytics",
+      "unresolved_warning_count": 2
+    },
+    {
+      "frequency": 1,
+      "gate_failure_count": 0,
+      "repeat_regression_count": 0,
+      "representative_artifacts": [
+        "reliability-impact/canonical/impact-report.json"
+      ],
+      "severity_distribution": {
+        "moderate": 2
+      },
+      "subsystem": "safety",
+      "unresolved_warning_count": 2
+    }
+  ]
+}

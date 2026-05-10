@@ -1,0 +1,20 @@
+{
+  "drift_severity": "warning",
+  "fixture_mode": false,
+  "freshness_status_counts": {
+    "fresh": 9,
+    "stale": 0,
+    "unknown": 0
+  },
+  "gate_volatility": "unknown",
+  "generated_at_utc": "2026-05-11T00:00:00+00:00",
+  "history_counts": {
+    "incident": 3,
+    "reliability_impact": 1,
+    "replay_analytics": 1,
+    "replay_review": 3,
+    "runtime_qualification": 1
+  },
+  "overall_health": "weak",
+  "warnings": []
+}

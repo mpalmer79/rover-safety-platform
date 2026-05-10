@@ -33,6 +33,7 @@ class RequirementKind(str, Enum):
     INCIDENT = "incident"
     ANALYTICS = "analytics"
     IMPACT = "impact"
+    PROGRAMME = "programme"
 
 
 @dataclass(frozen=True)
@@ -1208,6 +1209,254 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "backend/tests/test_reliability_impact.py::test_risk_assessor_safety_changes_high_risk_without_evidence",
             "backend/tests/test_reliability_impact.py::test_risk_assessor_docs_only_low_risk",
             "backend/tests/test_reliability_impact.py::test_risk_assessor_unknown_files_moderate",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROGRAMME-001",
+        kind=RequirementKind.PROGRAMME,
+        title="Longitudinal aggregation must load every available reliability artefact deterministically",
+        description=(
+            "The history loader must consume reliability-impact "
+            "bundles, replay analytics reports, runtime qualification "
+            "reports, replay review reports, and incident reports "
+            "without failing the whole aggregation on a single "
+            "malformed artefact. Malformed inputs become structured "
+            "warnings; missing-history scenarios become "
+            "``insufficient_history``, never regression."
+        ),
+        architecture_refs=(
+            "docs/PROGRAMME_REVIEW.md",
+            "docs/RELIABILITY_TREND_ANALYSIS.md",
+        ),
+        implementation_refs=(
+            "backend/app/programme_review/history_loader.py",
+            "backend/app/programme_review/aggregation.py",
+        ),
+        test_refs=(
+            "backend/tests/test_programme_review.py::test_history_loader_handles_missing_dir",
+            "backend/tests/test_programme_review.py::test_history_loader_isolates_malformed_report",
+            "backend/tests/test_programme_review.py::test_history_loader_orders_by_generated_at",
+            "backend/tests/test_programme_review.py::test_history_loader_detects_duplicates",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROGRAMME-002",
+        kind=RequirementKind.PROGRAMME,
+        title="Replay-quality trends must be deterministic and labelled when history is insufficient",
+        description=(
+            "The trend analyser classifies replay-quality history "
+            "into {improving, stable, degrading, volatile, "
+            "insufficient_history}. Classification is deterministic "
+            "given the same history sequence; one-sample histories "
+            "always return ``insufficient_history``."
+        ),
+        architecture_refs=(
+            "docs/RELIABILITY_TREND_ANALYSIS.md",
+        ),
+        implementation_refs=(
+            "backend/app/programme_review/trend_analysis.py",
+        ),
+        test_refs=(
+            "backend/tests/test_programme_review.py::test_trend_improving",
+            "backend/tests/test_programme_review.py::test_trend_degrading",
+            "backend/tests/test_programme_review.py::test_trend_stable",
+            "backend/tests/test_programme_review.py::test_trend_volatile",
+            "backend/tests/test_programme_review.py::test_trend_insufficient_history",
+            "backend/tests/test_programme_review.py::test_trend_is_deterministic",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROGRAMME-003",
+        kind=RequirementKind.PROGRAMME,
+        title="Reliability drift must be classified deterministically with documented rules",
+        description=(
+            "Drift detectors map history into one of {informational, "
+            "warning, regression, critical_regression}. Rules are "
+            "documented in `docs/RELIABILITY_TREND_ANALYSIS.md`; the "
+            "detector never invents drift when history is missing."
+        ),
+        architecture_refs=(
+            "docs/RELIABILITY_TREND_ANALYSIS.md",
+        ),
+        implementation_refs=(
+            "backend/app/programme_review/drift_detection.py",
+        ),
+        test_refs=(
+            "backend/tests/test_programme_review.py::test_drift_replay_score_critical",
+            "backend/tests/test_programme_review.py::test_drift_increasing_missing_bag",
+            "backend/tests/test_programme_review.py::test_drift_increasing_static_only",
+            "backend/tests/test_programme_review.py::test_drift_growing_unknown_file_count",
+            "backend/tests/test_programme_review.py::test_drift_insufficient_history_is_informational",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROGRAMME-004",
+        kind=RequirementKind.PROGRAMME,
+        title="Governance health must roll up evidence, replay, CI, traceability, runtime, and review discipline",
+        description=(
+            "Six discipline categories aggregate into a single "
+            "programme-level health: {strong, acceptable, weak, "
+            "concerning, critical}. Every category records the "
+            "triggering artefacts so the report shows exactly what "
+            "produced the rating."
+        ),
+        architecture_refs=(
+            "docs/GOVERNANCE_HEALTH_MODEL.md",
+        ),
+        implementation_refs=(
+            "backend/app/programme_review/governance_health.py",
+        ),
+        test_refs=(
+            "backend/tests/test_programme_review.py::test_governance_strong_when_all_disciplines_pass",
+            "backend/tests/test_programme_review.py::test_governance_concerning_on_repeat_failures",
+            "backend/tests/test_programme_review.py::test_governance_records_triggering_artifacts",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROGRAMME-005",
+        kind=RequirementKind.PROGRAMME,
+        title="Evidence freshness must be reported, not enforced via wall-clock",
+        description=(
+            "Freshness compares each artefact's recorded "
+            "``generated_at_utc`` against an explicit reference time "
+            "supplied by the caller (CI passes UTC ``now``; tests "
+            "supply fixture timestamps). Wall-clock fetches inside "
+            "the layer are forbidden so tests are not flaky."
+        ),
+        architecture_refs=(
+            "docs/EVIDENCE_FRESHNESS_POLICY.md",
+        ),
+        implementation_refs=(
+            "backend/app/programme_review/freshness.py",
+        ),
+        test_refs=(
+            "backend/tests/test_programme_review.py::test_freshness_fresh_when_recent",
+            "backend/tests/test_programme_review.py::test_freshness_stale_when_older_than_threshold",
+            "backend/tests/test_programme_review.py::test_freshness_unknown_when_no_timestamp",
+            "backend/tests/test_programme_review.py::test_freshness_uses_supplied_now",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROGRAMME-006",
+        kind=RequirementKind.PROGRAMME,
+        title="Subsystem risk must aggregate frequency, severity, and recurrence",
+        description=(
+            "The aggregator counts how often each subsystem appeared "
+            "across reliability-impact bundles, the severity "
+            "distribution, repeat regression count, gate failure "
+            "count, and unresolved warning count. The report ranks "
+            "subsystems but never claims causality."
+        ),
+        architecture_refs=(
+            "docs/SUBSYSTEM_RISK_AGGREGATION.md",
+        ),
+        implementation_refs=(
+            "backend/app/programme_review/subsystem_risk.py",
+        ),
+        test_refs=(
+            "backend/tests/test_programme_review.py::test_subsystem_risk_counts_frequency",
+            "backend/tests/test_programme_review.py::test_subsystem_risk_records_repeat_regressions",
+            "backend/tests/test_programme_review.py::test_subsystem_risk_ranks_by_severity",
+            "backend/tests/test_programme_review.py::test_subsystem_risk_never_infers_causality",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROGRAMME-007",
+        kind=RequirementKind.PROGRAMME,
+        title="Coverage evolution must preserve evidence origin labels through aggregation",
+        description=(
+            "Bag status / evidence origin distributions tracked over "
+            "time must label mixed-origin samples explicitly. A "
+            "static-only baseline never silently combines with "
+            "bag-backed history into a single trend line."
+        ),
+        architecture_refs=(
+            "docs/PROGRAMME_REVIEW.md",
+            "docs/RELIABILITY_TREND_ANALYSIS.md",
+        ),
+        implementation_refs=(
+            "backend/app/programme_review/coverage_evolution.py",
+        ),
+        test_refs=(
+            "backend/tests/test_programme_review.py::test_coverage_evolution_preserves_origin",
+            "backend/tests/test_programme_review.py::test_coverage_evolution_labels_mixed_origin",
+            "backend/tests/test_programme_review.py::test_coverage_evolution_static_only_stays_static_only",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROGRAMME-008",
+        kind=RequirementKind.PROGRAMME,
+        title="CI gate history must aggregate pass / warning / failure counts and gate volatility",
+        description=(
+            "The gate-history module records gate outcomes across "
+            "every reliability-impact bundle in the history window, "
+            "computes a volatility label (steady / oscillating / "
+            "regressing / improving), and reports the most recent "
+            "transition. The module never fabricates durations when "
+            "timestamps are absent."
+        ),
+        architecture_refs=(
+            "docs/PROGRAMME_REVIEW.md",
+            "docs/CI_RELIABILITY_GATE.md",
+        ),
+        implementation_refs=(
+            "backend/app/programme_review/gate_history.py",
+        ),
+        test_refs=(
+            "backend/tests/test_programme_review.py::test_gate_history_counts_outcomes",
+            "backend/tests/test_programme_review.py::test_gate_history_volatility_steady",
+            "backend/tests/test_programme_review.py::test_gate_history_volatility_oscillating",
+            "backend/tests/test_programme_review.py::test_gate_history_unknown_when_no_data",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROGRAMME-009",
+        kind=RequirementKind.PROGRAMME,
+        title="Programme review reports must distinguish missing history from regression",
+        description=(
+            "When history is partial the report says so explicitly: "
+            "``insufficient_history`` for trends, ``unknown`` for "
+            "freshness, ``unknown`` for gate volatility. None of "
+            "these states fail CI. Mixed-origin aggregates always "
+            "label the origin mix."
+        ),
+        architecture_refs=(
+            "docs/PROGRAMME_REVIEW.md",
+            "docs/GOVERNANCE_HEALTH_MODEL.md",
+        ),
+        implementation_refs=(
+            "backend/app/programme_review/reporting.py",
+            "backend/app/programme_review/aggregation.py",
+        ),
+        test_refs=(
+            "backend/tests/test_programme_review.py::test_report_labels_insufficient_history",
+            "backend/tests/test_programme_review.py::test_report_labels_mixed_origin",
+            "backend/tests/test_programme_review.py::test_report_does_not_fail_on_partial_history",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROGRAMME-010",
+        kind=RequirementKind.PROGRAMME,
+        title="Programme review CI workflow must not fail on missing live runtime evidence",
+        description=(
+            "The github-hosted CI workflow runs the programme review "
+            "tools on every dispatch and never fails solely because "
+            "live runtime evidence is missing on a github-hosted "
+            "runner. Failures are reserved for documented critical "
+            "governance conditions."
+        ),
+        architecture_refs=(
+            "docs/PROGRAMME_REVIEW.md",
+            "docs/CI_RELIABILITY_GATE.md",
+        ),
+        implementation_refs=(
+            ".github/workflows/programme-review.yml",
+            "rover_ws/tools/generate_programme_review.py",
+        ),
+        test_refs=(
+            "backend/tests/test_programme_review.py::test_programme_workflow_is_github_hosted",
+            "backend/tests/test_programme_review.py::test_programme_workflow_supports_dispatch",
+            "backend/tests/test_programme_review.py::test_programme_workflow_uploads_artifacts",
         ),
     ),
 )
