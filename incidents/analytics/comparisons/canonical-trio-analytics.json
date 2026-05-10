@@ -1,0 +1,108 @@
+{
+  "comparison_id": "canonical-trio-analytics",
+  "deltas": [
+    {
+      "contradictions_delta": 0,
+      "evidence_completeness_delta": 0.0,
+      "left_evidence_origin": "scenario-evidence",
+      "left_incident": "canonical-estop-latched",
+      "marker_alignment_delta": 0.0,
+      "missing_topics_delta": 0,
+      "right_evidence_origin": "scenario-evidence",
+      "right_incident": "canonical-stale-lidar",
+      "score_delta": 0
+    },
+    {
+      "contradictions_delta": 0,
+      "evidence_completeness_delta": 70.0,
+      "left_evidence_origin": "scenario-evidence",
+      "left_incident": "canonical-estop-latched",
+      "marker_alignment_delta": 100.0,
+      "missing_topics_delta": 0,
+      "right_evidence_origin": "scenario-evidence",
+      "right_incident": "canonical-static-qualification",
+      "score_delta": 22
+    }
+  ],
+  "notes": [],
+  "rows": [
+    {
+      "bag_status": "missing_bag",
+      "blocking_gaps": [
+        "metric_unavailable[expected_topics_present_pct]",
+        "bag_status=missing_bag"
+      ],
+      "contradiction_count": 0,
+      "coverage_status": "sparse",
+      "evidence_completeness_pct": 100.0,
+      "evidence_origin": "scenario-evidence",
+      "evidence_status": "complete",
+      "expected_topics_present_pct": null,
+      "incident_id": "canonical-estop-latched",
+      "marker_alignment_pct": 100.0,
+      "missing_topics_count": 0,
+      "outcome": "estop_latched",
+      "quality_score": 59,
+      "review_artifact_completeness_pct": 100.0,
+      "review_completion_status": "not_started",
+      "safety_states": [
+        "INACTIVE",
+        "ACTIVE_NORMAL",
+        "E_STOP_LATCHED"
+      ],
+      "scenario_id": "estop_latched_manual_reset_required",
+      "timeline_alignment_pct": 96.3
+    },
+    {
+      "bag_status": "missing_bag",
+      "blocking_gaps": [
+        "metric_unavailable[expected_topics_present_pct]",
+        "bag_status=missing_bag"
+      ],
+      "contradiction_count": 0,
+      "coverage_status": "sparse",
+      "evidence_completeness_pct": 100.0,
+      "evidence_origin": "scenario-evidence",
+      "evidence_status": "complete",
+      "expected_topics_present_pct": null,
+      "incident_id": "canonical-stale-lidar",
+      "marker_alignment_pct": 100.0,
+      "missing_topics_count": 0,
+      "outcome": "safe_stop_success",
+      "quality_score": 59,
+      "review_artifact_completeness_pct": 100.0,
+      "review_completion_status": "not_started",
+      "safety_states": [
+        "INACTIVE",
+        "ACTIVE_NORMAL",
+        "ACTIVE_DEGRADED",
+        "SAFE_STOP"
+      ],
+      "scenario_id": "stale_lidar_restricted_mode",
+      "timeline_alignment_pct": 98.85
+    },
+    {
+      "bag_status": "static_only",
+      "blocking_gaps": [
+        "metric_unavailable[expected_topics_present_pct]",
+        "bag_status=static_only"
+      ],
+      "contradiction_count": 0,
+      "coverage_status": "sparse",
+      "evidence_completeness_pct": 30.0,
+      "evidence_origin": "scenario-evidence",
+      "evidence_status": "static_only",
+      "expected_topics_present_pct": null,
+      "incident_id": "canonical-static-qualification",
+      "marker_alignment_pct": 0.0,
+      "missing_topics_count": 0,
+      "outcome": "inconclusive",
+      "quality_score": 37,
+      "review_artifact_completeness_pct": 100.0,
+      "review_completion_status": "not_started",
+      "safety_states": [],
+      "scenario_id": null,
+      "timeline_alignment_pct": 0.0
+    }
+  ]
+}

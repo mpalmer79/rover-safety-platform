@@ -1,0 +1,17 @@
+{
+  "audit_path": "",
+  "completed_steps": [],
+  "incident_id": "canonical-stale-lidar",
+  "notes": "",
+  "operator": "",
+  "pending_steps": [
+    "bag_status_reviewed",
+    "missing_topics_reviewed",
+    "markers_loaded",
+    "safety_state_matches_report",
+    "cmd_vel_arbitration_matches_audit",
+    "replay_integrity_checked",
+    "discrepancies_recorded_outside_bundle"
+  ],
+  "status": "not_started"
+}

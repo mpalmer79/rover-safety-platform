@@ -1,0 +1,46 @@
+{
+  "bag_status": "missing_bag",
+  "coverage_status": "sparse",
+  "evidence_origin": "scenario-evidence",
+  "generated_at_utc": "2026-05-10T19:13:41+00:00",
+  "incident_id": "canonical-estop-latched",
+  "metrics": [
+    {
+      "available": false,
+      "detail": "bag inventory unavailable; cannot measure topic coverage",
+      "name": "expected_topics_present_pct",
+      "value": null
+    },
+    {
+      "available": true,
+      "detail": "4 of 4 marker(s) at exact alignment",
+      "name": "marker_alignment_pct",
+      "value": 100.0
+    },
+    {
+      "available": true,
+      "detail": "52 of 54 entries carry sim_time_ns",
+      "name": "timeline_alignment_pct",
+      "value": 96.3
+    },
+    {
+      "available": true,
+      "detail": "5 of 7 validation result(s) passed",
+      "name": "replay_validation_pass_rate",
+      "value": 71.43
+    },
+    {
+      "available": true,
+      "detail": "evidence_status=complete",
+      "name": "evidence_completeness_pct",
+      "value": 100.0
+    },
+    {
+      "available": true,
+      "detail": "10 of 10 canonical review artefact(s) present",
+      "name": "review_artifact_completeness_pct",
+      "value": 100.0
+    }
+  ],
+  "notes": []
+}

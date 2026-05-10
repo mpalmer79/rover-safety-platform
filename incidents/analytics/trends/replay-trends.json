@@ -1,0 +1,72 @@
+{
+  "bag_status_distribution": {
+    "missing_bag": 2,
+    "static_only": 1
+  },
+  "coverage_status_distribution": {
+    "sparse": 3
+  },
+  "evidence_origin_distribution": {
+    "scenario-evidence": 3
+  },
+  "incident_count": 3,
+  "most_common_gaps": [
+    [
+      "missing_bag",
+      2
+    ],
+    [
+      "poor_marker_alignment",
+      1
+    ],
+    [
+      "static_only_evidence",
+      1
+    ]
+  ],
+  "most_common_missing_topics": [],
+  "most_common_outcomes": [
+    [
+      "estop_latched",
+      1
+    ],
+    [
+      "inconclusive",
+      1
+    ],
+    [
+      "safe_stop_success",
+      1
+    ]
+  ],
+  "most_common_safety_states": [
+    [
+      "ACTIVE_NORMAL",
+      2
+    ],
+    [
+      "INACTIVE",
+      2
+    ],
+    [
+      "ACTIVE_DEGRADED",
+      1
+    ],
+    [
+      "E_STOP_LATCHED",
+      1
+    ],
+    [
+      "SAFE_STOP",
+      1
+    ]
+  ],
+  "notes": [],
+  "quality_score_buckets": {
+    "0-39": 1,
+    "40-69": 2
+  },
+  "review_completion_distribution": {
+    "not_started": 3
+  }
+}

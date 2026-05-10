@@ -31,6 +31,7 @@ class RequirementKind(str, Enum):
     OPERATOR = "operator"
     RUNTIME = "runtime"
     INCIDENT = "incident"
+    ANALYTICS = "analytics"
 
 
 @dataclass(frozen=True)
@@ -944,6 +945,128 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         test_refs=(
             "backend/tests/test_replay_review.py::test_replay_workflow_uses_self_hosted_runner",
             "backend/tests/test_replay_review.py::test_replay_workflow_is_dispatch_only",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-ANALYTICS-001",
+        kind=RequirementKind.ANALYTICS,
+        title="Replay bundles must support deterministic replay coverage analysis",
+        description=(
+            "The replay analytics layer must derive coverage metrics "
+            "(expected_topics_present_pct, marker_alignment_pct, "
+            "timeline_alignment_pct, replay_validation_pass_rate, "
+            "evidence_completeness_pct, review_artifact_completeness_pct) "
+            "from the replay-review bundle alone. The same input must "
+            "yield byte-identical metrics on every run."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_ANALYTICS.md",
+            "docs/REPLAY_QUALITY_SCORING.md",
+        ),
+        implementation_refs=(
+            "backend/app/replay_analytics/coverage.py",
+            "backend/app/replay_analytics/loader.py",
+        ),
+        test_refs=(
+            "backend/tests/test_replay_analytics.py::test_coverage_metrics_are_deterministic",
+            "backend/tests/test_replay_analytics.py::test_coverage_unavailable_when_no_inventory",
+            "backend/tests/test_replay_analytics.py::test_coverage_marks_metrics_unavailable_honestly",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-ANALYTICS-002",
+        kind=RequirementKind.ANALYTICS,
+        title="Replay quality scoring must degrade honestly when replay artifacts are missing",
+        description=(
+            "Static-only and missing-bag incidents must never receive "
+            "a high replay-quality score. The scoring function is "
+            "deterministic, evidence-derived, and rejects "
+            "fabricated coverage. Score bands (90-100 / 70-89 / "
+            "40-69 / 0-39) match the runbook."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_QUALITY_SCORING.md",
+            "docs/REPLAY_GAP_ANALYSIS.md",
+        ),
+        implementation_refs=(
+            "backend/app/replay_analytics/scoring.py",
+        ),
+        test_refs=(
+            "backend/tests/test_replay_analytics.py::test_scoring_static_only_below_40",
+            "backend/tests/test_replay_analytics.py::test_scoring_missing_bag_below_60",
+            "backend/tests/test_replay_analytics.py::test_scoring_complete_replay_at_or_above_90",
+            "backend/tests/test_replay_analytics.py::test_scoring_is_deterministic",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-ANALYTICS-003",
+        kind=RequirementKind.ANALYTICS,
+        title="Cross-incident replay comparisons must preserve evidence-origin distinctions",
+        description=(
+            "The cross-incident comparator must carry the evidence "
+            "origin (scenario-evidence / runtime-evidence / "
+            "live-runtime / bag-backed / unknown) for every row so "
+            "reviewers cannot confuse static-only with bag-backed "
+            "evidence in a comparison report."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_ANALYTICS.md",
+        ),
+        implementation_refs=(
+            "backend/app/replay_analytics/comparison.py",
+        ),
+        test_refs=(
+            "backend/tests/test_replay_analytics.py::test_comparison_preserves_evidence_origin",
+            "backend/tests/test_replay_analytics.py::test_comparison_orders_by_quality_score",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-ANALYTICS-004",
+        kind=RequirementKind.ANALYTICS,
+        title="Operator review completion must never be inferred automatically",
+        description=(
+            "The review audit module recognises completion only via "
+            "an explicit `review-audit.json` artefact with the "
+            "operator's acknowledgement. If the file is absent the "
+            "audit reports `not_started`; the analytics layer never "
+            "promotes a missing acknowledgement to `completed`."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_REVIEW_AUDIT.md",
+        ),
+        implementation_refs=(
+            "backend/app/replay_analytics/review_audit.py",
+        ),
+        test_refs=(
+            "backend/tests/test_replay_analytics.py::test_review_audit_absent_metadata_is_not_started",
+            "backend/tests/test_replay_analytics.py::test_review_audit_completed_requires_explicit_flag",
+            "backend/tests/test_replay_analytics.py::test_review_audit_partial_when_some_steps_done",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-ANALYTICS-005",
+        kind=RequirementKind.ANALYTICS,
+        title="Replay analytics reports must distinguish static-only, missing-bag, partial, and bag-backed incidents",
+        description=(
+            "The aggregate report and the index file must group "
+            "incidents by replay execution status / evidence origin "
+            "so a reviewer can see at a glance which incidents have "
+            "live bag evidence and which are static-only. The trend "
+            "tables never aggregate across origin classes without "
+            "labelling the difference."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_ANALYTICS.md",
+            "docs/REPLAY_ANALYTICS_INDEX.md",
+        ),
+        implementation_refs=(
+            "backend/app/replay_analytics/reporting.py",
+            "backend/app/replay_analytics/index.py",
+        ),
+        test_refs=(
+            "backend/tests/test_replay_analytics.py::test_report_distribution_by_bag_status",
+            "backend/tests/test_replay_analytics.py::test_index_filters_by_bag_status",
+            "backend/tests/test_replay_analytics.py::test_index_filters_by_quality_score",
         ),
     ),
 )
