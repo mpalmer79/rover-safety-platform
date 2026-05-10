@@ -1,0 +1,31 @@
+{
+  "rows": [
+    {
+      "bag_status": "missing_bag",
+      "bucket": "40-69",
+      "coverage_status": "sparse",
+      "evidence_origin": "scenario-evidence",
+      "incident_id": "canonical-estop-latched",
+      "scenario_id": "estop_latched_manual_reset_required",
+      "score": 59
+    },
+    {
+      "bag_status": "missing_bag",
+      "bucket": "40-69",
+      "coverage_status": "sparse",
+      "evidence_origin": "scenario-evidence",
+      "incident_id": "canonical-stale-lidar",
+      "scenario_id": "stale_lidar_restricted_mode",
+      "score": 59
+    },
+    {
+      "bag_status": "static_only",
+      "bucket": "0-39",
+      "coverage_status": "sparse",
+      "evidence_origin": "scenario-evidence",
+      "incident_id": "canonical-static-qualification",
+      "scenario_id": null,
+      "score": 37
+    }
+  ]
+}

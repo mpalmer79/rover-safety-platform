@@ -1,0 +1,283 @@
+{
+  "analytics_delta": {
+    "baseline_path": "reliability-baselines/replay-quality-index.baseline.json",
+    "current_path": "incidents/analytics/replay-quality-index.json",
+    "entries": [],
+    "severity": "neutral",
+    "summary_counts": {
+      "critical_regression": 0,
+      "improvement": 0,
+      "neutral": 0,
+      "regression": 0,
+      "warning": 0
+    },
+    "warnings": []
+  },
+  "assessment": {
+    "overall_risk": "moderate",
+    "risks": [
+      {
+        "cited_artifacts": [
+          "evidence/scenarios/",
+          "incidents/",
+          "verification/traceability.json"
+        ],
+        "label": "safety_path_touched",
+        "level": "moderate",
+        "rationale": "safety-critical subsystem changed; regenerate the cited evidence artefacts before merge"
+      },
+      {
+        "cited_artifacts": [
+          ".github/workflows/runtime-static-validation.yml"
+        ],
+        "label": "ci_workflow_changed",
+        "level": "moderate",
+        "rationale": "1 CI workflow file(s) changed; review whether existing gates are preserved"
+      }
+    ]
+  },
+  "base_ref": "",
+  "baseline": {
+    "analytics_report_path": "reliability-baselines/replay-analytics-report.baseline.json",
+    "available": true,
+    "notes": "",
+    "quality_index_path": "reliability-baselines/replay-quality-index.baseline.json"
+  },
+  "evidence_impacts": [
+    {
+      "notes": "",
+      "recommended_artifacts": [
+        "evidence/scenarios/",
+        "incidents/",
+        "verification/traceability.json"
+      ],
+      "recommended_tools": [
+        "tools/audit_command_path.py",
+        "tools/audit_safety_transitions.py",
+        "tools/generate_evidence.py",
+        "tools/generate_traceability.py"
+      ],
+      "requirement_ids": [
+        "REQ-SAFE-001",
+        "REQ-SAFE-002",
+        "REQ-SAFE-003",
+        "REQ-SAFE-004",
+        "REQ-FAULT-001",
+        "REQ-FAULT-002",
+        "REQ-OP-001"
+      ],
+      "subsystem": "safety"
+    },
+    {
+      "notes": "",
+      "recommended_artifacts": [
+        "incidents/analytics/",
+        "docs/REPLAY_ANALYTICS_INDEX.md"
+      ],
+      "recommended_tools": [
+        "rover_ws/tools/analyze_replay_coverage.py",
+        "rover_ws/tools/generate_replay_analytics.py",
+        "rover_ws/tools/compare_replay_reviews.py",
+        "rover_ws/tools/audit_replay_reviews.py"
+      ],
+      "requirement_ids": [
+        "REQ-ANALYTICS-001",
+        "REQ-ANALYTICS-002",
+        "REQ-ANALYTICS-003",
+        "REQ-ANALYTICS-004",
+        "REQ-ANALYTICS-005"
+      ],
+      "subsystem": "replay_analytics"
+    },
+    {
+      "notes": "documentation-only change; rerun the traceability matrix to refresh links.",
+      "recommended_artifacts": [],
+      "recommended_tools": [],
+      "requirement_ids": [],
+      "subsystem": "docs"
+    },
+    {
+      "notes": "",
+      "recommended_artifacts": [
+        ".github/workflows/"
+      ],
+      "recommended_tools": [
+        "tools/generate_traceability.py"
+      ],
+      "requirement_ids": [
+        "REQ-RUNTIME-001",
+        "REQ-RUNTIME-002",
+        "REQ-RUNTIME-003",
+        "REQ-RUNTIME-004",
+        "REQ-RUNTIME-005",
+        "REQ-RUNTIME-006",
+        "REQ-RUNTIME-007",
+        "REQ-RUNTIME-008",
+        "REQ-RUNTIME-009",
+        "REQ-RUNTIME-010",
+        "REQ-IMPACT-001",
+        "REQ-IMPACT-002",
+        "REQ-IMPACT-003",
+        "REQ-IMPACT-004",
+        "REQ-IMPACT-005"
+      ],
+      "subsystem": "ci"
+    }
+  ],
+  "fixture_mode": true,
+  "gate_decision": {
+    "failures": [],
+    "notes": [
+      "traceability matrix status not supplied",
+      "test status not supplied"
+    ],
+    "status": "passed",
+    "warnings": []
+  },
+  "generated_at_utc": "2026-05-10T19:42:32+00:00",
+  "head_ref": "",
+  "known_limitations": [
+    "The platform is **not** safety-certified. Impact analysis is engineering reliability material.",
+    "Source-level causality is asserted only when supported by explicit evidence; missing data is reported, not inferred.",
+    "Missing live runtime evidence on github-hosted CI is never treated as a failure; the gate only fails when explicit criteria are met.",
+    "Baselines are managed intentionally via the `--write-baseline` CLI flag; CI never auto-updates them.",
+    "When git history is unavailable the impact tooling supports `--changed-files` mode; metadata derived from git is reported as `not_executed` in that mode."
+  ],
+  "requirement_impacts": [
+    {
+      "notes": "",
+      "requirement_ids": [
+        "REQ-SAFE-001",
+        "REQ-SAFE-002",
+        "REQ-SAFE-003",
+        "REQ-SAFE-004",
+        "REQ-FAULT-001",
+        "REQ-FAULT-002",
+        "REQ-OP-001"
+      ],
+      "subsystem": "safety"
+    },
+    {
+      "notes": "",
+      "requirement_ids": [
+        "REQ-ANALYTICS-001",
+        "REQ-ANALYTICS-002",
+        "REQ-ANALYTICS-003",
+        "REQ-ANALYTICS-004",
+        "REQ-ANALYTICS-005"
+      ],
+      "subsystem": "replay_analytics"
+    },
+    {
+      "notes": "documentation-only change; no direct REQ-* coverage",
+      "requirement_ids": [],
+      "subsystem": "docs"
+    },
+    {
+      "notes": "",
+      "requirement_ids": [
+        "REQ-RUNTIME-001",
+        "REQ-RUNTIME-002",
+        "REQ-RUNTIME-003",
+        "REQ-RUNTIME-004",
+        "REQ-RUNTIME-005",
+        "REQ-RUNTIME-006",
+        "REQ-RUNTIME-007",
+        "REQ-RUNTIME-008",
+        "REQ-RUNTIME-009",
+        "REQ-RUNTIME-010",
+        "REQ-IMPACT-001",
+        "REQ-IMPACT-002",
+        "REQ-IMPACT-003",
+        "REQ-IMPACT-004",
+        "REQ-IMPACT-005"
+      ],
+      "subsystem": "ci"
+    }
+  ],
+  "source": "fixture",
+  "source_change": {
+    "base_ref": "",
+    "changed_files": [
+      {
+        "change_type": "modified",
+        "path": "backend/app/safety/supervisor.py",
+        "subsystem": "safety"
+      },
+      {
+        "change_type": "modified",
+        "path": "backend/app/replay_analytics/scoring.py",
+        "subsystem": "replay_analytics"
+      },
+      {
+        "change_type": "modified",
+        "path": "rover_ws/src/rover_safety_bridge/rover_safety_bridge/safety_bridge_node.py",
+        "subsystem": "safety"
+      },
+      {
+        "change_type": "modified",
+        "path": "docs/REPLAY_ANALYTICS.md",
+        "subsystem": "docs"
+      },
+      {
+        "change_type": "modified",
+        "path": ".github/workflows/runtime-static-validation.yml",
+        "subsystem": "ci"
+      }
+    ],
+    "head_ref": "",
+    "source": "fixture",
+    "warnings": []
+  },
+  "subsystem_impacts": [
+    {
+      "changed_files": [
+        {
+          "change_type": "modified",
+          "path": "backend/app/safety/supervisor.py",
+          "subsystem": "safety"
+        },
+        {
+          "change_type": "modified",
+          "path": "rover_ws/src/rover_safety_bridge/rover_safety_bridge/safety_bridge_node.py",
+          "subsystem": "safety"
+        }
+      ],
+      "is_safety_critical": true,
+      "subsystem": "safety"
+    },
+    {
+      "changed_files": [
+        {
+          "change_type": "modified",
+          "path": "backend/app/replay_analytics/scoring.py",
+          "subsystem": "replay_analytics"
+        }
+      ],
+      "is_safety_critical": false,
+      "subsystem": "replay_analytics"
+    },
+    {
+      "changed_files": [
+        {
+          "change_type": "modified",
+          "path": "docs/REPLAY_ANALYTICS.md",
+          "subsystem": "docs"
+        }
+      ],
+      "is_safety_critical": false,
+      "subsystem": "docs"
+    },
+    {
+      "changed_files": [
+        {
+          "change_type": "modified",
+          "path": ".github/workflows/runtime-static-validation.yml",
+          "subsystem": "ci"
+        }
+      ],
+      "is_safety_critical": false,
+      "subsystem": "ci"
+    }
+  ]
+}

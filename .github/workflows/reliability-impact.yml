@@ -1,0 +1,93 @@
+# Phase-9 source-to-replay reliability impact analysis.
+#
+# Runs on pull_request and workflow_dispatch on a github-hosted
+# runner. The analysis layer is read-only and never opens a bag
+# file; the gate honours the documented exception that missing
+# live runtime evidence on a github-hosted runner is **not** a
+# failure.
+
+name: reliability-impact
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  impact:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # We need history so `git diff` resolves the base ref.
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest pyyaml
+
+      - name: Resolve base ref
+        id: base
+        run: |
+          set -euo pipefail
+          base="${{ github.event.pull_request.base.ref || github.base_ref }}"
+          if [ -z "${base}" ]; then
+            base="main"
+          fi
+          # Ensure we have the base branch locally.
+          git fetch origin "${base}":"refs/remotes/origin/${base}" || true
+          echo "base_ref=origin/${base}" >> "$GITHUB_OUTPUT"
+
+      - name: Collect changed files
+        id: changes
+        run: |
+          set -euo pipefail
+          base="${{ steps.base.outputs.base_ref }}"
+          head="${{ github.event.pull_request.head.sha || github.sha }}"
+          if [ -z "${head}" ]; then
+            head="HEAD"
+          fi
+          tmp=$(mktemp)
+          git diff --name-only "${base}...${head}" > "${tmp}" || true
+          echo "changed_files_file=${tmp}" >> "$GITHUB_OUTPUT"
+          echo "base=${base}" >> "$GITHUB_OUTPUT"
+          echo "head=${head}" >> "$GITHUB_OUTPUT"
+          echo "--- changed files ---"
+          cat "${tmp}" || true
+
+      - name: Refresh replay analytics (best-effort, no live deps)
+        run: |
+          set -euo pipefail
+          python rover_ws/tools/generate_replay_analytics.py || true
+
+      - name: Run source impact analysis
+        run: |
+          set -euo pipefail
+          python rover_ws/tools/analyze_source_impact.py \
+            --base-ref "${{ steps.changes.outputs.base }}" \
+            --head-ref "${{ steps.changes.outputs.head }}" \
+            --changed-files-file "${{ steps.changes.outputs.changed_files_file }}" \
+            --output reliability-impact \
+            --ci-github-hosted
+
+      - name: Run reliability impact gate
+        id: gate
+        run: |
+          set -euo pipefail
+          python rover_ws/tools/reliability_impact_gate.py \
+            --report reliability-impact/impact-report.json
+
+      - name: Upload reliability-impact bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reliability-impact-${{ github.run_id }}
+          path: reliability-impact/
+          retention-days: 14

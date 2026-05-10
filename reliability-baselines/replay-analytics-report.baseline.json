@@ -1,0 +1,352 @@
+{
+  "audits": [
+    {
+      "audit_path": "incidents/canonical-estop-latched/review-audit.json",
+      "completed_steps": [],
+      "incident_id": "canonical-estop-latched",
+      "notes": "",
+      "operator": "",
+      "pending_steps": [
+        "bag_status_reviewed",
+        "missing_topics_reviewed",
+        "markers_loaded",
+        "safety_state_matches_report",
+        "cmd_vel_arbitration_matches_audit",
+        "replay_integrity_checked",
+        "discrepancies_recorded_outside_bundle"
+      ],
+      "status": "not_started"
+    },
+    {
+      "audit_path": "incidents/canonical-stale-lidar/review-audit.json",
+      "completed_steps": [],
+      "incident_id": "canonical-stale-lidar",
+      "notes": "",
+      "operator": "",
+      "pending_steps": [
+        "bag_status_reviewed",
+        "missing_topics_reviewed",
+        "markers_loaded",
+        "safety_state_matches_report",
+        "cmd_vel_arbitration_matches_audit",
+        "replay_integrity_checked",
+        "discrepancies_recorded_outside_bundle"
+      ],
+      "status": "not_started"
+    },
+    {
+      "audit_path": "incidents/canonical-static-qualification/review-audit.json",
+      "completed_steps": [],
+      "incident_id": "canonical-static-qualification",
+      "notes": "",
+      "operator": "",
+      "pending_steps": [
+        "bag_status_reviewed",
+        "missing_topics_reviewed",
+        "markers_loaded",
+        "safety_state_matches_report",
+        "cmd_vel_arbitration_matches_audit",
+        "replay_integrity_checked",
+        "discrepancies_recorded_outside_bundle"
+      ],
+      "status": "not_started"
+    }
+  ],
+  "coverages": [
+    {
+      "bag_status": "missing_bag",
+      "coverage_status": "sparse",
+      "evidence_origin": "scenario-evidence",
+      "generated_at_utc": "2026-05-10T19:13:41+00:00",
+      "incident_id": "canonical-estop-latched",
+      "metrics": [
+        {
+          "available": false,
+          "detail": "bag inventory unavailable; cannot measure topic coverage",
+          "name": "expected_topics_present_pct",
+          "value": null
+        },
+        {
+          "available": true,
+          "detail": "4 of 4 marker(s) at exact alignment",
+          "name": "marker_alignment_pct",
+          "value": 100.0
+        },
+        {
+          "available": true,
+          "detail": "52 of 54 entries carry sim_time_ns",
+          "name": "timeline_alignment_pct",
+          "value": 96.3
+        },
+        {
+          "available": true,
+          "detail": "5 of 7 validation result(s) passed",
+          "name": "replay_validation_pass_rate",
+          "value": 71.43
+        },
+        {
+          "available": true,
+          "detail": "evidence_status=complete",
+          "name": "evidence_completeness_pct",
+          "value": 100.0
+        },
+        {
+          "available": true,
+          "detail": "10 of 10 canonical review artefact(s) present",
+          "name": "review_artifact_completeness_pct",
+          "value": 100.0
+        }
+      ],
+      "notes": []
+    },
+    {
+      "bag_status": "missing_bag",
+      "coverage_status": "sparse",
+      "evidence_origin": "scenario-evidence",
+      "generated_at_utc": "2026-05-10T19:13:41+00:00",
+      "incident_id": "canonical-stale-lidar",
+      "metrics": [
+        {
+          "available": false,
+          "detail": "bag inventory unavailable; cannot measure topic coverage",
+          "name": "expected_topics_present_pct",
+          "value": null
+        },
+        {
+          "available": true,
+          "detail": "5 of 5 marker(s) at exact alignment",
+          "name": "marker_alignment_pct",
+          "value": 100.0
+        },
+        {
+          "available": true,
+          "detail": "172 of 174 entries carry sim_time_ns",
+          "name": "timeline_alignment_pct",
+          "value": 98.85
+        },
+        {
+          "available": true,
+          "detail": "5 of 7 validation result(s) passed",
+          "name": "replay_validation_pass_rate",
+          "value": 71.43
+        },
+        {
+          "available": true,
+          "detail": "evidence_status=complete",
+          "name": "evidence_completeness_pct",
+          "value": 100.0
+        },
+        {
+          "available": true,
+          "detail": "10 of 10 canonical review artefact(s) present",
+          "name": "review_artifact_completeness_pct",
+          "value": 100.0
+        }
+      ],
+      "notes": []
+    },
+    {
+      "bag_status": "static_only",
+      "coverage_status": "sparse",
+      "evidence_origin": "scenario-evidence",
+      "generated_at_utc": "2026-05-10T19:13:41+00:00",
+      "incident_id": "canonical-static-qualification",
+      "metrics": [
+        {
+          "available": false,
+          "detail": "bag inventory unavailable; cannot measure topic coverage",
+          "name": "expected_topics_present_pct",
+          "value": null
+        },
+        {
+          "available": true,
+          "detail": "0 of 1 marker(s) at exact alignment",
+          "name": "marker_alignment_pct",
+          "value": 0.0
+        },
+        {
+          "available": true,
+          "detail": "0 of 20 entries carry sim_time_ns",
+          "name": "timeline_alignment_pct",
+          "value": 0.0
+        },
+        {
+          "available": true,
+          "detail": "4 of 7 validation result(s) passed",
+          "name": "replay_validation_pass_rate",
+          "value": 57.14
+        },
+        {
+          "available": true,
+          "detail": "evidence_status=static_only",
+          "name": "evidence_completeness_pct",
+          "value": 30.0
+        },
+        {
+          "available": true,
+          "detail": "10 of 10 canonical review artefact(s) present",
+          "name": "review_artifact_completeness_pct",
+          "value": 100.0
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "generated_at_utc": "2026-05-10T19:13:41+00:00",
+  "incident_count": 3,
+  "recommendations": {
+    "canonical-estop-latched": [
+      {
+        "cited_artifacts": [
+          "/home/user/rover-safety-platform/incidents/canonical-estop-latched/bags",
+          "/home/user/rover-safety-platform/incidents/canonical-estop-latched/bag",
+          "/home/user/rover-safety-platform/incidents/canonical-estop-latched/rosbag",
+          "/home/user/rover-safety-platform/runs/verify/estop_latched_manual_reset_required/bags",
+          "/home/user/rover-safety-platform/runs/verify/estop_latched_manual_reset_required/bag",
+          "/home/user/rover-safety-platform/runs/verify/estop_latched_manual_reset_required/rosbag"
+        ],
+        "detail": "Capture a rosbag2 (.mcap or .db3 + metadata.yaml) on a Jazzy host and place it under incidents/canonical-estop-latched/bags/.",
+        "incident_id": "canonical-estop-latched",
+        "label": "capture_rosbag2"
+      }
+    ],
+    "canonical-stale-lidar": [
+      {
+        "cited_artifacts": [
+          "/home/user/rover-safety-platform/incidents/canonical-stale-lidar/bags",
+          "/home/user/rover-safety-platform/incidents/canonical-stale-lidar/bag",
+          "/home/user/rover-safety-platform/incidents/canonical-stale-lidar/rosbag",
+          "/home/user/rover-safety-platform/runs/verify/stale_lidar_restricted_mode/bags",
+          "/home/user/rover-safety-platform/runs/verify/stale_lidar_restricted_mode/bag",
+          "/home/user/rover-safety-platform/runs/verify/stale_lidar_restricted_mode/rosbag"
+        ],
+        "detail": "Capture a rosbag2 (.mcap or .db3 + metadata.yaml) on a Jazzy host and place it under incidents/canonical-stale-lidar/bags/.",
+        "incident_id": "canonical-stale-lidar",
+        "label": "capture_rosbag2"
+      }
+    ],
+    "canonical-static-qualification": [
+      {
+        "cited_artifacts": [],
+        "detail": "Re-run the underlying scenario on a Jazzy host with `qualified_runtime_run.py --ros-launch` to capture live runtime evidence.",
+        "incident_id": "canonical-static-qualification",
+        "label": "rerun_on_jazzy_host"
+      },
+      {
+        "cited_artifacts": [
+          "incidents/canonical-static-qualification/replay-markers.json"
+        ],
+        "detail": "Align the Foxglove playhead manually for the markers without sim_time_ns and record the corrected offsets in operator notes.",
+        "incident_id": "canonical-static-qualification",
+        "label": "improve_marker_alignment"
+      }
+    ]
+  },
+  "scores": [
+    {
+      "blocking_gaps": [
+        "metric_unavailable[expected_topics_present_pct]",
+        "bag_status=missing_bag"
+      ],
+      "confidence": "low",
+      "coverage_status": "sparse",
+      "incident_id": "canonical-estop-latched",
+      "quality_summary": "score=59 band=40-69 bag_status=missing_bag coverage_status=sparse evidence_origin=scenario-evidence",
+      "score": 59
+    },
+    {
+      "blocking_gaps": [
+        "metric_unavailable[expected_topics_present_pct]",
+        "bag_status=missing_bag"
+      ],
+      "confidence": "low",
+      "coverage_status": "sparse",
+      "incident_id": "canonical-stale-lidar",
+      "quality_summary": "score=59 band=40-69 bag_status=missing_bag coverage_status=sparse evidence_origin=scenario-evidence",
+      "score": 59
+    },
+    {
+      "blocking_gaps": [
+        "metric_unavailable[expected_topics_present_pct]",
+        "bag_status=static_only"
+      ],
+      "confidence": "low",
+      "coverage_status": "sparse",
+      "incident_id": "canonical-static-qualification",
+      "quality_summary": "score=37 band=0-39 bag_status=static_only coverage_status=sparse evidence_origin=scenario-evidence",
+      "score": 37
+    }
+  ],
+  "trend": {
+    "bag_status_distribution": {
+      "missing_bag": 2,
+      "static_only": 1
+    },
+    "coverage_status_distribution": {
+      "sparse": 3
+    },
+    "evidence_origin_distribution": {
+      "scenario-evidence": 3
+    },
+    "incident_count": 3,
+    "most_common_gaps": [
+      [
+        "missing_bag",
+        2
+      ],
+      [
+        "poor_marker_alignment",
+        1
+      ],
+      [
+        "static_only_evidence",
+        1
+      ]
+    ],
+    "most_common_missing_topics": [],
+    "most_common_outcomes": [
+      [
+        "estop_latched",
+        1
+      ],
+      [
+        "inconclusive",
+        1
+      ],
+      [
+        "safe_stop_success",
+        1
+      ]
+    ],
+    "most_common_safety_states": [
+      [
+        "ACTIVE_NORMAL",
+        2
+      ],
+      [
+        "INACTIVE",
+        2
+      ],
+      [
+        "ACTIVE_DEGRADED",
+        1
+      ],
+      [
+        "E_STOP_LATCHED",
+        1
+      ],
+      [
+        "SAFE_STOP",
+        1
+      ]
+    ],
+    "notes": [],
+    "quality_score_buckets": {
+      "0-39": 1,
+      "40-69": 2
+    },
+    "review_completion_distribution": {
+      "not_started": 3
+    }
+  }
+}

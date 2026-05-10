@@ -1,0 +1,27 @@
+[
+  {
+    "change_type": "modified",
+    "path": "backend/app/safety/supervisor.py",
+    "subsystem": "safety"
+  },
+  {
+    "change_type": "modified",
+    "path": "backend/app/replay_analytics/scoring.py",
+    "subsystem": "replay_analytics"
+  },
+  {
+    "change_type": "modified",
+    "path": "rover_ws/src/rover_safety_bridge/rover_safety_bridge/safety_bridge_node.py",
+    "subsystem": "safety"
+  },
+  {
+    "change_type": "modified",
+    "path": "docs/REPLAY_ANALYTICS.md",
+    "subsystem": "docs"
+  },
+  {
+    "change_type": "modified",
+    "path": ".github/workflows/runtime-static-validation.yml",
+    "subsystem": "ci"
+  }
+]

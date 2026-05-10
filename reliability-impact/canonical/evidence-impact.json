@@ -1,0 +1,81 @@
+[
+  {
+    "notes": "",
+    "recommended_artifacts": [
+      "evidence/scenarios/",
+      "incidents/",
+      "verification/traceability.json"
+    ],
+    "recommended_tools": [
+      "tools/audit_command_path.py",
+      "tools/audit_safety_transitions.py",
+      "tools/generate_evidence.py",
+      "tools/generate_traceability.py"
+    ],
+    "requirement_ids": [
+      "REQ-SAFE-001",
+      "REQ-SAFE-002",
+      "REQ-SAFE-003",
+      "REQ-SAFE-004",
+      "REQ-FAULT-001",
+      "REQ-FAULT-002",
+      "REQ-OP-001"
+    ],
+    "subsystem": "safety"
+  },
+  {
+    "notes": "",
+    "recommended_artifacts": [
+      "incidents/analytics/",
+      "docs/REPLAY_ANALYTICS_INDEX.md"
+    ],
+    "recommended_tools": [
+      "rover_ws/tools/analyze_replay_coverage.py",
+      "rover_ws/tools/generate_replay_analytics.py",
+      "rover_ws/tools/compare_replay_reviews.py",
+      "rover_ws/tools/audit_replay_reviews.py"
+    ],
+    "requirement_ids": [
+      "REQ-ANALYTICS-001",
+      "REQ-ANALYTICS-002",
+      "REQ-ANALYTICS-003",
+      "REQ-ANALYTICS-004",
+      "REQ-ANALYTICS-005"
+    ],
+    "subsystem": "replay_analytics"
+  },
+  {
+    "notes": "documentation-only change; rerun the traceability matrix to refresh links.",
+    "recommended_artifacts": [],
+    "recommended_tools": [],
+    "requirement_ids": [],
+    "subsystem": "docs"
+  },
+  {
+    "notes": "",
+    "recommended_artifacts": [
+      ".github/workflows/"
+    ],
+    "recommended_tools": [
+      "tools/generate_traceability.py"
+    ],
+    "requirement_ids": [
+      "REQ-RUNTIME-001",
+      "REQ-RUNTIME-002",
+      "REQ-RUNTIME-003",
+      "REQ-RUNTIME-004",
+      "REQ-RUNTIME-005",
+      "REQ-RUNTIME-006",
+      "REQ-RUNTIME-007",
+      "REQ-RUNTIME-008",
+      "REQ-RUNTIME-009",
+      "REQ-RUNTIME-010",
+      "REQ-IMPACT-001",
+      "REQ-IMPACT-002",
+      "REQ-IMPACT-003",
+      "REQ-IMPACT-004",
+      "REQ-IMPACT-005"
+    ],
+    "subsystem": "ci"
+  }
+]
