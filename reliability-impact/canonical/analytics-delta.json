@@ -1,0 +1,14 @@
+{
+  "baseline_path": "reliability-baselines/replay-quality-index.baseline.json",
+  "current_path": "incidents/analytics/replay-quality-index.json",
+  "entries": [],
+  "severity": "neutral",
+  "summary_counts": {
+    "critical_regression": 0,
+    "improvement": 0,
+    "neutral": 0,
+    "regression": 0,
+    "warning": 0
+  },
+  "warnings": []
+}

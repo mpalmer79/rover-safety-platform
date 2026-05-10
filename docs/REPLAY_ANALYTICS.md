@@ -146,12 +146,26 @@ simply have no bag inventory to inspect on CI).
   never claim statistical significance.
 - Every report carries the verbatim certification disclaimer.
 
-## 10. Related documents
+## 10. Phase 9 integration
+
+The Phase 9 reliability-impact layer
+(`backend/app/reliability_impact/`) consumes the analytics outputs
+produced by this layer (`replay-quality-index.json` +
+`replay-analytics-report.json`) and compares them against the
+pinned baseline under `reliability-baselines/`. Score drops,
+contradiction increases, and replay honesty violations become
+gateable CI signals — see
+[docs/RELIABILITY_IMPACT_ANALYSIS.md](RELIABILITY_IMPACT_ANALYSIS.md)
+and [docs/CI_RELIABILITY_GATE.md](CI_RELIABILITY_GATE.md).
+
+## 11. Related documents
 
 - [docs/REPLAY_QUALITY_SCORING.md](REPLAY_QUALITY_SCORING.md)
 - [docs/REPLAY_REVIEW_AUDIT.md](REPLAY_REVIEW_AUDIT.md)
 - [docs/REPLAY_GAP_ANALYSIS.md](REPLAY_GAP_ANALYSIS.md)
 - [docs/REPLAY_REVIEW_RUNBOOK.md](REPLAY_REVIEW_RUNBOOK.md)
 - [docs/INCIDENT_RECONSTRUCTION.md](INCIDENT_RECONSTRUCTION.md)
+- [docs/RELIABILITY_IMPACT_ANALYSIS.md](RELIABILITY_IMPACT_ANALYSIS.md)
+- [docs/CI_RELIABILITY_GATE.md](CI_RELIABILITY_GATE.md)
 - [docs/VERIFICATION_STRATEGY.md](VERIFICATION_STRATEGY.md)
 - [docs/REPLAY_ANALYTICS_INDEX.md](REPLAY_ANALYTICS_INDEX.md) — generated index.

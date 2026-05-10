@@ -32,6 +32,7 @@ class RequirementKind(str, Enum):
     RUNTIME = "runtime"
     INCIDENT = "incident"
     ANALYTICS = "analytics"
+    IMPACT = "impact"
 
 
 @dataclass(frozen=True)
@@ -1067,6 +1068,146 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "backend/tests/test_replay_analytics.py::test_report_distribution_by_bag_status",
             "backend/tests/test_replay_analytics.py::test_index_filters_by_bag_status",
             "backend/tests/test_replay_analytics.py::test_index_filters_by_quality_score",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-IMPACT-001",
+        kind=RequirementKind.IMPACT,
+        title="Source changes must be classified by impacted subsystem",
+        description=(
+            "Every changed file in a PR or working tree must be "
+            "classified by subsystem (safety, mission, motion, "
+            "replay, replay_analytics, runtime_validation, "
+            "verification, ros_workspace, gazebo_simulation, docs, "
+            "tests, ci, unknown). Unknown files are classified as "
+            "`unknown` — never silently ignored."
+        ),
+        architecture_refs=(
+            "docs/RELIABILITY_IMPACT_ANALYSIS.md",
+            "docs/SOURCE_TO_EVIDENCE_TRACEABILITY.md",
+        ),
+        implementation_refs=(
+            "backend/app/reliability_impact/subsystem_classifier.py",
+            "backend/app/reliability_impact/git_changes.py",
+        ),
+        test_refs=(
+            "backend/tests/test_reliability_impact.py::test_subsystem_classifier_safety_path",
+            "backend/tests/test_reliability_impact.py::test_subsystem_classifier_replay_analytics_path",
+            "backend/tests/test_reliability_impact.py::test_subsystem_classifier_unknown_path",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-IMPACT-002",
+        kind=RequirementKind.IMPACT,
+        title="Impacted subsystems must map to requirements and evidence artifacts where possible",
+        description=(
+            "The requirement mapper resolves each impacted subsystem "
+            "to the existing requirement IDs that cover it; the "
+            "evidence mapper resolves each requirement to the tests "
+            "and evidence artefacts that should be regenerated or "
+            "inspected. Unmapped subsystems are reported as "
+            "`partial` rather than silently dropped."
+        ),
+        architecture_refs=(
+            "docs/SOURCE_TO_EVIDENCE_TRACEABILITY.md",
+            "docs/TRACEABILITY_MATRIX.md",
+        ),
+        implementation_refs=(
+            "backend/app/reliability_impact/requirement_mapper.py",
+            "backend/app/reliability_impact/evidence_mapper.py",
+        ),
+        test_refs=(
+            "backend/tests/test_reliability_impact.py::test_requirement_mapper_safety_to_req_safe",
+            "backend/tests/test_reliability_impact.py::test_requirement_mapper_replay_analytics_to_req_analytics",
+            "backend/tests/test_reliability_impact.py::test_evidence_mapper_safety_recommends_command_audit",
+            "backend/tests/test_reliability_impact.py::test_requirement_mapper_unknown_is_unmapped",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-IMPACT-003",
+        kind=RequirementKind.IMPACT,
+        title="Replay analytics deltas must be compared against an explicit baseline when available",
+        description=(
+            "The analytics delta engine compares the current "
+            "replay-quality-index.json + replay-analytics-report.json "
+            "against a baseline pinned under "
+            "`reliability-baselines/`. Score drops, coverage / bag / "
+            "review changes, new contradictions, and "
+            "honesty violations are classified into "
+            "{improvement, neutral, warning, regression, "
+            "critical_regression}. A missing baseline is a warning, "
+            "never a failure."
+        ),
+        architecture_refs=(
+            "docs/RELIABILITY_IMPACT_ANALYSIS.md",
+            "docs/CI_RELIABILITY_GATE.md",
+        ),
+        implementation_refs=(
+            "backend/app/reliability_impact/analytics_delta.py",
+            "backend/app/reliability_impact/baseline.py",
+        ),
+        test_refs=(
+            "backend/tests/test_reliability_impact.py::test_analytics_delta_score_drop_warning",
+            "backend/tests/test_reliability_impact.py::test_analytics_delta_score_drop_regression",
+            "backend/tests/test_reliability_impact.py::test_analytics_delta_new_contradiction_critical",
+            "backend/tests/test_reliability_impact.py::test_analytics_delta_missing_baseline_warning",
+            "backend/tests/test_reliability_impact.py::test_analytics_delta_static_only_not_regression",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-IMPACT-004",
+        kind=RequirementKind.IMPACT,
+        title="Critical replay or safety evidence regressions must be gateable in CI",
+        description=(
+            "The CI gate fails on critical regressions only: "
+            "critical_regression analytics delta, safety / motion "
+            "authority changes with missing required evidence, "
+            "replay honesty violations, a failed traceability "
+            "matrix, or removed static validation workflows. The "
+            "gate never fails solely because live runtime evidence "
+            "is missing on a github-hosted runner."
+        ),
+        architecture_refs=(
+            "docs/CI_RELIABILITY_GATE.md",
+        ),
+        implementation_refs=(
+            "backend/app/reliability_impact/ci_gate.py",
+            "rover_ws/tools/reliability_impact_gate.py",
+            ".github/workflows/reliability-impact.yml",
+        ),
+        test_refs=(
+            "backend/tests/test_reliability_impact.py::test_gate_fails_on_critical_regression",
+            "backend/tests/test_reliability_impact.py::test_gate_does_not_fail_on_missing_live_evidence",
+            "backend/tests/test_reliability_impact.py::test_gate_warns_on_missing_baseline",
+            "backend/tests/test_reliability_impact.py::test_gate_fails_on_static_validation_removal",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-IMPACT-005",
+        kind=RequirementKind.IMPACT,
+        title="Reliability impact reports must distinguish warnings from blocking failures",
+        description=(
+            "Impact reports surface two outcome surfaces: the gate "
+            "decision (passed / warning / failed / not_executed) "
+            "and the risk assessment (none / low / moderate / high "
+            "/ critical). Both are conservative; warnings never "
+            "promote themselves to failures. Reports never treat "
+            "missing live runtime evidence as failure in "
+            "github-hosted CI."
+        ),
+        architecture_refs=(
+            "docs/RELIABILITY_IMPACT_ANALYSIS.md",
+            "docs/CI_RELIABILITY_GATE.md",
+        ),
+        implementation_refs=(
+            "backend/app/reliability_impact/report.py",
+            "backend/app/reliability_impact/risk_assessor.py",
+        ),
+        test_refs=(
+            "backend/tests/test_reliability_impact.py::test_report_distinguishes_warning_from_failure",
+            "backend/tests/test_reliability_impact.py::test_risk_assessor_safety_changes_high_risk_without_evidence",
+            "backend/tests/test_reliability_impact.py::test_risk_assessor_docs_only_low_risk",
+            "backend/tests/test_reliability_impact.py::test_risk_assessor_unknown_files_moderate",
         ),
     ),
 )

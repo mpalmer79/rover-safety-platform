@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-10T19:16:13+00:00",
+  "generated_at_utc": "2026-05-10T19:46:52+00:00",
   "overall_status": "passed",
-  "row_count": 38,
+  "row_count": 43,
   "rows": [
     {
       "architecture_refs": [
@@ -897,6 +897,121 @@
         "backend/tests/test_replay_analytics.py::test_index_filters_by_quality_score"
       ],
       "title": "Replay analytics reports must distinguish static-only, missing-bag, partial, and bag-backed incidents"
+    },
+    {
+      "architecture_refs": [
+        "docs/RELIABILITY_IMPACT_ANALYSIS.md",
+        "docs/SOURCE_TO_EVIDENCE_TRACEABILITY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reliability_impact/subsystem_classifier.py",
+        "backend/app/reliability_impact/git_changes.py"
+      ],
+      "kind": "impact",
+      "requirement_id": "REQ-IMPACT-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_reliability_impact.py::test_subsystem_classifier_safety_path",
+        "backend/tests/test_reliability_impact.py::test_subsystem_classifier_replay_analytics_path",
+        "backend/tests/test_reliability_impact.py::test_subsystem_classifier_unknown_path"
+      ],
+      "title": "Source changes must be classified by impacted subsystem"
+    },
+    {
+      "architecture_refs": [
+        "docs/SOURCE_TO_EVIDENCE_TRACEABILITY.md",
+        "docs/TRACEABILITY_MATRIX.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reliability_impact/requirement_mapper.py",
+        "backend/app/reliability_impact/evidence_mapper.py"
+      ],
+      "kind": "impact",
+      "requirement_id": "REQ-IMPACT-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_reliability_impact.py::test_requirement_mapper_safety_to_req_safe",
+        "backend/tests/test_reliability_impact.py::test_requirement_mapper_replay_analytics_to_req_analytics",
+        "backend/tests/test_reliability_impact.py::test_evidence_mapper_safety_recommends_command_audit",
+        "backend/tests/test_reliability_impact.py::test_requirement_mapper_unknown_is_unmapped"
+      ],
+      "title": "Impacted subsystems must map to requirements and evidence artifacts where possible"
+    },
+    {
+      "architecture_refs": [
+        "docs/RELIABILITY_IMPACT_ANALYSIS.md",
+        "docs/CI_RELIABILITY_GATE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reliability_impact/analytics_delta.py",
+        "backend/app/reliability_impact/baseline.py"
+      ],
+      "kind": "impact",
+      "requirement_id": "REQ-IMPACT-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 5 test(s)",
+      "test_refs": [
+        "backend/tests/test_reliability_impact.py::test_analytics_delta_score_drop_warning",
+        "backend/tests/test_reliability_impact.py::test_analytics_delta_score_drop_regression",
+        "backend/tests/test_reliability_impact.py::test_analytics_delta_new_contradiction_critical",
+        "backend/tests/test_reliability_impact.py::test_analytics_delta_missing_baseline_warning",
+        "backend/tests/test_reliability_impact.py::test_analytics_delta_static_only_not_regression"
+      ],
+      "title": "Replay analytics deltas must be compared against an explicit baseline when available"
+    },
+    {
+      "architecture_refs": [
+        "docs/CI_RELIABILITY_GATE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reliability_impact/ci_gate.py",
+        "rover_ws/tools/reliability_impact_gate.py",
+        ".github/workflows/reliability-impact.yml"
+      ],
+      "kind": "impact",
+      "requirement_id": "REQ-IMPACT-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_reliability_impact.py::test_gate_fails_on_critical_regression",
+        "backend/tests/test_reliability_impact.py::test_gate_does_not_fail_on_missing_live_evidence",
+        "backend/tests/test_reliability_impact.py::test_gate_warns_on_missing_baseline",
+        "backend/tests/test_reliability_impact.py::test_gate_fails_on_static_validation_removal"
+      ],
+      "title": "Critical replay or safety evidence regressions must be gateable in CI"
+    },
+    {
+      "architecture_refs": [
+        "docs/RELIABILITY_IMPACT_ANALYSIS.md",
+        "docs/CI_RELIABILITY_GATE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reliability_impact/report.py",
+        "backend/app/reliability_impact/risk_assessor.py"
+      ],
+      "kind": "impact",
+      "requirement_id": "REQ-IMPACT-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_reliability_impact.py::test_report_distinguishes_warning_from_failure",
+        "backend/tests/test_reliability_impact.py::test_risk_assessor_safety_changes_high_risk_without_evidence",
+        "backend/tests/test_reliability_impact.py::test_risk_assessor_docs_only_low_risk",
+        "backend/tests/test_reliability_impact.py::test_risk_assessor_unknown_files_moderate"
+      ],
+      "title": "Reliability impact reports must distinguish warnings from blocking failures"
     }
   ]
 }

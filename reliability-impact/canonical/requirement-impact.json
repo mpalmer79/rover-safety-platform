@@ -1,0 +1,52 @@
+[
+  {
+    "notes": "",
+    "requirement_ids": [
+      "REQ-SAFE-001",
+      "REQ-SAFE-002",
+      "REQ-SAFE-003",
+      "REQ-SAFE-004",
+      "REQ-FAULT-001",
+      "REQ-FAULT-002",
+      "REQ-OP-001"
+    ],
+    "subsystem": "safety"
+  },
+  {
+    "notes": "",
+    "requirement_ids": [
+      "REQ-ANALYTICS-001",
+      "REQ-ANALYTICS-002",
+      "REQ-ANALYTICS-003",
+      "REQ-ANALYTICS-004",
+      "REQ-ANALYTICS-005"
+    ],
+    "subsystem": "replay_analytics"
+  },
+  {
+    "notes": "documentation-only change; no direct REQ-* coverage",
+    "requirement_ids": [],
+    "subsystem": "docs"
+  },
+  {
+    "notes": "",
+    "requirement_ids": [
+      "REQ-RUNTIME-001",
+      "REQ-RUNTIME-002",
+      "REQ-RUNTIME-003",
+      "REQ-RUNTIME-004",
+      "REQ-RUNTIME-005",
+      "REQ-RUNTIME-006",
+      "REQ-RUNTIME-007",
+      "REQ-RUNTIME-008",
+      "REQ-RUNTIME-009",
+      "REQ-RUNTIME-010",
+      "REQ-IMPACT-001",
+      "REQ-IMPACT-002",
+      "REQ-IMPACT-003",
+      "REQ-IMPACT-004",
+      "REQ-IMPACT-005"
+    ],
+    "subsystem": "ci"
+  }
+]

@@ -48,6 +48,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 6 — Incident Reconstruction, Telemetry Correlation, and Operational Replay Analysis | Implemented; see section 3h |
 | Phase 7 — Live Foxglove Replay Integration and Operational Review Sessions | Implemented (static-only fall-back); see section 3i |
 | Phase 8 — Replay Coverage Analytics and Cross-Incident Operational Intelligence | Implemented; see section 3j |
+| Phase 9 — Source-to-Replay Regression Correlation and Reliability Impact Analysis | Implemented; see section 3k |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -1066,6 +1067,86 @@ deterministic analytics; no fabricated coverage.
   acknowledgement, every report is deterministic.
 - Demonstrates evidence-grounded recommendations that cite the
   artefacts they refer to.
+
+---
+
+## 3k. Phase 9: Source-to-Replay Regression Correlation and Reliability Impact Analysis
+
+### Status
+
+Implemented in this branch. Read-only with respect to source code,
+evidence artefacts, and replay analytics. Produces deterministic
+impact bundles; CI gate honours the missing-live-evidence exception.
+
+### Objectives
+
+- Inspect git diffs / changed file lists and classify each path
+  by subsystem (deterministic prefix table).
+- Map subsystems to existing REQ-* ids (via the live registry) and
+  recommend the tools / artefacts to regenerate.
+- Compare current replay analytics against a pinned baseline under
+  `reliability-baselines/`; classify deltas as
+  improvement / neutral / warning / regression / critical_regression.
+- Assess conservative risk and emit a deterministic CI gate
+  decision that fails only on the documented critical conditions.
+- Provide a github-hosted CI workflow that runs on every PR and
+  uploads the resulting bundle.
+
+### Deliverables
+
+- `backend/app/reliability_impact/` — 10-module package
+  (`models`, `git_changes`, `subsystem_classifier`,
+  `requirement_mapper`, `evidence_mapper`, `analytics_delta`,
+  `baseline`, `risk_assessor`, `ci_gate`, `report`).
+- `rover_ws/tools/analyze_source_impact.py`,
+  `rover_ws/tools/reliability_impact_gate.py`.
+- `.github/workflows/reliability-impact.yml` (github-hosted, runs
+  on PR and dispatch).
+- `docs/RELIABILITY_IMPACT_ANALYSIS.md`,
+  `docs/SOURCE_TO_EVIDENCE_TRACEABILITY.md`,
+  `docs/CI_RELIABILITY_GATE.md`.
+- `reliability-baselines/` directory + README + pinned baseline
+  files.
+- `reliability-impact/canonical/` — canonical fixture-driven
+  impact bundle.
+- REQ-IMPACT-001..005 with traceability rows.
+
+### Acceptance Criteria
+
+- Changed files are classified into one of the documented buckets;
+  unknown paths are surfaced, never silently dropped.
+- Subsystem -> requirement mapping uses the live registry; new
+  REQ-* ids appear automatically.
+- Replay analytics deltas are compared against the pinned baseline;
+  missing baseline is a warning, not a failure.
+- The CI gate fails only on the documented critical conditions and
+  never on missing live runtime evidence in github-hosted CI.
+- Baselines never refresh automatically; `--write-baseline` is the
+  only path that mutates them.
+- Tests cover classifier, mapper, delta engine, risk assessor,
+  gate, and the two CLIs without ROS, Gazebo, Foxglove, or network.
+
+### Risks
+
+- Subsystem prefix table drift. Mitigated by the classifier tests
+  and by surfacing `unknown` files.
+- Baseline staleness. Mitigated by the intentional-update workflow
+  and the warning surface.
+
+### Deferred Work
+
+- AI-style summary generation (intentionally out of scope).
+- Per-PR git-blame attribution (out of scope; not evidence-backed
+  enough to be deterministic).
+
+### Portfolio Signal
+
+- Demonstrates source-to-evidence traceability discipline: every
+  changed file lands in a documented bucket, every bucket points to
+  a regen recipe, every regression is classified deterministically.
+- Demonstrates honest CI gating: missing live runtime evidence
+  never fails the gate; baselines are pinned; warnings never
+  promote themselves into failures.
 
 ---
 
