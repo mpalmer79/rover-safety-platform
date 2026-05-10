@@ -40,10 +40,25 @@ jobs:
 
       - name: Detect drift
         run: |
-          if ! git diff --quiet docs/TRACEABILITY_MATRIX.md verification/traceability.json \
-              docs/SCENARIO_VERIFICATION_REPORT.md verification/verification_report.json; then
-            echo "::error ::generated docs differ from committed; rerun the generators"
-            git --no-pager diff -- docs/TRACEABILITY_MATRIX.md verification/traceability.json \
-              docs/SCENARIO_VERIFICATION_REPORT.md verification/verification_report.json
-            exit 1
-          fi
+          # The generators stamp ``generated_at_utc`` so a clean
+          # regeneration always changes that line. Compare with the
+          # timestamp masked so we only fail on real content drift.
+          set -euo pipefail
+          mask='s/^- \*\*Generated:\*\*.*/- **Generated:** <stamped>/g; s/"generated_at_utc": "[^"]*"/"generated_at_utc": "<stamped>"/g'
+          drift=0
+          for f in docs/TRACEABILITY_MATRIX.md docs/SCENARIO_VERIFICATION_REPORT.md \
+                   verification/traceability.json verification/verification_report.json; do
+            if [ ! -f "$f" ]; then
+              echo "::error ::$f missing after regeneration"
+              drift=1
+              continue
+            fi
+            committed=$(git show "HEAD:$f" 2>/dev/null | sed -E "$mask" || true)
+            regenerated=$(sed -E "$mask" "$f")
+            if [ "$committed" != "$regenerated" ]; then
+              echo "::error ::$f drifted; rerun the generators and commit"
+              diff <(echo "$committed") <(echo "$regenerated") | head -50 || true
+              drift=1
+            fi
+          done
+          exit "$drift"
