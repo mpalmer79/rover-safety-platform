@@ -1,0 +1,58 @@
+{
+  "configById": {
+    "DiagnosticSummary!system": {
+      "title": "System health",
+      "topic": "/system/health"
+    },
+    "Log!mission_events": {
+      "title": "Mission events",
+      "topic": "/mission/events"
+    },
+    "Log!safety_events": {
+      "title": "Safety events",
+      "topic": "/safety/events"
+    },
+    "Plot!cmd_vel": {
+      "paths": [
+        {
+          "label": "requested linear",
+          "value": "/cmd_vel_requested.linear.x"
+        },
+        {
+          "label": "authorised linear",
+          "value": "/cmd_vel_authorized.linear.x"
+        }
+      ],
+      "title": "Authorised vs requested cmd_vel"
+    },
+    "Plot!safety": {
+      "paths": [
+        {
+          "label": "safety state",
+          "value": "/safety/state.state"
+        }
+      ],
+      "title": "Safety state"
+    }
+  },
+  "globalVariables": {
+    "incident_review_layout_version": "1.0.0"
+  },
+  "layout": {
+    "direction": "column",
+    "first": "Plot!safety",
+    "second": {
+      "direction": "row",
+      "first": "Plot!cmd_vel",
+      "second": {
+        "direction": "row",
+        "first": "DiagnosticSummary!system",
+        "second": {
+          "direction": "row",
+          "first": "Log!safety_events",
+          "second": "Log!mission_events"
+        }
+      }
+    }
+  }
+}

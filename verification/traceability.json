@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-10T00:01:12+00:00",
+  "generated_at_utc": "2026-05-10T00:40:09+00:00",
   "overall_status": "passed",
-  "row_count": 23,
+  "row_count": 28,
   "rows": [
     {
       "architecture_refs": [
@@ -574,6 +574,115 @@
         "rover_ws/tests/test_runtime_qualification.py::test_regression_detector_emits_evidence_references"
       ],
       "title": "Runtime regressions must be classified and reportable"
+    },
+    {
+      "architecture_refs": [
+        "docs/INCIDENT_RECONSTRUCTION.md",
+        "docs/INCIDENT_ANALYSIS_STRATEGY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/incident_analysis/loader.py",
+        "backend/app/incident_analysis/normalizer.py",
+        "backend/app/incident_analysis/timeline.py"
+      ],
+      "kind": "incident",
+      "requirement_id": "REQ-INCIDENT-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_incident_analysis.py::test_loader_handles_missing_files",
+        "backend/tests/test_incident_analysis.py::test_timeline_orders_events_deterministically",
+        "backend/tests/test_incident_analysis.py::test_normalizer_preserves_evidence_origin"
+      ],
+      "title": "Runtime and scenario evidence must be reconstructable into ordered incident timelines"
+    },
+    {
+      "architecture_refs": [
+        "docs/INCIDENT_RECONSTRUCTION.md",
+        "docs/INCIDENT_ANALYSIS_STRATEGY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/incident_analysis/causality.py",
+        "backend/app/incident_analysis/reporter.py"
+      ],
+      "kind": "incident",
+      "requirement_id": "REQ-INCIDENT-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_incident_analysis.py::test_causality_stale_lidar_chain",
+        "backend/tests/test_incident_analysis.py::test_causality_missing_link_downgrades_confidence",
+        "backend/tests/test_incident_analysis.py::test_report_labels_inferred_links"
+      ],
+      "title": "Incident reports must distinguish direct evidence from inferred causality"
+    },
+    {
+      "architecture_refs": [
+        "docs/INCIDENT_RECONSTRUCTION.md",
+        "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/incident_analysis/classifier.py",
+        "backend/app/incident_analysis/reporter.py"
+      ],
+      "kind": "incident",
+      "requirement_id": "REQ-INCIDENT-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_incident_analysis.py::test_classifier_flags_missing_evidence",
+        "backend/tests/test_incident_analysis.py::test_classifier_flags_contradictory_evidence",
+        "backend/tests/test_incident_analysis.py::test_report_includes_missing_evidence_section"
+      ],
+      "title": "Incident reports must identify missing and contradictory evidence"
+    },
+    {
+      "architecture_refs": [
+        "docs/FOXGLOVE_REPLAY_WORKFLOW.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/incident_analysis/foxglove.py",
+        "foxglove/layouts/incident-review-layout.json"
+      ],
+      "kind": "incident",
+      "requirement_id": "REQ-INCIDENT-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_incident_analysis.py::test_foxglove_hints_emit_topics_and_layout",
+        "backend/tests/test_incident_analysis.py::test_foxglove_layout_file_is_valid_json"
+      ],
+      "title": "Foxglove replay hints must be generated without requiring Foxglove runtime installation"
+    },
+    {
+      "architecture_refs": [
+        "docs/INCIDENT_INDEX.md",
+        "docs/INCIDENT_RECONSTRUCTION.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/incident_analysis/index.py",
+        "rover_ws/tools/index_incidents.py"
+      ],
+      "kind": "incident",
+      "requirement_id": "REQ-INCIDENT-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_incident_analysis.py::test_incident_index_filters_by_severity",
+        "backend/tests/test_incident_analysis.py::test_incident_index_filters_by_outcome",
+        "backend/tests/test_incident_analysis.py::test_incident_index_filters_by_evidence_status"
+      ],
+      "title": "Incident index must support scenario, severity, outcome, and evidence-status review"
     }
   ]
 }

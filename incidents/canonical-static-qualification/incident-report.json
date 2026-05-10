@@ -1,0 +1,606 @@
+{
+  "causality_chains": [],
+  "cause": null,
+  "contradictions": [],
+  "evidence_manifest": {
+    "files": {
+      "runtime/command-path-audit.json": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 1571
+      },
+      "runtime/host-qualification.json": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 2189
+      },
+      "runtime/known-limitations.md": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 729
+      },
+      "runtime/live-runtime-status.md": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 2350
+      },
+      "runtime/node-snapshot.json": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 7744
+      },
+      "runtime/qualification-summary.json": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 14887
+      },
+      "runtime/qualification-summary.md": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 5234
+      },
+      "runtime/regression-report.json": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 236
+      },
+      "runtime/runtime-validation.json": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 4630
+      },
+      "runtime/runtime-validation.md": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 3514
+      },
+      "runtime/tf-snapshot.json": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 6294
+      },
+      "runtime/tf-tree.txt": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 809
+      },
+      "runtime/topic-snapshot.json": {
+        "notes": "",
+        "origin": "runtime-evidence",
+        "present": true,
+        "size_bytes": 10444
+      }
+    },
+    "warnings": []
+  },
+  "evidence_status": "static_only",
+  "fault_ids": [],
+  "foxglove_hint": {
+    "command_topics": [
+      "/cmd_vel_requested",
+      "/cmd_vel_authorized"
+    ],
+    "diagnostic_topics": [
+      "/system/health",
+      "/diagnostics/runtime_summary",
+      "/diagnostics/topic_freshness",
+      "/diagnostics/bridge_health"
+    ],
+    "fault_topics": [
+      "/safety/events",
+      "/fault_injection/events"
+    ],
+    "layout_path": "foxglove/layouts/incident-review-layout.json",
+    "mission_state_topic": "/mission/state",
+    "notes": "Open the recorded bag in Foxglove and load the layout from the path above. Markers correspond to first-fault, first-safety-transition, first-command-intervention, and the terminal entry on the timeline. Each marker carries the underlying sim_time_ns when available.",
+    "recommended_topics": [
+      "/safety/state",
+      "/safety/events",
+      "/cmd_vel_requested",
+      "/cmd_vel_authorized",
+      "/scan",
+      "/imu",
+      "/odom",
+      "/tf",
+      "/tf_static",
+      "/system/health",
+      "/diagnostics/runtime_summary",
+      "/mission/state",
+      "/mission/events",
+      "/mission/progress",
+      "/world_model/state",
+      "/replay/markers"
+    ],
+    "safety_state_topic": "/safety/state",
+    "timeline_markers": [
+      {
+        "category": "terminal",
+        "event_type": "host_qualification.bridge_config_present",
+        "label": "terminal",
+        "message": "bridge YAML at rover_ws/src/rover_sim_gazebo/config/ros_gz_bridge.yaml",
+        "relative_time_ms": null,
+        "sequence_index": 19,
+        "sim_time_ns": null
+      }
+    ]
+  },
+  "generated_at_utc": "2026-05-10T00:39:56+00:00",
+  "incident_id": "canonical-static-qualification",
+  "missing_evidence": [],
+  "mission_states": [],
+  "operational_interpretation": "Evidence status is `static_only`; reviewers should weight the conclusions accordingly.",
+  "outcome": "inconclusive",
+  "recommended_follow_up": [
+    "Re-run on a Jazzy host to capture live runtime evidence; the current bundle is static-only."
+  ],
+  "run_id": "qualified-2026-05-10",
+  "safety_states": [],
+  "scenario_id": null,
+  "severity": "informational",
+  "telemetry_correlations": [],
+  "timeline": {
+    "entries": [
+      {
+        "attributes": {
+          "errors": [],
+          "status": "passed",
+          "warnings": []
+        },
+        "category": "runtime_validation",
+        "event_type": "runtime_validation.check[static.bridge_yaml_valid]",
+        "evidence_origin": "runtime-evidence",
+        "message": "validated 8 topics",
+        "mission_state": null,
+        "raw_reference": "checks[0]",
+        "reason_code": null,
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 0,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "runtime-validation.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "errors": [],
+          "status": "passed",
+          "warnings": []
+        },
+        "category": "runtime_validation",
+        "event_type": "runtime_validation.check[static.required_topics_declared]",
+        "evidence_origin": "runtime-evidence",
+        "message": "12 required topics declared",
+        "mission_state": null,
+        "raw_reference": "checks[1]",
+        "reason_code": null,
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 1,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "runtime-validation.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "errors": [],
+          "status": "passed",
+          "warnings": []
+        },
+        "category": "runtime_validation",
+        "event_type": "runtime_validation.check[static.urdf_tf_tree]",
+        "evidence_origin": "runtime-evidence",
+        "message": "8 links validated; runtime root=odom (published by simulator)",
+        "mission_state": null,
+        "raw_reference": "checks[2]",
+        "reason_code": null,
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 2,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "runtime-validation.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "errors": [],
+          "status": "passed",
+          "warnings": []
+        },
+        "category": "runtime_validation",
+        "event_type": "runtime_validation.check[static.full_system_launch_composes_required_packages]",
+        "evidence_origin": "runtime-evidence",
+        "message": "full_system.launch.py composes simulation, safety, observability, diagnostics",
+        "mission_state": null,
+        "raw_reference": "checks[3]",
+        "reason_code": null,
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 3,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "runtime-validation.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "errors": [],
+          "status": "passed",
+          "warnings": []
+        },
+        "category": "runtime_validation",
+        "event_type": "runtime_validation.check[static.node_modules_present]",
+        "evidence_origin": "runtime-evidence",
+        "message": "4 node module families present",
+        "mission_state": null,
+        "raw_reference": "checks[4]",
+        "reason_code": null,
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 4,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "runtime-validation.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "errors": [],
+          "status": "passed",
+          "warnings": []
+        },
+        "category": "runtime_validation",
+        "event_type": "runtime_validation.check[static.safety_bridge_authority_invariant]",
+        "evidence_origin": "runtime-evidence",
+        "message": "supervisor publishes /cmd_vel_authorized and never publishes /cmd_vel",
+        "mission_state": null,
+        "raw_reference": "checks[5]",
+        "reason_code": null,
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 5,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "runtime-validation.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "errors": [],
+          "status": "passed",
+          "warnings": []
+        },
+        "category": "runtime_validation",
+        "event_type": "runtime_validation.check[static.runtime_validation_runbook_complete]",
+        "evidence_origin": "runtime-evidence",
+        "message": "runbook covers prerequisites, launch, validation, and tooling",
+        "mission_state": null,
+        "raw_reference": "checks[6]",
+        "reason_code": null,
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 6,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "runtime-validation.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "errors": [],
+          "status": "not_executed",
+          "warnings": []
+        },
+        "category": "runtime_validation",
+        "event_type": "runtime_validation.check[launch_smoke_test]",
+        "evidence_origin": "runtime-evidence",
+        "message": "live launch not exercised; ran static-only mode (every required node declared)",
+        "mission_state": null,
+        "raw_reference": "checks[7]",
+        "reason_code": "rclpy not importable: No module named 'rclpy'",
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 7,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "runtime-validation.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "errors": [],
+          "status": "not_executed",
+          "warnings": []
+        },
+        "category": "runtime_validation",
+        "event_type": "runtime_validation.check[topic_probe]",
+        "evidence_origin": "runtime-evidence",
+        "message": "live topic graph not exercised; ran static-only mode",
+        "mission_state": null,
+        "raw_reference": "checks[8]",
+        "reason_code": "rclpy not importable: No module named 'rclpy'",
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 8,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "runtime-validation.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "errors": [],
+          "status": "not_executed",
+          "warnings": []
+        },
+        "category": "runtime_validation",
+        "event_type": "runtime_validation.check[tf_probe]",
+        "evidence_origin": "runtime-evidence",
+        "message": "live tf graph not exercised; ran static-only mode (URDF link/joint check passed)",
+        "mission_state": null,
+        "raw_reference": "checks[9]",
+        "reason_code": "rclpy not importable: No module named 'rclpy'",
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 9,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "runtime-validation.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "errors": [],
+          "status": "passed",
+          "warnings": []
+        },
+        "category": "runtime_validation",
+        "event_type": "runtime_validation.check[command_path_probe]",
+        "evidence_origin": "runtime-evidence",
+        "message": "4 command-path invariant(s) verified statically",
+        "mission_state": null,
+        "raw_reference": "checks[10]",
+        "reason_code": "rclpy not importable: No module named 'rclpy'",
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 10,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "runtime-validation.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "status": "passed"
+        },
+        "category": "qualification",
+        "event_type": "host_qualification.ubuntu_version",
+        "evidence_origin": "runtime-evidence",
+        "message": "Ubuntu 24.04 detected",
+        "mission_state": null,
+        "raw_reference": "checks[0]",
+        "reason_code": null,
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 11,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "host-qualification.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "status": "not_executed"
+        },
+        "category": "qualification",
+        "event_type": "host_qualification.ros2_distro",
+        "evidence_origin": "runtime-evidence",
+        "message": "ros2 CLI not on PATH",
+        "mission_state": null,
+        "raw_reference": "checks[1]",
+        "reason_code": "source /opt/ros/jazzy/setup.bash before invoking the qualifier; CI runs without ROS and reports this check as not_executed",
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 12,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "host-qualification.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "status": "not_executed"
+        },
+        "category": "qualification",
+        "event_type": "host_qualification.gazebo_harmonic",
+        "evidence_origin": "runtime-evidence",
+        "message": "`gz` CLI not on PATH",
+        "mission_state": null,
+        "raw_reference": "checks[2]",
+        "reason_code": "install Gazebo Harmonic for Ubuntu 24.04 / Jazzy",
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 13,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "host-qualification.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "status": "not_executed"
+        },
+        "category": "qualification",
+        "event_type": "host_qualification.colcon_available",
+        "evidence_origin": "runtime-evidence",
+        "message": "`colcon` CLI not on PATH",
+        "mission_state": null,
+        "raw_reference": "checks[3]",
+        "reason_code": "install python3-colcon-common-extensions for Jazzy",
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 14,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "host-qualification.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "status": "not_executed"
+        },
+        "category": "qualification",
+        "event_type": "host_qualification.required_ros_packages",
+        "evidence_origin": "runtime-evidence",
+        "message": "ros2 CLI not on PATH",
+        "mission_state": null,
+        "raw_reference": "checks[4]",
+        "reason_code": "source ROS to enumerate available packages",
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 15,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "host-qualification.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "status": "passed"
+        },
+        "category": "qualification",
+        "event_type": "host_qualification.python_backend_importable",
+        "evidence_origin": "runtime-evidence",
+        "message": "backend.app imports cleanly under the host interpreter",
+        "mission_state": null,
+        "raw_reference": "checks[5]",
+        "reason_code": null,
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 16,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "host-qualification.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "status": "partial"
+        },
+        "category": "qualification",
+        "event_type": "host_qualification.workspace_structure",
+        "evidence_origin": "runtime-evidence",
+        "message": "all 10 packages present but rover_ws/install is missing",
+        "mission_state": null,
+        "raw_reference": "checks[6]",
+        "reason_code": "run `colcon build --symlink-install` before live qualification",
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 17,
+        "severity": "WARN",
+        "sim_time_ns": null,
+        "source_file": "host-qualification.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "status": "passed"
+        },
+        "category": "qualification",
+        "event_type": "host_qualification.required_launch_files",
+        "evidence_origin": "runtime-evidence",
+        "message": "7 required launch file(s) present",
+        "mission_state": null,
+        "raw_reference": "checks[7]",
+        "reason_code": null,
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 18,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "host-qualification.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      },
+      {
+        "attributes": {
+          "status": "passed"
+        },
+        "category": "qualification",
+        "event_type": "host_qualification.bridge_config_present",
+        "evidence_origin": "runtime-evidence",
+        "message": "bridge YAML at rover_ws/src/rover_sim_gazebo/config/ros_gz_bridge.yaml",
+        "mission_state": null,
+        "raw_reference": "checks[8]",
+        "reason_code": null,
+        "relative_time_ms": null,
+        "run_id": "qualified-2026-05-10",
+        "safety_state": null,
+        "scenario_id": null,
+        "sequence_index": 19,
+        "severity": "INFO",
+        "sim_time_ns": null,
+        "source_file": "host-qualification.json",
+        "timestamp": "2026-05-10T00:01:44+00:00"
+      }
+    ],
+    "entry_count": 20,
+    "first_command_intervention_index": null,
+    "first_fault_index": null,
+    "first_safety_transition_index": null,
+    "incident_id": "canonical-static-qualification",
+    "out_of_order_indices": [],
+    "terminal_index": 19
+  }
+}

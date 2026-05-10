@@ -1,0 +1,178 @@
+sequenceDiagram
+    autonumber
+    participant Mission as Mission
+    participant Faults as FaultInjection
+    participant Sensors as Sensors
+    participant Safety as Safety
+    participant Arb as MotionArb
+    Faults->>Safety: fault armed: f-stale-lidar (stale_lidar)
+    Safety->>Arb: BOOT -> INACTIVE: boot complete; awaiting activation
+    Arb->>Arb: authorized zero motion: inactive_zero
+    Arb->>Arb: authorized zero motion: inactive_zero
+    Safety->>Arb: INACTIVE -> ACTIVE_NORMAL: operator activation accepted
+    Faults->>Safety: fault fired: f-stale-lidar (stale_lidar)
+    Safety->>Arb: ACTIVE_NORMAL -> ACTIVE_DEGRADED: degraded inputs detected
+    Sensors->>Safety: lidar stale 300ms > 250ms
+    Arb->>Arb: authorized clamped to limits: velocity_clamp
+    Sensors->>Safety: lidar stale 400ms > 250ms
+    Arb->>Arb: authorized clamped to limits: velocity_clamp
+    Sensors->>Safety: lidar stale 500ms > 250ms
+    Arb->>Arb: authorized clamped to limits: velocity_clamp
+    Sensors->>Safety: lidar stale 600ms > 250ms
+    Arb->>Arb: authorized clamped to limits: velocity_clamp
+    Sensors->>Safety: lidar stale 700ms > 250ms
+    Arb->>Arb: authorized clamped to limits: velocity_clamp
+    Safety->>Arb: ACTIVE_DEGRADED -> SAFE_STOP: stale or missing required input
+    Sensors->>Safety: lidar stale 800ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: lidar stale 900ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: lidar stale 1000ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: lidar stale 1100ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: lidar stale 1200ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: lidar stale 1300ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: lidar stale 1400ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 1500ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 1600ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 1700ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 1800ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 1900ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 2000ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 2100ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 2200ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 2300ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 2400ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 2500ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 2600ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 2700ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 2800ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 2900ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 3000ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 3100ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 3200ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 3300ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 3400ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 3500ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 3600ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 3700ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 3800ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 3900ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 4000ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 4100ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 4200ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 4300ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 4400ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 4500ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 4600ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 4700ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 4800ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 4900ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 5000ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 5100ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 5200ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 5300ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 5400ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 5500ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 5600ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 5700ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 5800ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 5900ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Sensors->>Safety: watchdog expired: lidar_freshness
+    Sensors->>Safety: lidar stale 6000ms > 750ms
+    Arb->>Arb: authorized zero motion: safe_stop_zero
+    Arb->>Arb: command audit: requests=80 commands=80 clamped=5 zeroed=55 rejected=55

@@ -45,8 +45,9 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 3 — Verification, Scenario Certification, and Evidence Generation | Implemented; see section 3e |
 | Phase 4 — Live ROS 2 / Gazebo Runtime Verification and Evidence Capture | Implemented (static-only fall-back); see section 3f |
 | Phase 5 — ROS Host Qualification and Continuous Runtime Validation | Implemented (static-only fall-back); see section 3g |
+| Phase 6 — Incident Reconstruction, Telemetry Correlation, and Operational Replay Analysis | Implemented; see section 3h |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
-| Phase 6 — Replay, Telemetry, and Incident Reconstruction (ROS 2 / Foxglove) | Pending |
+| Phase 7 — Replay-driven incident review with live Foxglove | Pending (depends on a Jazzy host) |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
 
@@ -832,6 +833,82 @@ requires a self-hosted Jazzy + Gazebo Harmonic runner.
   classification, and a CI workflow that does not fake live success.
 - Demonstrates honest reporting: static and live evidence are
   distinguished in every artefact.
+
+---
+
+## 3h. Phase 6: Incident Reconstruction, Telemetry Correlation, and Operational Replay Analysis
+
+### Status
+
+Implemented in this branch. The package is read-only with respect
+to runtime evidence and produces engineering analysis artefacts.
+
+### Objectives
+
+- Load runtime + scenario evidence and reconstruct deterministically
+  ordered incident timelines.
+- Build rule-based causality chains with explicit confidence levels;
+  inferred links are labelled and missing links downgrade the chain.
+- Classify incidents on three axes (severity, outcome, evidence
+  status) using only the evidence; contradictions force `inconclusive`.
+- Produce Markdown + JSON reports plus Mermaid timeline diagrams,
+  Foxglove replay hints, and an evidence manifest.
+- Support cross-incident comparison and a filterable index.
+
+### Deliverables
+
+- `backend/app/incident_analysis/` — 11 modules: `models`, `loader`,
+  `normalizer`, `timeline`, `causality`, `classifier`, `reporter`,
+  `foxglove`, `compare`, `index`, `reconstruct`.
+- `rover_ws/tools/reconstruct_incident.py` — CLI for incident
+  reconstruction.
+- `rover_ws/tools/index_incidents.py` — CLI for the incident index.
+- `rover_ws/tools/compare_incidents.py` — CLI for cross-incident
+  comparison.
+- `foxglove/layouts/incident-review-layout.json` — canonical
+  Foxglove layout (5 panels).
+- `incidents/` — directory layout for retained bundles + comparisons.
+- `docs/INCIDENT_RECONSTRUCTION.md`, `docs/INCIDENT_ANALYSIS_STRATEGY.md`,
+  `docs/FOXGLOVE_REPLAY_WORKFLOW.md`, `docs/INCIDENT_INDEX.md` (generated).
+- REQ-INCIDENT-001..005 with traceability rows.
+
+### Acceptance Criteria
+
+- The reconstructor never mutates source evidence.
+- Every incident report carries the certification disclaimer
+  verbatim.
+- Inferred causal links are labelled `inferred=yes` and downgrade
+  chain confidence below `direct`.
+- Missing files become `LoaderWarning` entries; reports surface them
+  in dedicated sections.
+- Contradictory evidence forces `evidence_status=inconsistent` and
+  `outcome=inconclusive`.
+- Tests cover loader, normaliser, timeline, causality, classifier,
+  reporter, Foxglove hints, index filters, comparison, and the three
+  CLIs without requiring ROS / Gazebo.
+
+### Risks
+
+- Causality rules are deterministic but heuristic; they make
+  assumptions about scenario semantics. Mitigated by the
+  `confidence` and `inferred` labels.
+- Source evidence schema drift; the loader's structured warnings
+  surface drift instead of silently failing.
+
+### Deferred Work
+
+- Live Foxglove integration (Phase 7) — the canonical layout is
+  ready, but actually streaming a live bag is reserved for a
+  Jazzy / Gazebo host.
+- Cross-incident clustering, anomaly detection, and trend analysis.
+
+### Portfolio Signal
+
+- Demonstrates incident-forensics discipline: explicit confidence,
+  named missing links, labelled contradictions, deterministic
+  ordering, evidence-origin preservation.
+- Demonstrates Foxglove integration as metadata + workflow support
+  rather than a runtime dependency.
 
 ---
 

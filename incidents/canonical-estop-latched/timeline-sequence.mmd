@@ -1,0 +1,58 @@
+sequenceDiagram
+    autonumber
+    participant Mission as Mission
+    participant Faults as FaultInjection
+    participant Sensors as Sensors
+    participant Safety as Safety
+    participant Arb as MotionArb
+    Safety->>Arb: BOOT -> INACTIVE: boot complete; awaiting activation
+    Arb->>Arb: authorized zero motion: inactive_zero
+    Arb->>Arb: authorized zero motion: inactive_zero
+    Safety->>Arb: INACTIVE -> ACTIVE_NORMAL: operator activation accepted
+    Safety->>Arb: ACTIVE_NORMAL -> E_STOP_LATCHED: E-stop asserted by operator
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: authorized zero motion: e_stop_zero
+    Arb->>Arb: command audit: requests=60 commands=60 clamped=0 zeroed=47 rejected=47

@@ -252,13 +252,24 @@ A reviewer reconstructing an incident follows this workflow:
 1. Locate the run directory by `run_id`.
 2. Open `incident-summary.md` for context.
 3. Inspect `events.jsonl` filtered by `correlation_id` of interest.
-4. Open `bags/` in Foxglove using `foxglove-layout.json`.
+4. Open `bags/` in Foxglove using
+   `foxglove/layouts/incident-review-layout.json`
+   (canonical layout shipped with the repo from Phase 6).
 5. Use the event stream to align Foxglove playback to the moment of interest.
 6. Inspect motion topics: `/cmd_vel_requested`, `/cmd_vel_authorized`, `/safety/state`.
 7. Inspect sensor topics: `/scan`, `/imu`, `/odom`.
 8. Cross-check fault timeline against `/faults/injected` and `fault_injection.*` events.
 9. If concurrency analysis is needed, load `traces/` in the `ros2_tracing` analysis tools.
 10. Capture findings in a separate document; do not mutate the run directory.
+
+The Phase 6 incident analysis layer
+(`backend/app/incident_analysis/`) automates steps 1–8: loading
+evidence, normalising events, building a deterministic timeline,
+reconstructing causality with explicit confidence levels, and
+emitting Markdown + JSON reports plus Foxglove replay hints under
+`incidents/<incident_id>/`. See
+[docs/INCIDENT_RECONSTRUCTION.md](INCIDENT_RECONSTRUCTION.md) and
+[docs/FOXGLOVE_REPLAY_WORKFLOW.md](FOXGLOVE_REPLAY_WORKFLOW.md).
 
 ---
 
