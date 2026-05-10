@@ -1,0 +1,11 @@
+{
+  "blocking_gaps": [
+    "metric_unavailable[expected_topics_present_pct]",
+    "bag_status=static_only"
+  ],
+  "confidence": "low",
+  "coverage_status": "sparse",
+  "incident_id": "canonical-static-qualification",
+  "quality_summary": "score=37 band=0-39 bag_status=static_only coverage_status=sparse evidence_origin=scenario-evidence",
+  "score": 37
+}

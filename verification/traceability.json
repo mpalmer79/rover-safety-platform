@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-10T17:44:56+00:00",
+  "generated_at_utc": "2026-05-10T19:16:13+00:00",
   "overall_status": "passed",
-  "row_count": 33,
+  "row_count": 38,
   "rows": [
     {
       "architecture_refs": [
@@ -792,6 +792,111 @@
         "backend/tests/test_replay_review.py::test_replay_workflow_is_dispatch_only"
       ],
       "title": "Live replay workflows must run only on self-hosted ROS / Gazebo runners"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_ANALYTICS.md",
+        "docs/REPLAY_QUALITY_SCORING.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_analytics/coverage.py",
+        "backend/app/replay_analytics/loader.py"
+      ],
+      "kind": "analytics",
+      "requirement_id": "REQ-ANALYTICS-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_analytics.py::test_coverage_metrics_are_deterministic",
+        "backend/tests/test_replay_analytics.py::test_coverage_unavailable_when_no_inventory",
+        "backend/tests/test_replay_analytics.py::test_coverage_marks_metrics_unavailable_honestly"
+      ],
+      "title": "Replay bundles must support deterministic replay coverage analysis"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_QUALITY_SCORING.md",
+        "docs/REPLAY_GAP_ANALYSIS.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_analytics/scoring.py"
+      ],
+      "kind": "analytics",
+      "requirement_id": "REQ-ANALYTICS-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_analytics.py::test_scoring_static_only_below_40",
+        "backend/tests/test_replay_analytics.py::test_scoring_missing_bag_below_60",
+        "backend/tests/test_replay_analytics.py::test_scoring_complete_replay_at_or_above_90",
+        "backend/tests/test_replay_analytics.py::test_scoring_is_deterministic"
+      ],
+      "title": "Replay quality scoring must degrade honestly when replay artifacts are missing"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_ANALYTICS.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_analytics/comparison.py"
+      ],
+      "kind": "analytics",
+      "requirement_id": "REQ-ANALYTICS-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_analytics.py::test_comparison_preserves_evidence_origin",
+        "backend/tests/test_replay_analytics.py::test_comparison_orders_by_quality_score"
+      ],
+      "title": "Cross-incident replay comparisons must preserve evidence-origin distinctions"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_REVIEW_AUDIT.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_analytics/review_audit.py"
+      ],
+      "kind": "analytics",
+      "requirement_id": "REQ-ANALYTICS-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_analytics.py::test_review_audit_absent_metadata_is_not_started",
+        "backend/tests/test_replay_analytics.py::test_review_audit_completed_requires_explicit_flag",
+        "backend/tests/test_replay_analytics.py::test_review_audit_partial_when_some_steps_done"
+      ],
+      "title": "Operator review completion must never be inferred automatically"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_ANALYTICS.md",
+        "docs/REPLAY_ANALYTICS_INDEX.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_analytics/reporting.py",
+        "backend/app/replay_analytics/index.py"
+      ],
+      "kind": "analytics",
+      "requirement_id": "REQ-ANALYTICS-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_analytics.py::test_report_distribution_by_bag_status",
+        "backend/tests/test_replay_analytics.py::test_index_filters_by_bag_status",
+        "backend/tests/test_replay_analytics.py::test_index_filters_by_quality_score"
+      ],
+      "title": "Replay analytics reports must distinguish static-only, missing-bag, partial, and bag-backed incidents"
     }
   ]
 }

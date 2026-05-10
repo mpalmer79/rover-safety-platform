@@ -47,6 +47,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 5 — ROS Host Qualification and Continuous Runtime Validation | Implemented (static-only fall-back); see section 3g |
 | Phase 6 — Incident Reconstruction, Telemetry Correlation, and Operational Replay Analysis | Implemented; see section 3h |
 | Phase 7 — Live Foxglove Replay Integration and Operational Review Sessions | Implemented (static-only fall-back); see section 3i |
+| Phase 8 — Replay Coverage Analytics and Cross-Incident Operational Intelligence | Implemented; see section 3j |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -990,6 +991,81 @@ evidence and rosbag2 artefacts; produces metadata only.
   the Foxglove session JSON labelled internal.
 - Demonstrates a self-hosted-only live workflow that does not run on
   github-hosted runners.
+
+---
+
+## 3j. Phase 8: Replay Coverage Analytics and Cross-Incident Operational Intelligence
+
+### Status
+
+Implemented in this branch. Read-only with respect to incident
+bundles + replay-review bundles + rosbag2 artefacts. Produces
+deterministic analytics; no fabricated coverage.
+
+### Objectives
+
+- Derive deterministic coverage metrics from Phase-6 / Phase-7
+  artefacts (six metrics per incident).
+- Score replay quality on a 0..100 scale with explicit band caps
+  (static-only ≤ 39, missing-bag ≤ 59, contradictions ≤ 39).
+- Detect gaps + emit deterministic recommendations citing the
+  underlying artefacts.
+- Audit operator review completion via explicit acknowledgement
+  only (never inferred).
+- Aggregate trends + cross-incident comparisons + a filterable
+  index across the incidents directory.
+
+### Deliverables
+
+- `backend/app/replay_analytics/` — package with `models`,
+  `loader`, `coverage`, `scoring`, `review_audit`,
+  `recommendations`, `trends`, `comparison`, `reporting`, `index`.
+- `rover_ws/tools/analyze_replay_coverage.py`,
+  `compare_replay_reviews.py`,
+  `generate_replay_analytics.py`,
+  `audit_replay_reviews.py`.
+- `.github/workflows/replay-analytics-review.yml` (github-hosted
+  by default, self-hosted optional).
+- `docs/REPLAY_ANALYTICS.md`, `docs/REPLAY_QUALITY_SCORING.md`,
+  `docs/REPLAY_REVIEW_AUDIT.md`, `docs/REPLAY_GAP_ANALYSIS.md`,
+  `docs/REPLAY_ANALYTICS_INDEX.md`.
+- Canonical analytics under `incidents/analytics/`.
+- REQ-ANALYTICS-001..005 with traceability rows.
+
+### Acceptance Criteria
+
+- Static-only and missing-bag incidents stay below their respective
+  caps (39 / 59).
+- Operator review completion requires an explicit
+  `review-audit.json` acknowledgement.
+- Same inputs always yield byte-identical metrics + scores.
+- The aggregate report distinguishes static-only / missing-bag /
+  partial / bag-backed buckets.
+- Tests cover coverage, scoring, trends, comparison, audit,
+  recommendations, index, and the four CLIs without ROS / Gazebo /
+  Foxglove.
+
+### Risks
+
+- Drift between scoring and the runbook bands. Mitigated by the
+  test suite's explicit-band-cap tests.
+- Recommendations becoming stale. Mitigated by deterministic
+  gap-to-recommendation mapping.
+
+### Deferred Work
+
+- Fleet-style per-day / per-week aggregations (this phase indexes
+  by incident only).
+- Operator-comment ingestion (the audit module accepts free text
+  but does no NLP).
+
+### Portfolio Signal
+
+- Demonstrates honest analytics discipline: missing bags reported,
+  contradictions cap the score, review completion requires explicit
+  acknowledgement, every report is deterministic.
+- Demonstrates evidence-grounded recommendations that cite the
+  artefacts they refer to.
 
 ---
 

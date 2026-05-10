@@ -1,0 +1,16 @@
+[
+  {
+    "cited_artifacts": [],
+    "detail": "Re-run the underlying scenario on a Jazzy host with `qualified_runtime_run.py --ros-launch` to capture live runtime evidence.",
+    "incident_id": "canonical-static-qualification",
+    "label": "rerun_on_jazzy_host"
+  },
+  {
+    "cited_artifacts": [
+      "incidents/canonical-static-qualification/replay-markers.json"
+    ],
+    "detail": "Align the Foxglove playhead manually for the markers without sim_time_ns and record the corrected offsets in operator notes.",
+    "incident_id": "canonical-static-qualification",
+    "label": "improve_marker_alignment"
+  }
+]

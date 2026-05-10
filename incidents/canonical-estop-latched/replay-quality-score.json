@@ -1,0 +1,11 @@
+{
+  "blocking_gaps": [
+    "metric_unavailable[expected_topics_present_pct]",
+    "bag_status=missing_bag"
+  ],
+  "confidence": "low",
+  "coverage_status": "sparse",
+  "incident_id": "canonical-estop-latched",
+  "quality_summary": "score=59 band=40-69 bag_status=missing_bag coverage_status=sparse evidence_origin=scenario-evidence",
+  "score": 59
+}

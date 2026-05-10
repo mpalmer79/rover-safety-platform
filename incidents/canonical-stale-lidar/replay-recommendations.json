@@ -1,0 +1,15 @@
+[
+  {
+    "cited_artifacts": [
+      "/home/user/rover-safety-platform/incidents/canonical-stale-lidar/bags",
+      "/home/user/rover-safety-platform/incidents/canonical-stale-lidar/bag",
+      "/home/user/rover-safety-platform/incidents/canonical-stale-lidar/rosbag",
+      "/home/user/rover-safety-platform/runs/verify/stale_lidar_restricted_mode/bags",
+      "/home/user/rover-safety-platform/runs/verify/stale_lidar_restricted_mode/bag",
+      "/home/user/rover-safety-platform/runs/verify/stale_lidar_restricted_mode/rosbag"
+    ],
+    "detail": "Capture a rosbag2 (.mcap or .db3 + metadata.yaml) on a Jazzy host and place it under incidents/canonical-stale-lidar/bags/.",
+    "incident_id": "canonical-stale-lidar",
+    "label": "capture_rosbag2"
+  }
+]

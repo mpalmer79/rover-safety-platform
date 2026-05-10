@@ -1,0 +1,99 @@
+# Phase-8 replay analytics review.
+#
+# Static-safe: this workflow runs on github-hosted runners and the
+# Phase-8 analytics layer is read-only with respect to runtime
+# evidence. Self-hosted execution is supported via `inputs.runner`
+# but is **optional** — the analytics layer never opens a bag file
+# and never claims live replay success. github-hosted runs produce
+# the same analytics artefacts as self-hosted runs (the layer simply
+# has no bag inventory to inspect).
+
+name: replay-analytics-review
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: "Runner label (default github-hosted ubuntu-24.04)"
+        required: false
+        default: "ubuntu-24.04"
+  push:
+    branches: [main]
+    paths:
+      - "incidents/**"
+      - "backend/app/replay_analytics/**"
+      - "rover_ws/tools/analyze_replay_coverage.py"
+      - "rover_ws/tools/compare_replay_reviews.py"
+      - "rover_ws/tools/generate_replay_analytics.py"
+      - "rover_ws/tools/audit_replay_reviews.py"
+      - ".github/workflows/replay-analytics-review.yml"
+
+jobs:
+  analytics:
+    # `inputs.runner` is honoured when the workflow is dispatched.
+    # github-hosted runs fall back to ubuntu-24.04 — no live ROS or
+    # Foxglove dependency in this job.
+    runs-on: ${{ inputs.runner || 'ubuntu-24.04' }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest pyyaml
+
+      - name: Audit operator review completion
+        run: |
+          python rover_ws/tools/audit_replay_reviews.py
+
+      - name: Per-incident analytics
+        run: |
+          set -euo pipefail
+          for inc in incidents/canonical-stale-lidar incidents/canonical-estop-latched incidents/canonical-static-qualification; do
+            if [ -d "$inc" ]; then
+              python rover_ws/tools/analyze_replay_coverage.py --incident "$inc"
+            fi
+          done
+
+      - name: Cross-incident analytics
+        run: |
+          python rover_ws/tools/generate_replay_analytics.py
+
+      - name: Cross-incident comparison
+        run: |
+          set -euo pipefail
+          if [ -d incidents/canonical-stale-lidar ] && [ -d incidents/canonical-estop-latched ] && [ -d incidents/canonical-static-qualification ]; then
+            python rover_ws/tools/compare_replay_reviews.py \
+              incidents/canonical-stale-lidar \
+              incidents/canonical-estop-latched \
+              incidents/canonical-static-qualification \
+              --comparison-id canonical-trio-analytics
+          fi
+
+      - name: Detect drift
+        run: |
+          # The analytics layer should be deterministic — drift in a
+          # checked-in canonical artefact is a signal worth surfacing
+          # in CI. Re-checking after running keeps the canonical
+          # bundles honest.
+          set -euo pipefail
+          if ! git diff --quiet incidents/analytics; then
+            echo "::warning ::analytics artefacts drifted; this is expected when score logic changes"
+            git --no-pager diff -- incidents/analytics | head -200 || true
+          fi
+
+      - name: Upload analytics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: replay-analytics-${{ github.run_id }}
+          path: |
+            incidents/analytics/
+            docs/REPLAY_ANALYTICS_INDEX.md
+          retention-days: 14

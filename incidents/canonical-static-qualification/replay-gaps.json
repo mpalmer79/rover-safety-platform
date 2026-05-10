@@ -1,0 +1,18 @@
+[
+  {
+    "detail": "incident is static-only; no live runtime evidence available for replay analysis",
+    "evidence_paths": [],
+    "incident_id": "canonical-static-qualification",
+    "label": "static_only_evidence",
+    "severity": "moderate"
+  },
+  {
+    "detail": "only 0.0% of markers carry exact alignment; align manually in Foxglove",
+    "evidence_paths": [
+      "incidents/canonical-static-qualification/replay-markers.json"
+    ],
+    "incident_id": "canonical-static-qualification",
+    "label": "poor_marker_alignment",
+    "severity": "moderate"
+  }
+]
