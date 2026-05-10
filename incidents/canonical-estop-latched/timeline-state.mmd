@@ -1,0 +1,4 @@
+stateDiagram-v2
+    BOOT --> INACTIVE: boot_complete
+    INACTIVE --> ACTIVE_NORMAL: operator_activate
+    ACTIVE_NORMAL --> E_STOP_LATCHED: operator_estop

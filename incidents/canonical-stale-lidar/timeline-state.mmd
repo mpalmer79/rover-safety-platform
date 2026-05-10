@@ -1,0 +1,5 @@
+stateDiagram-v2
+    BOOT --> INACTIVE: boot_complete
+    INACTIVE --> ACTIVE_NORMAL: operator_activate
+    ACTIVE_NORMAL --> ACTIVE_DEGRADED: stale_lidar
+    ACTIVE_DEGRADED --> SAFE_STOP: stale_lidar

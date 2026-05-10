@@ -1,0 +1,76 @@
+{
+  "command_topics": [
+    "/cmd_vel_requested",
+    "/cmd_vel_authorized"
+  ],
+  "diagnostic_topics": [
+    "/system/health",
+    "/diagnostics/runtime_summary",
+    "/diagnostics/topic_freshness",
+    "/diagnostics/bridge_health"
+  ],
+  "fault_topics": [
+    "/safety/events",
+    "/fault_injection/events"
+  ],
+  "layout_path": "foxglove/layouts/incident-review-layout.json",
+  "mission_state_topic": "/mission/state",
+  "notes": "Open the recorded bag in Foxglove and load the layout from the path above. Markers correspond to first-fault, first-safety-transition, first-command-intervention, and the terminal entry on the timeline. Each marker carries the underlying sim_time_ns when available.",
+  "recommended_topics": [
+    "/safety/state",
+    "/safety/events",
+    "/cmd_vel_requested",
+    "/cmd_vel_authorized",
+    "/scan",
+    "/imu",
+    "/odom",
+    "/tf",
+    "/tf_static",
+    "/system/health",
+    "/diagnostics/runtime_summary",
+    "/mission/state",
+    "/mission/events",
+    "/mission/progress",
+    "/world_model/state",
+    "/replay/markers"
+  ],
+  "safety_state_topic": "/safety/state",
+  "timeline_markers": [
+    {
+      "category": "fault_injection",
+      "event_type": "fault_injection.armed",
+      "label": "first_fault",
+      "message": "fault armed: f-stale-lidar (stale_lidar)",
+      "relative_time_ms": 0,
+      "sequence_index": 1,
+      "sim_time_ns": 0
+    },
+    {
+      "category": "safety_transition",
+      "event_type": "safety_transition.entered",
+      "label": "first_safety_transition",
+      "message": "BOOT -> INACTIVE: boot complete; awaiting activation",
+      "relative_time_ms": 0,
+      "sequence_index": 3,
+      "sim_time_ns": 0
+    },
+    {
+      "category": "motion_arbitration",
+      "event_type": "motion_arbitration.zeroed",
+      "label": "first_command_intervention",
+      "message": "authorized zero motion: inactive_zero",
+      "relative_time_ms": 0,
+      "sequence_index": 4,
+      "sim_time_ns": 0
+    },
+    {
+      "category": "terminal",
+      "event_type": "safety_transition.entered",
+      "label": "terminal",
+      "message": "ACTIVE_DEGRADED -> SAFE_STOP: stale or missing required input",
+      "relative_time_ms": 2700,
+      "sequence_index": 19,
+      "sim_time_ns": 2700000000
+    }
+  ]
+}

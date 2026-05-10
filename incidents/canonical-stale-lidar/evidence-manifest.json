@@ -1,0 +1,47 @@
+{
+  "files": {
+    "scenario/command-audit.json": {
+      "notes": "",
+      "origin": "scenario-evidence",
+      "present": true,
+      "size_bytes": 271
+    },
+    "scenario/events-summary.md": {
+      "notes": "",
+      "origin": "scenario-evidence",
+      "present": true,
+      "size_bytes": 6152
+    },
+    "scenario/events.jsonl": {
+      "notes": "",
+      "origin": "scenario-evidence",
+      "present": true,
+      "size_bytes": 137860
+    },
+    "scenario/evidence.json": {
+      "notes": "",
+      "origin": "scenario-evidence",
+      "present": true,
+      "size_bytes": 2334
+    },
+    "scenario/evidence.md": {
+      "notes": "",
+      "origin": "scenario-evidence",
+      "present": true,
+      "size_bytes": 1055
+    },
+    "scenario/replay-integrity.json": {
+      "notes": "",
+      "origin": "scenario-evidence",
+      "present": true,
+      "size_bytes": 339
+    },
+    "scenario/safety-transition-audit.json": {
+      "notes": "",
+      "origin": "scenario-evidence",
+      "present": true,
+      "size_bytes": 518
+    }
+  },
+  "warnings": []
+}

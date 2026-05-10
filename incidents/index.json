@@ -1,0 +1,47 @@
+{
+  "root": "incidents",
+  "rows": [
+    {
+      "created_at": "2026-05-10T00:39:55+00:00",
+      "evidence_status": "complete",
+      "first_fault": "",
+      "incident_id": "canonical-estop-latched",
+      "notes": "",
+      "outcome": "estop_latched",
+      "replay_integrity_status": "passed",
+      "report_path": "incidents/canonical-estop-latched/incident-report.json",
+      "run_id": "estop_latched_manual_reset_required",
+      "scenario_id": "estop_latched_manual_reset_required",
+      "severity": "high",
+      "terminal_safety_state": "E_STOP_LATCHED"
+    },
+    {
+      "created_at": "2026-05-10T00:39:50+00:00",
+      "evidence_status": "complete",
+      "first_fault": "stale_lidar",
+      "incident_id": "canonical-stale-lidar",
+      "notes": "",
+      "outcome": "safe_stop_success",
+      "replay_integrity_status": "passed",
+      "report_path": "incidents/canonical-stale-lidar/incident-report.json",
+      "run_id": "stale_lidar_restricted_mode",
+      "scenario_id": "stale_lidar_restricted_mode",
+      "severity": "moderate",
+      "terminal_safety_state": "SAFE_STOP"
+    },
+    {
+      "created_at": "2026-05-10T00:39:56+00:00",
+      "evidence_status": "static_only",
+      "first_fault": "",
+      "incident_id": "canonical-static-qualification",
+      "notes": "",
+      "outcome": "inconclusive",
+      "replay_integrity_status": "",
+      "report_path": "incidents/canonical-static-qualification/incident-report.json",
+      "run_id": "qualified-2026-05-10",
+      "scenario_id": null,
+      "severity": "informational",
+      "terminal_safety_state": ""
+    }
+  ]
+}

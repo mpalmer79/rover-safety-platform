@@ -30,6 +30,7 @@ class RequirementKind(str, Enum):
     DIAGNOSTICS = "diagnostics"
     OPERATOR = "operator"
     RUNTIME = "runtime"
+    INCIDENT = "incident"
 
 
 @dataclass(frozen=True)
@@ -688,6 +689,132 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         test_refs=(
             "rover_ws/tests/test_runtime_qualification.py::test_regression_detector_classifies_severity",
             "rover_ws/tests/test_runtime_qualification.py::test_regression_detector_emits_evidence_references",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-INCIDENT-001",
+        kind=RequirementKind.INCIDENT,
+        title="Runtime and scenario evidence must be reconstructable into ordered incident timelines",
+        description=(
+            "The incident analysis layer must load runtime evidence "
+            "(evidence/runtime/<run_id>/) and scenario evidence "
+            "(evidence/scenarios/<scenario_id>/), normalise the "
+            "underlying events, and emit a deterministically ordered "
+            "timeline. Out-of-order entries and missing timestamps "
+            "must be surfaced as warnings, never silently reordered."
+        ),
+        architecture_refs=(
+            "docs/INCIDENT_RECONSTRUCTION.md",
+            "docs/INCIDENT_ANALYSIS_STRATEGY.md",
+        ),
+        implementation_refs=(
+            "backend/app/incident_analysis/loader.py",
+            "backend/app/incident_analysis/normalizer.py",
+            "backend/app/incident_analysis/timeline.py",
+        ),
+        test_refs=(
+            "backend/tests/test_incident_analysis.py::test_loader_handles_missing_files",
+            "backend/tests/test_incident_analysis.py::test_timeline_orders_events_deterministically",
+            "backend/tests/test_incident_analysis.py::test_normalizer_preserves_evidence_origin",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-INCIDENT-002",
+        kind=RequirementKind.INCIDENT,
+        title="Incident reports must distinguish direct evidence from inferred causality",
+        description=(
+            "The causality engine must assign a confidence level to "
+            "every link (direct, strong, moderate, weak, inconclusive) "
+            "and never fabricate a missing transition. Reports must "
+            "label inferred links so reviewers can see the difference "
+            "between an observed event chain and an inferred one."
+        ),
+        architecture_refs=(
+            "docs/INCIDENT_RECONSTRUCTION.md",
+            "docs/INCIDENT_ANALYSIS_STRATEGY.md",
+        ),
+        implementation_refs=(
+            "backend/app/incident_analysis/causality.py",
+            "backend/app/incident_analysis/reporter.py",
+        ),
+        test_refs=(
+            "backend/tests/test_incident_analysis.py::test_causality_stale_lidar_chain",
+            "backend/tests/test_incident_analysis.py::test_causality_missing_link_downgrades_confidence",
+            "backend/tests/test_incident_analysis.py::test_report_labels_inferred_links",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-INCIDENT-003",
+        kind=RequirementKind.INCIDENT,
+        title="Incident reports must identify missing and contradictory evidence",
+        description=(
+            "The incident classifier and reporter must surface missing "
+            "evidence files, partial runs, static-only runs, and "
+            "contradictory artefacts (e.g. a safety_transition_audit "
+            "ok=true while events.jsonl reports an unauthorised "
+            "publisher). No analysis may report a clean outcome when "
+            "evidence contradicts itself."
+        ),
+        architecture_refs=(
+            "docs/INCIDENT_RECONSTRUCTION.md",
+            "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary",
+        ),
+        implementation_refs=(
+            "backend/app/incident_analysis/classifier.py",
+            "backend/app/incident_analysis/reporter.py",
+        ),
+        test_refs=(
+            "backend/tests/test_incident_analysis.py::test_classifier_flags_missing_evidence",
+            "backend/tests/test_incident_analysis.py::test_classifier_flags_contradictory_evidence",
+            "backend/tests/test_incident_analysis.py::test_report_includes_missing_evidence_section",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-INCIDENT-004",
+        kind=RequirementKind.INCIDENT,
+        title="Foxglove replay hints must be generated without requiring Foxglove runtime installation",
+        description=(
+            "The Foxglove integration is metadata + workflow support "
+            "only. Tests must not require Foxglove to be installed. "
+            "The hints file lists topics, layout, and timeline markers "
+            "so an operator can open the recorded bag in Foxglove with "
+            "the right context."
+        ),
+        architecture_refs=(
+            "docs/FOXGLOVE_REPLAY_WORKFLOW.md",
+        ),
+        implementation_refs=(
+            "backend/app/incident_analysis/foxglove.py",
+            "foxglove/layouts/incident-review-layout.json",
+        ),
+        test_refs=(
+            "backend/tests/test_incident_analysis.py::test_foxglove_hints_emit_topics_and_layout",
+            "backend/tests/test_incident_analysis.py::test_foxglove_layout_file_is_valid_json",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-INCIDENT-005",
+        kind=RequirementKind.INCIDENT,
+        title="Incident index must support scenario, severity, outcome, and evidence-status review",
+        description=(
+            "The incident index lists every retained incident bundle "
+            "with filterable fields (scenario_id, severity, outcome, "
+            "evidence_status, terminal_safety_state) so reviewers can "
+            "navigate without ad-hoc filesystem queries. Filter "
+            "functions are pure-logic and tested."
+        ),
+        architecture_refs=(
+            "docs/INCIDENT_INDEX.md",
+            "docs/INCIDENT_RECONSTRUCTION.md",
+        ),
+        implementation_refs=(
+            "backend/app/incident_analysis/index.py",
+            "rover_ws/tools/index_incidents.py",
+        ),
+        test_refs=(
+            "backend/tests/test_incident_analysis.py::test_incident_index_filters_by_severity",
+            "backend/tests/test_incident_analysis.py::test_incident_index_filters_by_outcome",
+            "backend/tests/test_incident_analysis.py::test_incident_index_filters_by_evidence_status",
         ),
     ),
 )

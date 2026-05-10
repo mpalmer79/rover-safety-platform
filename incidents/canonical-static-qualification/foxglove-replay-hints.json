@@ -1,0 +1,49 @@
+{
+  "command_topics": [
+    "/cmd_vel_requested",
+    "/cmd_vel_authorized"
+  ],
+  "diagnostic_topics": [
+    "/system/health",
+    "/diagnostics/runtime_summary",
+    "/diagnostics/topic_freshness",
+    "/diagnostics/bridge_health"
+  ],
+  "fault_topics": [
+    "/safety/events",
+    "/fault_injection/events"
+  ],
+  "layout_path": "foxglove/layouts/incident-review-layout.json",
+  "mission_state_topic": "/mission/state",
+  "notes": "Open the recorded bag in Foxglove and load the layout from the path above. Markers correspond to first-fault, first-safety-transition, first-command-intervention, and the terminal entry on the timeline. Each marker carries the underlying sim_time_ns when available.",
+  "recommended_topics": [
+    "/safety/state",
+    "/safety/events",
+    "/cmd_vel_requested",
+    "/cmd_vel_authorized",
+    "/scan",
+    "/imu",
+    "/odom",
+    "/tf",
+    "/tf_static",
+    "/system/health",
+    "/diagnostics/runtime_summary",
+    "/mission/state",
+    "/mission/events",
+    "/mission/progress",
+    "/world_model/state",
+    "/replay/markers"
+  ],
+  "safety_state_topic": "/safety/state",
+  "timeline_markers": [
+    {
+      "category": "terminal",
+      "event_type": "host_qualification.bridge_config_present",
+      "label": "terminal",
+      "message": "bridge YAML at rover_ws/src/rover_sim_gazebo/config/ros_gz_bridge.yaml",
+      "relative_time_ms": null,
+      "sequence_index": 19,
+      "sim_time_ns": null
+    }
+  ]
+}
