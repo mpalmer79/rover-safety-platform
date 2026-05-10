@@ -1,0 +1,59 @@
+requirement_id,requirement_kind,title,status,mapped_tests,mapped_artifacts,coverage_status
+REQ-SAFE-001,safety,Motion authority is centralised on the safety supervisor,passed,5,3,covered
+REQ-SAFE-002,safety,SAFE_STOP forces zero authorized motion,passed,3,4,covered
+REQ-SAFE-003,safety,E_STOP_LATCHED requires explicit operator reset,passed,3,1,covered
+REQ-SAFE-004,safety,Restricted-mode authorized motion is clamped to per-state limits,passed,2,1,covered
+REQ-FAULT-001,fault,Fault injection alters inputs only; never sets safety state,passed,3,4,covered
+REQ-FAULT-002,fault,Every supported fault class has a corresponding scenario,passed,1,5,covered
+REQ-REPLAY-001,replay,Every scenario run emits replayable event artefacts,passed,3,4,covered
+REQ-REPLAY-002,replay,Per-producer event ordering is monotonic in sim_time_ns,passed,1,2,covered
+REQ-MISSION-001,mission,Mission runtime requests motion but never authorises it,passed,3,3,covered
+REQ-MISSION-002,mission,Recovery is bounded and terminates in MISSION_ABORT,passed,3,2,covered
+REQ-WORLD-001,world,Keepout violations emit events and constrain mission behavior,passed,2,1,covered
+REQ-DIAG-001,diagnostics,Runtime diagnostics report subsystem health without owning safety,passed,2,0,tests_only
+REQ-OP-001,operator,Operator E-stop transitions to E_STOP_LATCHED on the same tick,passed,2,1,covered
+REQ-RUNTIME-001,runtime,Full system launch must be runtime-verifiable,passed,2,0,tests_only
+REQ-RUNTIME-002,runtime,Required ROS topics must be discoverable and type-checked,passed,2,0,tests_only
+REQ-RUNTIME-003,runtime,TF tree must expose expected critical frames,passed,2,0,tests_only
+REQ-RUNTIME-004,runtime,Authorized command path must be verified at runtime,passed,2,0,tests_only
+REQ-RUNTIME-005,runtime,Live validation reports must distinguish status categories,passed,2,0,tests_only
+REQ-RUNTIME-006,runtime,ROS host prerequisites must be qualifiable,passed,3,0,tests_only
+REQ-RUNTIME-007,runtime,Runtime qualification runs must produce evidence artefacts,passed,2,0,tests_only
+REQ-RUNTIME-008,runtime,Runtime evidence must support baseline comparison,passed,3,0,tests_only
+REQ-RUNTIME-009,runtime,Qualification reports must distinguish static vs live runtime checks,passed,2,0,tests_only
+REQ-RUNTIME-010,runtime,Runtime regressions must be classified and reportable,passed,2,0,tests_only
+REQ-INCIDENT-001,incident,Runtime and scenario evidence must be reconstructable into ordered incident timelines,passed,3,0,tests_only
+REQ-INCIDENT-002,incident,Incident reports must distinguish direct evidence from inferred causality,passed,3,0,tests_only
+REQ-INCIDENT-003,incident,Incident reports must identify missing and contradictory evidence,passed,3,0,tests_only
+REQ-INCIDENT-004,incident,Foxglove replay hints must be generated without requiring Foxglove runtime installation,passed,2,0,tests_only
+REQ-INCIDENT-005,incident,"Incident index must support scenario, severity, outcome, and evidence-status review",passed,3,0,tests_only
+REQ-REPLAY-006,replay,Incident bundles must support replay review manifest generation,passed,3,0,tests_only
+REQ-REPLAY-007,replay,"Replay review reports must distinguish missing, partial, static-only, and bag-backed evidence",passed,3,0,tests_only
+REQ-REPLAY-008,replay,Timeline markers must preserve evidence origin and confidence,passed,3,0,tests_only
+REQ-REPLAY-009,replay,Foxglove review artefacts must be generated without requiring Foxglove installation in unit tests,passed,3,0,tests_only
+REQ-REPLAY-010,replay,Live replay workflows must run only on self-hosted ROS / Gazebo runners,passed,2,0,tests_only
+REQ-ANALYTICS-001,analytics,Replay bundles must support deterministic replay coverage analysis,passed,3,0,tests_only
+REQ-ANALYTICS-002,analytics,Replay quality scoring must degrade honestly when replay artifacts are missing,passed,4,0,tests_only
+REQ-ANALYTICS-003,analytics,Cross-incident replay comparisons must preserve evidence-origin distinctions,passed,2,0,tests_only
+REQ-ANALYTICS-004,analytics,Operator review completion must never be inferred automatically,passed,3,0,tests_only
+REQ-ANALYTICS-005,analytics,"Replay analytics reports must distinguish static-only, missing-bag, partial, and bag-backed incidents",passed,3,0,tests_only
+REQ-IMPACT-001,impact,Source changes must be classified by impacted subsystem,passed,3,0,tests_only
+REQ-IMPACT-002,impact,Impacted subsystems must map to requirements and evidence artifacts where possible,passed,4,0,tests_only
+REQ-IMPACT-003,impact,Replay analytics deltas must be compared against an explicit baseline when available,passed,5,0,tests_only
+REQ-IMPACT-004,impact,Critical replay or safety evidence regressions must be gateable in CI,passed,4,0,tests_only
+REQ-IMPACT-005,impact,Reliability impact reports must distinguish warnings from blocking failures,passed,4,0,tests_only
+REQ-PROGRAMME-001,programme,Longitudinal aggregation must load every available reliability artefact deterministically,passed,4,0,tests_only
+REQ-PROGRAMME-002,programme,Replay-quality trends must be deterministic and labelled when history is insufficient,passed,6,0,tests_only
+REQ-PROGRAMME-003,programme,Reliability drift must be classified deterministically with documented rules,passed,5,0,tests_only
+REQ-PROGRAMME-004,programme,"Governance health must roll up evidence, replay, CI, traceability, runtime, and review discipline",passed,3,0,tests_only
+REQ-PROGRAMME-005,programme,"Evidence freshness must be reported, not enforced via wall-clock",passed,4,0,tests_only
+REQ-PROGRAMME-006,programme,"Subsystem risk must aggregate frequency, severity, and recurrence",passed,4,0,tests_only
+REQ-PROGRAMME-007,programme,Coverage evolution must preserve evidence origin labels through aggregation,passed,3,0,tests_only
+REQ-PROGRAMME-008,programme,CI gate history must aggregate pass / warning / failure counts and gate volatility,passed,4,0,tests_only
+REQ-PROGRAMME-009,programme,Programme review reports must distinguish missing history from regression,passed,3,0,tests_only
+REQ-PROGRAMME-010,programme,Programme review CI workflow must not fail on missing live runtime evidence,passed,3,0,tests_only
+REQ-EXPORT-001,export,Reviewer exports must provide CSV and JSONL outputs for the documented tables,passed,3,0,tests_only
+REQ-EXPORT-002,export,"Reviewer exports must preserve evidence-origin, static-only, and missing-bag status",passed,3,0,tests_only
+REQ-EXPORT-003,export,Reviewer exports must include schemas and a manifest with row counts,passed,3,0,tests_only
+REQ-EXPORT-004,export,"Reviewer notebook scaffolding must not require ROS, Gazebo, Foxglove, or live runtime evidence",passed,3,0,tests_only
+REQ-EXPORT-005,export,Reviewer exports must not claim safety certification or infer causality,passed,3,0,tests_only

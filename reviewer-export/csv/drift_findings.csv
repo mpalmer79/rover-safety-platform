@@ -1,0 +1,4 @@
+finding_id,drift_type,severity,description,affected_metric,current_value,baseline_value,triggering_artifact,evidence_origin
+drift-0000,analytics_score_drift,informational,insufficient analytics history for score drift,analytics_score_drift,,,,
+drift-0001,missing_bag_frequency_increasing,warning,missing_bag count moved 1 -> 2,missing_bag_frequency_increasing,,,,
+drift-0002,static_only_dependency_increasing,warning,static_only count moved 0 -> 1,static_only_dependency_increasing,,,,

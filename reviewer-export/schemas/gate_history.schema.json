@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "gate_status": {
+      "enum": [
+        "passed",
+        "warning",
+        "failed",
+        "not_executed",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "history_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "last_transition": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "latest_status": {
+      "enum": [
+        "passed",
+        "warning",
+        "failed",
+        "not_executed",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "volatility": {
+      "enum": [
+        "steady",
+        "oscillating",
+        "regressing",
+        "improving",
+        "unknown"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "gate_status",
+    "count",
+    "latest_status",
+    "volatility",
+    "last_transition",
+    "history_status"
+  ],
+  "title": "reviewer-export/gate_history",
+  "type": "object"
+}

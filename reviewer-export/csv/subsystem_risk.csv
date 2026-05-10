@@ -1,0 +1,5 @@
+subsystem,risk_frequency,highest_risk,warning_count,failure_count,critical_count,representative_artifacts,causality_claimed
+ci,1,moderate,2,0,0,reliability-impact/canonical/impact-report.json,false
+docs,1,moderate,2,0,0,reliability-impact/canonical/impact-report.json,false
+replay_analytics,1,moderate,2,0,0,reliability-impact/canonical/impact-report.json,false
+safety,1,moderate,2,0,0,reliability-impact/canonical/impact-report.json,false

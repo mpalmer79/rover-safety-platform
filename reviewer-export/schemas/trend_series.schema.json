@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "baseline_value": {
+      "type": [
+        "number",
+        "string",
+        "null"
+      ]
+    },
+    "delta": {
+      "type": [
+        "number",
+        "string",
+        "null"
+      ]
+    },
+    "evidence_origin_mix": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "history_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "latest_value": {
+      "type": [
+        "number",
+        "string",
+        "null"
+      ]
+    },
+    "metric_name": {
+      "type": "string"
+    },
+    "sample_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "trend_category": {
+      "enum": [
+        "improving",
+        "stable",
+        "degrading",
+        "volatile",
+        "insufficient_history"
+      ],
+      "type": "string"
+    },
+    "window": {
+      "enum": [
+        "full",
+        "rolling_3",
+        "rolling_5"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "metric_name",
+    "window",
+    "trend_category",
+    "latest_value",
+    "baseline_value",
+    "delta",
+    "sample_count",
+    "history_status",
+    "evidence_origin_mix"
+  ],
+  "title": "reviewer-export/trend_series",
+  "type": "object"
+}

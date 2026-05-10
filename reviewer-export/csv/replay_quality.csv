@@ -1,0 +1,4 @@
+incident_id,score,coverage_status,confidence,bag_status,evidence_status,review_completion_status,evidence_origin,static_only,missing_bag
+canonical-estop-latched,59,sparse,unknown,missing_bag,scenario-evidence,not_started,scenario-evidence,false,true
+canonical-stale-lidar,59,sparse,unknown,missing_bag,scenario-evidence,not_started,scenario-evidence,false,true
+canonical-static-qualification,37,sparse,unknown,static_only,scenario-evidence,not_started,scenario-evidence,true,false

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "discipline": {
+      "enum": [
+        "evidence",
+        "replay",
+        "ci",
+        "traceability",
+        "runtime_qualification",
+        "review_completion",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "discipline_rating": {
+      "enum": [
+        "strong",
+        "acceptable",
+        "weak",
+        "concerning",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "evidence_origin": {
+      "enum": [
+        "scenario-evidence",
+        "runtime-evidence",
+        "live-runtime",
+        "bag-backed",
+        "static-source",
+        "static-workspace",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "known_limitation": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "programme_health": {
+      "enum": [
+        "strong",
+        "acceptable",
+        "weak",
+        "concerning",
+        "critical"
+      ],
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "triggering_artifact": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "generated_at",
+    "programme_health",
+    "discipline",
+    "discipline_rating",
+    "reason",
+    "triggering_artifact",
+    "evidence_origin",
+    "known_limitation"
+  ],
+  "title": "reviewer-export/programme_health",
+  "type": "object"
+}

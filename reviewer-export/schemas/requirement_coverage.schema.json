@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "coverage_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "mapped_artifacts": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "mapped_tests": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "requirement_id": {
+      "type": "string"
+    },
+    "requirement_kind": {
+      "type": "string"
+    },
+    "status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "title": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "requirement_id",
+    "requirement_kind",
+    "title",
+    "status",
+    "mapped_tests",
+    "mapped_artifacts",
+    "coverage_status"
+  ],
+  "title": "reviewer-export/requirement_coverage",
+  "type": "object"
+}

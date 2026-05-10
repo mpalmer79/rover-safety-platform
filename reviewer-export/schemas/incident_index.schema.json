@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "evidence_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "first_fault": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "incident_id": {
+      "type": "string"
+    },
+    "outcome": {
+      "enum": [
+        "controlled_degradation",
+        "safe_stop_success",
+        "estop_latched",
+        "mission_aborted",
+        "recovery_success",
+        "recovery_failed",
+        "inconclusive",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "replay_integrity_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "report_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "run_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scenario_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "informational",
+        "warning",
+        "regression",
+        "critical_regression"
+      ],
+      "type": "string"
+    },
+    "terminal_safety_state": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "incident_id",
+    "run_id",
+    "scenario_id",
+    "severity",
+    "outcome",
+    "evidence_status",
+    "first_fault",
+    "terminal_safety_state",
+    "replay_integrity_status",
+    "report_path"
+  ],
+  "title": "reviewer-export/incident_index",
+  "type": "object"
+}

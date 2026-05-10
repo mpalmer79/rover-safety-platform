@@ -50,6 +50,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 8 — Replay Coverage Analytics and Cross-Incident Operational Intelligence | Implemented; see section 3j |
 | Phase 9 — Source-to-Replay Regression Correlation and Reliability Impact Analysis | Implemented; see section 3k |
 | Phase 10 — Reliability Programme Review and Longitudinal Governance | Implemented; see section 3l |
+| Phase 11 — Reviewer Export Package and Notebook Scaffolding | Implemented; see section 3m |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -1216,6 +1217,74 @@ Phase 3..9 artefacts. Deterministic, evidence-backed, conservative.
 - Demonstrates longitudinal governance discipline: deterministic
   trend classification, conservative drift rules, honest treatment
   of missing history, and a governance-grade six-discipline rollup.
+
+---
+
+## 3m. Phase 11: Reviewer Export Package and Notebook Scaffolding
+
+### Status
+
+Implemented in this branch. Read-only packaging layer over Phase 3
+(traceability), Phase 6 (incident index), Phase 8 (replay
+analytics), Phase 9 (reliability impact), and Phase 10 (programme
+review).
+
+### Objectives
+
+- Export the existing engineering evidence into reviewer-friendly
+  CSV + JSONL + JSON Schema artefacts.
+- Ship a single-source-of-truth manifest with per-table row counts.
+- Provide a reviewer notebook scaffold that loads the CSVs without
+  ROS / Gazebo / Foxglove / network dependencies.
+- Preserve every honesty rule from earlier phases: static-only stays
+  static-only, missing-bag stays missing-bag, causality is never
+  claimed.
+
+### Deliverables
+
+- `backend/app/reviewer_exports/` — 9 modules (`models`, `loader`,
+  `schema`, `exporters`, `manifest`, `validator`, `notebook`,
+  `reporter`, `__init__`).
+- `rover_ws/tools/generate_reviewer_export.py` and
+  `rover_ws/tools/validate_reviewer_export.py`.
+- `.github/workflows/reviewer-export.yml`.
+- `reviewer-export/` — canonical bundle (manifest, summary, 8 CSV
+  files, 8 JSONL files, 8 JSON Schemas, notebook + README).
+- `docs/REVIEWER_EXPORTS.md`,
+  `docs/EXPORT_SCHEMA_REFERENCE.md`,
+  `docs/REVIEWER_NOTEBOOK_GUIDE.md`.
+- REQ-EXPORT-001..005 with traceability rows.
+
+### Acceptance Criteria
+
+- CSV exports are deterministic given the same inputs.
+- JSONL exports are line-delimited valid JSON.
+- Manifest row counts match every CSV / JSONL.
+- `causality_claimed=false` is enforced at the schema level.
+- `static_only` / `missing_bag` flags ride through every replay-
+  quality row that originates with that bag status.
+- Notebook is valid JSON, uses optional guarded imports, and never
+  imports ROS / Foxglove dependencies.
+- Tests cover loader, schemas, exporters, manifest, notebook,
+  validator, and CLIs without ROS / Gazebo / Foxglove / network.
+
+### Risks
+
+- Drift between schema and exporter shape. Mitigated by the schema
+  + per-table tests.
+- Reviewer adoption. Mitigated by the deliberately minimal notebook
+  (no charts, no ML).
+
+### Deferred Work
+
+- Charting / dashboard frameworks (intentionally excluded).
+- AI-generated review summaries (intentionally excluded).
+
+### Portfolio Signal
+
+- Demonstrates portfolio-grade evidence packaging discipline:
+  deterministic CSV / JSONL, schema-backed shapes, reviewer-friendly
+  notebook scaffold, every honesty rule preserved.
 
 ---
 

@@ -34,6 +34,7 @@ class RequirementKind(str, Enum):
     ANALYTICS = "analytics"
     IMPACT = "impact"
     PROGRAMME = "programme"
+    EXPORT = "export"
 
 
 @dataclass(frozen=True)
@@ -1457,6 +1458,125 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "backend/tests/test_programme_review.py::test_programme_workflow_is_github_hosted",
             "backend/tests/test_programme_review.py::test_programme_workflow_supports_dispatch",
             "backend/tests/test_programme_review.py::test_programme_workflow_uploads_artifacts",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-EXPORT-001",
+        kind=RequirementKind.EXPORT,
+        title="Reviewer exports must provide CSV and JSONL outputs for the documented tables",
+        description=(
+            "The reviewer-export package emits CSV and JSONL files "
+            "for programme health, replay quality, incidents, "
+            "subsystem risk, gate history, drift findings, trend "
+            "series, and requirement coverage. Both formats are "
+            "deterministic and schema-backed."
+        ),
+        architecture_refs=(
+            "docs/REVIEWER_EXPORTS.md",
+            "docs/EXPORT_SCHEMA_REFERENCE.md",
+        ),
+        implementation_refs=(
+            "backend/app/reviewer_exports/exporters.py",
+            "backend/app/reviewer_exports/schema.py",
+        ),
+        test_refs=(
+            "backend/tests/test_reviewer_exports.py::test_csv_exports_are_deterministic",
+            "backend/tests/test_reviewer_exports.py::test_jsonl_exports_are_line_delimited",
+            "backend/tests/test_reviewer_exports.py::test_all_documented_tables_emitted",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-EXPORT-002",
+        kind=RequirementKind.EXPORT,
+        title="Reviewer exports must preserve evidence-origin, static-only, and missing-bag status",
+        description=(
+            "Every row in the replay-quality table records the "
+            "original evidence_origin, bag_status, and review "
+            "completion status. Static-only stays static-only and "
+            "missing_bag stays missing_bag — the export layer never "
+            "promotes one to the other."
+        ),
+        architecture_refs=(
+            "docs/REVIEWER_EXPORTS.md",
+        ),
+        implementation_refs=(
+            "backend/app/reviewer_exports/exporters.py",
+            "backend/app/reviewer_exports/loader.py",
+        ),
+        test_refs=(
+            "backend/tests/test_reviewer_exports.py::test_static_only_remains_static_only",
+            "backend/tests/test_reviewer_exports.py::test_missing_bag_remains_missing_bag",
+            "backend/tests/test_reviewer_exports.py::test_replay_quality_row_preserves_origin",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-EXPORT-003",
+        kind=RequirementKind.EXPORT,
+        title="Reviewer exports must include schemas and a manifest with row counts",
+        description=(
+            "The export bundle ships a JSON Schema for every table "
+            "and a manifest.json that lists tables, row counts, "
+            "schema paths, csv paths, jsonl paths, the notebook "
+            "path, and the certification disclaimer."
+        ),
+        architecture_refs=(
+            "docs/EXPORT_SCHEMA_REFERENCE.md",
+        ),
+        implementation_refs=(
+            "backend/app/reviewer_exports/manifest.py",
+            "backend/app/reviewer_exports/schema.py",
+        ),
+        test_refs=(
+            "backend/tests/test_reviewer_exports.py::test_manifest_row_counts_match_files",
+            "backend/tests/test_reviewer_exports.py::test_schemas_define_required_fields",
+            "backend/tests/test_reviewer_exports.py::test_manifest_contains_certification_disclaimer",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-EXPORT-004",
+        kind=RequirementKind.EXPORT,
+        title="Reviewer notebook scaffolding must not require ROS, Gazebo, Foxglove, or live runtime evidence",
+        description=(
+            "The reviewer notebook loads CSV files from the "
+            "neighbour ``../csv/`` directory using only the Python "
+            "standard library (and pandas / matplotlib via guarded "
+            "optional imports). It does not require ROS, Gazebo, "
+            "Foxglove, or any live runtime evidence."
+        ),
+        architecture_refs=(
+            "docs/REVIEWER_NOTEBOOK_GUIDE.md",
+        ),
+        implementation_refs=(
+            "backend/app/reviewer_exports/notebook.py",
+        ),
+        test_refs=(
+            "backend/tests/test_reviewer_exports.py::test_notebook_is_valid_json",
+            "backend/tests/test_reviewer_exports.py::test_notebook_uses_optional_imports",
+            "backend/tests/test_reviewer_exports.py::test_notebook_does_not_require_ros",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-EXPORT-005",
+        kind=RequirementKind.EXPORT,
+        title="Reviewer exports must not claim safety certification or infer causality",
+        description=(
+            "Every reviewer-facing artefact carries the verbatim "
+            "certification disclaimer; the subsystem-risk export "
+            "always sets ``causality_claimed=false``; the reviewer "
+            "summary explicitly distinguishes static-only / "
+            "missing-bag / bag-backed evidence."
+        ),
+        architecture_refs=(
+            "docs/REVIEWER_EXPORTS.md",
+        ),
+        implementation_refs=(
+            "backend/app/reviewer_exports/reporter.py",
+            "backend/app/reviewer_exports/exporters.py",
+        ),
+        test_refs=(
+            "backend/tests/test_reviewer_exports.py::test_subsystem_risk_causality_claimed_false",
+            "backend/tests/test_reviewer_exports.py::test_reviewer_summary_includes_disclaimer",
+            "backend/tests/test_reviewer_exports.py::test_reviewer_summary_distinguishes_origins",
         ),
     ),
 )

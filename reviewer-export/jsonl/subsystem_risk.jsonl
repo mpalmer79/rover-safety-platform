@@ -1,0 +1,4 @@
+{"causality_claimed": false, "critical_count": 0, "failure_count": 0, "highest_risk": "moderate", "representative_artifacts": "reliability-impact/canonical/impact-report.json", "risk_frequency": 1, "subsystem": "ci", "warning_count": 2}
+{"causality_claimed": false, "critical_count": 0, "failure_count": 0, "highest_risk": "moderate", "representative_artifacts": "reliability-impact/canonical/impact-report.json", "risk_frequency": 1, "subsystem": "docs", "warning_count": 2}
+{"causality_claimed": false, "critical_count": 0, "failure_count": 0, "highest_risk": "moderate", "representative_artifacts": "reliability-impact/canonical/impact-report.json", "risk_frequency": 1, "subsystem": "replay_analytics", "warning_count": 2}
+{"causality_claimed": false, "critical_count": 0, "failure_count": 0, "highest_risk": "moderate", "representative_artifacts": "reliability-impact/canonical/impact-report.json", "risk_frequency": 1, "subsystem": "safety", "warning_count": 2}

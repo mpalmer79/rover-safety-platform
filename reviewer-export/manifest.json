@@ -1,0 +1,209 @@
+{
+  "certification_disclaimer": "This reviewer export is generated from available engineering evidence. It does not represent safety certification or regulatory approval.",
+  "csv_paths": {
+    "drift_findings": "reviewer-export/csv/drift_findings.csv",
+    "gate_history": "reviewer-export/csv/gate_history.csv",
+    "incident_index": "reviewer-export/csv/incident_index.csv",
+    "programme_health": "reviewer-export/csv/programme_health.csv",
+    "replay_quality": "reviewer-export/csv/replay_quality.csv",
+    "requirement_coverage": "reviewer-export/csv/requirement_coverage.csv",
+    "subsystem_risk": "reviewer-export/csv/subsystem_risk.csv",
+    "trend_series": "reviewer-export/csv/trend_series.csv"
+  },
+  "export_id": "reviewer-export-canonical",
+  "generated_at": "2026-05-12T00:00:00+00:00",
+  "jsonl_paths": {
+    "drift_findings": "reviewer-export/jsonl/drift_findings.jsonl",
+    "gate_history": "reviewer-export/jsonl/gate_history.jsonl",
+    "incident_index": "reviewer-export/jsonl/incident_index.jsonl",
+    "programme_health": "reviewer-export/jsonl/programme_health.jsonl",
+    "replay_quality": "reviewer-export/jsonl/replay_quality.jsonl",
+    "requirement_coverage": "reviewer-export/jsonl/requirement_coverage.jsonl",
+    "subsystem_risk": "reviewer-export/jsonl/subsystem_risk.jsonl",
+    "trend_series": "reviewer-export/jsonl/trend_series.jsonl"
+  },
+  "known_limitations": [
+    "The platform is **not** safety-certified. The reviewer export is an engineering evidence packaging.",
+    "The export is read-only with respect to upstream artefacts; it never invents data and never infers causality.",
+    "Static-only evidence stays static-only across the export. Missing-bag stays missing-bag.",
+    "When a source artefact is missing, the corresponding table is still emitted with zero rows; the manifest records the absence.",
+    "The reviewer notebook loads CSV files from the neighbour ``../csv/`` directory using only the Python standard library (and pandas / matplotlib via optional guarded imports)."
+  ],
+  "loader_warnings": [],
+  "notebook_path": "reviewer-export/notebooks/reviewer_walkthrough.ipynb",
+  "row_counts": {
+    "drift_findings": 3,
+    "gate_history": 4,
+    "incident_index": 3,
+    "programme_health": 6,
+    "replay_quality": 3,
+    "requirement_coverage": 58,
+    "subsystem_risk": 4,
+    "trend_series": 18
+  },
+  "schema_paths": {
+    "drift_findings": "reviewer-export/schemas/drift_findings.schema.json",
+    "gate_history": "reviewer-export/schemas/gate_history.schema.json",
+    "incident_index": "reviewer-export/schemas/incident_index.schema.json",
+    "programme_health": "reviewer-export/schemas/programme_health.schema.json",
+    "replay_quality": "reviewer-export/schemas/replay_quality.schema.json",
+    "requirement_coverage": "reviewer-export/schemas/requirement_coverage.schema.json",
+    "subsystem_risk": "reviewer-export/schemas/subsystem_risk.schema.json",
+    "trend_series": "reviewer-export/schemas/trend_series.schema.json"
+  },
+  "source_artifacts": [
+    "programme-review/programme-review.json",
+    "programme-review/governance-dashboard.json",
+    "programme-review/trend-report.json",
+    "programme-review/drift-report.json",
+    "programme-review/subsystem-risk-report.json",
+    "programme-review/gate-history.json",
+    "incidents/analytics/replay-quality-index.json",
+    "incidents/index.json",
+    "verification/traceability.json",
+    "reliability-impact/canonical/impact-report.json"
+  ],
+  "summary_path": "reviewer-export/reviewer-export-summary.md",
+  "tables": {
+    "drift_findings": {
+      "csv_path": "reviewer-export/csv/drift_findings.csv",
+      "fields": [
+        "finding_id",
+        "drift_type",
+        "severity",
+        "description",
+        "affected_metric",
+        "current_value",
+        "baseline_value",
+        "triggering_artifact",
+        "evidence_origin"
+      ],
+      "jsonl_path": "reviewer-export/jsonl/drift_findings.jsonl",
+      "name": "drift_findings",
+      "row_count": 3,
+      "schema_path": "reviewer-export/schemas/drift_findings.schema.json"
+    },
+    "gate_history": {
+      "csv_path": "reviewer-export/csv/gate_history.csv",
+      "fields": [
+        "gate_status",
+        "count",
+        "latest_status",
+        "volatility",
+        "last_transition",
+        "history_status"
+      ],
+      "jsonl_path": "reviewer-export/jsonl/gate_history.jsonl",
+      "name": "gate_history",
+      "row_count": 4,
+      "schema_path": "reviewer-export/schemas/gate_history.schema.json"
+    },
+    "incident_index": {
+      "csv_path": "reviewer-export/csv/incident_index.csv",
+      "fields": [
+        "incident_id",
+        "run_id",
+        "scenario_id",
+        "severity",
+        "outcome",
+        "evidence_status",
+        "first_fault",
+        "terminal_safety_state",
+        "replay_integrity_status",
+        "report_path"
+      ],
+      "jsonl_path": "reviewer-export/jsonl/incident_index.jsonl",
+      "name": "incident_index",
+      "row_count": 3,
+      "schema_path": "reviewer-export/schemas/incident_index.schema.json"
+    },
+    "programme_health": {
+      "csv_path": "reviewer-export/csv/programme_health.csv",
+      "fields": [
+        "generated_at",
+        "programme_health",
+        "discipline",
+        "discipline_rating",
+        "reason",
+        "triggering_artifact",
+        "evidence_origin",
+        "known_limitation"
+      ],
+      "jsonl_path": "reviewer-export/jsonl/programme_health.jsonl",
+      "name": "programme_health",
+      "row_count": 6,
+      "schema_path": "reviewer-export/schemas/programme_health.schema.json"
+    },
+    "replay_quality": {
+      "csv_path": "reviewer-export/csv/replay_quality.csv",
+      "fields": [
+        "incident_id",
+        "score",
+        "coverage_status",
+        "confidence",
+        "bag_status",
+        "evidence_status",
+        "review_completion_status",
+        "evidence_origin",
+        "static_only",
+        "missing_bag"
+      ],
+      "jsonl_path": "reviewer-export/jsonl/replay_quality.jsonl",
+      "name": "replay_quality",
+      "row_count": 3,
+      "schema_path": "reviewer-export/schemas/replay_quality.schema.json"
+    },
+    "requirement_coverage": {
+      "csv_path": "reviewer-export/csv/requirement_coverage.csv",
+      "fields": [
+        "requirement_id",
+        "requirement_kind",
+        "title",
+        "status",
+        "mapped_tests",
+        "mapped_artifacts",
+        "coverage_status"
+      ],
+      "jsonl_path": "reviewer-export/jsonl/requirement_coverage.jsonl",
+      "name": "requirement_coverage",
+      "row_count": 58,
+      "schema_path": "reviewer-export/schemas/requirement_coverage.schema.json"
+    },
+    "subsystem_risk": {
+      "csv_path": "reviewer-export/csv/subsystem_risk.csv",
+      "fields": [
+        "subsystem",
+        "risk_frequency",
+        "highest_risk",
+        "warning_count",
+        "failure_count",
+        "critical_count",
+        "representative_artifacts",
+        "causality_claimed"
+      ],
+      "jsonl_path": "reviewer-export/jsonl/subsystem_risk.jsonl",
+      "name": "subsystem_risk",
+      "row_count": 4,
+      "schema_path": "reviewer-export/schemas/subsystem_risk.schema.json"
+    },
+    "trend_series": {
+      "csv_path": "reviewer-export/csv/trend_series.csv",
+      "fields": [
+        "metric_name",
+        "window",
+        "trend_category",
+        "latest_value",
+        "baseline_value",
+        "delta",
+        "sample_count",
+        "history_status",
+        "evidence_origin_mix"
+      ],
+      "jsonl_path": "reviewer-export/jsonl/trend_series.jsonl",
+      "name": "trend_series",
+      "row_count": 18,
+      "schema_path": "reviewer-export/schemas/trend_series.schema.json"
+    }
+  },
+  "warnings": []
+}

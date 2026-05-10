@@ -1,0 +1,7 @@
+generated_at,programme_health,discipline,discipline_rating,reason,triggering_artifact,evidence_origin,known_limitation
+2026-05-11T00:00:00+00:00,weak,evidence,strong,replay-review coverage diversified: 1/3 static-only,,,The platform is **not** safety-certified. Programme review is engineering reliability material.
+2026-05-11T00:00:00+00:00,weak,replay,acceptable,drift report carries warnings only,,,The platform is **not** safety-certified. Programme review is engineering reliability material.
+2026-05-11T00:00:00+00:00,weak,ci,strong,gate counts: passed=1 warning=0 failed=0 not_executed=0,,,The platform is **not** safety-certified. Programme review is engineering reliability material.
+2026-05-11T00:00:00+00:00,weak,traceability,strong,latest reliability-impact bundle mapped 27 requirement id(s),,,The platform is **not** safety-certified. Programme review is engineering reliability material.
+2026-05-11T00:00:00+00:00,weak,runtime_qualification,strong,qualification statuses observed: ['partial'],,,The platform is **not** safety-certified. Programme review is engineering reliability material.
+2026-05-11T00:00:00+00:00,weak,review_completion,weak,completed_reviews=0/3 (rest are not_started or partial),,,The platform is **not** safety-certified. Programme review is engineering reliability material.
