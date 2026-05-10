@@ -1,0 +1,137 @@
+{
+  "notes": [],
+  "series": [
+    {
+      "category": "stable",
+      "detail": "first=5.0 last=4.0 samples=3 category=stable",
+      "label": "replay_quality_score",
+      "observations": [
+        {
+          "evidence_origin": "scenario-evidence",
+          "record_id": "canonical-estop-latched",
+          "timestamp": "2026-05-10T17:42:28+00:00",
+          "value": 5.0
+        },
+        {
+          "evidence_origin": "scenario-evidence",
+          "record_id": "canonical-stale-lidar",
+          "timestamp": "2026-05-10T17:42:28+00:00",
+          "value": 5.0
+        },
+        {
+          "evidence_origin": "scenario-evidence",
+          "record_id": "canonical-static-qualification",
+          "timestamp": "2026-05-10T17:42:28+00:00",
+          "value": 4.0
+        }
+      ],
+      "rolling_3": "stable",
+      "rolling_5": "stable",
+      "window_size": 3
+    },
+    {
+      "category": "insufficient_history",
+      "detail": "first=51.666666666666664 last=51.666666666666664 samples=1 category=insufficient_history",
+      "label": "analytics_average_score",
+      "observations": [
+        {
+          "evidence_origin": "unknown",
+          "record_id": "replay-analytics-report",
+          "timestamp": "2026-05-10T19:13:41+00:00",
+          "value": 51.666666666666664
+        }
+      ],
+      "rolling_3": "insufficient_history",
+      "rolling_5": "insufficient_history",
+      "window_size": 1
+    },
+    {
+      "category": "insufficient_history",
+      "detail": "no available values",
+      "label": "expected_topics_present_pct",
+      "observations": [
+        {
+          "evidence_origin": "scenario-evidence",
+          "record_id": "canonical-estop-latched",
+          "timestamp": "2026-05-10T17:42:28+00:00",
+          "value": null
+        },
+        {
+          "evidence_origin": "scenario-evidence",
+          "record_id": "canonical-stale-lidar",
+          "timestamp": "2026-05-10T17:42:28+00:00",
+          "value": null
+        },
+        {
+          "evidence_origin": "scenario-evidence",
+          "record_id": "canonical-static-qualification",
+          "timestamp": "2026-05-10T17:42:28+00:00",
+          "value": null
+        }
+      ],
+      "rolling_3": "insufficient_history",
+      "rolling_5": "insufficient_history",
+      "window_size": 0
+    },
+    {
+      "category": "insufficient_history",
+      "detail": "no available values",
+      "label": "marker_alignment_pct",
+      "observations": [
+        {
+          "evidence_origin": "scenario-evidence",
+          "record_id": "canonical-estop-latched",
+          "timestamp": "2026-05-10T17:42:28+00:00",
+          "value": null
+        },
+        {
+          "evidence_origin": "scenario-evidence",
+          "record_id": "canonical-stale-lidar",
+          "timestamp": "2026-05-10T17:42:28+00:00",
+          "value": null
+        },
+        {
+          "evidence_origin": "scenario-evidence",
+          "record_id": "canonical-static-qualification",
+          "timestamp": "2026-05-10T17:42:28+00:00",
+          "value": null
+        }
+      ],
+      "rolling_3": "insufficient_history",
+      "rolling_5": "insufficient_history",
+      "window_size": 0
+    },
+    {
+      "category": "insufficient_history",
+      "detail": "first=14.0 last=14.0 samples=1 category=insufficient_history",
+      "label": "runtime_qualification_passed_count",
+      "observations": [
+        {
+          "evidence_origin": "unknown",
+          "record_id": "qualified-2026-05-10",
+          "timestamp": "2026-05-10T00:01:44+00:00",
+          "value": 14.0
+        }
+      ],
+      "rolling_3": "insufficient_history",
+      "rolling_5": "insufficient_history",
+      "window_size": 1
+    },
+    {
+      "category": "insufficient_history",
+      "detail": "first=1.0 last=1.0 samples=1 category=insufficient_history",
+      "label": "gate_status_indicator",
+      "observations": [
+        {
+          "evidence_origin": "unknown",
+          "record_id": "canonical",
+          "timestamp": "2026-05-10T19:42:32+00:00",
+          "value": 1.0
+        }
+      ],
+      "rolling_3": "insufficient_history",
+      "rolling_5": "insufficient_history",
+      "window_size": 1
+    }
+  ]
+}

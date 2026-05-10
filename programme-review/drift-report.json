@@ -1,0 +1,33 @@
+{
+  "findings": [
+    {
+      "affected_subsystems": [],
+      "detail": "insufficient analytics history for score drift",
+      "evidence_paths": [],
+      "label": "analytics_score_drift",
+      "severity": "informational"
+    },
+    {
+      "affected_subsystems": [],
+      "detail": "missing_bag count moved 1 -> 2",
+      "evidence_paths": [],
+      "label": "missing_bag_frequency_increasing",
+      "severity": "warning"
+    },
+    {
+      "affected_subsystems": [],
+      "detail": "static_only count moved 0 -> 1",
+      "evidence_paths": [],
+      "label": "static_only_dependency_increasing",
+      "severity": "warning"
+    }
+  ],
+  "notes": [],
+  "severity": "warning",
+  "summary_counts": {
+    "critical_regression": 0,
+    "informational": 1,
+    "regression": 0,
+    "warning": 2
+  }
+}

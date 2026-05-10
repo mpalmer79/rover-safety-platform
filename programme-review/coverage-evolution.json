@@ -1,0 +1,40 @@
+{
+  "bag_status_distribution": {
+    "missing_bag": 2,
+    "static_only": 1
+  },
+  "entries": [
+    {
+      "bag_status": "missing_bag",
+      "coverage_status": "missing_bag",
+      "evidence_origin": "scenario-evidence",
+      "record_id": "canonical-estop-latched",
+      "review_completion_status": "not_started",
+      "score": null,
+      "timestamp": "2026-05-10T17:42:28+00:00"
+    },
+    {
+      "bag_status": "missing_bag",
+      "coverage_status": "missing_bag",
+      "evidence_origin": "scenario-evidence",
+      "record_id": "canonical-stale-lidar",
+      "review_completion_status": "not_started",
+      "score": null,
+      "timestamp": "2026-05-10T17:42:28+00:00"
+    },
+    {
+      "bag_status": "static_only",
+      "coverage_status": "static_only",
+      "evidence_origin": "scenario-evidence",
+      "record_id": "canonical-static-qualification",
+      "review_completion_status": "not_started",
+      "score": null,
+      "timestamp": "2026-05-10T17:42:28+00:00"
+    }
+  ],
+  "notes": [],
+  "origin_distribution": {
+    "scenario-evidence": 3
+  },
+  "origin_mix_label": "static_only_only"
+}

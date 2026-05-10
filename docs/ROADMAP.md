@@ -49,6 +49,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 7 — Live Foxglove Replay Integration and Operational Review Sessions | Implemented (static-only fall-back); see section 3i |
 | Phase 8 — Replay Coverage Analytics and Cross-Incident Operational Intelligence | Implemented; see section 3j |
 | Phase 9 — Source-to-Replay Regression Correlation and Reliability Impact Analysis | Implemented; see section 3k |
+| Phase 10 — Reliability Programme Review and Longitudinal Governance | Implemented; see section 3l |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -1147,6 +1148,74 @@ impact bundles; CI gate honours the missing-live-evidence exception.
 - Demonstrates honest CI gating: missing live runtime evidence
   never fails the gate; baselines are pinned; warnings never
   promote themselves into failures.
+
+---
+
+## 3l. Phase 10: Reliability Programme Review and Longitudinal Governance
+
+### Status
+
+Implemented in this branch. Read-only longitudinal layer over
+Phase 3..9 artefacts. Deterministic, evidence-backed, conservative.
+
+### Objectives
+
+- Aggregate reliability-impact, replay analytics, runtime
+  qualification, replay review, and incident artefacts across runs.
+- Compute deterministic trends, drift, governance health,
+  subsystem-risk aggregates, coverage evolution, gate history, and
+  evidence freshness.
+- Provide a github-hosted CI workflow that builds the programme
+  review on every push and dispatch.
+
+### Deliverables
+
+- `backend/app/programme_review/` — 12 modules.
+- `rover_ws/tools/generate_programme_review.py`,
+  `analyze_reliability_trends.py`,
+  `detect_reliability_drift.py`,
+  `review_governance_health.py`,
+  `review_evidence_freshness.py`.
+- `.github/workflows/programme-review.yml`.
+- `programme-review/` — canonical bundle (18 files).
+- `docs/PROGRAMME_REVIEW.md`,
+  `docs/GOVERNANCE_HEALTH_MODEL.md`,
+  `docs/RELIABILITY_TREND_ANALYSIS.md`,
+  `docs/EVIDENCE_FRESHNESS_POLICY.md`,
+  `docs/SUBSYSTEM_RISK_AGGREGATION.md`.
+- REQ-PROGRAMME-001..010 with traceability rows.
+
+### Acceptance Criteria
+
+- Missing history is reported as `insufficient_history` /
+  `unknown`, never as regression.
+- Mixed-origin samples are labelled explicitly; static-only stays
+  static-only.
+- Operator review completion is never inferred.
+- Trends are deterministic projections, not forecasts.
+- Subsystem-risk rows record observations + counts, never causal
+  claims.
+- Freshness is driven by an explicit reference time supplied by
+  the caller (CI passes UTC `now`; tests supply fixtures).
+- CI workflow never fails for missing live runtime evidence.
+
+### Risks
+
+- Drift between the loader's expectations and upstream artefact
+  shapes. Mitigated by the loader's structured warnings.
+- Trend windows misleading when histories are short. Mitigated by
+  the `insufficient_history` label.
+
+### Deferred Work
+
+- Per-day / per-week roll-ups inside trend windows (out of scope).
+- Probabilistic forecasting (intentionally excluded).
+
+### Portfolio Signal
+
+- Demonstrates longitudinal governance discipline: deterministic
+  trend classification, conservative drift rules, honest treatment
+  of missing history, and a governance-grade six-discipline rollup.
 
 ---
 

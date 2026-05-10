@@ -1,0 +1,46 @@
+# Phase-10 longitudinal programme review.
+#
+# Runs on workflow_dispatch and on every push to main. The
+# programme-review layer is read-only and never opens a bag file;
+# missing live runtime evidence on a github-hosted runner is
+# **never** a failure here.
+
+name: programme-review
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  programme-review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest pyyaml
+
+      - name: Run programme review
+        run: |
+          set -euo pipefail
+          python rover_ws/tools/generate_programme_review.py \
+            --output programme-review
+
+      - name: Upload programme-review bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: programme-review-${{ github.run_id }}
+          path: programme-review/
+          retention-days: 14

@@ -1,0 +1,15 @@
+{
+  "failure_count": 0,
+  "last_status": "passed",
+  "last_transition": null,
+  "not_executed_count": 0,
+  "notes": [
+    "only one gate decision available; volatility is informational"
+  ],
+  "pass_count": 1,
+  "sequence": [
+    "passed"
+  ],
+  "volatility": "unknown",
+  "warning_count": 0
+}

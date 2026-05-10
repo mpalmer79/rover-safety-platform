@@ -1,0 +1,463 @@
+{
+  "coverage_evolution": {
+    "bag_status_distribution": {
+      "missing_bag": 2,
+      "static_only": 1
+    },
+    "entries": [
+      {
+        "bag_status": "missing_bag",
+        "coverage_status": "missing_bag",
+        "evidence_origin": "scenario-evidence",
+        "record_id": "canonical-estop-latched",
+        "review_completion_status": "not_started",
+        "score": null,
+        "timestamp": "2026-05-10T17:42:28+00:00"
+      },
+      {
+        "bag_status": "missing_bag",
+        "coverage_status": "missing_bag",
+        "evidence_origin": "scenario-evidence",
+        "record_id": "canonical-stale-lidar",
+        "review_completion_status": "not_started",
+        "score": null,
+        "timestamp": "2026-05-10T17:42:28+00:00"
+      },
+      {
+        "bag_status": "static_only",
+        "coverage_status": "static_only",
+        "evidence_origin": "scenario-evidence",
+        "record_id": "canonical-static-qualification",
+        "review_completion_status": "not_started",
+        "score": null,
+        "timestamp": "2026-05-10T17:42:28+00:00"
+      }
+    ],
+    "notes": [],
+    "origin_distribution": {
+      "scenario-evidence": 3
+    },
+    "origin_mix_label": "static_only_only"
+  },
+  "drift_report": {
+    "findings": [
+      {
+        "affected_subsystems": [],
+        "detail": "insufficient analytics history for score drift",
+        "evidence_paths": [],
+        "label": "analytics_score_drift",
+        "severity": "informational"
+      },
+      {
+        "affected_subsystems": [],
+        "detail": "missing_bag count moved 1 -> 2",
+        "evidence_paths": [],
+        "label": "missing_bag_frequency_increasing",
+        "severity": "warning"
+      },
+      {
+        "affected_subsystems": [],
+        "detail": "static_only count moved 0 -> 1",
+        "evidence_paths": [],
+        "label": "static_only_dependency_increasing",
+        "severity": "warning"
+      }
+    ],
+    "notes": [],
+    "severity": "warning",
+    "summary_counts": {
+      "critical_regression": 0,
+      "informational": 1,
+      "regression": 0,
+      "warning": 2
+    }
+  },
+  "fixture_mode": false,
+  "freshness_report": {
+    "entries": [
+      {
+        "age_seconds": 15448,
+        "generated_at_utc": "2026-05-10T19:42:32+00:00",
+        "notes": "",
+        "record_id": "canonical",
+        "record_type": "reliability_impact",
+        "source_path": "reliability-impact/canonical/impact-report.json",
+        "status": "fresh",
+        "threshold_seconds": 1209600
+      },
+      {
+        "age_seconds": 17179,
+        "generated_at_utc": "2026-05-10T19:13:41+00:00",
+        "notes": "",
+        "record_id": "replay-analytics-report",
+        "record_type": "replay_analytics",
+        "source_path": "incidents/analytics/replay-analytics-report.json",
+        "status": "fresh",
+        "threshold_seconds": 1209600
+      },
+      {
+        "age_seconds": 86296,
+        "generated_at_utc": "2026-05-10T00:01:44+00:00",
+        "notes": "",
+        "record_id": "qualified-2026-05-10",
+        "record_type": "runtime_qualification",
+        "source_path": "evidence/runtime/qualified-2026-05-10/qualification-summary.json",
+        "status": "fresh",
+        "threshold_seconds": 2592000
+      },
+      {
+        "age_seconds": 22652,
+        "generated_at_utc": "2026-05-10T17:42:28+00:00",
+        "notes": "",
+        "record_id": "canonical-estop-latched",
+        "record_type": "replay_review",
+        "source_path": "incidents/canonical-estop-latched/replay-review-report.json",
+        "status": "fresh",
+        "threshold_seconds": 2592000
+      },
+      {
+        "age_seconds": 22652,
+        "generated_at_utc": "2026-05-10T17:42:28+00:00",
+        "notes": "",
+        "record_id": "canonical-stale-lidar",
+        "record_type": "replay_review",
+        "source_path": "incidents/canonical-stale-lidar/replay-review-report.json",
+        "status": "fresh",
+        "threshold_seconds": 2592000
+      },
+      {
+        "age_seconds": 22652,
+        "generated_at_utc": "2026-05-10T17:42:28+00:00",
+        "notes": "",
+        "record_id": "canonical-static-qualification",
+        "record_type": "replay_review",
+        "source_path": "incidents/canonical-static-qualification/replay-review-report.json",
+        "status": "fresh",
+        "threshold_seconds": 2592000
+      },
+      {
+        "age_seconds": 24784,
+        "generated_at_utc": "2026-05-10T17:06:56+00:00",
+        "notes": "",
+        "record_id": "canonical-estop-latched",
+        "record_type": "incident",
+        "source_path": "incidents/canonical-estop-latched/incident-report.json",
+        "status": "fresh",
+        "threshold_seconds": 5184000
+      },
+      {
+        "age_seconds": 24784,
+        "generated_at_utc": "2026-05-10T17:06:56+00:00",
+        "notes": "",
+        "record_id": "canonical-stale-lidar",
+        "record_type": "incident",
+        "source_path": "incidents/canonical-stale-lidar/incident-report.json",
+        "status": "fresh",
+        "threshold_seconds": 5184000
+      },
+      {
+        "age_seconds": 24784,
+        "generated_at_utc": "2026-05-10T17:06:56+00:00",
+        "notes": "",
+        "record_id": "canonical-static-qualification",
+        "record_type": "incident",
+        "source_path": "incidents/canonical-static-qualification/incident-report.json",
+        "status": "fresh",
+        "threshold_seconds": 5184000
+      }
+    ],
+    "notes": [],
+    "reference_time_utc": "2026-05-11T00:00:00+00:00",
+    "status_counts": {
+      "fresh": 9,
+      "stale": 0,
+      "unknown": 0
+    }
+  },
+  "gate_history": {
+    "failure_count": 0,
+    "last_status": "passed",
+    "last_transition": null,
+    "not_executed_count": 0,
+    "notes": [
+      "only one gate decision available; volatility is informational"
+    ],
+    "pass_count": 1,
+    "sequence": [
+      "passed"
+    ],
+    "volatility": "unknown",
+    "warning_count": 0
+  },
+  "generated_at_utc": "2026-05-11T00:00:00+00:00",
+  "governance_health": {
+    "disciplines": [
+      {
+        "affected_subsystems": [],
+        "category": "evidence",
+        "rating": "strong",
+        "reasons": [
+          "replay-review coverage diversified: 1/3 static-only"
+        ],
+        "triggering_artifacts": []
+      },
+      {
+        "affected_subsystems": [],
+        "category": "replay",
+        "rating": "acceptable",
+        "reasons": [
+          "drift report carries warnings only"
+        ],
+        "triggering_artifacts": []
+      },
+      {
+        "affected_subsystems": [],
+        "category": "ci",
+        "rating": "strong",
+        "reasons": [
+          "gate counts: passed=1 warning=0 failed=0 not_executed=0"
+        ],
+        "triggering_artifacts": []
+      },
+      {
+        "affected_subsystems": [],
+        "category": "traceability",
+        "rating": "strong",
+        "reasons": [
+          "latest reliability-impact bundle mapped 27 requirement id(s)"
+        ],
+        "triggering_artifacts": []
+      },
+      {
+        "affected_subsystems": [],
+        "category": "runtime_qualification",
+        "rating": "strong",
+        "reasons": [
+          "qualification statuses observed: ['partial']"
+        ],
+        "triggering_artifacts": []
+      },
+      {
+        "affected_subsystems": [],
+        "category": "review_completion",
+        "rating": "weak",
+        "reasons": [
+          "completed_reviews=0/3 (rest are not_started or partial)"
+        ],
+        "triggering_artifacts": []
+      }
+    ],
+    "notes": [],
+    "overall": "weak"
+  },
+  "history_counts": {
+    "incident": 3,
+    "reliability_impact": 1,
+    "replay_analytics": 1,
+    "replay_review": 3,
+    "runtime_qualification": 1
+  },
+  "known_limitations": [
+    "The platform is **not** safety-certified. Programme review is engineering reliability material.",
+    "Trends are deterministic projections of recorded history; the layer never forecasts future behaviour.",
+    "Source-level causality is never inferred. The report records observations, not blame.",
+    "Missing history is reported as ``insufficient_history`` / ``unknown``; it is never silently treated as regression.",
+    "Static-only evidence stays static-only across aggregation. Mixed-origin samples are labelled explicitly.",
+    "Baselines and freshness thresholds are caller-supplied; the layer never auto-updates them."
+  ],
+  "subsystem_risk_report": {
+    "notes": [],
+    "rows": [
+      {
+        "frequency": 1,
+        "gate_failure_count": 0,
+        "repeat_regression_count": 0,
+        "representative_artifacts": [
+          "reliability-impact/canonical/impact-report.json"
+        ],
+        "severity_distribution": {
+          "moderate": 2
+        },
+        "subsystem": "ci",
+        "unresolved_warning_count": 2
+      },
+      {
+        "frequency": 1,
+        "gate_failure_count": 0,
+        "repeat_regression_count": 0,
+        "representative_artifacts": [
+          "reliability-impact/canonical/impact-report.json"
+        ],
+        "severity_distribution": {
+          "moderate": 2
+        },
+        "subsystem": "docs",
+        "unresolved_warning_count": 2
+      },
+      {
+        "frequency": 1,
+        "gate_failure_count": 0,
+        "repeat_regression_count": 0,
+        "representative_artifacts": [
+          "reliability-impact/canonical/impact-report.json"
+        ],
+        "severity_distribution": {
+          "moderate": 2
+        },
+        "subsystem": "replay_analytics",
+        "unresolved_warning_count": 2
+      },
+      {
+        "frequency": 1,
+        "gate_failure_count": 0,
+        "repeat_regression_count": 0,
+        "representative_artifacts": [
+          "reliability-impact/canonical/impact-report.json"
+        ],
+        "severity_distribution": {
+          "moderate": 2
+        },
+        "subsystem": "safety",
+        "unresolved_warning_count": 2
+      }
+    ]
+  },
+  "trend_report": {
+    "notes": [],
+    "series": [
+      {
+        "category": "stable",
+        "detail": "first=5.0 last=4.0 samples=3 category=stable",
+        "label": "replay_quality_score",
+        "observations": [
+          {
+            "evidence_origin": "scenario-evidence",
+            "record_id": "canonical-estop-latched",
+            "timestamp": "2026-05-10T17:42:28+00:00",
+            "value": 5.0
+          },
+          {
+            "evidence_origin": "scenario-evidence",
+            "record_id": "canonical-stale-lidar",
+            "timestamp": "2026-05-10T17:42:28+00:00",
+            "value": 5.0
+          },
+          {
+            "evidence_origin": "scenario-evidence",
+            "record_id": "canonical-static-qualification",
+            "timestamp": "2026-05-10T17:42:28+00:00",
+            "value": 4.0
+          }
+        ],
+        "rolling_3": "stable",
+        "rolling_5": "stable",
+        "window_size": 3
+      },
+      {
+        "category": "insufficient_history",
+        "detail": "first=51.666666666666664 last=51.666666666666664 samples=1 category=insufficient_history",
+        "label": "analytics_average_score",
+        "observations": [
+          {
+            "evidence_origin": "unknown",
+            "record_id": "replay-analytics-report",
+            "timestamp": "2026-05-10T19:13:41+00:00",
+            "value": 51.666666666666664
+          }
+        ],
+        "rolling_3": "insufficient_history",
+        "rolling_5": "insufficient_history",
+        "window_size": 1
+      },
+      {
+        "category": "insufficient_history",
+        "detail": "no available values",
+        "label": "expected_topics_present_pct",
+        "observations": [
+          {
+            "evidence_origin": "scenario-evidence",
+            "record_id": "canonical-estop-latched",
+            "timestamp": "2026-05-10T17:42:28+00:00",
+            "value": null
+          },
+          {
+            "evidence_origin": "scenario-evidence",
+            "record_id": "canonical-stale-lidar",
+            "timestamp": "2026-05-10T17:42:28+00:00",
+            "value": null
+          },
+          {
+            "evidence_origin": "scenario-evidence",
+            "record_id": "canonical-static-qualification",
+            "timestamp": "2026-05-10T17:42:28+00:00",
+            "value": null
+          }
+        ],
+        "rolling_3": "insufficient_history",
+        "rolling_5": "insufficient_history",
+        "window_size": 0
+      },
+      {
+        "category": "insufficient_history",
+        "detail": "no available values",
+        "label": "marker_alignment_pct",
+        "observations": [
+          {
+            "evidence_origin": "scenario-evidence",
+            "record_id": "canonical-estop-latched",
+            "timestamp": "2026-05-10T17:42:28+00:00",
+            "value": null
+          },
+          {
+            "evidence_origin": "scenario-evidence",
+            "record_id": "canonical-stale-lidar",
+            "timestamp": "2026-05-10T17:42:28+00:00",
+            "value": null
+          },
+          {
+            "evidence_origin": "scenario-evidence",
+            "record_id": "canonical-static-qualification",
+            "timestamp": "2026-05-10T17:42:28+00:00",
+            "value": null
+          }
+        ],
+        "rolling_3": "insufficient_history",
+        "rolling_5": "insufficient_history",
+        "window_size": 0
+      },
+      {
+        "category": "insufficient_history",
+        "detail": "first=14.0 last=14.0 samples=1 category=insufficient_history",
+        "label": "runtime_qualification_passed_count",
+        "observations": [
+          {
+            "evidence_origin": "unknown",
+            "record_id": "qualified-2026-05-10",
+            "timestamp": "2026-05-10T00:01:44+00:00",
+            "value": 14.0
+          }
+        ],
+        "rolling_3": "insufficient_history",
+        "rolling_5": "insufficient_history",
+        "window_size": 1
+      },
+      {
+        "category": "insufficient_history",
+        "detail": "first=1.0 last=1.0 samples=1 category=insufficient_history",
+        "label": "gate_status_indicator",
+        "observations": [
+          {
+            "evidence_origin": "unknown",
+            "record_id": "canonical",
+            "timestamp": "2026-05-10T19:42:32+00:00",
+            "value": 1.0
+          }
+        ],
+        "rolling_3": "insufficient_history",
+        "rolling_5": "insufficient_history",
+        "window_size": 1
+      }
+    ]
+  },
+  "warnings": []
+}
