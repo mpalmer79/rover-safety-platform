@@ -1,0 +1,15 @@
+[
+  {
+    "alignment": "unaligned",
+    "confidence": "unknown",
+    "description": "Terminal entry; outcome=inconclusive",
+    "evidence_origin": "runtime-evidence",
+    "label": "Terminal outcome",
+    "marker_id": "terminal_outcome",
+    "relative_time_ms": null,
+    "sim_time_ns": null,
+    "source_event_id": "checks[8]",
+    "source_file": "host-qualification.json",
+    "timeline_index": 19
+  }
+]

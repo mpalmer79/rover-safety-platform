@@ -46,8 +46,8 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 4 — Live ROS 2 / Gazebo Runtime Verification and Evidence Capture | Implemented (static-only fall-back); see section 3f |
 | Phase 5 — ROS Host Qualification and Continuous Runtime Validation | Implemented (static-only fall-back); see section 3g |
 | Phase 6 — Incident Reconstruction, Telemetry Correlation, and Operational Replay Analysis | Implemented; see section 3h |
+| Phase 7 — Live Foxglove Replay Integration and Operational Review Sessions | Implemented (static-only fall-back); see section 3i |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
-| Phase 7 — Replay-driven incident review with live Foxglove | Pending (depends on a Jazzy host) |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
 
@@ -909,6 +909,87 @@ to runtime evidence and produces engineering analysis artefacts.
   ordering, evidence-origin preservation.
 - Demonstrates Foxglove integration as metadata + workflow support
   rather than a runtime dependency.
+
+---
+
+## 3i. Phase 7: Live Foxglove Replay Integration and Operational Review Sessions
+
+### Status
+
+Implemented in this branch. Read-only with respect to runtime
+evidence and rosbag2 artefacts; produces metadata only.
+
+### Objectives
+
+- Inspect rosbag2 / MCAP artefacts in the documented bag locations
+  without opening them.
+- Generate per-incident replay manifests (expected topics, available
+  topics, missing topics, bag status, layout pointer, marker count).
+- Align incident-timeline markers to replay time with explicit
+  alignment status (`exact` / `partial` / `unaligned`).
+- Produce a Foxglove session metadata document (internal
+  `rover-replay-review/1` schema) plus per-incident replay review
+  reports.
+- Provide a self-hosted GitHub workflow that runs the full live
+  pipeline on a Jazzy + Gazebo runner and uploads the artefacts.
+
+### Deliverables
+
+- `backend/app/replay_review/` — package with `models`, `bag_index`,
+  `marker`, `manifest`, `foxglove_session`, `validator`, `reporter`,
+  `bundle`.
+- `rover_ws/tools/build_replay_review_bundle.py` — CLI for replay
+  bundle generation.
+- `rover_ws/tools/validate_replay_review.py` — CLI for static
+  validation.
+- `rover_ws/tools/list_replay_reviews.py` — CLI for the replay
+  review index.
+- `.github/workflows/ros-jazzy-replay-review.yml` — self-hosted
+  workflow (workflow_dispatch only).
+- `docs/REPLAY_REVIEW_RUNBOOK.md` — operator runbook.
+- `docs/REPLAY_REVIEW_INDEX.md` — generated index of replay-ready
+  incidents.
+- Three canonical replay review bundles under
+  `incidents/canonical-{stale-lidar,estop-latched,static-qualification}/`.
+- REQ-REPLAY-006..010 with traceability rows.
+
+### Acceptance Criteria
+
+- The replay review layer never opens a bag file; tests do not
+  require Foxglove or ROS.
+- Missing bags are reported as `missing_bag` (or `static_only` for
+  static-only incidents); never silently treated as `passed`.
+- Markers without `sim_time_ns` carry `alignment=partial`; markers
+  are never invented when the timeline lacks the corresponding
+  index.
+- The Foxglove session JSON declares a `schema_version`
+  (`rover-replay-review/1`) so reviewers know it is internal, not an
+  official Foxglove import.
+- The self-hosted workflow is `workflow_dispatch` only and uses a
+  `self-hosted, ros-jazzy` runner.
+
+### Risks
+
+- Bag files may move between runs; mitigated by the manifest's
+  per-candidate inspection log.
+- Foxglove layout drift across versions; mitigated by checking the
+  layout into the repo and reading it as plain JSON in tests.
+
+### Deferred Work
+
+- Live bag replay automation (script-driven Foxglove playback) —
+  requires a runner with a graphical Foxglove or `foxglove-studio` CLI.
+- Cross-incident comparison of replay coverage — currently the
+  Phase-6 `compare_incidents` tool surfaces causality / classifier
+  deltas; a replay-only comparator could come in a future phase.
+
+### Portfolio Signal
+
+- Demonstrates honest replay-review discipline: missing bags reported
+  honestly, marker alignment downgraded when sim_time_ns is absent,
+  the Foxglove session JSON labelled internal.
+- Demonstrates a self-hosted-only live workflow that does not run on
+  github-hosted runners.
 
 ---
 

@@ -271,6 +271,16 @@ emitting Markdown + JSON reports plus Foxglove replay hints under
 [docs/INCIDENT_RECONSTRUCTION.md](INCIDENT_RECONSTRUCTION.md) and
 [docs/FOXGLOVE_REPLAY_WORKFLOW.md](FOXGLOVE_REPLAY_WORKFLOW.md).
 
+The Phase 7 replay review layer
+(`backend/app/replay_review/`) extends the incident bundle with a
+replay manifest, marker file, Foxglove session metadata, and
+replay-review report. The layer is read-only with respect to
+runtime evidence and rosbag2 artefacts; missing bags are reported as
+`missing_bag`, static-only incidents stay `static_only`, and the
+Foxglove session JSON is explicitly labelled internal
+(`rover-replay-review/1`) — not an official Foxglove import. See
+[docs/REPLAY_REVIEW_RUNBOOK.md](REPLAY_REVIEW_RUNBOOK.md).
+
 ---
 
 ## 11. Replay Acceptance Criteria

@@ -1,0 +1,113 @@
+{
+  "expected_topics": [
+    "/clock",
+    "/scan",
+    "/imu",
+    "/odom",
+    "/tf",
+    "/tf_static",
+    "/cmd_vel_requested",
+    "/cmd_vel_authorized",
+    "/safety/state",
+    "/safety/events",
+    "/system/health",
+    "/mission/state",
+    "/mission/events",
+    "/mission/progress",
+    "/world_model/state"
+  ],
+  "incident_id": "canonical-estop-latched",
+  "known_limitations": [
+    "The platform is **not** safety-certified. This replay review is engineering analysis material.",
+    "Live bag replay requires Foxglove Studio + a recorded bag on a ROS 2 Jazzy host. CI runs do not exercise live replay.",
+    "When the bag directory is missing the manifest reports `bag_status=missing_bag`; the review remains valid as a static incident report but the visual playback step cannot be performed.",
+    "Markers without `sim_time_ns` are aligned to relative time only; the Foxglove playhead must be aligned manually using the surrounding context."
+  ],
+  "layout_path": "foxglove/layouts/incident-review-layout.json",
+  "marker_overlays": [
+    {
+      "alignment": "exact",
+      "evidence_origin": "scenario-evidence",
+      "label": "First safety transition",
+      "marker_id": "first_safety_transition",
+      "relative_time_ms": 0,
+      "sim_time_ns": 0,
+      "timeline_index": 2
+    },
+    {
+      "alignment": "exact",
+      "evidence_origin": "scenario-evidence",
+      "label": "First command intervention",
+      "marker_id": "first_command_intervention",
+      "relative_time_ms": 0,
+      "sim_time_ns": 0,
+      "timeline_index": 3
+    },
+    {
+      "alignment": "exact",
+      "evidence_origin": "scenario-evidence",
+      "label": "Terminal outcome",
+      "marker_id": "terminal_outcome",
+      "relative_time_ms": 1500,
+      "sim_time_ns": 1500000000,
+      "timeline_index": 6
+    },
+    {
+      "alignment": "exact",
+      "evidence_origin": "scenario-evidence",
+      "label": "First E_STOP_LATCHED transition",
+      "marker_id": "estop_latched",
+      "relative_time_ms": 1500,
+      "sim_time_ns": 1500000000,
+      "timeline_index": 6
+    }
+  ],
+  "panel_hints": [
+    {
+      "notes": "Step-plot of the supervisor state across the run.",
+      "panel_id": "safety-state-plot",
+      "title": "Safety state",
+      "topics": [
+        "/safety/state"
+      ]
+    },
+    {
+      "notes": "Verify SAFE_STOP zeroing visually; authorised should never exceed requested in NORMAL.",
+      "panel_id": "cmd-vel-plot",
+      "title": "Requested vs authorised cmd_vel",
+      "topics": [
+        "/cmd_vel_requested",
+        "/cmd_vel_authorized"
+      ]
+    },
+    {
+      "notes": "Aggregate diagnostic; downgrades correlate with sensor faults.",
+      "panel_id": "system-health",
+      "title": "System health",
+      "topics": [
+        "/system/health"
+      ]
+    },
+    {
+      "notes": "Cross-check against incident-report.md.",
+      "panel_id": "safety-events",
+      "title": "Safety events log",
+      "topics": [
+        "/safety/events"
+      ]
+    },
+    {
+      "notes": "Correlate mission-side intent with safety response.",
+      "panel_id": "mission-events",
+      "title": "Mission events log",
+      "topics": [
+        "/mission/events",
+        "/mission/state",
+        "/mission/progress"
+      ]
+    }
+  ],
+  "recommended_data_source": "Local file: select the rosbag2 .mcap (preferred) or .db3 chunk listed in bag_indices[].artifacts.",
+  "review_notes": "Open the canonical layout from foxglove/layouts/incident-review-layout.json (the path in layout_path). The marker_overlays list mirrors the incident timeline's first_fault, first_safety_transition, first_command_intervention, and terminal indices; use the sim_time_ns field (when present) to align the playhead. The schema_version is rover-replay-review/1 \u2014 this document is internal to the project and is NOT an official Foxglove import format.",
+  "schema_version": "rover-replay-review/1"
+}

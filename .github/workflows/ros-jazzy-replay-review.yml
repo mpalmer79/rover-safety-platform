@@ -1,0 +1,129 @@
+# Phase-7 self-hosted live replay review.
+#
+# This workflow is intentionally manual / self-hosted. github-hosted
+# runners cannot drive Gazebo Harmonic reliably; live replay review
+# requires a host with:
+#
+# * Ubuntu 24.04
+# * ROS 2 Jazzy
+# * Gazebo Harmonic
+# * colcon
+# * a built rover_ws workspace
+# * (operator-provided) Foxglove Studio for the visual review step
+#
+# Run via the GitHub Actions UI on a registered self-hosted runner
+# labelled `ros-jazzy`, or replicate locally per
+# docs/REPLAY_REVIEW_RUNBOOK.md. The workflow uploads:
+#
+# * the runtime evidence dir
+# * the incident bundle
+# * the replay-review bundle (manifest + Foxglove session + markers + report)
+#
+# DO NOT run this on a github-hosted runner; it will fail fast and
+# the artefacts will be misleading.
+
+name: ros-jazzy-replay-review
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Run id (defaults to a UTC timestamp)"
+        required: false
+        default: ""
+      scenario:
+        description: "Scenario id to drive (defaults to nominal_runtime_launch)"
+        required: false
+        default: "nominal_runtime_launch"
+      incident_id:
+        description: "Incident id (defaults to live-<run_id>)"
+        required: false
+        default: ""
+
+jobs:
+  replay-review:
+    # Self-hosted runner must be labelled `ros-jazzy`. Configure the
+    # runner per docs/REPLAY_REVIEW_RUNBOOK.md before enabling.
+    runs-on: [self-hosted, ros-jazzy]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Source ROS 2 Jazzy and qualify host
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          python3 rover_ws/tools/qualify_ros_host.py \
+            --evidence-root evidence/host \
+            --run-id "host-${{ github.run_id }}"
+
+      - name: Build workspace
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          cd rover_ws
+          colcon build --symlink-install
+
+      - name: Run qualified runtime + capture evidence
+        env:
+          QUAL_RUN_ID: ${{ inputs.run_id }}
+          QUAL_SCENARIO: ${{ inputs.scenario }}
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          source rover_ws/install/setup.bash
+          run_id="${QUAL_RUN_ID:-runtime-$(date -u +%Y%m%dT%H%M%SZ)}"
+          python3 rover_ws/tools/qualified_runtime_run.py \
+            --ros-launch \
+            --evidence-root evidence/runtime \
+            --run-id "${run_id}" \
+            --scenario "${QUAL_SCENARIO}"
+          echo "QUAL_RUN_ID_RESOLVED=${run_id}" >> "$GITHUB_ENV"
+
+      - name: Reconstruct incident
+        env:
+          INCIDENT_ID: ${{ inputs.incident_id }}
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          source rover_ws/install/setup.bash
+          incident_id="${INCIDENT_ID:-live-${QUAL_RUN_ID_RESOLVED}}"
+          python3 rover_ws/tools/reconstruct_incident.py \
+            --runtime-run "evidence/runtime/${QUAL_RUN_ID_RESOLVED}" \
+            --incident-id "${incident_id}" \
+            --output "incidents/${incident_id}"
+          echo "INCIDENT_ID_RESOLVED=${incident_id}" >> "$GITHUB_ENV"
+
+      - name: Build replay review bundle
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          source rover_ws/install/setup.bash
+          python3 rover_ws/tools/build_replay_review_bundle.py \
+            --incident "incidents/${INCIDENT_ID_RESOLVED}" \
+            --run "evidence/runtime/${QUAL_RUN_ID_RESOLVED}" \
+            --runs-root runs/verify
+
+      - name: Validate replay review
+        run: |
+          set -euo pipefail
+          python3 rover_ws/tools/validate_replay_review.py \
+            --incident "incidents/${INCIDENT_ID_RESOLVED}"
+
+      - name: Refresh replay review index
+        run: |
+          set -euo pipefail
+          python3 rover_ws/tools/list_replay_reviews.py \
+            --md-out docs/REPLAY_REVIEW_INDEX.md
+
+      - name: Upload replay artefacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: replay-review-${{ github.run_id }}
+          path: |
+            evidence/host/
+            evidence/runtime/
+            incidents/
+            docs/REPLAY_REVIEW_INDEX.md
+          retention-days: 30

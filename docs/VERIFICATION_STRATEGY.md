@@ -69,6 +69,7 @@ launch.
 | [`evidence_index`](../backend/app/runtime_validation/evidence_index.py) | Phase 5. Builds `docs/EVIDENCE_INDEX.md` and `evidence/runtime/index.json` from retained runs. | (consumed by the orchestrator) |
 | [`qualification_report`](../backend/app/runtime_validation/qualification_report.py) | Phase 5. Aggregate report renderer; labels every check as `static-source`, `static-workspace`, or `live-runtime`. | `rover_ws/tools/qualified_runtime_run.py` |
 | [`incident_analysis`](../backend/app/incident_analysis/) | Phase 6. Read-only incident reconstruction: loader, normaliser, timeline, causality (with confidence levels), classifier, reporter, Foxglove hints, index, comparison. Honest about inferred causality, missing links, and contradictory evidence. | `rover_ws/tools/reconstruct_incident.py`, `rover_ws/tools/index_incidents.py`, `rover_ws/tools/compare_incidents.py` |
+| [`replay_review`](../backend/app/replay_review/) | Phase 7. Read-only replay-review layer: bag indexer, manifest generator, marker generator (with alignment labels), Foxglove session metadata generator, validator, reporter. Honest about missing bags and partial marker alignment; Foxglove session JSON labelled internal (`rover-replay-review/1`). | `rover_ws/tools/build_replay_review_bundle.py`, `rover_ws/tools/validate_replay_review.py`, `rover_ws/tools/list_replay_reviews.py` |
 
 ## 4. Per-scenario expectations
 
