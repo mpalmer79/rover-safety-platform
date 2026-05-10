@@ -1,0 +1,54 @@
+{
+  "authorized_commands": {},
+  "diagnostic_health": {},
+  "event_counts": {},
+  "metadata": {
+    "topic_run_id": "qualified-2026-05-10"
+  },
+  "nodes": {
+    "contact_adapter": "rover_sensor_adapters",
+    "imu_adapter": "rover_sensor_adapters",
+    "lidar_adapter": "rover_sensor_adapters",
+    "odometry_adapter": "rover_sensor_adapters",
+    "robot_state_publisher": "robot_state_publisher",
+    "ros_gz_bridge": "ros_gz_bridge",
+    "rover_bridge_health_diagnostics": "rover_runtime_diagnostics",
+    "rover_event_recorder": "rover_observability",
+    "rover_run_manager": "rover_observability",
+    "rover_runtime_summary": "rover_runtime_diagnostics",
+    "rover_safety_bridge": "rover_safety_bridge",
+    "rover_topic_freshness_diagnostics": "rover_runtime_diagnostics"
+  },
+  "replay_artifacts": [],
+  "safety_transitions": [],
+  "tf_frames": {
+    "base_footprint": "odom",
+    "base_link": "base_footprint",
+    "caster_link": "base_link",
+    "contact_link": "base_link",
+    "imu_link": "base_link",
+    "left_wheel_link": "base_link",
+    "lidar_link": "base_link",
+    "odom": "<root>",
+    "right_wheel_link": "base_link"
+  },
+  "topics": {
+    "/clock": "rosgraph_msgs/msg/Clock",
+    "/cmd_vel_authorized": "geometry_msgs/msg/Twist",
+    "/cmd_vel_requested": "geometry_msgs/msg/Twist",
+    "/diagnostics/runtime_summary": "std_msgs/msg/String",
+    "/imu": "sensor_msgs/msg/Imu",
+    "/mission/events": "std_msgs/msg/String",
+    "/mission/progress": "rover_msgs/msg/WaypointStatus",
+    "/mission/state": "rover_msgs/msg/MissionState",
+    "/odom": "nav_msgs/msg/Odometry",
+    "/replay/markers": "rover_msgs/msg/ReplayMarker",
+    "/safety/events": "std_msgs/msg/String",
+    "/safety/state": "rover_msgs/msg/SafetyState",
+    "/scan": "sensor_msgs/msg/LaserScan",
+    "/system/health": "rover_msgs/msg/SystemHealth",
+    "/tf": "tf2_msgs/msg/TFMessage",
+    "/tf_static": "tf2_msgs/msg/TFMessage",
+    "/world_model/state": "rover_msgs/msg/WorldModelState"
+  }
+}

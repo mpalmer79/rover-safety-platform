@@ -1,0 +1,36 @@
+{
+  "root": "evidence/runtime",
+  "rows": [
+    {
+      "generated_at_utc": "2026-05-10T00:01:44+00:00",
+      "host_qualification_path": "qualified-2026-05-10/host-qualification.json",
+      "mode": "static-only",
+      "notes": "",
+      "qualification_summary_path": "qualified-2026-05-10/qualification-summary.md",
+      "run_id": "qualified-2026-05-10",
+      "runtime_validation_path": "qualified-2026-05-10/runtime-validation.json",
+      "scenarios": [
+        "authorized_motion_path",
+        "command_timeout_safe_stop",
+        "estop_latched_manual_reset_required",
+        "nominal_runtime_launch",
+        "safe_stop_command_zeroing",
+        "stale_lidar_restricted_mode"
+      ],
+      "status": "not_executed"
+    },
+    {
+      "generated_at_utc": "2026-05-09T21:28:29+00:00",
+      "host_qualification_path": "",
+      "mode": "static-only",
+      "notes": "",
+      "qualification_summary_path": "",
+      "run_id": "static-2026-05-09",
+      "runtime_validation_path": "static-2026-05-09/runtime-validation.json",
+      "scenarios": [
+        "stale_lidar_restricted_mode"
+      ],
+      "status": "not_executed"
+    }
+  ]
+}

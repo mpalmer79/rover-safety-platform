@@ -1,0 +1,96 @@
+# Phase-4 + Phase-5 static-only runtime validation.
+#
+# Runs the runtime validation orchestrator AND the qualification
+# orchestrator in static-only mode. Live ROS / Gazebo checks are not
+# attempted on github-hosted runners; they are reported as
+# `not_executed` with an explicit reason. The job fails only if a
+# static check fails.
+
+name: runtime-static-validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  static-runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest pyyaml
+
+      - name: Live runtime validator (static-only)
+        run: |
+          python rover_ws/tools/live_runtime_validator.py \
+            --static-only \
+            --evidence-root evidence/runtime \
+            --run-id ci-static-${{ github.run_id }}
+        # The orchestrator returns non-zero when the aggregate is not
+        # `passed`. In CI we expect `not_executed` for live probes,
+        # which makes the aggregate not_executed. Capture the exit
+        # code separately so we can fail only on `failed`.
+        continue-on-error: true
+
+      - name: Inspect runtime-validation status
+        run: |
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          run_dirs = sorted(Path('evidence/runtime').glob('ci-static-*'), reverse=True)
+          if not run_dirs:
+              print("no runtime-validation run produced")
+              sys.exit(1)
+          payload = json.loads((run_dirs[0] / 'runtime-validation.json').read_text())
+          status = payload['status']
+          print(f"status: {status}")
+          counts = payload['status_counts']
+          print(f"counts: {counts}")
+          # Fail only on `failed`. `not_executed` is honest reporting
+          # that live probes need a Jazzy host; do not fail CI on that.
+          if status == 'failed' or counts.get('failed', 0) > 0:
+              sys.exit(1)
+          PY
+
+      - name: Qualified runtime run (static-only)
+        run: |
+          python rover_ws/tools/qualified_runtime_run.py \
+            --static-only \
+            --evidence-root evidence/runtime \
+            --run-id ci-qualified-${{ github.run_id }}
+        continue-on-error: true
+
+      - name: Inspect qualification status
+        run: |
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          run_dirs = sorted(Path('evidence/runtime').glob('ci-qualified-*'), reverse=True)
+          if not run_dirs:
+              print("no qualified runtime run produced")
+              sys.exit(1)
+          payload = json.loads((run_dirs[0] / 'qualification-summary.json').read_text())
+          status = payload['overall_status']
+          print(f"qualification status: {status}")
+          if status == 'failed':
+              sys.exit(1)
+          PY
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-evidence-${{ github.run_id }}
+          path: evidence/runtime/
+          retention-days: 14

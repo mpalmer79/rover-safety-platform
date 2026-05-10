@@ -1,0 +1,138 @@
+{
+  "checks": [
+    {
+      "detail": "validated 8 topics",
+      "errors": [],
+      "evidence_paths": [],
+      "name": "static.bridge_yaml_valid",
+      "reason": "",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "12 required topics declared",
+      "errors": [],
+      "evidence_paths": [],
+      "name": "static.required_topics_declared",
+      "reason": "",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "8 links validated; runtime root=odom (published by simulator)",
+      "errors": [],
+      "evidence_paths": [],
+      "name": "static.urdf_tf_tree",
+      "reason": "",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "full_system.launch.py composes simulation, safety, observability, diagnostics",
+      "errors": [],
+      "evidence_paths": [],
+      "name": "static.full_system_launch_composes_required_packages",
+      "reason": "",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "4 node module families present",
+      "errors": [],
+      "evidence_paths": [],
+      "name": "static.node_modules_present",
+      "reason": "",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "supervisor publishes /cmd_vel_authorized and never publishes /cmd_vel",
+      "errors": [],
+      "evidence_paths": [],
+      "name": "static.safety_bridge_authority_invariant",
+      "reason": "",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "runbook covers prerequisites, launch, validation, and tooling",
+      "errors": [],
+      "evidence_paths": [],
+      "name": "static.runtime_validation_runbook_complete",
+      "reason": "",
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "detail": "live launch not exercised; ran static-only mode (every required node declared)",
+      "errors": [],
+      "evidence_paths": [
+        "evidence/runtime/qualified-2026-05-10/node-snapshot.json",
+        "evidence/runtime/qualified-2026-05-10/launch-log.txt"
+      ],
+      "name": "launch_smoke_test",
+      "reason": "rclpy not importable: No module named 'rclpy'",
+      "status": "not_executed",
+      "warnings": []
+    },
+    {
+      "detail": "live topic graph not exercised; ran static-only mode",
+      "errors": [],
+      "evidence_paths": [
+        "evidence/runtime/qualified-2026-05-10/topic-snapshot.json"
+      ],
+      "name": "topic_probe",
+      "reason": "rclpy not importable: No module named 'rclpy'",
+      "status": "not_executed",
+      "warnings": []
+    },
+    {
+      "detail": "live tf graph not exercised; ran static-only mode (URDF link/joint check passed)",
+      "errors": [],
+      "evidence_paths": [
+        "evidence/runtime/qualified-2026-05-10/tf-snapshot.json",
+        "evidence/runtime/qualified-2026-05-10/tf-tree.txt"
+      ],
+      "name": "tf_probe",
+      "reason": "rclpy not importable: No module named 'rclpy'",
+      "status": "not_executed",
+      "warnings": []
+    },
+    {
+      "detail": "4 command-path invariant(s) verified statically",
+      "errors": [],
+      "evidence_paths": [
+        "evidence/runtime/qualified-2026-05-10/command-path-audit.json"
+      ],
+      "name": "command_path_probe",
+      "reason": "rclpy not importable: No module named 'rclpy'",
+      "status": "passed",
+      "warnings": []
+    }
+  ],
+  "environment": {
+    "gazebo_available": "no (`gz` CLI not on PATH (Gazebo Harmonic missing))",
+    "platform": "Linux-6.18.5-x86_64-with-glibc2.39",
+    "python": "3.11.15",
+    "rclpy_available": "no (rclpy not importable: No module named 'rclpy')",
+    "ros2_cli": "not found",
+    "ros2_version": ""
+  },
+  "generated_at_utc": "2026-05-10T00:01:44+00:00",
+  "known_limitations": [
+    "The platform is **not** safety-certified. This report demonstrates engineering verification discipline, not regulatory compliance.",
+    "Live ROS 2 / Gazebo evidence is collected only on a Jazzy host. Runs in environments that lack rclpy / Gazebo Harmonic surface their checks as `not_executed` with a reason; never as `passed`.",
+    "Static-only mode validates the workspace artefacts (launch files, URDF, bridge YAML, node modules). It does not exercise the safety bridge against a live actuator stream.",
+    "Closed-loop verification of the Nav2 velocity-clamp boundary requires a Jazzy host. The static-only path asserts the boundary at the source level only."
+  ],
+  "mode": "static-only",
+  "run_id": "qualified-2026-05-10",
+  "status": "not_executed",
+  "status_counts": {
+    "failed": 0,
+    "not_executed": 3,
+    "partial": 0,
+    "passed": 8,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,87 @@
+# Self-hosted live ROS 2 Jazzy + Gazebo Harmonic qualification.
+#
+# This workflow is intentionally manual / self-hosted. github-hosted
+# runners cannot run a Gazebo Harmonic simulation reliably; live
+# qualification requires a host with:
+#
+# * Ubuntu 24.04
+# * ROS 2 Jazzy
+# * Gazebo Harmonic
+# * colcon
+# * a built rover_ws workspace
+#
+# Run this workflow manually via the GitHub Actions UI on a registered
+# self-hosted runner, or replicate it locally by following
+# docs/RUNTIME_QUALIFICATION_RUNBOOK.md. The workflow uploads the
+# captured evidence as an artefact for review.
+#
+# DO NOT run this workflow on a github-hosted runner; it will fail
+# fast and the evidence will be misleading.
+
+name: ros-jazzy-runtime
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Run id (defaults to a UTC timestamp)"
+        required: false
+        default: ""
+      scenario:
+        description: "Optional: a single qualification scenario id to run"
+        required: false
+        default: ""
+
+jobs:
+  qualified-runtime:
+    # Self-hosted runner must be labelled `ros-jazzy`. Configure the
+    # runner per docs/RUNTIME_QUALIFICATION_RUNBOOK.md before enabling.
+    runs-on: [self-hosted, ros-jazzy]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Source ROS 2 Jazzy and verify host
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          python3 rover_ws/tools/qualify_ros_host.py \
+            --evidence-root evidence/host \
+            --run-id "host-${{ github.run_id }}"
+
+      - name: Build workspace
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          cd rover_ws
+          colcon build --symlink-install
+
+      - name: Run qualified runtime
+        env:
+          QUAL_RUN_ID: ${{ inputs.run_id }}
+          QUAL_SCENARIO: ${{ inputs.scenario }}
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          source rover_ws/install/setup.bash
+          run_id="${QUAL_RUN_ID:-runtime-$(date -u +%Y%m%dT%H%M%SZ)}"
+          extra=()
+          if [ -n "${QUAL_SCENARIO}" ]; then
+            extra+=(--scenario "${QUAL_SCENARIO}")
+          fi
+          python3 rover_ws/tools/qualified_runtime_run.py \
+            --ros-launch \
+            --evidence-root evidence/runtime \
+            --run-id "${run_id}" \
+            --canonical-report \
+            "${extra[@]}"
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qualified-runtime-${{ github.run_id }}
+          path: |
+            evidence/runtime/
+            evidence/host/
+          retention-days: 30

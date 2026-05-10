@@ -1,0 +1,44 @@
+# Qualification scenario: authorized_motion_path
+#
+# Verify the safety supervisor is the sole producer of
+# /cmd_vel_authorized and that no node publishes /cmd_vel directly.
+# Pairs with REQ-SAFE-001 and REQ-RUNTIME-004.
+
+scenario_id: authorized_motion_path
+purpose: |
+  Prove that motion commands flow only through:
+  Mission/Nav -> /cmd_vel_requested -> Safety Supervisor ->
+  /cmd_vel_authorized -> Gazebo bridge -> actuator.
+description: |
+  Drives a short, bounded forward request and verifies the authorized
+  stream contains only commands published by rover_safety_bridge.
+
+required_topics:
+  - /cmd_vel_requested
+  - /cmd_vel_authorized
+  - /safety/state
+  - /safety/events
+
+required_nodes:
+  - rover_safety_bridge
+  - rover_event_recorder
+
+required_safety_state: ACTIVE_NORMAL
+
+required_events:
+  - safety.state.entered
+  - safety.command.authorized
+
+forbidden_events:
+  - safety.violation.unauthorized_publisher
+  - safety.violation.cmd_vel_bypass
+
+required_replay_artifacts:
+  - metadata.json
+  - events.jsonl
+  - commands.jsonl
+
+qualification_rules:
+  - command_path_invariants
+
+expected_outcome: passed

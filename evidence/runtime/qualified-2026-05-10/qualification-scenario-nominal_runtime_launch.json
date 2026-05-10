@@ -1,0 +1,59 @@
+{
+  "detail": "static workspace declares every required topic/node; live evaluation not run in static-only mode",
+  "expected_outcome": "passed",
+  "findings": [],
+  "observed_status": "partial",
+  "scenario_definition": {
+    "description": "Equivalent to the Phase 4 launch_smoke + topic + tf + command-path\nprobes wrapped into a single qualification scenario.\n",
+    "expected_outcome": "passed",
+    "forbidden_events": [
+      "safety.violation.unauthorized_publisher"
+    ],
+    "purpose": "Bring up rover_bringup/full_system.launch.py and verify the live\ngraph matches the documented runtime contract. This is the smoke\ntest every later scenario depends on.\n",
+    "qualification_rules": [
+      "command_path_invariants",
+      "tf_tree_complete",
+      "topic_freshness"
+    ],
+    "required_events": [
+      "safety.state.entered"
+    ],
+    "required_nodes": [
+      "ros_gz_bridge",
+      "robot_state_publisher",
+      "rover_safety_bridge",
+      "lidar_adapter",
+      "imu_adapter",
+      "odometry_adapter",
+      "contact_adapter",
+      "rover_run_manager",
+      "rover_event_recorder",
+      "rover_topic_freshness_diagnostics",
+      "rover_bridge_health_diagnostics",
+      "rover_runtime_summary"
+    ],
+    "required_replay_artifacts": [
+      "metadata.json",
+      "events.jsonl",
+      "commands.jsonl"
+    ],
+    "required_safety_state": "ACTIVE_NORMAL",
+    "required_topics": [
+      "/clock",
+      "/scan",
+      "/imu",
+      "/odom",
+      "/tf",
+      "/tf_static",
+      "/cmd_vel_authorized",
+      "/safety/state",
+      "/safety/events",
+      "/system/health",
+      "/diagnostics/runtime_summary",
+      "/replay/markers"
+    ],
+    "scenario_id": "nominal_runtime_launch",
+    "source_path": "/home/user/rover-safety-platform/qualification/scenarios/nominal_runtime_launch.yaml"
+  },
+  "scenario_id": "nominal_runtime_launch"
+}

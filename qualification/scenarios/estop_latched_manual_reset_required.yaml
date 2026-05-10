@@ -1,0 +1,41 @@
+# Qualification scenario: estop_latched_manual_reset_required
+#
+# E-stop transitions latch the supervisor in E_STOP_LATCHED until an
+# explicit operator reset. Pairs with REQ-SAFE-003 and REQ-OP-001.
+
+scenario_id: estop_latched_manual_reset_required
+purpose: |
+  Trigger an operator E-stop, observe the supervisor enter
+  E_STOP_LATCHED, attempt re-arming via every non-operator path, and
+  verify the supervisor refuses to leave E_STOP_LATCHED until an
+  explicit operator reset is delivered.
+
+required_topics:
+  - /cmd_vel_authorized
+  - /safety/state
+  - /safety/events
+
+required_nodes:
+  - rover_safety_bridge
+
+required_safety_state: E_STOP_LATCHED
+
+required_events:
+  - safety.state.entered
+  - safety.estop.latched
+
+forbidden_events:
+  - safety.estop.cleared_without_operator
+  - safety.command.non_zero_in_estop
+
+required_replay_artifacts:
+  - metadata.json
+  - events.jsonl
+  - commands.jsonl
+
+qualification_rules:
+  - command_path_invariants
+  - no_authorized_motion_in_estop
+  - safety_transitions
+
+expected_outcome: passed

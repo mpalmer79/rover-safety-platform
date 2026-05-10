@@ -1,0 +1,12 @@
+{
+  "baseline_path": "qualification/baselines/qualified-2026-05-10.json",
+  "deltas": [],
+  "observed_path": "evidence/runtime/qualified-2026-05-10",
+  "severity": "expected_difference",
+  "summary_counts": {
+    "critical_regression": 0,
+    "expected_difference": 0,
+    "regression": 0,
+    "warning": 0
+  }
+}

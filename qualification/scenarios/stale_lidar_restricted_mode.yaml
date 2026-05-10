@@ -1,0 +1,44 @@
+# Qualification scenario: stale_lidar_restricted_mode
+#
+# LiDAR drops mid-run; the safety supervisor must transition through
+# ACTIVE_DEGRADED and into SAFE_STOP. Pairs with REQ-SAFE-002 and
+# REQ-FAULT-001.
+
+scenario_id: stale_lidar_restricted_mode
+purpose: |
+  Inject stale-LiDAR fault and verify the supervisor transitions to a
+  restricted mode and ultimately SAFE_STOP. The injector must NOT
+  directly mutate /safety/state — only fault inputs may degrade.
+
+required_topics:
+  - /scan
+  - /cmd_vel_requested
+  - /cmd_vel_authorized
+  - /safety/state
+  - /safety/events
+  - /system/health
+
+required_nodes:
+  - lidar_adapter
+  - rover_safety_bridge
+
+required_safety_state: SAFE_STOP
+
+required_events:
+  - safety.state.entered
+  - sensor.health.degraded
+
+forbidden_events:
+  - safety.violation.injector_set_state
+
+required_replay_artifacts:
+  - metadata.json
+  - events.jsonl
+  - commands.jsonl
+
+qualification_rules:
+  - command_path_invariants
+  - zero_motion_in_safe_stop
+  - replay_integrity
+
+expected_outcome: passed
