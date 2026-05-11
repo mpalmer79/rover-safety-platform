@@ -1,0 +1,22 @@
+# Next.js build output
+.next/
+out/
+build/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript build artefacts
+*.tsbuildinfo
+next-env.d.ts
+
+# Coverage + test caches
+coverage/
+.nyc_output/
+
+# Editor + OS files
+.DS_Store
+*.log

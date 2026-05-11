@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-11T13:58:22+00:00",
+  "generated_at_utc": "2026-05-11T15:04:57+00:00",
   "overall_status": "passed",
-  "row_count": 93,
+  "row_count": 103,
   "rows": [
     {
       "architecture_refs": [
@@ -2112,6 +2112,212 @@
         "backend/tests/test_mission_rehearsal.py::test_analytics_deterministic_replay_stable_flag"
       ],
       "title": "Analytics distinguishes approved, rejected, aborted, and completed rehearsals"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_CONTROL_UI.md",
+        "docs/OPERATOR_WORKSTATION_ARCHITECTURE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/adapters/loader.ts",
+        "apps/mission-control/src/app/layout.tsx"
+      ],
+      "kind": "mission_control",
+      "requirement_id": "REQ-MCTRL-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never imports a cloud LLM SDK or a generic HTTP client",
+        "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never spawns subprocesses or opens raw sockets",
+        "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never references a /cmd_vel publication outside comments + descriptive context"
+      ],
+      "title": "Mission-control UI is simulation-only and never opens a network socket"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_VIEWER_GUIDE.md",
+        "docs/AUTONOMY_VISUALIZATION_GUIDE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/EvidenceStatusChip.tsx",
+        "apps/mission-control/src/app/replay/page.tsx"
+      ],
+      "kind": "mission_control",
+      "requirement_id": "REQ-MCTRL-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/components.test.tsx::EvidenceStatusChip > renders verbatim status and bag-backed=no",
+        "apps/mission-control/tests/components.test.tsx::EvidenceStatusChip > never silently inverts the bag-backed claim",
+        "apps/mission-control/tests/adapter.test.ts::rehearsal audit adapters > loads all audits in stable order"
+      ],
+      "title": "Replay viewer distinguishes simulated rehearsals from bag-backed evidence"
+    },
+    {
+      "architecture_refs": [
+        "docs/SAFETY_AUTHORITY_VISUALIZATION.md",
+        "docs/MISSION_CONTROL_UI.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/SafetyBoundaryBanner.tsx",
+        "apps/mission-control/src/components/SupervisorAuthorityPanel.tsx",
+        "apps/mission-control/src/app/safety/page.tsx"
+      ],
+      "kind": "mission_control",
+      "requirement_id": "REQ-MCTRL-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/components.test.tsx::SafetyBoundaryBanner > declares the platform is not safety-certified",
+        "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > the SafetyBoundaryBanner is rendered from the root layout"
+      ],
+      "title": "Mission-control surfaces deterministic authority boundaries"
+    },
+    {
+      "architecture_refs": [
+        "docs/AUTONOMY_VISUALIZATION_GUIDE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/CodeCard.tsx",
+        "apps/mission-control/src/app/workbench/page.tsx"
+      ],
+      "kind": "mission_control",
+      "requirement_id": "REQ-MCTRL-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/adapter.test.ts::skill library > loads accepted skills with code cards",
+        "apps/mission-control/tests/adapter.test.ts::skill library > the move_forward_6_feet skill converts to 1.8288 m"
+      ],
+      "title": "Generated code panels preserve the deterministic validator outcome"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_CONTROL_UI.md",
+        "docs/LIVE_RUNTIME_MATURITY_REPORT.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/adapters/loader.ts",
+        "apps/mission-control/src/app/page.tsx"
+      ],
+      "kind": "mission_control",
+      "requirement_id": "REQ-MCTRL-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/adapter.test.ts::traceability > reads the committed traceability JSON"
+      ],
+      "title": "Dashboards do not fabricate live runtime status"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_VIEWER_GUIDE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/MissionCard.tsx",
+        "apps/mission-control/src/components/MissionStateStepper.tsx",
+        "apps/mission-control/src/app/replay/page.tsx"
+      ],
+      "kind": "mission_control",
+      "requirement_id": "REQ-MCTRL-006",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/adapter.test.ts::rehearsal audit adapters > preserves rejection reasons",
+        "apps/mission-control/tests/components.test.tsx::MissionStateStepper > does not silently hide the rejected state"
+      ],
+      "title": "Rejected missions remain visible"
+    },
+    {
+      "architecture_refs": [
+        "docs/OPERATOR_WORKSTATION_ARCHITECTURE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/adapters/loader.ts"
+      ],
+      "kind": "mission_control",
+      "requirement_id": "REQ-MCTRL-007",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/adapter.test.ts::rehearsal audit adapters > returns null for unknown audits",
+        "apps/mission-control/tests/components.test.tsx::DeterministicHashDisplay > handles null hashes without crashing"
+      ],
+      "title": "Mission-control adapters return null on missing artefacts"
+    },
+    {
+      "architecture_refs": [
+        "docs/AUTONOMY_VISUALIZATION_GUIDE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/DeterministicHashDisplay.tsx",
+        "apps/mission-control/src/components/AuditPanel.tsx",
+        "apps/mission-control/src/components/ReplayTimeline.tsx"
+      ],
+      "kind": "mission_control",
+      "requirement_id": "REQ-MCTRL-008",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/components.test.tsx::DeterministicHashDisplay > renders the short hash and the full hash via title"
+      ],
+      "title": "Operator surfaces preserve deterministic hashes"
+    },
+    {
+      "architecture_refs": [
+        "docs/SAFETY_AUTHORITY_VISUALIZATION.md",
+        "docs/MISSION_CONTROL_UI.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/SafetyBoundaryBanner.tsx",
+        "apps/mission-control/src/components/SiteNav.tsx"
+      ],
+      "kind": "mission_control",
+      "requirement_id": "REQ-MCTRL-009",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/components.test.tsx::SafetyBoundaryBanner > declares the platform is not safety-certified"
+      ],
+      "title": "Mission-control does not claim live deployment"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_CONTROL_UI.md",
+        "docs/OPERATOR_WORKSTATION_ARCHITECTURE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/"
+      ],
+      "kind": "mission_control",
+      "requirement_id": "REQ-MCTRL-010",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never imports a cloud LLM SDK or a generic HTTP client",
+        "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never spawns subprocesses or opens raw sockets"
+      ],
+      "title": "Frontend never imports a cloud LLM SDK or live-network module"
     }
   ]
 }

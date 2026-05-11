@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    @apply bg-base-0 text-base-800;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply min-h-dvh;
+  }
+
+  a {
+    @apply text-base-800 transition-colors hover:text-accent;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-md border border-base-200 bg-base-50 shadow-panel;
+  }
+
+  .panel-tight {
+    @apply rounded border border-base-200 bg-base-50;
+  }
+
+  .label {
+    @apply text-[11px] uppercase tracking-[0.14em] text-base-500;
+  }
+
+  .display-1 {
+    @apply text-3xl font-semibold tracking-tight text-base-900;
+  }
+
+  .display-2 {
+    @apply text-xl font-semibold tracking-tight text-base-900;
+  }
+
+  .body-mono {
+    @apply font-mono text-sm leading-relaxed text-base-700;
+  }
+}
