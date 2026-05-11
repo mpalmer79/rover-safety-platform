@@ -17,6 +17,13 @@ next-env.d.ts
 coverage/
 .nyc_output/
 
+# Playwright visual regression — per-run artefacts.
+# NOTE: visual/__screenshots__/ is INTENTIONALLY tracked. Baselines
+# are committed evidence, not generated files.
+visual/test-results/
+visual/.playwright-cache/
+visual/playwright-report/
+
 # Editor + OS files
 .DS_Store
 *.log

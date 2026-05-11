@@ -106,6 +106,47 @@ workflow artefact on every run. Reviewers download from the run's
   discouraged. The remediation entries above name the SPECIFIC
   branch that needs a test, not a coverage chase.
 
+## Visual regression evidence
+
+Mission Control screenshots are committed under
+`visual/__screenshots__/` and gated by a Playwright job in CI
+(`mission-control-ci.yml::visual-regression`). The baselines are
+**evidence artefacts**, not generated files; CI fails when a
+rendered page drifts more than 0.1 % from the committed PNG.
+
+Coverage: every primary route (light + dark theme) plus the
+`/__visual__` component catalog (Item 5 will promote this to
+`/catalog`).
+
+### Operator bootstrap (one-time)
+
+The sandbox that produced Item 4 could not download the Playwright
+Chromium binary (the upstream CDN is blocked). The baseline PNGs
+are therefore **not yet committed**. An operator with network
+access to `playwright.azureedge.net` runs once:
+
+```
+cd apps/mission-control
+npm ci
+npx playwright install chromium
+npm run build
+npx playwright test --update-snapshots
+git add visual/__screenshots__/
+git commit -m "frontend: commit Playwright visual-regression baselines"
+```
+
+After this bootstrap the gate enforces drift; no further manual
+step is needed.
+
+### Regenerating after an intentional visual change
+
+```
+npx playwright test --update-snapshots                          # all
+npx playwright test visual/routes.spec.ts --update-snapshots    # routes only
+```
+
+Review the diff against the previous PNGs before committing.
+
 ## Where to read next
 
 * [`docs/MISSION_CONTROL_UI.md`](../../docs/MISSION_CONTROL_UI.md)
