@@ -1,5 +1,7 @@
 {
-  "generated_at_utc": "2026-05-11T20:02:20+00:00",
+  "core_count": 68,
+  "generated_at_utc": "2026-05-11T21:41:02+00:00",
+  "meta_count": 100,
   "overall_status": "passed",
   "row_count": 168,
   "rows": [
@@ -9,6 +11,7 @@
         "docs/SAFETY_MODEL.md#3-motion-authorization-rules",
         "docs/adr/ADR-004-safety-supervisor-authority-model.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/nominal_run/evidence.json",
         "evidence/scenarios/nominal_waypoint_patrol/evidence.json",
@@ -41,6 +44,7 @@
       "architecture_refs": [
         "docs/SAFETY_MODEL.md#9-safe-stop-semantics"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/stale_lidar_restricted_mode/evidence.json",
         "evidence/scenarios/command_timeout_safe_stop/evidence.json",
@@ -72,6 +76,7 @@
       "architecture_refs": [
         "docs/SAFETY_MODEL.md#10-e-stop-latch-semantics"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/estop_latched_manual_reset_required/evidence.json"
       ],
@@ -97,6 +102,7 @@
         "docs/ODD.md#6-operational-limits",
         "docs/SAFETY_MODEL.md#3-motion-authorization-rules"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/restricted_mode_navigation/evidence.json"
       ],
@@ -120,6 +126,7 @@
       "architecture_refs": [
         "docs/FAULT_INJECTION.md#2-1-faults-alter-inputs-and-timing-not-safety-state"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/stale_lidar_restricted_mode/evidence.json",
         "evidence/scenarios/odometry_divergence_safe_stop/evidence.json",
@@ -150,6 +157,7 @@
       "architecture_refs": [
         "docs/FAULT_INJECTION.md#4-supported-mvp-fault-classes"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/stale_lidar_restricted_mode/evidence.json",
         "evidence/scenarios/odometry_divergence_safe_stop/evidence.json",
@@ -181,6 +189,7 @@
         "docs/REPLAY_SYSTEM.md#9-storage-layout",
         "docs/EVENT_MODEL.md#3-event-envelope-schema"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/nominal_run/evidence.json",
         "evidence/scenarios/stale_lidar_restricted_mode/evidence.json",
@@ -212,6 +221,7 @@
       "architecture_refs": [
         "docs/EVENT_MODEL.md#8-event-ordering-rules"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/nominal_run/evidence.json",
         "evidence/scenarios/stale_lidar_restricted_mode/evidence.json"
@@ -237,6 +247,7 @@
         "ARCHITECTURE.md#15c-mission-runtime-and-bounded-navigation-phase-2",
         "docs/ROADMAP.md#3d-phase-2-mission-runtime-deterministic-navigation-orchestration"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/nominal_waypoint_patrol/evidence.json",
         "evidence/scenarios/waypoint_timeout_recovery/evidence.json",
@@ -267,6 +278,7 @@
       "architecture_refs": [
         "docs/ROADMAP.md#3d-phase-2-mission-runtime-deterministic-navigation-orchestration"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/waypoint_timeout_recovery/evidence.json",
         "evidence/scenarios/mission_abort_after_fault_escalation/evidence.json"
@@ -294,6 +306,7 @@
       "architecture_refs": [
         "ARCHITECTURE.md#15c-mission-runtime-and-bounded-navigation-phase-2"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/keepout_zone_violation/evidence.json"
       ],
@@ -319,6 +332,7 @@
       "architecture_refs": [
         "ARCHITECTURE.md#15b-runtime-validation-and-diagnostics-phase-1c"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/diagnostics/topic_monitor.py",
@@ -340,6 +354,7 @@
       "architecture_refs": [
         "docs/SAFETY_MODEL.md#10-e-stop-latch-semantics"
       ],
+      "category_tier": "core",
       "evidence_paths": [
         "evidence/scenarios/estop_latched_manual_reset_required/evidence.json"
       ],
@@ -365,6 +380,7 @@
         "rover_ws/tests/manual.md",
         "docs/RUNTIME_VALIDATION_RUNBOOK.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "rover_ws/src/rover_bringup/launch/full_system.launch.py",
@@ -387,6 +403,7 @@
         "docs/REPLAY_SYSTEM.md#7-required-recorded-topics",
         "docs/SYSTEM_CONTEXT.md#8a-ros-2-gazebo-layer-phase-1b"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/runtime_validation/expected_topics.py",
@@ -409,6 +426,7 @@
         "rover_ws/src/rover_description/urdf/rover.urdf.xacro",
         "docs/SYSTEM_CONTEXT.md#8a-ros-2-gazebo-layer-phase-1b"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/runtime_validation/expected_tf_frames.py",
@@ -430,6 +448,7 @@
         "docs/SAFETY_MODEL.md#3-motion-authorization-rules",
         "docs/adr/ADR-004-safety-supervisor-authority-model.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "rover_ws/tools/command_path_probe.py",
@@ -451,6 +470,7 @@
         "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary",
         "docs/RUNTIME_VALIDATION_REPORT.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/runtime_validation/report_renderer.py",
@@ -472,6 +492,7 @@
         "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
         "docs/SYSTEM_CONTEXT.md#8a-ros-2-gazebo-layer-phase-1b"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/runtime_validation/host_qualification.py",
@@ -494,6 +515,7 @@
         "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
         "docs/EVIDENCE_INDEX.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/runtime_validation/evidence_index.py",
@@ -515,6 +537,7 @@
         "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
         "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/runtime_validation/baselines.py",
@@ -538,6 +561,7 @@
         "docs/LIVE_RUNTIME_STATUS.md",
         "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/runtime_validation/qualification_report.py",
@@ -559,6 +583,7 @@
         "docs/RUNTIME_QUALIFICATION_RUNBOOK.md",
         "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/runtime_validation/regression.py",
@@ -580,6 +605,7 @@
         "docs/INCIDENT_RECONSTRUCTION.md",
         "docs/INCIDENT_ANALYSIS_STRATEGY.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/incident_analysis/loader.py",
@@ -603,6 +629,7 @@
         "docs/INCIDENT_RECONSTRUCTION.md",
         "docs/INCIDENT_ANALYSIS_STRATEGY.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/incident_analysis/causality.py",
@@ -625,6 +652,7 @@
         "docs/INCIDENT_RECONSTRUCTION.md",
         "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/incident_analysis/classifier.py",
@@ -646,6 +674,7 @@
       "architecture_refs": [
         "docs/FOXGLOVE_REPLAY_WORKFLOW.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/incident_analysis/foxglove.py",
@@ -667,6 +696,7 @@
         "docs/INCIDENT_INDEX.md",
         "docs/INCIDENT_RECONSTRUCTION.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/incident_analysis/index.py",
@@ -689,6 +719,7 @@
         "docs/REPLAY_REVIEW_RUNBOOK.md",
         "docs/FOXGLOVE_REPLAY_WORKFLOW.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/replay_review/manifest.py",
@@ -712,6 +743,7 @@
         "docs/REPLAY_REVIEW_RUNBOOK.md",
         "docs/VERIFICATION_STRATEGY.md#2-status-vocabulary"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/replay_review/models.py",
@@ -735,6 +767,7 @@
         "docs/REPLAY_REVIEW_RUNBOOK.md",
         "docs/INCIDENT_RECONSTRUCTION.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/replay_review/marker.py"
@@ -756,6 +789,7 @@
         "docs/FOXGLOVE_REPLAY_WORKFLOW.md",
         "docs/REPLAY_REVIEW_RUNBOOK.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/replay_review/foxglove_session.py",
@@ -778,6 +812,7 @@
         "docs/REPLAY_REVIEW_RUNBOOK.md",
         "docs/RUNTIME_QUALIFICATION_RUNBOOK.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         ".github/workflows/ros-jazzy-replay-review.yml"
@@ -795,550 +830,9 @@
     },
     {
       "architecture_refs": [
-        "docs/REPLAY_ANALYTICS.md",
-        "docs/REPLAY_QUALITY_SCORING.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/replay_analytics/coverage.py",
-        "backend/app/replay_analytics/loader.py"
-      ],
-      "kind": "analytics",
-      "requirement_id": "REQ-ANALYTICS-001",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_replay_analytics.py::test_coverage_metrics_are_deterministic",
-        "backend/tests/test_replay_analytics.py::test_coverage_unavailable_when_no_inventory",
-        "backend/tests/test_replay_analytics.py::test_coverage_marks_metrics_unavailable_honestly"
-      ],
-      "title": "Replay bundles must support deterministic replay coverage analysis"
-    },
-    {
-      "architecture_refs": [
-        "docs/REPLAY_QUALITY_SCORING.md",
-        "docs/REPLAY_GAP_ANALYSIS.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/replay_analytics/scoring.py"
-      ],
-      "kind": "analytics",
-      "requirement_id": "REQ-ANALYTICS-002",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 4 test(s)",
-      "test_refs": [
-        "backend/tests/test_replay_analytics.py::test_scoring_static_only_below_40",
-        "backend/tests/test_replay_analytics.py::test_scoring_missing_bag_below_60",
-        "backend/tests/test_replay_analytics.py::test_scoring_complete_replay_at_or_above_90",
-        "backend/tests/test_replay_analytics.py::test_scoring_is_deterministic"
-      ],
-      "title": "Replay quality scoring must degrade honestly when replay artifacts are missing"
-    },
-    {
-      "architecture_refs": [
-        "docs/REPLAY_ANALYTICS.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/replay_analytics/comparison.py"
-      ],
-      "kind": "analytics",
-      "requirement_id": "REQ-ANALYTICS-003",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 2 test(s)",
-      "test_refs": [
-        "backend/tests/test_replay_analytics.py::test_comparison_preserves_evidence_origin",
-        "backend/tests/test_replay_analytics.py::test_comparison_orders_by_quality_score"
-      ],
-      "title": "Cross-incident replay comparisons must preserve evidence-origin distinctions"
-    },
-    {
-      "architecture_refs": [
-        "docs/REPLAY_REVIEW_AUDIT.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/replay_analytics/review_audit.py"
-      ],
-      "kind": "analytics",
-      "requirement_id": "REQ-ANALYTICS-004",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_replay_analytics.py::test_review_audit_absent_metadata_is_not_started",
-        "backend/tests/test_replay_analytics.py::test_review_audit_completed_requires_explicit_flag",
-        "backend/tests/test_replay_analytics.py::test_review_audit_partial_when_some_steps_done"
-      ],
-      "title": "Operator review completion must never be inferred automatically"
-    },
-    {
-      "architecture_refs": [
-        "docs/REPLAY_ANALYTICS.md",
-        "docs/REPLAY_ANALYTICS_INDEX.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/replay_analytics/reporting.py",
-        "backend/app/replay_analytics/index.py"
-      ],
-      "kind": "analytics",
-      "requirement_id": "REQ-ANALYTICS-005",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_replay_analytics.py::test_report_distribution_by_bag_status",
-        "backend/tests/test_replay_analytics.py::test_index_filters_by_bag_status",
-        "backend/tests/test_replay_analytics.py::test_index_filters_by_quality_score"
-      ],
-      "title": "Replay analytics reports must distinguish static-only, missing-bag, partial, and bag-backed incidents"
-    },
-    {
-      "architecture_refs": [
-        "docs/RELIABILITY_IMPACT_ANALYSIS.md",
-        "docs/SOURCE_TO_EVIDENCE_TRACEABILITY.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/reliability_impact/subsystem_classifier.py",
-        "backend/app/reliability_impact/git_changes.py"
-      ],
-      "kind": "impact",
-      "requirement_id": "REQ-IMPACT-001",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_reliability_impact.py::test_subsystem_classifier_safety_path",
-        "backend/tests/test_reliability_impact.py::test_subsystem_classifier_replay_analytics_path",
-        "backend/tests/test_reliability_impact.py::test_subsystem_classifier_unknown_path"
-      ],
-      "title": "Source changes must be classified by impacted subsystem"
-    },
-    {
-      "architecture_refs": [
-        "docs/SOURCE_TO_EVIDENCE_TRACEABILITY.md",
-        "docs/TRACEABILITY_MATRIX.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/reliability_impact/requirement_mapper.py",
-        "backend/app/reliability_impact/evidence_mapper.py"
-      ],
-      "kind": "impact",
-      "requirement_id": "REQ-IMPACT-002",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 4 test(s)",
-      "test_refs": [
-        "backend/tests/test_reliability_impact.py::test_requirement_mapper_safety_to_req_safe",
-        "backend/tests/test_reliability_impact.py::test_requirement_mapper_replay_analytics_to_req_analytics",
-        "backend/tests/test_reliability_impact.py::test_evidence_mapper_safety_recommends_command_audit",
-        "backend/tests/test_reliability_impact.py::test_requirement_mapper_unknown_is_unmapped"
-      ],
-      "title": "Impacted subsystems must map to requirements and evidence artifacts where possible"
-    },
-    {
-      "architecture_refs": [
-        "docs/RELIABILITY_IMPACT_ANALYSIS.md",
-        "docs/CI_RELIABILITY_GATE.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/reliability_impact/analytics_delta.py",
-        "backend/app/reliability_impact/baseline.py"
-      ],
-      "kind": "impact",
-      "requirement_id": "REQ-IMPACT-003",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 5 test(s)",
-      "test_refs": [
-        "backend/tests/test_reliability_impact.py::test_analytics_delta_score_drop_warning",
-        "backend/tests/test_reliability_impact.py::test_analytics_delta_score_drop_regression",
-        "backend/tests/test_reliability_impact.py::test_analytics_delta_new_contradiction_critical",
-        "backend/tests/test_reliability_impact.py::test_analytics_delta_missing_baseline_warning",
-        "backend/tests/test_reliability_impact.py::test_analytics_delta_static_only_not_regression"
-      ],
-      "title": "Replay analytics deltas must be compared against an explicit baseline when available"
-    },
-    {
-      "architecture_refs": [
-        "docs/CI_RELIABILITY_GATE.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/reliability_impact/ci_gate.py",
-        "rover_ws/tools/reliability_impact_gate.py",
-        ".github/workflows/reliability-impact.yml"
-      ],
-      "kind": "impact",
-      "requirement_id": "REQ-IMPACT-004",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 4 test(s)",
-      "test_refs": [
-        "backend/tests/test_reliability_impact.py::test_gate_fails_on_critical_regression",
-        "backend/tests/test_reliability_impact.py::test_gate_does_not_fail_on_missing_live_evidence",
-        "backend/tests/test_reliability_impact.py::test_gate_warns_on_missing_baseline",
-        "backend/tests/test_reliability_impact.py::test_gate_fails_on_static_validation_removal"
-      ],
-      "title": "Critical replay or safety evidence regressions must be gateable in CI"
-    },
-    {
-      "architecture_refs": [
-        "docs/RELIABILITY_IMPACT_ANALYSIS.md",
-        "docs/CI_RELIABILITY_GATE.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/reliability_impact/report.py",
-        "backend/app/reliability_impact/risk_assessor.py"
-      ],
-      "kind": "impact",
-      "requirement_id": "REQ-IMPACT-005",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 4 test(s)",
-      "test_refs": [
-        "backend/tests/test_reliability_impact.py::test_report_distinguishes_warning_from_failure",
-        "backend/tests/test_reliability_impact.py::test_risk_assessor_safety_changes_high_risk_without_evidence",
-        "backend/tests/test_reliability_impact.py::test_risk_assessor_docs_only_low_risk",
-        "backend/tests/test_reliability_impact.py::test_risk_assessor_unknown_files_moderate"
-      ],
-      "title": "Reliability impact reports must distinguish warnings from blocking failures"
-    },
-    {
-      "architecture_refs": [
-        "docs/PROGRAMME_REVIEW.md",
-        "docs/RELIABILITY_TREND_ANALYSIS.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/programme_review/history_loader.py",
-        "backend/app/programme_review/aggregation.py"
-      ],
-      "kind": "programme",
-      "requirement_id": "REQ-PROGRAMME-001",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 4 test(s)",
-      "test_refs": [
-        "backend/tests/test_programme_review.py::test_history_loader_handles_missing_dir",
-        "backend/tests/test_programme_review.py::test_history_loader_isolates_malformed_report",
-        "backend/tests/test_programme_review.py::test_history_loader_orders_by_generated_at",
-        "backend/tests/test_programme_review.py::test_history_loader_detects_duplicates"
-      ],
-      "title": "Longitudinal aggregation must load every available reliability artefact deterministically"
-    },
-    {
-      "architecture_refs": [
-        "docs/RELIABILITY_TREND_ANALYSIS.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/programme_review/trend_analysis.py"
-      ],
-      "kind": "programme",
-      "requirement_id": "REQ-PROGRAMME-002",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 6 test(s)",
-      "test_refs": [
-        "backend/tests/test_programme_review.py::test_trend_improving",
-        "backend/tests/test_programme_review.py::test_trend_degrading",
-        "backend/tests/test_programme_review.py::test_trend_stable",
-        "backend/tests/test_programme_review.py::test_trend_volatile",
-        "backend/tests/test_programme_review.py::test_trend_insufficient_history",
-        "backend/tests/test_programme_review.py::test_trend_is_deterministic"
-      ],
-      "title": "Replay-quality trends must be deterministic and labelled when history is insufficient"
-    },
-    {
-      "architecture_refs": [
-        "docs/RELIABILITY_TREND_ANALYSIS.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/programme_review/drift_detection.py"
-      ],
-      "kind": "programme",
-      "requirement_id": "REQ-PROGRAMME-003",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 5 test(s)",
-      "test_refs": [
-        "backend/tests/test_programme_review.py::test_drift_replay_score_critical",
-        "backend/tests/test_programme_review.py::test_drift_increasing_missing_bag",
-        "backend/tests/test_programme_review.py::test_drift_increasing_static_only",
-        "backend/tests/test_programme_review.py::test_drift_growing_unknown_file_count",
-        "backend/tests/test_programme_review.py::test_drift_insufficient_history_is_informational"
-      ],
-      "title": "Reliability drift must be classified deterministically with documented rules"
-    },
-    {
-      "architecture_refs": [
-        "docs/GOVERNANCE_HEALTH_MODEL.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/programme_review/governance_health.py"
-      ],
-      "kind": "programme",
-      "requirement_id": "REQ-PROGRAMME-004",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_programme_review.py::test_governance_strong_when_all_disciplines_pass",
-        "backend/tests/test_programme_review.py::test_governance_concerning_on_repeat_failures",
-        "backend/tests/test_programme_review.py::test_governance_records_triggering_artifacts"
-      ],
-      "title": "Governance health must roll up evidence, replay, CI, traceability, runtime, and review discipline"
-    },
-    {
-      "architecture_refs": [
-        "docs/EVIDENCE_FRESHNESS_POLICY.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/programme_review/freshness.py"
-      ],
-      "kind": "programme",
-      "requirement_id": "REQ-PROGRAMME-005",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 4 test(s)",
-      "test_refs": [
-        "backend/tests/test_programme_review.py::test_freshness_fresh_when_recent",
-        "backend/tests/test_programme_review.py::test_freshness_stale_when_older_than_threshold",
-        "backend/tests/test_programme_review.py::test_freshness_unknown_when_no_timestamp",
-        "backend/tests/test_programme_review.py::test_freshness_uses_supplied_now"
-      ],
-      "title": "Evidence freshness must be reported, not enforced via wall-clock"
-    },
-    {
-      "architecture_refs": [
-        "docs/SUBSYSTEM_RISK_AGGREGATION.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/programme_review/subsystem_risk.py"
-      ],
-      "kind": "programme",
-      "requirement_id": "REQ-PROGRAMME-006",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 4 test(s)",
-      "test_refs": [
-        "backend/tests/test_programme_review.py::test_subsystem_risk_counts_frequency",
-        "backend/tests/test_programme_review.py::test_subsystem_risk_records_repeat_regressions",
-        "backend/tests/test_programme_review.py::test_subsystem_risk_ranks_by_severity",
-        "backend/tests/test_programme_review.py::test_subsystem_risk_never_infers_causality"
-      ],
-      "title": "Subsystem risk must aggregate frequency, severity, and recurrence"
-    },
-    {
-      "architecture_refs": [
-        "docs/PROGRAMME_REVIEW.md",
-        "docs/RELIABILITY_TREND_ANALYSIS.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/programme_review/coverage_evolution.py"
-      ],
-      "kind": "programme",
-      "requirement_id": "REQ-PROGRAMME-007",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_programme_review.py::test_coverage_evolution_preserves_origin",
-        "backend/tests/test_programme_review.py::test_coverage_evolution_labels_mixed_origin",
-        "backend/tests/test_programme_review.py::test_coverage_evolution_static_only_stays_static_only"
-      ],
-      "title": "Coverage evolution must preserve evidence origin labels through aggregation"
-    },
-    {
-      "architecture_refs": [
-        "docs/PROGRAMME_REVIEW.md",
-        "docs/CI_RELIABILITY_GATE.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/programme_review/gate_history.py"
-      ],
-      "kind": "programme",
-      "requirement_id": "REQ-PROGRAMME-008",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 4 test(s)",
-      "test_refs": [
-        "backend/tests/test_programme_review.py::test_gate_history_counts_outcomes",
-        "backend/tests/test_programme_review.py::test_gate_history_volatility_steady",
-        "backend/tests/test_programme_review.py::test_gate_history_volatility_oscillating",
-        "backend/tests/test_programme_review.py::test_gate_history_unknown_when_no_data"
-      ],
-      "title": "CI gate history must aggregate pass / warning / failure counts and gate volatility"
-    },
-    {
-      "architecture_refs": [
-        "docs/PROGRAMME_REVIEW.md",
-        "docs/GOVERNANCE_HEALTH_MODEL.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/programme_review/reporting.py",
-        "backend/app/programme_review/aggregation.py"
-      ],
-      "kind": "programme",
-      "requirement_id": "REQ-PROGRAMME-009",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_programme_review.py::test_report_labels_insufficient_history",
-        "backend/tests/test_programme_review.py::test_report_labels_mixed_origin",
-        "backend/tests/test_programme_review.py::test_report_does_not_fail_on_partial_history"
-      ],
-      "title": "Programme review reports must distinguish missing history from regression"
-    },
-    {
-      "architecture_refs": [
-        "docs/PROGRAMME_REVIEW.md",
-        "docs/CI_RELIABILITY_GATE.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        ".github/workflows/programme-review.yml",
-        "rover_ws/tools/generate_programme_review.py"
-      ],
-      "kind": "programme",
-      "requirement_id": "REQ-PROGRAMME-010",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_programme_review.py::test_programme_workflow_is_github_hosted",
-        "backend/tests/test_programme_review.py::test_programme_workflow_supports_dispatch",
-        "backend/tests/test_programme_review.py::test_programme_workflow_uploads_artifacts"
-      ],
-      "title": "Programme review CI workflow must not fail on missing live runtime evidence"
-    },
-    {
-      "architecture_refs": [
-        "docs/REVIEWER_EXPORTS.md",
-        "docs/EXPORT_SCHEMA_REFERENCE.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/reviewer_exports/exporters.py",
-        "backend/app/reviewer_exports/schema.py"
-      ],
-      "kind": "export",
-      "requirement_id": "REQ-EXPORT-001",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_reviewer_exports.py::test_csv_exports_are_deterministic",
-        "backend/tests/test_reviewer_exports.py::test_jsonl_exports_are_line_delimited",
-        "backend/tests/test_reviewer_exports.py::test_all_documented_tables_emitted"
-      ],
-      "title": "Reviewer exports must provide CSV and JSONL outputs for the documented tables"
-    },
-    {
-      "architecture_refs": [
-        "docs/REVIEWER_EXPORTS.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/reviewer_exports/exporters.py",
-        "backend/app/reviewer_exports/loader.py"
-      ],
-      "kind": "export",
-      "requirement_id": "REQ-EXPORT-002",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_reviewer_exports.py::test_static_only_remains_static_only",
-        "backend/tests/test_reviewer_exports.py::test_missing_bag_remains_missing_bag",
-        "backend/tests/test_reviewer_exports.py::test_replay_quality_row_preserves_origin"
-      ],
-      "title": "Reviewer exports must preserve evidence-origin, static-only, and missing-bag status"
-    },
-    {
-      "architecture_refs": [
-        "docs/EXPORT_SCHEMA_REFERENCE.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/reviewer_exports/manifest.py",
-        "backend/app/reviewer_exports/schema.py"
-      ],
-      "kind": "export",
-      "requirement_id": "REQ-EXPORT-003",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_reviewer_exports.py::test_manifest_row_counts_match_files",
-        "backend/tests/test_reviewer_exports.py::test_schemas_define_required_fields",
-        "backend/tests/test_reviewer_exports.py::test_manifest_contains_certification_disclaimer"
-      ],
-      "title": "Reviewer exports must include schemas and a manifest with row counts"
-    },
-    {
-      "architecture_refs": [
-        "docs/REVIEWER_NOTEBOOK_GUIDE.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/reviewer_exports/notebook.py"
-      ],
-      "kind": "export",
-      "requirement_id": "REQ-EXPORT-004",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_reviewer_exports.py::test_notebook_is_valid_json",
-        "backend/tests/test_reviewer_exports.py::test_notebook_uses_optional_imports",
-        "backend/tests/test_reviewer_exports.py::test_notebook_does_not_require_ros"
-      ],
-      "title": "Reviewer notebook scaffolding must not require ROS, Gazebo, Foxglove, or live runtime evidence"
-    },
-    {
-      "architecture_refs": [
-        "docs/REVIEWER_EXPORTS.md"
-      ],
-      "evidence_paths": [],
-      "implementation_refs": [
-        "backend/app/reviewer_exports/reporter.py",
-        "backend/app/reviewer_exports/exporters.py"
-      ],
-      "kind": "export",
-      "requirement_id": "REQ-EXPORT-005",
-      "scenario_refs": [],
-      "status": "passed",
-      "status_detail": "covered by 3 test(s)",
-      "test_refs": [
-        "backend/tests/test_reviewer_exports.py::test_subsystem_risk_causality_claimed_false",
-        "backend/tests/test_reviewer_exports.py::test_reviewer_summary_includes_disclaimer",
-        "backend/tests/test_reviewer_exports.py::test_reviewer_summary_distinguishes_origins"
-      ],
-      "title": "Reviewer exports must not claim safety certification or infer causality"
-    },
-    {
-      "architecture_refs": [
         "docs/NATURAL_LANGUAGE_MISSION_COMPILER.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/natural_language_mission/compiler.py",
@@ -1360,6 +854,7 @@
       "architecture_refs": [
         "docs/MISSION_INTENT_GRAMMAR.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/natural_language_mission/templates.py",
@@ -1380,6 +875,7 @@
       "architecture_refs": [
         "docs/MISSION_INTENT_GRAMMAR.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/natural_language_mission/parser.py",
@@ -1400,6 +896,7 @@
       "architecture_refs": [
         "docs/MISSION_INTENT_GRAMMAR.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/natural_language_mission/validator.py",
@@ -1420,6 +917,7 @@
         "docs/MISSION_ASSURANCE_MODEL.md",
         "docs/ODD.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/natural_language_mission/odd.py",
@@ -1441,6 +939,7 @@
       "architecture_refs": [
         "docs/MISSION_RISK_CLASSIFICATION.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/natural_language_mission/risk.py"
@@ -1460,6 +959,7 @@
       "architecture_refs": [
         "docs/MISSION_COMPILER_WALKTHROUGH.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/natural_language_mission/compiler.py",
@@ -1480,6 +980,7 @@
       "architecture_refs": [
         "docs/MISSION_COMPILER_WALKTHROUGH.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/natural_language_mission/explainability.py"
@@ -1499,6 +1000,7 @@
       "architecture_refs": [
         "docs/MISSION_ASSURANCE_MODEL.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/natural_language_mission/audit.py"
@@ -1518,6 +1020,7 @@
       "architecture_refs": [
         "docs/HUMAN_TO_AUTONOMY_BOUNDARY.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/natural_language_mission/replay_binding.py"
@@ -1538,6 +1041,7 @@
         "docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md",
         "docs/LIVE_RUNNER_PROFILE.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/live_runtime/runner_profile.py",
@@ -1559,6 +1063,7 @@
       "architecture_refs": [
         "docs/LIVE_BAG_CAPTURE_RUNBOOK.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/live_runtime/bag_manifest.py",
@@ -1580,6 +1085,7 @@
       "architecture_refs": [
         "docs/LIVE_BAG_CAPTURE_RUNBOOK.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/live_runtime/bag_manifest.py"
@@ -1599,6 +1105,7 @@
       "architecture_refs": [
         "docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/live_runtime/maturity.py"
@@ -1618,6 +1125,7 @@
       "architecture_refs": [
         "docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         ".github/workflows/live-runtime-evidence.yml"
@@ -1639,6 +1147,7 @@
         "docs/LLM_MISSION_PROPOSAL_LAYER.md",
         "docs/LLM_SAFETY_BOUNDARY.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/mission_proposal/__init__.py",
@@ -1661,6 +1170,7 @@
         "docs/LLM_MISSION_PROPOSAL_LAYER.md",
         "docs/FUTURE_LLM_INTEGRATION_PLAN.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/mission_proposal/provider.py",
@@ -1683,6 +1193,7 @@
         "docs/LLM_SAFETY_BOUNDARY.md",
         "docs/MISSION_PROPOSAL_AUDIT.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/mission_proposal/sanitizer.py",
@@ -1709,6 +1220,7 @@
       "architecture_refs": [
         "docs/MISSION_PROPOSAL_AUDIT.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/mission_proposal/adapter.py",
@@ -1733,6 +1245,7 @@
       "architecture_refs": [
         "docs/MISSION_PROPOSAL_AUDIT.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/mission_proposal/audit.py",
@@ -1755,6 +1268,7 @@
         "docs/ROBOTICS_SKILL_AUTHORING_WORKBENCH.md",
         "docs/SKILL_TEMPLATE_CATALOG.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_authoring/catalog.py",
@@ -1781,6 +1295,7 @@
         "docs/SKILL_SAFETY_BOUNDARY.md",
         "docs/SAFETY_MODEL.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_authoring/templates.py",
@@ -1804,6 +1319,7 @@
         "docs/SKILL_SAFETY_BOUNDARY.md",
         "docs/ROBOTICS_SKILL_AUTHORING_WORKBENCH.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_authoring/intent_parser.py",
@@ -1832,6 +1348,7 @@
       "architecture_refs": [
         "docs/ROBOTICS_SKILL_AUTHORING_WORKBENCH.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_authoring/safety_review.py",
@@ -1855,6 +1372,7 @@
       "architecture_refs": [
         "docs/CODE_CARD_METADATA.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_authoring/diagnostics.py",
@@ -1877,6 +1395,7 @@
         "docs/LOCAL_LLM_SKILL_PROVIDER.md",
         "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/config.py",
@@ -1902,6 +1421,7 @@
       "architecture_refs": [
         "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/config.py",
@@ -1925,6 +1445,7 @@
         "docs/LOCAL_LLM_SKILL_PROVIDER.md",
         "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/sanitizer.py",
@@ -1958,6 +1479,7 @@
         "docs/LOCAL_LLM_SKILL_PROVIDER.md",
         "docs/SKILL_SAFETY_BOUNDARY.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/validator_bridge.py",
@@ -1981,6 +1503,7 @@
       "architecture_refs": [
         "docs/SKILL_LLM_CANDIDATE_AUDITS.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/audit.py",
@@ -2005,6 +1528,7 @@
         "docs/GOVERNED_MISSION_REHEARSAL.md",
         "docs/REHEARSAL_SAFETY_BOUNDARY.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/mission_rehearsal/rehearsal_runtime.py",
@@ -2027,6 +1551,7 @@
         "docs/SIMULATION_REHEARSAL_PIPELINE.md",
         "docs/MISSION_REHEARSAL_STATE_MACHINE.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/mission_rehearsal/rehearsal_events.py",
@@ -2050,6 +1575,7 @@
         "docs/MISSION_REHEARSAL_STATE_MACHINE.md",
         "docs/REHEARSAL_SAFETY_BOUNDARY.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/mission_rehearsal/rehearsal_supervisor.py",
@@ -2074,6 +1600,7 @@
         "docs/REHEARSAL_REPLAY_INTEGRATION.md",
         "docs/REPLAY_ANALYTICS.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/mission_rehearsal/rehearsal_replay_bridge.py",
@@ -2096,6 +1623,7 @@
         "docs/REHEARSAL_REPLAY_INTEGRATION.md",
         "docs/REPLAY_ANALYTICS.md"
       ],
+      "category_tier": "core",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/mission_rehearsal/rehearsal_analytics_bridge.py"
@@ -2115,9 +1643,577 @@
     },
     {
       "architecture_refs": [
+        "docs/REPLAY_ANALYTICS.md",
+        "docs/REPLAY_QUALITY_SCORING.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_analytics/coverage.py",
+        "backend/app/replay_analytics/loader.py"
+      ],
+      "kind": "analytics",
+      "requirement_id": "REQ-ANALYTICS-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_analytics.py::test_coverage_metrics_are_deterministic",
+        "backend/tests/test_replay_analytics.py::test_coverage_unavailable_when_no_inventory",
+        "backend/tests/test_replay_analytics.py::test_coverage_marks_metrics_unavailable_honestly"
+      ],
+      "title": "Replay bundles must support deterministic replay coverage analysis"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_QUALITY_SCORING.md",
+        "docs/REPLAY_GAP_ANALYSIS.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_analytics/scoring.py"
+      ],
+      "kind": "analytics",
+      "requirement_id": "REQ-ANALYTICS-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_analytics.py::test_scoring_static_only_below_40",
+        "backend/tests/test_replay_analytics.py::test_scoring_missing_bag_below_60",
+        "backend/tests/test_replay_analytics.py::test_scoring_complete_replay_at_or_above_90",
+        "backend/tests/test_replay_analytics.py::test_scoring_is_deterministic"
+      ],
+      "title": "Replay quality scoring must degrade honestly when replay artifacts are missing"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_ANALYTICS.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_analytics/comparison.py"
+      ],
+      "kind": "analytics",
+      "requirement_id": "REQ-ANALYTICS-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_analytics.py::test_comparison_preserves_evidence_origin",
+        "backend/tests/test_replay_analytics.py::test_comparison_orders_by_quality_score"
+      ],
+      "title": "Cross-incident replay comparisons must preserve evidence-origin distinctions"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_REVIEW_AUDIT.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_analytics/review_audit.py"
+      ],
+      "kind": "analytics",
+      "requirement_id": "REQ-ANALYTICS-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_analytics.py::test_review_audit_absent_metadata_is_not_started",
+        "backend/tests/test_replay_analytics.py::test_review_audit_completed_requires_explicit_flag",
+        "backend/tests/test_replay_analytics.py::test_review_audit_partial_when_some_steps_done"
+      ],
+      "title": "Operator review completion must never be inferred automatically"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_ANALYTICS.md",
+        "docs/REPLAY_ANALYTICS_INDEX.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/replay_analytics/reporting.py",
+        "backend/app/replay_analytics/index.py"
+      ],
+      "kind": "analytics",
+      "requirement_id": "REQ-ANALYTICS-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_analytics.py::test_report_distribution_by_bag_status",
+        "backend/tests/test_replay_analytics.py::test_index_filters_by_bag_status",
+        "backend/tests/test_replay_analytics.py::test_index_filters_by_quality_score"
+      ],
+      "title": "Replay analytics reports must distinguish static-only, missing-bag, partial, and bag-backed incidents"
+    },
+    {
+      "architecture_refs": [
+        "docs/RELIABILITY_IMPACT_ANALYSIS.md",
+        "docs/SOURCE_TO_EVIDENCE_TRACEABILITY.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reliability_impact/subsystem_classifier.py",
+        "backend/app/reliability_impact/git_changes.py"
+      ],
+      "kind": "impact",
+      "requirement_id": "REQ-IMPACT-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_reliability_impact.py::test_subsystem_classifier_safety_path",
+        "backend/tests/test_reliability_impact.py::test_subsystem_classifier_replay_analytics_path",
+        "backend/tests/test_reliability_impact.py::test_subsystem_classifier_unknown_path"
+      ],
+      "title": "Source changes must be classified by impacted subsystem"
+    },
+    {
+      "architecture_refs": [
+        "docs/SOURCE_TO_EVIDENCE_TRACEABILITY.md",
+        "docs/TRACEABILITY_MATRIX.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reliability_impact/requirement_mapper.py",
+        "backend/app/reliability_impact/evidence_mapper.py"
+      ],
+      "kind": "impact",
+      "requirement_id": "REQ-IMPACT-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_reliability_impact.py::test_requirement_mapper_safety_to_req_safe",
+        "backend/tests/test_reliability_impact.py::test_requirement_mapper_replay_analytics_to_req_analytics",
+        "backend/tests/test_reliability_impact.py::test_evidence_mapper_safety_recommends_command_audit",
+        "backend/tests/test_reliability_impact.py::test_requirement_mapper_unknown_is_unmapped"
+      ],
+      "title": "Impacted subsystems must map to requirements and evidence artifacts where possible"
+    },
+    {
+      "architecture_refs": [
+        "docs/RELIABILITY_IMPACT_ANALYSIS.md",
+        "docs/CI_RELIABILITY_GATE.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reliability_impact/analytics_delta.py",
+        "backend/app/reliability_impact/baseline.py"
+      ],
+      "kind": "impact",
+      "requirement_id": "REQ-IMPACT-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 5 test(s)",
+      "test_refs": [
+        "backend/tests/test_reliability_impact.py::test_analytics_delta_score_drop_warning",
+        "backend/tests/test_reliability_impact.py::test_analytics_delta_score_drop_regression",
+        "backend/tests/test_reliability_impact.py::test_analytics_delta_new_contradiction_critical",
+        "backend/tests/test_reliability_impact.py::test_analytics_delta_missing_baseline_warning",
+        "backend/tests/test_reliability_impact.py::test_analytics_delta_static_only_not_regression"
+      ],
+      "title": "Replay analytics deltas must be compared against an explicit baseline when available"
+    },
+    {
+      "architecture_refs": [
+        "docs/CI_RELIABILITY_GATE.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reliability_impact/ci_gate.py",
+        "rover_ws/tools/reliability_impact_gate.py",
+        ".github/workflows/reliability-impact.yml"
+      ],
+      "kind": "impact",
+      "requirement_id": "REQ-IMPACT-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_reliability_impact.py::test_gate_fails_on_critical_regression",
+        "backend/tests/test_reliability_impact.py::test_gate_does_not_fail_on_missing_live_evidence",
+        "backend/tests/test_reliability_impact.py::test_gate_warns_on_missing_baseline",
+        "backend/tests/test_reliability_impact.py::test_gate_fails_on_static_validation_removal"
+      ],
+      "title": "Critical replay or safety evidence regressions must be gateable in CI"
+    },
+    {
+      "architecture_refs": [
+        "docs/RELIABILITY_IMPACT_ANALYSIS.md",
+        "docs/CI_RELIABILITY_GATE.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reliability_impact/report.py",
+        "backend/app/reliability_impact/risk_assessor.py"
+      ],
+      "kind": "impact",
+      "requirement_id": "REQ-IMPACT-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_reliability_impact.py::test_report_distinguishes_warning_from_failure",
+        "backend/tests/test_reliability_impact.py::test_risk_assessor_safety_changes_high_risk_without_evidence",
+        "backend/tests/test_reliability_impact.py::test_risk_assessor_docs_only_low_risk",
+        "backend/tests/test_reliability_impact.py::test_risk_assessor_unknown_files_moderate"
+      ],
+      "title": "Reliability impact reports must distinguish warnings from blocking failures"
+    },
+    {
+      "architecture_refs": [
+        "docs/PROGRAMME_REVIEW.md",
+        "docs/RELIABILITY_TREND_ANALYSIS.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/programme_review/history_loader.py",
+        "backend/app/programme_review/aggregation.py"
+      ],
+      "kind": "programme",
+      "requirement_id": "REQ-PROGRAMME-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_programme_review.py::test_history_loader_handles_missing_dir",
+        "backend/tests/test_programme_review.py::test_history_loader_isolates_malformed_report",
+        "backend/tests/test_programme_review.py::test_history_loader_orders_by_generated_at",
+        "backend/tests/test_programme_review.py::test_history_loader_detects_duplicates"
+      ],
+      "title": "Longitudinal aggregation must load every available reliability artefact deterministically"
+    },
+    {
+      "architecture_refs": [
+        "docs/RELIABILITY_TREND_ANALYSIS.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/programme_review/trend_analysis.py"
+      ],
+      "kind": "programme",
+      "requirement_id": "REQ-PROGRAMME-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 6 test(s)",
+      "test_refs": [
+        "backend/tests/test_programme_review.py::test_trend_improving",
+        "backend/tests/test_programme_review.py::test_trend_degrading",
+        "backend/tests/test_programme_review.py::test_trend_stable",
+        "backend/tests/test_programme_review.py::test_trend_volatile",
+        "backend/tests/test_programme_review.py::test_trend_insufficient_history",
+        "backend/tests/test_programme_review.py::test_trend_is_deterministic"
+      ],
+      "title": "Replay-quality trends must be deterministic and labelled when history is insufficient"
+    },
+    {
+      "architecture_refs": [
+        "docs/RELIABILITY_TREND_ANALYSIS.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/programme_review/drift_detection.py"
+      ],
+      "kind": "programme",
+      "requirement_id": "REQ-PROGRAMME-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 5 test(s)",
+      "test_refs": [
+        "backend/tests/test_programme_review.py::test_drift_replay_score_critical",
+        "backend/tests/test_programme_review.py::test_drift_increasing_missing_bag",
+        "backend/tests/test_programme_review.py::test_drift_increasing_static_only",
+        "backend/tests/test_programme_review.py::test_drift_growing_unknown_file_count",
+        "backend/tests/test_programme_review.py::test_drift_insufficient_history_is_informational"
+      ],
+      "title": "Reliability drift must be classified deterministically with documented rules"
+    },
+    {
+      "architecture_refs": [
+        "docs/GOVERNANCE_HEALTH_MODEL.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/programme_review/governance_health.py"
+      ],
+      "kind": "programme",
+      "requirement_id": "REQ-PROGRAMME-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_programme_review.py::test_governance_strong_when_all_disciplines_pass",
+        "backend/tests/test_programme_review.py::test_governance_concerning_on_repeat_failures",
+        "backend/tests/test_programme_review.py::test_governance_records_triggering_artifacts"
+      ],
+      "title": "Governance health must roll up evidence, replay, CI, traceability, runtime, and review discipline"
+    },
+    {
+      "architecture_refs": [
+        "docs/EVIDENCE_FRESHNESS_POLICY.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/programme_review/freshness.py"
+      ],
+      "kind": "programme",
+      "requirement_id": "REQ-PROGRAMME-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_programme_review.py::test_freshness_fresh_when_recent",
+        "backend/tests/test_programme_review.py::test_freshness_stale_when_older_than_threshold",
+        "backend/tests/test_programme_review.py::test_freshness_unknown_when_no_timestamp",
+        "backend/tests/test_programme_review.py::test_freshness_uses_supplied_now"
+      ],
+      "title": "Evidence freshness must be reported, not enforced via wall-clock"
+    },
+    {
+      "architecture_refs": [
+        "docs/SUBSYSTEM_RISK_AGGREGATION.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/programme_review/subsystem_risk.py"
+      ],
+      "kind": "programme",
+      "requirement_id": "REQ-PROGRAMME-006",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_programme_review.py::test_subsystem_risk_counts_frequency",
+        "backend/tests/test_programme_review.py::test_subsystem_risk_records_repeat_regressions",
+        "backend/tests/test_programme_review.py::test_subsystem_risk_ranks_by_severity",
+        "backend/tests/test_programme_review.py::test_subsystem_risk_never_infers_causality"
+      ],
+      "title": "Subsystem risk must aggregate frequency, severity, and recurrence"
+    },
+    {
+      "architecture_refs": [
+        "docs/PROGRAMME_REVIEW.md",
+        "docs/RELIABILITY_TREND_ANALYSIS.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/programme_review/coverage_evolution.py"
+      ],
+      "kind": "programme",
+      "requirement_id": "REQ-PROGRAMME-007",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_programme_review.py::test_coverage_evolution_preserves_origin",
+        "backend/tests/test_programme_review.py::test_coverage_evolution_labels_mixed_origin",
+        "backend/tests/test_programme_review.py::test_coverage_evolution_static_only_stays_static_only"
+      ],
+      "title": "Coverage evolution must preserve evidence origin labels through aggregation"
+    },
+    {
+      "architecture_refs": [
+        "docs/PROGRAMME_REVIEW.md",
+        "docs/CI_RELIABILITY_GATE.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/programme_review/gate_history.py"
+      ],
+      "kind": "programme",
+      "requirement_id": "REQ-PROGRAMME-008",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_programme_review.py::test_gate_history_counts_outcomes",
+        "backend/tests/test_programme_review.py::test_gate_history_volatility_steady",
+        "backend/tests/test_programme_review.py::test_gate_history_volatility_oscillating",
+        "backend/tests/test_programme_review.py::test_gate_history_unknown_when_no_data"
+      ],
+      "title": "CI gate history must aggregate pass / warning / failure counts and gate volatility"
+    },
+    {
+      "architecture_refs": [
+        "docs/PROGRAMME_REVIEW.md",
+        "docs/GOVERNANCE_HEALTH_MODEL.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/programme_review/reporting.py",
+        "backend/app/programme_review/aggregation.py"
+      ],
+      "kind": "programme",
+      "requirement_id": "REQ-PROGRAMME-009",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_programme_review.py::test_report_labels_insufficient_history",
+        "backend/tests/test_programme_review.py::test_report_labels_mixed_origin",
+        "backend/tests/test_programme_review.py::test_report_does_not_fail_on_partial_history"
+      ],
+      "title": "Programme review reports must distinguish missing history from regression"
+    },
+    {
+      "architecture_refs": [
+        "docs/PROGRAMME_REVIEW.md",
+        "docs/CI_RELIABILITY_GATE.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        ".github/workflows/programme-review.yml",
+        "rover_ws/tools/generate_programme_review.py"
+      ],
+      "kind": "programme",
+      "requirement_id": "REQ-PROGRAMME-010",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_programme_review.py::test_programme_workflow_is_github_hosted",
+        "backend/tests/test_programme_review.py::test_programme_workflow_supports_dispatch",
+        "backend/tests/test_programme_review.py::test_programme_workflow_uploads_artifacts"
+      ],
+      "title": "Programme review CI workflow must not fail on missing live runtime evidence"
+    },
+    {
+      "architecture_refs": [
+        "docs/REVIEWER_EXPORTS.md",
+        "docs/EXPORT_SCHEMA_REFERENCE.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reviewer_exports/exporters.py",
+        "backend/app/reviewer_exports/schema.py"
+      ],
+      "kind": "export",
+      "requirement_id": "REQ-EXPORT-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_reviewer_exports.py::test_csv_exports_are_deterministic",
+        "backend/tests/test_reviewer_exports.py::test_jsonl_exports_are_line_delimited",
+        "backend/tests/test_reviewer_exports.py::test_all_documented_tables_emitted"
+      ],
+      "title": "Reviewer exports must provide CSV and JSONL outputs for the documented tables"
+    },
+    {
+      "architecture_refs": [
+        "docs/REVIEWER_EXPORTS.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reviewer_exports/exporters.py",
+        "backend/app/reviewer_exports/loader.py"
+      ],
+      "kind": "export",
+      "requirement_id": "REQ-EXPORT-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_reviewer_exports.py::test_static_only_remains_static_only",
+        "backend/tests/test_reviewer_exports.py::test_missing_bag_remains_missing_bag",
+        "backend/tests/test_reviewer_exports.py::test_replay_quality_row_preserves_origin"
+      ],
+      "title": "Reviewer exports must preserve evidence-origin, static-only, and missing-bag status"
+    },
+    {
+      "architecture_refs": [
+        "docs/EXPORT_SCHEMA_REFERENCE.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reviewer_exports/manifest.py",
+        "backend/app/reviewer_exports/schema.py"
+      ],
+      "kind": "export",
+      "requirement_id": "REQ-EXPORT-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_reviewer_exports.py::test_manifest_row_counts_match_files",
+        "backend/tests/test_reviewer_exports.py::test_schemas_define_required_fields",
+        "backend/tests/test_reviewer_exports.py::test_manifest_contains_certification_disclaimer"
+      ],
+      "title": "Reviewer exports must include schemas and a manifest with row counts"
+    },
+    {
+      "architecture_refs": [
+        "docs/REVIEWER_NOTEBOOK_GUIDE.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reviewer_exports/notebook.py"
+      ],
+      "kind": "export",
+      "requirement_id": "REQ-EXPORT-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_reviewer_exports.py::test_notebook_is_valid_json",
+        "backend/tests/test_reviewer_exports.py::test_notebook_uses_optional_imports",
+        "backend/tests/test_reviewer_exports.py::test_notebook_does_not_require_ros"
+      ],
+      "title": "Reviewer notebook scaffolding must not require ROS, Gazebo, Foxglove, or live runtime evidence"
+    },
+    {
+      "architecture_refs": [
+        "docs/REVIEWER_EXPORTS.md"
+      ],
+      "category_tier": "meta",
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/reviewer_exports/reporter.py",
+        "backend/app/reviewer_exports/exporters.py"
+      ],
+      "kind": "export",
+      "requirement_id": "REQ-EXPORT-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_reviewer_exports.py::test_subsystem_risk_causality_claimed_false",
+        "backend/tests/test_reviewer_exports.py::test_reviewer_summary_includes_disclaimer",
+        "backend/tests/test_reviewer_exports.py::test_reviewer_summary_distinguishes_origins"
+      ],
+      "title": "Reviewer exports must not claim safety certification or infer causality"
+    },
+    {
+      "architecture_refs": [
         "docs/MISSION_CONTROL_UI.md",
         "docs/OPERATOR_WORKSTATION_ARCHITECTURE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/adapters/loader.ts",
@@ -2140,6 +2236,7 @@
         "docs/REPLAY_VIEWER_GUIDE.md",
         "docs/AUTONOMY_VISUALIZATION_GUIDE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/EvidenceStatusChip.tsx",
@@ -2162,6 +2259,7 @@
         "docs/SAFETY_AUTHORITY_VISUALIZATION.md",
         "docs/MISSION_CONTROL_UI.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/SafetyBoundaryBanner.tsx",
@@ -2183,6 +2281,7 @@
       "architecture_refs": [
         "docs/AUTONOMY_VISUALIZATION_GUIDE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/CodeCard.tsx",
@@ -2204,6 +2303,7 @@
         "docs/MISSION_CONTROL_UI.md",
         "docs/LIVE_RUNTIME_MATURITY_REPORT.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/adapters/loader.ts",
@@ -2223,6 +2323,7 @@
       "architecture_refs": [
         "docs/REPLAY_VIEWER_GUIDE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/MissionCard.tsx",
@@ -2244,6 +2345,7 @@
       "architecture_refs": [
         "docs/OPERATOR_WORKSTATION_ARCHITECTURE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/adapters/loader.ts"
@@ -2263,6 +2365,7 @@
       "architecture_refs": [
         "docs/AUTONOMY_VISUALIZATION_GUIDE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/DeterministicHashDisplay.tsx",
@@ -2284,6 +2387,7 @@
         "docs/SAFETY_AUTHORITY_VISUALIZATION.md",
         "docs/MISSION_CONTROL_UI.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/SafetyBoundaryBanner.tsx",
@@ -2304,6 +2408,7 @@
         "docs/MISSION_CONTROL_UI.md",
         "docs/OPERATOR_WORKSTATION_ARCHITECTURE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/"
@@ -2324,6 +2429,7 @@
         "docs/MISSION_SPATIAL_VISUALIZATION.md",
         "docs/MISSION_REPLAY_MAPS.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/MissionMap.tsx",
@@ -2345,6 +2451,7 @@
         "docs/MISSION_REPLAY_MAPS.md",
         "docs/SPATIAL_REPLAY_ARCHITECTURE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/MissionPlaybackPanel.tsx",
@@ -2365,6 +2472,7 @@
       "architecture_refs": [
         "docs/MISSION_SPATIAL_VISUALIZATION.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/MissionSpatialTimeline.tsx",
@@ -2385,6 +2493,7 @@
       "architecture_refs": [
         "docs/MISSION_REPLAY_MAPS.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/SupervisorInterventionOverlay.tsx"
@@ -2405,6 +2514,7 @@
         "docs/MISSION_SPATIAL_VISUALIZATION.md",
         "docs/SPATIAL_REPLAY_ARCHITECTURE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/adapters/spatial.ts"
@@ -2425,6 +2535,7 @@
       "architecture_refs": [
         "docs/MISSION_SPATIAL_VISUALIZATION.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/adapters/spatial.ts"
@@ -2445,6 +2556,7 @@
       "architecture_refs": [
         "docs/RAILWAY_DEPLOYMENT_GUIDE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/railway.json",
@@ -2468,6 +2580,7 @@
       "architecture_refs": [
         "docs/OPERATOR_EXPERIENCE_GUIDELINES.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/WhyRejectedDrilldown.tsx"
@@ -2487,6 +2600,7 @@
       "architecture_refs": [
         "docs/MISSION_REPLAY_MAPS.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/ReplayScrubber.tsx"
@@ -2507,6 +2621,7 @@
         "docs/OPERATOR_EXPERIENCE_GUIDELINES.md",
         "docs/SPATIAL_REPLAY_ARCHITECTURE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/MissionMap.tsx",
@@ -2531,6 +2646,7 @@
         "docs/BAG_BACKED_SPATIAL_REPLAY.md",
         "docs/SPATIAL_REPLAY_HONESTY_RULES.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/spatial_replay/manifest_loader.py",
@@ -2553,6 +2669,7 @@
         "docs/BAG_BACKED_SPATIAL_REPLAY.md",
         "docs/SPATIAL_REPLAY_ARTIFACT_FORMAT.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/spatial_replay/pose_extractor.py",
@@ -2575,6 +2692,7 @@
         "docs/SPATIAL_REPLAY_ARTIFACT_FORMAT.md",
         "docs/SPATIAL_REPLAY_ARCHITECTURE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/spatial_replay/reporter.py",
@@ -2597,6 +2715,7 @@
       "architecture_refs": [
         "docs/BAG_TO_TRAJECTORY_PIPELINE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/spatial_replay/trajectory_builder.py"
@@ -2617,6 +2736,7 @@
         "docs/BAG_TO_TRAJECTORY_PIPELINE.md",
         "docs/MISSION_REPLAY_MAPS.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/spatial_replay/event_aligner.py"
@@ -2637,6 +2757,7 @@
         "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
         "docs/BAG_BACKED_SPATIAL_REPLAY.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/spatial_replay/trajectory_builder.py",
@@ -2657,6 +2778,7 @@
         "docs/SPATIAL_REPLAY_ARCHITECTURE.md",
         "docs/MISSION_REPLAY_MAPS.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/adapters/spatial.ts",
@@ -2678,6 +2800,7 @@
         "docs/OPERATOR_EXPERIENCE_GUIDELINES.md",
         "docs/MISSION_REPLAY_MAPS.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/MissionMap.tsx",
@@ -2699,6 +2822,7 @@
         "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
         "docs/RAILWAY_DEPLOYMENT_GUIDE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         ".github/workflows/mission-control-ci.yml",
@@ -2720,6 +2844,7 @@
         "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
         "docs/BAG_BACKED_SPATIAL_REPLAY.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/spatial_replay/validator.py"
@@ -2740,6 +2865,7 @@
         "docs/ARTIFACT_GOVERNANCE_MODEL.md",
         "docs/DETERMINISTIC_REPLAY_HYDRATION.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/artifact_registry/manifest.py",
@@ -2762,6 +2888,7 @@
       "architecture_refs": [
         "docs/DETERMINISTIC_REPLAY_HYDRATION.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/artifact_registry/deterministic_hash.py",
@@ -2784,6 +2911,7 @@
       "architecture_refs": [
         "docs/DETERMINISTIC_REPLAY_HYDRATION.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/artifact_registry/hydration.py",
@@ -2806,6 +2934,7 @@
       "architecture_refs": [
         "docs/ARTIFACT_GOVERNANCE_MODEL.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/artifact_registry/lifecycle.py"
@@ -2825,6 +2954,7 @@
       "architecture_refs": [
         "docs/ARTIFACT_GOVERNANCE_MODEL.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/artifact_registry/lifecycle.py",
@@ -2844,6 +2974,7 @@
       "architecture_refs": [
         "docs/DETERMINISTIC_REPLAY_HYDRATION.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/artifact_registry/hydration.py"
@@ -2862,6 +2993,7 @@
       "architecture_refs": [
         "docs/ARTIFACT_GOVERNANCE_MODEL.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/artifact_registry/registry.py",
@@ -2881,6 +3013,7 @@
       "architecture_refs": [
         "docs/REPLAY_EVIDENCE_LINEAGE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/ReplayConfidencePanel.tsx",
@@ -2902,6 +3035,7 @@
       "architecture_refs": [
         "docs/DETERMINISTIC_REPLAY_HYDRATION.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/DeterministicHashChain.tsx",
@@ -2923,6 +3057,7 @@
         "docs/DETERMINISTIC_REPLAY_HYDRATION.md",
         "docs/RAILWAY_DEPLOYMENT_GUIDE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         ".github/workflows/replay-hydration.yml",
@@ -2943,6 +3078,7 @@
         "docs/IMMERSIVE_MISSION_CONTROL.md",
         "docs/3D_VISUALIZATION_BOUNDARY.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/3d/MissionScene.tsx",
@@ -2963,6 +3099,7 @@
       "architecture_refs": [
         "docs/CINEMATIC_REPLAY_ARCHITECTURE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/3d/ReplayCameraRig.tsx"
@@ -2982,6 +3119,7 @@
       "architecture_refs": [
         "docs/3D_VISUALIZATION_BOUNDARY.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/3d/MissionScene.tsx",
@@ -3002,6 +3140,7 @@
       "architecture_refs": [
         "docs/IMMERSIVE_MISSION_CONTROL.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/3d/MissionTimelineBridge.tsx"
@@ -3021,6 +3160,7 @@
       "architecture_refs": [
         "docs/OPERATOR_REVIEW_EXPERIENCE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/MissionStoryPanel.tsx"
@@ -3040,6 +3180,7 @@
       "architecture_refs": [
         "docs/REPLAY_EVIDENCE_LINEAGE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/EvidenceLineageGraph.tsx"
@@ -3060,6 +3201,7 @@
         "docs/CINEMATIC_REPLAY_ARCHITECTURE.md",
         "docs/OPERATOR_REVIEW_EXPERIENCE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/3d/MissionPlayback3D.tsx",
@@ -3081,6 +3223,7 @@
         "docs/REPLAY_EVIDENCE_LINEAGE.md",
         "docs/SPATIAL_REPLAY_HONESTY_RULES.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/ReplayConfidencePanel.tsx"
@@ -3100,6 +3243,7 @@
       "architecture_refs": [
         "docs/3D_VISUALIZATION_BOUNDARY.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/3d/MissionScene.tsx"
@@ -3119,6 +3263,7 @@
         "docs/IMMERSIVE_MISSION_CONTROL.md",
         "docs/3D_VISUALIZATION_BOUNDARY.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/3d/MissionScene.tsx",
@@ -3139,6 +3284,7 @@
         "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
         "docs/THEME_AND_RESPONSIVE_UI.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/styles/tokens.ts",
@@ -3160,6 +3306,7 @@
       "architecture_refs": [
         "docs/THEME_AND_RESPONSIVE_UI.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/lib/theme-provider.tsx",
@@ -3180,6 +3327,7 @@
       "architecture_refs": [
         "docs/THEME_AND_RESPONSIVE_UI.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/ThemeToggle.tsx"
@@ -3200,6 +3348,7 @@
         "docs/THEME_AND_RESPONSIVE_UI.md",
         "docs/MISSION_CONTROL_DESIGN_SYSTEM.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/ResponsiveShell.tsx",
@@ -3222,6 +3371,7 @@
       "architecture_refs": [
         "docs/MISSION_CONTROL_DESIGN_SYSTEM.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/GradientPanel.tsx",
@@ -3243,6 +3393,7 @@
         "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
         "docs/THEME_AND_RESPONSIVE_UI.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/styles/tokens.ts",
@@ -3263,6 +3414,7 @@
       "architecture_refs": [
         "docs/MISSION_CONTROL_DESIGN_SYSTEM.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/SafetyBoundaryBanner.tsx",
@@ -3282,6 +3434,7 @@
       "architecture_refs": [
         "docs/THEME_AND_RESPONSIVE_UI.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/lib/theme-provider.tsx",
@@ -3302,6 +3455,7 @@
         "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
         "docs/AUTONOMY_UI_DESIGN_SYSTEM.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/MissionMap.tsx",
@@ -3324,6 +3478,7 @@
       "architecture_refs": [
         "docs/THEME_AND_RESPONSIVE_UI.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "apps/mission-control/src/components/ResponsiveShell.tsx"
@@ -3343,6 +3498,7 @@
         "docs/LLM_CANDIDATE_RANKING_MODEL.md",
         "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/candidate_ranker.py"
@@ -3362,6 +3518,7 @@
       "architecture_refs": [
         "docs/LLM_CANDIDATE_RANKING_MODEL.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/candidate_ranker.py"
@@ -3381,6 +3538,7 @@
       "architecture_refs": [
         "docs/LLM_CANDIDATE_RANKING_MODEL.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/candidate_ranker.py"
@@ -3399,6 +3557,7 @@
       "architecture_refs": [
         "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/candidate_normalizer.py"
@@ -3419,6 +3578,7 @@
       "architecture_refs": [
         "docs/LLM_REPAIR_SUGGESTIONS.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/candidate_repair.py"
@@ -3439,6 +3599,7 @@
       "architecture_refs": [
         "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/safety_critique.py"
@@ -3460,6 +3621,7 @@
         "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md",
         "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/provider_readiness.py"
@@ -3480,6 +3642,7 @@
       "architecture_refs": [
         "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/provider_readiness.py",
@@ -3499,6 +3662,7 @@
       "architecture_refs": [
         "docs/FUTURE_LOCAL_MODEL_OPERATIONS.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/skill_llm_provider/model_capabilities.py"
@@ -3518,6 +3682,7 @@
       "architecture_refs": [
         "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "skill-llm-candidates/examples/fixture_ambiguous_destination.json",
@@ -3538,6 +3703,7 @@
       "architecture_refs": [
         "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/scene_snapshot/pipeline.py",
@@ -3560,6 +3726,7 @@
         "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md",
         "docs/SPATIAL_REPLAY_HONESTY_RULES.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/scene_snapshot/pipeline.py",
@@ -3582,6 +3749,7 @@
         "docs/FIRST_BAG_BACKED_RUN_PLAYBOOK.md",
         "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/scene_snapshot/pipeline.py"
@@ -3602,6 +3770,7 @@
       "architecture_refs": [
         "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "backend/app/scene_snapshot/pipeline.py",
@@ -3624,6 +3793,7 @@
         "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md",
         "docs/FIRST_BAG_BACKED_RUN_PLAYBOOK.md"
       ],
+      "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
         "tools/generate_reviewer_scene_snapshot.py",

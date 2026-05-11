@@ -322,6 +322,7 @@ def build_requirement_coverage_rows(inputs: LoadedReviewerInputs) -> list[dict]:
                 {
                     "requirement_id": str(entry.get("requirement_id", "unknown")),
                     "requirement_kind": str(entry.get("kind", "unknown")),
+                    "category_tier": str(entry.get("category_tier", "core")),
                     "title": str(entry.get("title", "")),
                     "status": str(entry.get("status", "unknown")),
                     "mapped_tests": len(entry.get("test_refs") or []),

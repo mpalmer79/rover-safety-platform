@@ -23,7 +23,12 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from app.verification.acceptance import AcceptanceStatus, aggregate_status
-from app.verification.requirements import REQUIREMENTS, RequirementsRegistry
+from app.verification.requirements import (
+    CATEGORY_TIER_CORE,
+    CATEGORY_TIER_META,
+    REQUIREMENTS,
+    RequirementsRegistry,
+)
 from app.verification.scenario_verifier import ScenarioVerification
 
 
@@ -177,22 +182,49 @@ def render_scenario_verification_report(
     lines.append("## Requirement coverage")
     lines.append("")
     by_scenario = {v.expectation.scenario_id: v for v in verifications}
-    lines.append("| Requirement | Status | Scenarios |")
-    lines.append("|---|---|---|")
-    for req in registry:
-        scenarios = [s for s in req.scenario_refs if s in by_scenario]
-        statuses = [by_scenario[s].status for s in scenarios]
-        if scenarios:
-            agg = aggregate_status(statuses)
-            scen_text = ", ".join(f"`{s}` (`{by_scenario[s].status.value}`)" for s in scenarios)
-        elif req.test_refs:
-            agg = AcceptanceStatus.PASSED
-            scen_text = f"_test-level only_ ({len(req.test_refs)} test(s))"
-        else:
-            agg = AcceptanceStatus.NOT_EXECUTED
-            scen_text = "_no scenario or test coverage_"
-        lines.append(f"| `{req.req_id}` | `{agg.value}` | {scen_text} |")
-    lines.append("")
+    core_reqs = [r for r in registry if r.category_tier == CATEGORY_TIER_CORE]
+    meta_reqs = [r for r in registry if r.category_tier == CATEGORY_TIER_META]
+
+    def _render_coverage(rows: list, header: str, subtitle: str) -> None:
+        lines.append(f"### {header}")
+        lines.append("")
+        lines.append(f"_{subtitle}_")
+        lines.append("")
+        lines.append(f"- **Requirements in this tier:** {len(rows)}")
+        lines.append("")
+        if not rows:
+            lines.append("_No requirements in this tier._")
+            lines.append("")
+            return
+        lines.append("| Requirement | Status | Scenarios |")
+        lines.append("|---|---|---|")
+        for req in rows:
+            scenarios = [s for s in req.scenario_refs if s in by_scenario]
+            statuses = [by_scenario[s].status for s in scenarios]
+            if scenarios:
+                agg = aggregate_status(statuses)
+                scen_text = ", ".join(
+                    f"`{s}` (`{by_scenario[s].status.value}`)" for s in scenarios
+                )
+            elif req.test_refs:
+                agg = AcceptanceStatus.PASSED
+                scen_text = f"_test-level only_ ({len(req.test_refs)} test(s))"
+            else:
+                agg = AcceptanceStatus.NOT_EXECUTED
+                scen_text = "_no scenario or test coverage_"
+            lines.append(f"| `{req.req_id}` | `{agg.value}` | {scen_text} |")
+        lines.append("")
+
+    _render_coverage(
+        core_reqs,
+        "Core requirements",
+        "Safety boundary, deterministic behaviour, replay. These come first.",
+    )
+    _render_coverage(
+        meta_reqs,
+        "Meta requirements",
+        "UI, visualization, aggregation, governance, reporting.",
+    )
 
     lines.append("## Known limitations")
     lines.append("")
