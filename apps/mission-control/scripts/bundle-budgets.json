@@ -1,0 +1,9 @@
+{
+  "/": 250,
+  "/workbench": 250,
+  "/replay": 300,
+  "/missions/[id]": 350,
+  "/safety": 250,
+  "/evidence": 250,
+  "/catalog": 400
+}

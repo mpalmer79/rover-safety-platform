@@ -95,4 +95,53 @@ describe("frontend honesty rules", () => {
     expect(chip).toContain("yes");
     expect(chip).toContain("no");
   });
+
+  it("every component under src/components/ has a matching catalog fixture", async () => {
+    // Item 5 honesty rule: a new component cannot escape the
+    // permanent catalog. Each src/components/<Name>.tsx must have a
+    // matching src/components/__fixtures__/<Name>.fixtures.ts.
+    const componentsDir = path.resolve(__dirname, "../src/components");
+    const fixturesDir = path.resolve(componentsDir, "__fixtures__");
+    const components = (
+      await fs.readdir(componentsDir, { withFileTypes: true })
+    )
+      .filter((e) => e.isFile() && e.name.endsWith(".tsx"))
+      .map((e) => e.name.replace(/\.tsx$/, ""));
+    for (const name of components) {
+      const fixturePath = path.join(fixturesDir, `${name}.fixtures.ts`);
+      const exists = await fs
+        .access(fixturePath)
+        .then(() => true)
+        .catch(() => false);
+      expect(
+        exists,
+        `src/components/__fixtures__/${name}.fixtures.ts must exist so the catalog covers ${name}`,
+      ).toBe(true);
+    }
+  });
+
+  it("every component under src/components/ is imported by the a11y test", async () => {
+    // Item 3 honesty rule: a new component cannot silently escape
+    // the axe gate. The a11y test file MUST import every file in
+    // src/components/ (the imports are also what the test iterates
+    // over, so this guarantees coverage of the gate's surface).
+    const componentsDir = path.resolve(__dirname, "../src/components");
+    const a11y = await fs.readFile(
+      path.resolve(__dirname, "./a11y.test.tsx"),
+      "utf-8",
+    );
+    const entries = await fs.readdir(componentsDir, { withFileTypes: true });
+    const componentFiles = entries
+      .filter((e) => e.isFile() && e.name.endsWith(".tsx"))
+      .map((e) => e.name.replace(/\.tsx$/, ""));
+    for (const name of componentFiles) {
+      const importPattern = new RegExp(
+        `from\\s+["']@/components/${name}["']`,
+      );
+      expect(
+        importPattern.test(a11y),
+        `tests/a11y.test.tsx must import @/components/${name} so the new component is covered by the axe gate`,
+      ).toBe(true);
+    }
+  });
 });

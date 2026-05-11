@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Activity,
+  Component as ComponentIcon,
   Folder,
   Layers,
   Menu,
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
   { href: "/replay", label: "Replay Viewer", icon: PlayCircle },
   { href: "/safety", label: "Safety Authority", icon: ShieldCheck },
   { href: "/evidence", label: "Evidence & Audit", icon: Folder },
+  { href: "/catalog", label: "Components", icon: ComponentIcon },
 ] as const;
 
 interface ResponsiveShellProps {

@@ -90,8 +90,29 @@ jobs:
       - name: TypeScript strict typecheck
         run: npm run typecheck
 
-      - name: Vitest (adapters + components + honesty + spatial + deploy)
+      - name: Vitest with v8 coverage gate
+        # Honest floors live in vitest.config.ts. The job fails when
+        # any threshold (global or safety-relevant per-file) is
+        # crossed. See apps/mission-control/README.md "Coverage
+        # gating" for the pinned values + remediation notes.
         run: npm run test
+
+      - name: Surface a11y violations distinctly
+        # jest-axe failures already failed the vitest run above; this
+        # step re-runs ONLY the a11y suite and labels its output so
+        # the CI log makes accessibility regressions easy to spot.
+        if: failure()
+        run: |
+          echo "::group::accessibility (jest-axe) report"
+          npx vitest run tests/a11y.test.tsx --reporter=verbose || true
+          echo "::endgroup::"
+
+      - name: Upload frontend coverage artefact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mission-control-coverage
+          path: apps/mission-control/coverage/
 
       - name: Next.js static export build
         run: npm run build
@@ -188,8 +209,17 @@ jobs:
           # that validates. We deliberately scope the grep to .html files only;
           # the .js bundle naturally contains the literal switch-statement
           # string from describeDerivationSource which is not a render claim.
+          #
+          # The /catalog route (Item 5) is explicitly excluded: the
+          # catalog renders <SpatialReplayBadge source="bag_backed" />
+          # as a documented state-VARIANT demo. The catalog never
+          # asserts that any specific run IS bag-backed; it shows
+          # what the badge looks like in each derivation_source.
           set -euo pipefail
-          claims=$(find .next/server/app -name '*.html' -print0 | xargs -0 grep -ln "bag-backed runtime evidence" || true)
+          claims=$(find .next/server/app -name '*.html' \
+            -not -path '*/catalog.html' \
+            -not -path '*/__visual__.html' \
+            -print0 | xargs -0 grep -ln "bag-backed runtime evidence" || true)
           if [ -n "$claims" ]; then
             echo "Pages claiming bag-backed runtime evidence:"
             echo "$claims"
@@ -222,3 +252,94 @@ jobs:
               sys.exit(1)
           PY
           fi
+
+  visual-regression:
+    name: Playwright visual regression
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: apps/mission-control
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: apps/mission-control/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium (browser only; no apt deps)
+        # `--with-deps` requires sudo apt-get on the runner. The
+        # GitHub-hosted ubuntu-24.04 image already has the system
+        # libraries Playwright needs for Chromium, so we install
+        # the browser binary only.
+        run: npx playwright install chromium
+
+      - name: Build the static export
+        run: npm run build
+
+      - name: Run visual regression
+        # On a fresh checkout where visual/__screenshots__/ has no
+        # baselines yet, this step will fail. That is the EXPECTED
+        # initial state. An operator with browser-download access
+        # runs `npx playwright test --update-snapshots` once
+        # locally, then commits the resulting PNGs. After that,
+        # this gate enforces drift.
+        run: npx playwright test
+
+      - name: Upload Playwright report + screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mission-control-visual-regression
+          path: |
+            apps/mission-control/visual/playwright-report/
+            apps/mission-control/visual/__screenshots__/
+            apps/mission-control/visual/test-results/
+
+  bundle-budget:
+    name: Per-route bundle budget
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: apps/mission-control
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: apps/mission-control/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the static export
+        run: npm run build
+
+      - name: Enforce per-route bundle budgets
+        # Budgets live in apps/mission-control/scripts/bundle-budgets.json.
+        # The check exits non-zero when any route's gzipped first-load
+        # JS exceeds its budget. Raising a budget is a deliberate edit.
+        run: npm run bundle:check
+
+      - name: Upload bundle-analyzer report (only when ANALYZE=true)
+        if: env.ANALYZE == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mission-control-bundle-analyze
+          path: apps/mission-control/.next/analyze/

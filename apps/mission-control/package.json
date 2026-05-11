@@ -9,8 +9,11 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run --coverage",
+    "test:no-coverage": "vitest run",
+    "test:watch": "vitest",
+    "bundle:check": "node scripts/check-bundle.mjs",
+    "bundle:analyze": "ANALYZE=true npm run build"
   },
   "dependencies": {
     "@react-three/drei": "^9.114.3",
@@ -26,16 +29,21 @@
     "three": "^0.169.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.6",
+    "@playwright/test": "^1.60.0",
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.0.1",
+    "@types/jest-axe": "^3.5.9",
     "@types/node": "22.9.0",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
     "@types/three": "^0.169.0",
     "@vitejs/plugin-react": "4.3.3",
+    "@vitest/coverage-v8": "^2.1.4",
     "autoprefixer": "10.4.20",
     "happy-dom": "15.11.6",
+    "jest-axe": "^9.0.0",
     "postcss": "8.4.49",
     "tailwindcss": "3.4.14",
     "typescript": "5.6.3",
