@@ -19,8 +19,8 @@ const ROUTES: ReadonlyArray<{ name: string; path: string }> = [
   // The mission detail page is dynamic; this is the canonical
   // committed example.
   { name: "mission-warehouse", path: "/missions/warehouse_pickup_route_alpha" },
-  // Component catalog (Item 5 wires this in for permanent use).
-  { name: "catalog", path: "/__visual__" },
+  // Permanent component catalog (Item 5).
+  { name: "catalog", path: "/catalog" },
 ];
 
 for (const route of ROUTES) {

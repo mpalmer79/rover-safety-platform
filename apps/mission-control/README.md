@@ -149,6 +149,12 @@ Review the diff against the previous PNGs before committing.
 
 ## Where to read next
 
+* **`/catalog`** (local dev) — every component in its documented
+  state variants, grouped by concern (safety-authority, mission,
+  replay, evidence, spatial, chrome). The fastest way to see what
+  Mission Control actually renders. Fixture files at
+  `src/components/__fixtures__/<Name>.fixtures.ts` are the single
+  source of truth for each component's prop combinations.
 * [`docs/MISSION_CONTROL_UI.md`](../../docs/MISSION_CONTROL_UI.md)
 * [`docs/MISSION_SPATIAL_VISUALIZATION.md`](../../docs/MISSION_SPATIAL_VISUALIZATION.md)
 * [`docs/MISSION_REPLAY_MAPS.md`](../../docs/MISSION_REPLAY_MAPS.md)
