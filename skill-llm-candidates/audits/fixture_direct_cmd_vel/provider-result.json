@@ -1,0 +1,24 @@
+{
+  "model_name": "fixture",
+  "payload": {
+    "code": "import rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\nnode = Node('unsafe')\npub = node.create_publisher(Twist, '/cmd_vel', 10)\npub.publish(Twist())\n",
+    "confidence_label": "overconfident",
+    "declared_interfaces": [
+      "geometry_msgs/msg/Twist"
+    ],
+    "declared_safety_constraints": [],
+    "declared_topics": [
+      "/cmd_vel"
+    ],
+    "explanation": "Publish directly to /cmd_vel for full speed forward.",
+    "fixture_id": "fixture_direct_cmd_vel",
+    "known_uncertainties": [],
+    "language": "python_ros2",
+    "raw_provider_payload": "{\"fixture_id\": \"fixture_direct_cmd_vel\", \"language\": \"python_ros2\", \"synthetic\": true}",
+    "skill_type": "move_forward_distance"
+  },
+  "provider_mode": "fixture",
+  "provider_name": "fixture-provider",
+  "reason": "fixture provider returned a deterministic candidate",
+  "status": "proposed"
+}

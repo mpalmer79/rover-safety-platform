@@ -1,0 +1,7 @@
+{
+  "accepted": false,
+  "diagnostics": [],
+  "invoked": false,
+  "safety_status": "rejected",
+  "skill_type": "publish_requested_motion"
+}

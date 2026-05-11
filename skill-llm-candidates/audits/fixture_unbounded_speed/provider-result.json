@@ -1,0 +1,26 @@
+{
+  "model_name": "fixture",
+  "payload": {
+    "code": "import rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\nDURATION_S = 4.0\n\ndef main():\n    rclpy.init()\n    node = Node('blast_forward')\n    pub = node.create_publisher(Twist, '/cmd_vel_requested', 10)\n    msg = Twist()\n    msg.linear.x = 2.0  # well over the bound\n    pub.publish(msg)\n    zero = Twist()\n    pub.publish(zero)\n    node.destroy_node()\n    rclpy.shutdown()\n",
+    "confidence_label": "low",
+    "declared_interfaces": [
+      "geometry_msgs/msg/Twist"
+    ],
+    "declared_safety_constraints": [],
+    "declared_topics": [
+      "/cmd_vel_requested"
+    ],
+    "explanation": "Drive forward at full speed for a bounded duration. The Phase 15A validator must still reject this because the snippet is missing the required TIMEOUT_S sentinel and the safety supervisor mention.",
+    "fixture_id": "fixture_unbounded_speed",
+    "known_uncertainties": [
+      "speed is at the boundary of the safety envelope"
+    ],
+    "language": "python_ros2",
+    "raw_provider_payload": "{\"fixture_id\": \"fixture_unbounded_speed\", \"language\": \"python_ros2\", \"synthetic\": true}",
+    "skill_type": "move_forward_distance"
+  },
+  "provider_mode": "fixture",
+  "provider_name": "fixture-provider",
+  "reason": "fixture provider returned a deterministic candidate",
+  "status": "proposed"
+}

@@ -299,6 +299,29 @@ authoritative for what actually moves.
 
 ---
 
+## Phase 15B (local LLM skill candidate provider) entry points
+
+If you are reviewing the Phase 15B work specifically:
+
+1. Start with [`LOCAL_LLM_SKILL_PROVIDER.md`](LOCAL_LLM_SKILL_PROVIDER.md)
+   — architectural contract for the disabled-by-default provider.
+2. Read [`LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md`](LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md)
+   for what the provider is forbidden from doing.
+3. Skim [`SKILL_LLM_CANDIDATE_AUDITS.md`](SKILL_LLM_CANDIDATE_AUDITS.md)
+   and one accepted bundle under
+   `skill-llm-candidates/audits/fixture_valid_move_forward_6_feet/`.
+4. Read [`LOCAL_LLM_SKILL_PROMPT_CONTRACT.md`](LOCAL_LLM_SKILL_PROMPT_CONTRACT.md)
+   for the JSON-only contract a future local model must satisfy.
+5. Read [`FUTURE_LOCAL_MODEL_OPERATIONS.md`](FUTURE_LOCAL_MODEL_OPERATIONS.md)
+   if you care about the path forward (intentionally not
+   implemented in Phase 15B).
+
+No cloud API is called. No network socket is opened. No generated
+code is executed. The deterministic Phase 15A skill validator and
+the runtime safety supervisor remain authoritative.
+
+---
+
 ## What this playbook does not do
 
 - It does not run anything for you. To run scenarios and inspect

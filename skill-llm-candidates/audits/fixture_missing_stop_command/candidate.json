@@ -1,0 +1,23 @@
+{
+  "candidate_id": "fixture_missing_stop_command",
+  "code": "# Drive forward 1.0 m. Missing TIMEOUT_S and final zero.\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\nDURATION_S = 4.0\n\ndef main():\n    rclpy.init()\n    node = Node('move_forward')\n    pub = node.create_publisher(Twist, '/cmd_vel_requested', 10)\n    msg = Twist()\n    msg.linear.x = 0.25\n    pub.publish(msg)\n    node.destroy_node()\n    rclpy.shutdown()\n",
+  "confidence_label": "low",
+  "declared_interfaces": [
+    "geometry_msgs/msg/Twist"
+  ],
+  "declared_safety_constraints": [],
+  "declared_topics": [
+    "/cmd_vel_requested"
+  ],
+  "explanation": "Drive forward 1 m by publishing /cmd_vel_requested, but without a final zero command. The Phase 15A validator must reject this because the safety supervisor requires a trailing zero command and TIMEOUT_S is missing.",
+  "known_uncertainties": [
+    "missing stop command; safety supervisor remains authoritative"
+  ],
+  "language": "python_ros2",
+  "model_name": "fixture",
+  "provider_mode": "fixture",
+  "provider_name": "fixture-provider",
+  "raw_provider_payload": "{\"fixture_id\": \"fixture_missing_stop_command\", \"language\": \"python_ros2\", \"synthetic\": true}",
+  "skill_type": "move_forward_distance",
+  "source_text": "Drive forward 1 meter without zeroing"
+}

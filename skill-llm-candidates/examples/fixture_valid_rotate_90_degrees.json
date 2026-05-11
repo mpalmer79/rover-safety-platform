@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "accepted",
+  "expected_rejection_reason": "",
+  "fixture_id": "fixture_valid_rotate_90_degrees",
+  "kind": "valid",
+  "request_text": "Rotate left 90 degrees"
+}

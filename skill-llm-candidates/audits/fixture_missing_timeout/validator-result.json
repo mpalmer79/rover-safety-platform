@@ -1,0 +1,14 @@
+{
+  "accepted": false,
+  "diagnostics": [
+    {
+      "code": "validation_failed",
+      "message": "required token missing in generated code: safety supervisor",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "invoked": true,
+  "safety_status": "rejected",
+  "skill_type": "rotate_degrees"
+}

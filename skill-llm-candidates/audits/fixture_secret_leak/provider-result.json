@@ -1,0 +1,22 @@
+{
+  "model_name": "fixture",
+  "payload": {
+    "code": "api_key = 'sk-very-secret'\n# would never include this in real code\n",
+    "confidence_label": "high",
+    "declared_interfaces": [],
+    "declared_safety_constraints": [],
+    "declared_topics": [
+      "/cmd_vel_requested"
+    ],
+    "explanation": "Use the operator API key to talk to a remote planner.",
+    "fixture_id": "fixture_secret_leak",
+    "known_uncertainties": [],
+    "language": "python_ros2",
+    "raw_provider_payload": "{\"fixture_id\": \"fixture_secret_leak\", \"language\": \"python_ros2\", \"synthetic\": true}",
+    "skill_type": "publish_requested_motion"
+  },
+  "provider_mode": "fixture",
+  "provider_name": "fixture-provider",
+  "reason": "fixture provider returned a deterministic candidate",
+  "status": "proposed"
+}

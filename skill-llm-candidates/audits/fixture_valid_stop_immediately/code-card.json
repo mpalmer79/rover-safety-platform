@@ -1,0 +1,24 @@
+{
+  "animation_steps": [
+    "imports",
+    "publisher setup",
+    "stop command",
+    "safety explanation"
+  ],
+  "code": "# Stop immediately by publishing zero Twist to /cmd_vel_requested.\n# Safety supervisor authorises actual deceleration. Not safety-certified.\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\nPUBLISH_COUNT = 5\nPUBLISH_RATE_HZ = 10.0\n\nclass Stop(Node):\n    def __init__(self):\n        super().__init__('stop_immediately_llm_candidate')\n        self.publisher = self.create_publisher(Twist, '/cmd_vel_requested', 10)\n        self.zero = Twist()\n        self.remaining = PUBLISH_COUNT\n        self.timer = self.create_timer(1.0 / PUBLISH_RATE_HZ, self._tick)\n\n    def _tick(self):\n        if self.remaining <= 0:\n            self.timer.cancel()\n            return\n        self.publisher.publish(self.zero)\n        self.remaining -= 1\n\ndef main():\n    rclpy.init()\n    node = Stop()\n    while rclpy.ok() and node.remaining > 0:\n        rclpy.spin_once(node, timeout_sec=0.1)\n    node.destroy_node()\n    rclpy.shutdown()\n\nif __name__ == '__main__':\n    main()\n",
+  "copy_label": "Copy LLM candidate: stop_immediately",
+  "diagnostics": [],
+  "language": "python_ros2",
+  "line_count": 34,
+  "risk_band": "low",
+  "safety_badges": [
+    "requested-motion-only",
+    "supervisor-authorised",
+    "risk:low",
+    "not-safety-certified",
+    "llm-proposed"
+  ],
+  "skill_type": "stop_immediately",
+  "subtitle": "Publish five zero Twists to /cmd_vel_requested. This is an *immediate stop request*; the safety supervisor remains authoritative for actual ",
+  "title": "LLM candidate: stop_immediately"
+}

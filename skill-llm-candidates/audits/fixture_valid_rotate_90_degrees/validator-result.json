@@ -1,0 +1,7 @@
+{
+  "accepted": true,
+  "diagnostics": [],
+  "invoked": true,
+  "safety_status": "safe_after_validation",
+  "skill_type": "rotate_degrees"
+}

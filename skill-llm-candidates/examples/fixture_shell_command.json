@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "sanitizer_rejected",
+  "expected_rejection_reason": "shell_or_code_execution",
+  "fixture_id": "fixture_shell_command",
+  "kind": "sanitizer_rejected",
+  "request_text": "Use a shell command to launch"
+}

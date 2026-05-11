@@ -1,0 +1,30 @@
+{
+  "model_name": "fixture",
+  "payload": {
+    "code": "# Move forward 1.8288 m by publishing /cmd_vel_requested.\n# The safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This is not safety-certified.\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\nDISTANCE_M = 1.8288\nLINEAR_SPEED_MPS = 0.25\nPUBLISH_RATE_HZ = 10.0\nDURATION_S = DISTANCE_M / LINEAR_SPEED_MPS\nTIMEOUT_S = DURATION_S * 1.5\n\nclass MoveForward(Node):\n    def __init__(self):\n        super().__init__('move_forward_llm_candidate')\n        self.publisher = self.create_publisher(Twist, '/cmd_vel_requested', 10)\n        self.timer = self.create_timer(1.0 / PUBLISH_RATE_HZ, self._tick)\n        self.start_time = self.get_clock().now()\n        self.cmd = Twist()\n        self.cmd.linear.x = LINEAR_SPEED_MPS\n        self.finished = False\n\n    def _tick(self):\n        elapsed = (self.get_clock().now() - self.start_time).nanoseconds * 1e-9\n        if self.finished:\n            return\n        if elapsed >= DURATION_S or elapsed >= TIMEOUT_S:\n            zero = Twist()\n            self.publisher.publish(zero)\n            self.finished = True\n            return\n        self.publisher.publish(self.cmd)\n\ndef main():\n    rclpy.init()\n    node = MoveForward()\n    while rclpy.ok() and not node.finished:\n        rclpy.spin_once(node, timeout_sec=0.1)\n    node.destroy_node()\n    rclpy.shutdown()\n\nif __name__ == '__main__':\n    main()\n",
+    "confidence_label": "medium",
+    "declared_interfaces": [
+      "geometry_msgs/msg/Twist"
+    ],
+    "declared_safety_constraints": [
+      "distance_meters <= 25.0",
+      "linear_speed_mps <= 0.5",
+      "final zero Twist must be published"
+    ],
+    "declared_topics": [
+      "/cmd_vel_requested"
+    ],
+    "explanation": "Move the rover forward 6 feet (~1.8288 m) by publishing /cmd_vel_requested at 0.25 m/s for the computed duration, then a final zero Twist. The safety supervisor must authorise the actual motion via /cmd_vel_authorized; the snippet must not publish to /cmd_vel directly. Never run this without operator supervision.",
+    "fixture_id": "fixture_valid_move_forward_6_feet",
+    "known_uncertainties": [
+      "rover wheel slip may cause actual distance to differ"
+    ],
+    "language": "python_ros2",
+    "raw_provider_payload": "{\"fixture_id\": \"fixture_valid_move_forward_6_feet\", \"language\": \"python_ros2\", \"synthetic\": true}",
+    "skill_type": "move_forward_distance"
+  },
+  "provider_mode": "fixture",
+  "provider_name": "fixture-provider",
+  "reason": "fixture provider returned a deterministic candidate",
+  "status": "proposed"
+}

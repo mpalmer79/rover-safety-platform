@@ -1,0 +1,12 @@
+{
+  "enabled": false,
+  "endpoint": "",
+  "extra": {},
+  "mode": "disabled",
+  "model_name": "",
+  "notes": [
+    "Default Phase 15B provider config. Always returns not_configured.",
+    "No model is contacted; no code is generated."
+  ],
+  "provider_name": "disabled-provider"
+}

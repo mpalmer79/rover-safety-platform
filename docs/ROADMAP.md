@@ -56,6 +56,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 14A — Deterministic Natural Language Mission Compiler | Implemented; see section 3p |
 | Phase 14B — Pluggable LLM Mission Proposal Layer (offline / mock-only) | Implemented; external LLM providers intentionally disabled; see section 3q |
 | Phase 15A — Deterministic Robotics Skill Authoring Workbench | Implemented; offline / template-only; see section 3r |
+| Phase 15B — Local LLM Skill Candidate Provider (disabled by default) | Implemented; cloud APIs forbidden; no network call in this phase; see section 3s |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -1730,6 +1731,98 @@ every motion template uses ``/cmd_vel_requested`` only.
 A follow-up phase that adds a local LLM must follow
 `docs/FUTURE_LOCAL_LLM_SKILL_PROVIDER.md` and must not weaken the
 deterministic parser, the validator, or the audit boundary.
+
+---
+
+## 3s. Phase 15B: Local LLM Skill Candidate Provider (disabled by default)
+
+### Status
+
+Implemented as a *disabled-by-default* seam. Phase 15B never calls
+a cloud API, never opens a network socket (even for local
+providers), and never executes generated code. The deterministic
+Phase 15A skill validator and the runtime safety supervisor remain
+authoritative.
+
+### Objectives
+
+Phase 15B adds a future-ready, offline-safe interface where a
+local LLM (Ollama, llama.cpp, vLLM, or similar) could propose
+robotics-skill code candidates for review. Five provider modes
+are defined:
+
+| Mode             | Behaviour in Phase 15B                                              |
+|------------------|----------------------------------------------------------------------|
+| `disabled`       | Default. Always returns `not_configured`.                            |
+| `fixture`        | Deterministic, offline, 13 canonical fixtures.                       |
+| `local_http`     | Policy-checked stub; does not call the network in Phase 15B.         |
+| `ollama`         | Stub. No `ollama` SDK import. Returns `not_configured`.              |
+| `llama_cpp`      | Stub. No `llama_cpp` import. Returns `not_configured`.               |
+
+Selecting any local mode requires BOTH the `--allow-local-provider`
+CLI flag AND a config with `enabled: true`. Endpoints must be on
+loopback (`localhost`, `127.0.0.1`, `::1`); cloud and HTTPS hosts
+are rejected by `require_local_endpoint`.
+
+### Deliverables
+
+- `backend/app/skill_llm_provider/` — thirteen modules (models,
+  config, provider interface, fixture provider, three local-mode
+  stubs, sanitizer, validator bridge, adapter, audit, reporter).
+- Three CLIs:
+  - `rover_ws/tools/propose_robotics_skill_with_local_llm.py`,
+  - `rover_ws/tools/validate_skill_llm_candidate.py`,
+  - `rover_ws/tools/generate_skill_llm_examples.py`.
+- Canonical fixtures in `skill-llm-candidates/` (13 total: 3
+  valid, 6 sanitizer-rejected, 3 validator-rejected, 1
+  external-disabled echo), each with a full audit bundle.
+- Provider config files under `skill-llm-candidates/config/`
+  (disabled, fixture, local_http example, ollama example,
+  llama_cpp example). All local modes ship with `enabled: false`.
+- Five new requirements (`REQ-SKILL-LLM-001..005`) under
+  `RequirementKind.SKILL_LLM`.
+- Five new docs:
+  `docs/LOCAL_LLM_SKILL_PROVIDER.md`,
+  `docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md`,
+  `docs/LOCAL_LLM_SKILL_PROMPT_CONTRACT.md`,
+  `docs/SKILL_LLM_CANDIDATE_AUDITS.md`,
+  `docs/FUTURE_LOCAL_MODEL_OPERATIONS.md`.
+
+### Acceptance Criteria
+
+- default provider mode is `disabled`;
+- cloud endpoints (any host containing `openai.com`,
+  `anthropic.com`, `cohere.ai`, …) and HTTPS endpoints are
+  rejected;
+- the package does not import `openai`, `anthropic`, `cohere`,
+  `httpx`, `requests`, `urllib.request`, `socket`, `ollama`, or
+  `llama_cpp` (AST-level check);
+- the sanitizer rejects direct `/cmd_vel`, `while True`, shell or
+  code execution, network access, secret patterns, destructive
+  shell commands, direct motor control, and safety / e-stop
+  overrides;
+- sanitizer rejection skips the Phase 15A validator;
+- accepted candidates pass both the sanitizer AND the Phase 15A
+  validator and produce a code-card payload with the
+  `llm-proposed` safety badge;
+- every audit bundle carries the verbatim Phase 15B disclaimer
+  and is byte-stable across runs with a fixed `--generated-at`;
+- nothing in Phase 15B grants actuator authority.
+
+### What Phase 15B does NOT do
+
+- call any cloud API or any external host;
+- open a network socket, even for local providers;
+- run real model inference (Ollama, llama.cpp, vLLM, transformers
+  pipelines);
+- execute generated code;
+- publish to any ROS topic;
+- mutate safety supervisor state;
+- claim autonomous robot control;
+- claim safety certification.
+
+The follow-up phase that wires up a real local model must satisfy
+`docs/FUTURE_LOCAL_MODEL_OPERATIONS.md`.
 
 ---
 

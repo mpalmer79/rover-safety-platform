@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "sanitizer_rejected",
+  "expected_rejection_reason": "direct_actuator_command",
+  "fixture_id": "fixture_direct_cmd_vel",
+  "kind": "sanitizer_rejected",
+  "request_text": "Publish to /cmd_vel directly"
+}

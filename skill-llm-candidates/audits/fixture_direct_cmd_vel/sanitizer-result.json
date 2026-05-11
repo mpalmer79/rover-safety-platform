@@ -1,0 +1,17 @@
+{
+  "accepted": false,
+  "blocked_fragments": [
+    "code:/cmd_vel",
+    "declared_topics:/cmd_vel"
+  ],
+  "human_review_required": true,
+  "notes": [
+    "code: direct /cmd_vel publication is forbidden",
+    "declared_topics: /cmd_vel is forbidden; use /cmd_vel_requested",
+    "provider declares confidence='overconfident'; treat as suspect"
+  ],
+  "reason_codes": [
+    "direct_actuator_command"
+  ],
+  "status": "rejected"
+}

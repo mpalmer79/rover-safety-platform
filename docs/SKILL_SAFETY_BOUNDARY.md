@@ -101,3 +101,14 @@ A future external local-LLM provider (see
 `docs/FUTURE_LOCAL_LLM_SKILL_PROVIDER.md`) must keep the
 deterministic catalog as the authority and must pass every
 proposed snippet through this validator.
+
+## 7. Phase 15B status
+
+Phase 15B (Local LLM Skill Candidate Provider) is now implemented
+as a *disabled-by-default* seam — see
+`docs/LOCAL_LLM_SKILL_PROVIDER.md` and
+`docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md`. The Phase 15B
+sanitizer is a deliberately strict superset of the rules listed on
+this page; the Phase 15B validator bridge invokes the Phase 15A
+`validate_generated_code` function unchanged. No rule on this page
+is weakened by Phase 15B.

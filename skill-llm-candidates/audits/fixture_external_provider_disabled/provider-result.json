@@ -1,0 +1,20 @@
+{
+  "model_name": "fixture",
+  "payload": {
+    "code": "",
+    "confidence_label": "low",
+    "declared_interfaces": [],
+    "declared_safety_constraints": [],
+    "declared_topics": [],
+    "explanation": "External provider requested; layer must refuse.",
+    "fixture_id": "fixture_external_provider_disabled",
+    "known_uncertainties": [],
+    "language": "python_ros2",
+    "raw_provider_payload": "{\"fixture_id\": \"fixture_external_provider_disabled\", \"language\": \"python_ros2\", \"synthetic\": true}",
+    "skill_type": "move_forward_distance"
+  },
+  "provider_mode": "fixture",
+  "provider_name": "fixture-provider",
+  "reason": "fixture provider returned a deterministic candidate",
+  "status": "proposed"
+}
