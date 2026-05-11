@@ -147,6 +147,44 @@ npx playwright test visual/routes.spec.ts --update-snapshots    # routes only
 
 Review the diff against the previous PNGs before committing.
 
+## Bundle budgets
+
+Per-route gzipped JS payload is gated in CI
+(`mission-control-ci.yml::bundle-budget`). Budgets live in
+`apps/mission-control/scripts/bundle-budgets.json` and the check
+runs via `npm run bundle:check` after a production build.
+
+### Current budgets
+
+| Route             | Observed | Budget   |
+|-------------------|---------:|---------:|
+| `/`               | 101.5 KB | 250 KB   |
+| `/workbench`      | 134.9 KB | 250 KB   |
+| `/replay`         |  92.7 KB | 300 KB   |
+| `/missions/[id]`  | 105.6 KB | 350 KB   |
+| `/safety`         |  86.7 KB | 250 KB   |
+| `/evidence`       |  86.1 KB | 250 KB   |
+| `/catalog`        | 141.2 KB | 400 KB   |
+
+All observed values are gzipped first-load JS at the time the
+gate was wired in. The `/missions/[id]` budget is wider because
+the route lazy-loads the Three.js scene (R3F + drei + three)
+when the browser supports WebGL. The `/catalog` budget is wider
+because the page renders every component in its state variants.
+
+CI fails when any route exceeds its budget. Raising a budget is
+a deliberate edit to `scripts/bundle-budgets.json`; the script's
+error message explicitly requests a written justification.
+
+### Bundle analyzer (local)
+
+```
+ANALYZE=true npm run build      # writes .next/analyze/<route>.html
+```
+
+The `bundle-budget` CI job uploads `.next/analyze/` as a workflow
+artefact only when invoked with `ANALYZE=true`.
+
 ## Where to read next
 
 * **`/catalog`** (local dev) — every component in its documented

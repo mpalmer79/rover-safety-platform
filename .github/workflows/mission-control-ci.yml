@@ -295,3 +295,42 @@ jobs:
             apps/mission-control/visual/playwright-report/
             apps/mission-control/visual/__screenshots__/
             apps/mission-control/visual/test-results/
+
+  bundle-budget:
+    name: Per-route bundle budget
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: apps/mission-control
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: apps/mission-control/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the static export
+        run: npm run build
+
+      - name: Enforce per-route bundle budgets
+        # Budgets live in apps/mission-control/scripts/bundle-budgets.json.
+        # The check exits non-zero when any route's gzipped first-load
+        # JS exceeds its budget. Raising a budget is a deliberate edit.
+        run: npm run bundle:check
+
+      - name: Upload bundle-analyzer report (only when ANALYZE=true)
+        if: env.ANALYZE == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mission-control-bundle-analyze
+          path: apps/mission-control/.next/analyze/

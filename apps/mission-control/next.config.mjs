@@ -1,3 +1,22 @@
+import bundleAnalyzer from "@next/bundle-analyzer";
+
+/**
+ * Mission Control Next.js config.
+ *
+ * The bundle analyser is wired behind ANALYZE=true so a developer
+ * can inspect per-route JS payload composition without affecting
+ * normal CI builds:
+ *
+ *   ANALYZE=true npm run build
+ *
+ * The analyzer writes an HTML report under .next/analyze/ which is
+ * uploaded as a workflow artefact when CI runs the bundle-budget
+ * job with ANALYZE=true.
+ */
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -9,4 +28,4 @@ const nextConfig = {
   poweredByHeader: false,
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);
