@@ -1,0 +1,17 @@
+{
+  "confidence_label": "low",
+  "known_uncertainties": [
+    "destination is not a named waypoint",
+    "'near the loading area' could be loading_zone_one or two"
+  ],
+  "proposal_id": "mock_ambiguous_destination",
+  "proposed_constraints": [],
+  "proposed_intent": "Go somewhere near the loading area and check it out.",
+  "proposed_location": "unspecified",
+  "proposed_motion_style": "moderate",
+  "proposed_recovery_policy": "Return to dock",
+  "provider_mode": "offline_fixture",
+  "provider_name": "mock-provider",
+  "raw_response": "{\"plan\": [\"go somewhere near loading area\"]}",
+  "source_text": "mock ambiguous destination"
+}

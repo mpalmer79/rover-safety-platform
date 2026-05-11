@@ -1,0 +1,19 @@
+{
+  "confidence_label": "high",
+  "known_uncertainties": [
+    "exact dwell time at loading_zone_two is not specified"
+  ],
+  "proposal_id": "mock_valid_inspection",
+  "proposed_constraints": [
+    "Limit speed to 1.0 m/s",
+    "Avoid restricted corridors"
+  ],
+  "proposed_intent": "Drive to waypoint bravo. Inspect loading_zone_two.",
+  "proposed_location": "loading_zone_two",
+  "proposed_motion_style": "slow careful inspection",
+  "proposed_recovery_policy": "Return to dock if lidar health degrades",
+  "provider_mode": "offline_fixture",
+  "provider_name": "mock-provider",
+  "raw_response": "{\"plan\": [\"move waypoint_bravo\", \"inspect loading_zone_two\"]}",
+  "source_text": "mock valid inspection"
+}

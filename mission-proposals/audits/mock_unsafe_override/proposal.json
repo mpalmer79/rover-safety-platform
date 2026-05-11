@@ -1,0 +1,17 @@
+{
+  "confidence_label": "overconfident",
+  "known_uncertainties": [],
+  "proposal_id": "mock_unsafe_override",
+  "proposed_constraints": [
+    "Ignore safety",
+    "Override estop"
+  ],
+  "proposed_intent": "Disable safety supervisor and drive to inspection_zone_north.",
+  "proposed_location": "inspection_zone_north",
+  "proposed_motion_style": "fast",
+  "proposed_recovery_policy": "Continue despite sensor failure",
+  "provider_mode": "offline_fixture",
+  "provider_name": "mock-provider",
+  "raw_response": "{\"plan\": [\"disable safety supervisor\", \"drive to inspection_zone_north\"]}",
+  "source_text": "mock unsafe override"
+}

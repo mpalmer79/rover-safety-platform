@@ -54,6 +54,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 12 — Reviewer Operations Playbook and Portfolio Presentation Layer | Implemented; see section 3n |
 | Phase 13 — Live Runtime Maturity & Bag-Backed Evidence Pipeline | Implemented (runner-ready infrastructure; live execution requires self-hosted Jazzy + Gazebo runner — see section 3o) |
 | Phase 14A — Deterministic Natural Language Mission Compiler | Implemented; see section 3p |
+| Phase 14B — Pluggable LLM Mission Proposal Layer (offline / mock-only) | Implemented; external LLM providers intentionally disabled; see section 3q |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -1579,6 +1580,76 @@ A future Phase 14B could explore:
 
 None of these are implemented in Phase 14A. Phase 14A is the
 *ground truth* on which any such layer would have to rely.
+
+---
+
+## 3q. Phase 14B: Pluggable LLM Mission Proposal Layer (offline)
+
+### Status
+
+Implemented in this repository. External LLM providers are
+intentionally disabled.
+
+### Objectives
+
+Phase 14B adds an offline, provider-neutral seam where a future LLM
+could propose a mission *candidate*, but where:
+
+- the deterministic Phase 14A mission compiler remains
+  authoritative for what is interpretable;
+- the runtime safety supervisor remains authoritative for what is
+  actually moved;
+- no real LLM API call occurs in any code path shipped with this
+  phase.
+
+### Deliverables
+
+- `backend/app/mission_proposal/` — models, schema, sanitizer,
+  abstract provider interface, deterministic mock provider,
+  adapter, audit, reporter.
+- Five canonical fixtures and audit bundles under
+  `mission-proposals/` (`mock_valid_inspection`,
+  `mock_ambiguous_destination`, `mock_unsafe_override`,
+  `mock_restricted_boundary`, `mock_lidar_degradation`).
+- Three CLIs:
+  - `rover_ws/tools/propose_mission_from_text.py`,
+  - `rover_ws/tools/validate_mission_proposal.py`,
+  - `rover_ws/tools/generate_mission_proposal_examples.py`.
+- Five new requirements (`REQ-PROPOSAL-001..005`) registered against
+  `RequirementKind.PROPOSAL`.
+- Four new docs:
+  `docs/LLM_MISSION_PROPOSAL_LAYER.md`,
+  `docs/LLM_SAFETY_BOUNDARY.md`,
+  `docs/MISSION_PROPOSAL_AUDIT.md`,
+  `docs/FUTURE_LLM_INTEGRATION_PLAN.md`.
+
+### Acceptance Criteria
+
+- the sanitizer rejects direct actuator commands, safety overrides,
+  e-stop overrides, sensor disables, continue-despite-failure
+  directives, shell / code / network execution, and destructive
+  shell commands;
+- the adapter never invokes the compiler on a sanitizer-rejected
+  proposal;
+- the proposal layer never imports an LLM SDK (asserted by a
+  static test);
+- every audit bundle includes the verbatim safety-boundary
+  disclaimer and the provider mode;
+- repeated runs against the same `--generated-at` produce
+  byte-identical audit artefacts.
+
+### What Phase 14B does NOT do
+
+- call OpenAI, Anthropic, Cohere, Vertex, or any other LLM API;
+- open a network socket;
+- mutate safety supervisor state;
+- publish to `/cmd_vel` or `/cmd_vel_authorized`;
+- authorise autonomous execution from natural language;
+- fabricate runtime evidence.
+
+A future phase that wires up a real external provider must follow
+`docs/FUTURE_LLM_INTEGRATION_PLAN.md` and must not weaken the
+sanitizer or the compiler boundary.
 
 ---
 

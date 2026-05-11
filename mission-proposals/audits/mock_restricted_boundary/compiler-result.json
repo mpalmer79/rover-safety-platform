@@ -1,0 +1,117 @@
+{
+  "compiler_plan": {
+    "assumptions": [],
+    "compile_hash": "5cb42e02d263461a1a50c896d522795cf3dfdcf0e93dcecfe6a558b3cd1eb986",
+    "compiler_version": "phase14a-1",
+    "constraints": [],
+    "diagnostics": [
+      {
+        "clause": "drive to restricted_corridor_one",
+        "code": "odd_violation",
+        "field": "region",
+        "message": "objective targets prohibited region 'restricted_corridor_one' for ODD profile 'default-warehouse'",
+        "severity": "rejection"
+      }
+    ],
+    "disclaimer": "This system is not safety-certified and does not authorize autonomous deployment.",
+    "explainability_chain": [
+      "USER INPUT: Drive to restricted_corridor_one. Return to dock.",
+      "NORMALIZED INPUT: drive to restricted_corridor_one. return to dock",
+      "EXTRACTED CLAUSES:",
+      "  - [move_to_target] drive to restricted_corridor_one :: target=restricted_corridor_one",
+      "  - [return_to_dock] return to dock :: (no slots)",
+      "NORMALIZED OBJECTIVES:",
+      "  - obj-01 move :: move/restricted_corridor_one",
+      "  - obj-02 return_to_dock :: return_to_dock",
+      "VALIDATION DIAGNOSTICS:",
+      "  - [rejection/odd_violation] objective targets prohibited region 'restricted_corridor_one' for ODD profile 'default-warehouse'",
+      "RISK CLASSIFICATION: band=critical score=95 drivers=['mission_complexity:10', 'rejections:1']",
+      "FINAL COMPILED PLAN STATUS: compile_rejected"
+    ],
+    "extracted_clauses": [
+      {
+        "normalized": "drive to restricted_corridor_one",
+        "raw": "drive to restricted_corridor_one",
+        "slots": {
+          "target": "restricted_corridor_one"
+        },
+        "template_id": "move_to_target"
+      },
+      {
+        "normalized": "return to dock",
+        "raw": "return to dock",
+        "slots": {},
+        "template_id": "return_to_dock"
+      }
+    ],
+    "generated_at_utc": "2026-05-12T00:00:00+00:00",
+    "graph": {
+      "edges": [
+        {
+          "condition": "rejected",
+          "source": "start",
+          "target": "end"
+        }
+      ],
+      "nodes": [
+        {
+          "branch": "main",
+          "label": "Mission start",
+          "node_id": "start",
+          "objective_id": "",
+          "stage_kind": "start"
+        },
+        {
+          "branch": "main",
+          "label": "Mission rejected",
+          "node_id": "end",
+          "objective_id": "",
+          "stage_kind": "end"
+        }
+      ]
+    },
+    "normalized_intent": "drive to restricted_corridor_one. return to dock",
+    "objectives": [
+      {
+        "label": "move/restricted_corridor_one",
+        "objective_id": "obj-01",
+        "objective_kind": "move",
+        "parameters": {
+          "target": "restricted_corridor_one"
+        },
+        "source_clause": "drive to restricted_corridor_one"
+      },
+      {
+        "label": "return_to_dock",
+        "objective_id": "obj-02",
+        "objective_kind": "return_to_dock",
+        "parameters": {},
+        "source_clause": "return to dock"
+      }
+    ],
+    "odd_profile_id": "default-warehouse",
+    "original_intent": "Drive to restricted_corridor_one. Return to dock.",
+    "plan_id": "proposal-mock_restricted_boundary",
+    "rejected_clauses": [],
+    "replay_binding_id": "replay-proposal-mock_restricted_boundary",
+    "risk": {
+      "band": "critical",
+      "drivers": [
+        "mission_complexity:10",
+        "rejections:1"
+      ],
+      "mitigations": [
+        "supervised operator review before execution",
+        "dry-run in simulation before live execution"
+      ],
+      "required_reviewer_actions": [
+        "manual approval required - critical mission cannot auto-pass",
+        "resolve compile rejections before submission"
+      ],
+      "score": 95
+    },
+    "status": "compile_rejected"
+  },
+  "compiler_status": "compile_rejected",
+  "proposal_id": "mock_restricted_boundary"
+}

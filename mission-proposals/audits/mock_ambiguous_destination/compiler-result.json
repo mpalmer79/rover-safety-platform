@@ -1,0 +1,117 @@
+{
+  "compiler_plan": {
+    "assumptions": [],
+    "compile_hash": "1a7eb94e18280a1098feaebf0790e256cd87bebe715257c1a106db5d84cd24ba",
+    "compiler_version": "phase14a-1",
+    "constraints": [],
+    "diagnostics": [
+      {
+        "clause": "go somewhere near the loading area",
+        "code": "ambiguous_clause",
+        "field": "",
+        "message": "clause is ambiguous and was not converted to an objective: matched phrase 'somewhere near'",
+        "severity": "warning"
+      },
+      {
+        "clause": "check it out",
+        "code": "unsupported_instruction",
+        "field": "",
+        "message": "clause did not match any supported template",
+        "severity": "warning"
+      }
+    ],
+    "disclaimer": "This system is not safety-certified and does not authorize autonomous deployment.",
+    "explainability_chain": [
+      "USER INPUT: Go somewhere near the loading area and check it out. Return to dock.",
+      "NORMALIZED INPUT: go somewhere near the loading area and check it out. return to dock",
+      "EXTRACTED CLAUSES:",
+      "  - [return_to_dock] return to dock :: (no slots)",
+      "REJECTED CLAUSES:",
+      "  - go somewhere near the loading area",
+      "  - check it out",
+      "NORMALIZED OBJECTIVES:",
+      "  - obj-01 return_to_dock :: return_to_dock",
+      "VALIDATION DIAGNOSTICS:",
+      "  - [warning/ambiguous_clause] clause is ambiguous and was not converted to an objective: matched phrase 'somewhere near'",
+      "  - [warning/unsupported_instruction] clause did not match any supported template",
+      "RISK CLASSIFICATION: band=low score=10 drivers=['open_warnings:2']",
+      "FINAL COMPILED PLAN STATUS: compile_ambiguous"
+    ],
+    "extracted_clauses": [
+      {
+        "normalized": "return to dock",
+        "raw": "return to dock",
+        "slots": {},
+        "template_id": "return_to_dock"
+      }
+    ],
+    "generated_at_utc": "2026-05-12T00:00:00+00:00",
+    "graph": {
+      "edges": [
+        {
+          "condition": "",
+          "source": "start",
+          "target": "n-01"
+        },
+        {
+          "condition": "",
+          "source": "n-01",
+          "target": "end"
+        }
+      ],
+      "nodes": [
+        {
+          "branch": "main",
+          "label": "Mission start",
+          "node_id": "start",
+          "objective_id": "",
+          "stage_kind": "start"
+        },
+        {
+          "branch": "main",
+          "label": "return_to_dock",
+          "node_id": "n-01",
+          "objective_id": "obj-01",
+          "stage_kind": "return_to_dock"
+        },
+        {
+          "branch": "main",
+          "label": "Mission end",
+          "node_id": "end",
+          "objective_id": "",
+          "stage_kind": "end"
+        }
+      ]
+    },
+    "normalized_intent": "go somewhere near the loading area and check it out. return to dock",
+    "objectives": [
+      {
+        "label": "return_to_dock",
+        "objective_id": "obj-01",
+        "objective_kind": "return_to_dock",
+        "parameters": {},
+        "source_clause": "return to dock"
+      }
+    ],
+    "odd_profile_id": "default-warehouse",
+    "original_intent": "Go somewhere near the loading area and check it out. Return to dock.",
+    "plan_id": "proposal-mock_ambiguous_destination",
+    "rejected_clauses": [
+      "go somewhere near the loading area",
+      "check it out"
+    ],
+    "replay_binding_id": "replay-proposal-mock_ambiguous_destination",
+    "risk": {
+      "band": "low",
+      "drivers": [
+        "open_warnings:2"
+      ],
+      "mitigations": [],
+      "required_reviewer_actions": [],
+      "score": 10
+    },
+    "status": "compile_ambiguous"
+  },
+  "compiler_status": "compile_ambiguous",
+  "proposal_id": "mock_ambiguous_destination"
+}

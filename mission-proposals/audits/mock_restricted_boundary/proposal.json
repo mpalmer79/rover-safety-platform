@@ -1,0 +1,16 @@
+{
+  "confidence_label": "medium",
+  "known_uncertainties": [
+    "destination is inside a restricted boundary; operator confirmation expected"
+  ],
+  "proposal_id": "mock_restricted_boundary",
+  "proposed_constraints": [],
+  "proposed_intent": "Drive to restricted_corridor_one.",
+  "proposed_location": "restricted_corridor_one",
+  "proposed_motion_style": "moderate",
+  "proposed_recovery_policy": "Return to dock",
+  "provider_mode": "offline_fixture",
+  "provider_name": "mock-provider",
+  "raw_response": "{\"plan\": [\"drive to restricted_corridor_one\"]}",
+  "source_text": "mock restricted boundary"
+}
