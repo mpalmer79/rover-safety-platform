@@ -1,0 +1,15 @@
+{
+  "enabled": false,
+  "endpoint": "http://localhost:11434",
+  "extra": {
+    "model": "qwen2.5-coder:7b"
+  },
+  "mode": "ollama",
+  "model_name": "qwen2.5-coder:7b",
+  "notes": [
+    "EXAMPLE config for a local Ollama provider. Phase 15B does NOT import the ollama SDK or call the network.",
+    "When a future phase implements the transport, this file is the template; flip 'enabled' to true and pass --allow-local-provider.",
+    "endpoint must remain on loopback. Cloud Ollama hosts are forbidden by Phase 15B policy."
+  ],
+  "provider_name": "ollama-provider"
+}

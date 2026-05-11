@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "accepted",
+  "expected_rejection_reason": "",
+  "fixture_id": "fixture_valid_stop_immediately",
+  "kind": "valid",
+  "request_text": "Stop the robot immediately"
+}

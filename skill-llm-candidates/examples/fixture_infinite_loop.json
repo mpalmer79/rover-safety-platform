@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "sanitizer_rejected",
+  "expected_rejection_reason": "unbounded_motion",
+  "fixture_id": "fixture_infinite_loop",
+  "kind": "sanitizer_rejected",
+  "request_text": "Move forward forever"
+}

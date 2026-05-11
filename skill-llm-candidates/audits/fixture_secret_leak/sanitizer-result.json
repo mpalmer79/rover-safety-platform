@@ -1,0 +1,16 @@
+{
+  "accepted": false,
+  "blocked_fragments": [
+    "code:api_key =",
+    "code:api_key"
+  ],
+  "human_review_required": true,
+  "notes": [
+    "code: api_key assignment",
+    "code: API_KEY constant"
+  ],
+  "reason_codes": [
+    "secret_leak"
+  ],
+  "status": "rejected"
+}

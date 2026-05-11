@@ -1,0 +1,26 @@
+{
+  "model_name": "fixture",
+  "payload": {
+    "code": "# Rotate; missing TIMEOUT_S.\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\nDURATION_S = 4.0\n\ndef main():\n    rclpy.init()\n    node = Node('rotate')\n    pub = node.create_publisher(Twist, '/cmd_vel_requested', 10)\n    msg = Twist()\n    msg.angular.z = 0.4\n    pub.publish(msg)\n    zero = Twist()\n    pub.publish(zero)\n    node.destroy_node()\n    rclpy.shutdown()\n",
+    "confidence_label": "low",
+    "declared_interfaces": [
+      "geometry_msgs/msg/Twist"
+    ],
+    "declared_safety_constraints": [],
+    "declared_topics": [
+      "/cmd_vel_requested"
+    ],
+    "explanation": "Rotate 90 degrees by publishing /cmd_vel_requested, but the snippet has no TIMEOUT_S bound. The Phase 15A validator must reject this.",
+    "fixture_id": "fixture_missing_timeout",
+    "known_uncertainties": [
+      "missing timeout constant"
+    ],
+    "language": "python_ros2",
+    "raw_provider_payload": "{\"fixture_id\": \"fixture_missing_timeout\", \"language\": \"python_ros2\", \"synthetic\": true}",
+    "skill_type": "rotate_degrees"
+  },
+  "provider_mode": "fixture",
+  "provider_name": "fixture-provider",
+  "reason": "fixture provider returned a deterministic candidate",
+  "status": "proposed"
+}

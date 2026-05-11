@@ -1,0 +1,15 @@
+{
+  "enabled": false,
+  "endpoint": "http://127.0.0.1:8080",
+  "extra": {
+    "model_path": "/models/codellama-7b.q4_K_M.gguf"
+  },
+  "mode": "llama_cpp",
+  "model_name": "codellama-7b.q4_K_M",
+  "notes": [
+    "EXAMPLE config for a local llama.cpp server. Phase 15B never imports llama_cpp or spawns the binary.",
+    "When a future phase implements the transport, flip 'enabled' to true and pass --allow-local-provider.",
+    "endpoint must remain on loopback."
+  ],
+  "provider_name": "llama-cpp-provider"
+}

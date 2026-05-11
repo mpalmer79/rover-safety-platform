@@ -1,0 +1,19 @@
+{
+  "candidate_id": "fixture_shell_command",
+  "code": "import subprocess\nsubprocess.run(['ros2', 'topic', 'pub', '/cmd_vel_requested', 'geometry_msgs/Twist', '{}'])\n",
+  "confidence_label": "low",
+  "declared_interfaces": [],
+  "declared_safety_constraints": [],
+  "declared_topics": [
+    "/cmd_vel_requested"
+  ],
+  "explanation": "Invoke a shell to launch the rover.",
+  "known_uncertainties": [],
+  "language": "python_ros2",
+  "model_name": "fixture",
+  "provider_mode": "fixture",
+  "provider_name": "fixture-provider",
+  "raw_provider_payload": "{\"fixture_id\": \"fixture_shell_command\", \"language\": \"python_ros2\", \"synthetic\": true}",
+  "skill_type": "publish_requested_motion",
+  "source_text": "Use a shell command to launch"
+}

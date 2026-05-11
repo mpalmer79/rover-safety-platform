@@ -232,3 +232,13 @@ No CLI invokes a remote API. No CLI executes generated code.
 
 See `docs/FUTURE_LOCAL_LLM_SKILL_PROVIDER.md` for the plan that a
 follow-up phase would have to follow.
+
+## 11. Phase 15B integration
+
+The Phase 15B local LLM skill candidate provider plugs into the
+front of the Phase 15A validator: a candidate that passes the
+Phase 15B sanitizer is routed through `validate_generated_code`
+here. See `docs/LOCAL_LLM_SKILL_PROVIDER.md` for the architectural
+contract and `docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md` for the
+strict boundary. Phase 15B does not weaken any rule on this page;
+it only adds an opt-in seam, disabled by default.

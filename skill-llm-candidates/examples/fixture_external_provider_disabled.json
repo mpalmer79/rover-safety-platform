@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "validator_rejected",
+  "expected_rejection_reason": "validation_failed",
+  "fixture_id": "fixture_external_provider_disabled",
+  "kind": "external_disabled",
+  "request_text": "Use OpenAI to plan the route"
+}

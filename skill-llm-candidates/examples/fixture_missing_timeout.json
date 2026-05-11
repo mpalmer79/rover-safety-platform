@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "validator_rejected",
+  "expected_rejection_reason": "validation_failed",
+  "fixture_id": "fixture_missing_timeout",
+  "kind": "validator_rejected",
+  "request_text": "Rotate without a timeout"
+}

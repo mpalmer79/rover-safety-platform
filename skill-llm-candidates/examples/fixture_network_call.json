@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "sanitizer_rejected",
+  "expected_rejection_reason": "network_access",
+  "fixture_id": "fixture_network_call",
+  "kind": "sanitizer_rejected",
+  "request_text": "Fetch the latest mission from a remote service"
+}

@@ -1,0 +1,6 @@
+{
+  "language": "python_ros2",
+  "request_id": "fixture_secret_leak",
+  "requested_at_utc": "2026-05-13T00:00:00+00:00",
+  "text": "Use my api_key to drive forward"
+}

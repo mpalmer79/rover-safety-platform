@@ -39,6 +39,7 @@ class RequirementKind(str, Enum):
     MISSION_COMPILER = "mission_compiler"
     PROPOSAL = "proposal"
     SKILL = "skill"
+    SKILL_LLM = "skill_llm"
 
 
 @dataclass(frozen=True)
@@ -2204,6 +2205,160 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "backend/tests/test_skill_authoring.py::test_code_card_metadata_present_on_accepted_skill",
             "backend/tests/test_skill_authoring.py::test_code_card_animation_steps_for_move_forward",
             "backend/tests/test_skill_authoring.py::test_skill_layer_has_no_frontend_imports",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-LLM-001",
+        kind=RequirementKind.SKILL_LLM,
+        title="Local LLM skill providers must be disabled by default",
+        description=(
+            "The Phase 15B skill-LLM provider layer defaults to "
+            "``provider_mode=disabled``. Tools that use it must "
+            "require both ``--allow-local-provider`` AND an "
+            "explicitly enabled provider config before a local "
+            "provider may be selected. The disabled mode emits a "
+            "deterministic ``not_configured`` envelope."
+        ),
+        architecture_refs=(
+            "docs/LOCAL_LLM_SKILL_PROVIDER.md",
+            "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/config.py",
+            "backend/app/skill_llm_provider/provider.py",
+            "backend/app/skill_llm_provider/adapter.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_provider.py::test_default_provider_mode_is_disabled",
+            "backend/tests/test_skill_llm_provider.py::test_disabled_provider_returns_not_configured",
+            "backend/tests/test_skill_llm_provider.py::test_local_http_requires_allow_local_provider_flag",
+            "backend/tests/test_skill_llm_provider.py::test_local_http_requires_config_enabled",
+            "backend/tests/test_skill_llm_provider.py::test_ollama_returns_not_configured_when_disabled",
+            "backend/tests/test_skill_llm_provider.py::test_llama_cpp_returns_not_configured_when_disabled",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-LLM-002",
+        kind=RequirementKind.SKILL_LLM,
+        title="Cloud or external LLM endpoints must be rejected",
+        description=(
+            "Any endpoint configured for a local provider is "
+            "policy-checked against the loopback allowlist "
+            "(``localhost``, ``127.0.0.1``, ``::1``). Cloud SaaS "
+            "hosts, HTTPS endpoints, and any non-loopback host "
+            "produce a ``rejected_endpoint`` envelope and never "
+            "reach the provider's transport layer."
+        ),
+        architecture_refs=(
+            "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/config.py",
+            "backend/app/skill_llm_provider/provider.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_provider.py::test_cloud_endpoint_is_rejected",
+            "backend/tests/test_skill_llm_provider.py::test_https_endpoint_is_rejected",
+            "backend/tests/test_skill_llm_provider.py::test_loopback_endpoint_is_accepted_by_policy",
+            "backend/tests/test_skill_llm_provider.py::test_provider_layer_has_no_cloud_sdk_imports",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-LLM-003",
+        kind=RequirementKind.SKILL_LLM,
+        title="LLM candidates must pass the sanitizer before deterministic skill validation",
+        description=(
+            "Every candidate runs through "
+            "``sanitize_candidate`` before the Phase 15A skill "
+            "validator is invoked. Sanitizer rejection skips the "
+            "validator entirely; the audit records that the "
+            "validator was not invoked. The sanitizer rejects "
+            "direct ``/cmd_vel``, ``while True``, shell or code "
+            "execution, network access, secret patterns, "
+            "destructive shell commands, direct motor control, "
+            "safety overrides, and e-stop overrides."
+        ),
+        architecture_refs=(
+            "docs/LOCAL_LLM_SKILL_PROVIDER.md",
+            "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/sanitizer.py",
+            "backend/app/skill_llm_provider/validator_bridge.py",
+            "backend/app/skill_llm_provider/adapter.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_direct_cmd_vel",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_allows_cmd_vel_requested",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_while_true",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_subprocess",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_os_system",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_eval_exec",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_socket",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_requests_httpx",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_openai_anthropic_cohere_imports",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_api_key_password_secret",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_ros2_topic_pub_cmd_vel",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_safety_override_phrases",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejection_skips_validator",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-LLM-004",
+        kind=RequirementKind.SKILL_LLM,
+        title="Accepted candidates must preserve requested-motion safety boundaries",
+        description=(
+            "Only candidates that pass both the sanitizer AND the "
+            "Phase 15A skill validator are labelled ``accepted`` and "
+            "produce a code-card payload. The validator enforces "
+            "use of ``/cmd_vel_requested`` and rejects snippets that "
+            "are missing stop commands, timeouts, or that publish to "
+            "``/cmd_vel`` directly."
+        ),
+        architecture_refs=(
+            "docs/LOCAL_LLM_SKILL_PROVIDER.md",
+            "docs/SKILL_SAFETY_BOUNDARY.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/validator_bridge.py",
+            "backend/app/skill_authoring/validator.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_provider.py::test_valid_candidate_is_accepted",
+            "backend/tests/test_skill_llm_provider.py::test_missing_stop_command_is_validator_rejected",
+            "backend/tests/test_skill_llm_provider.py::test_missing_timeout_is_validator_rejected",
+            "backend/tests/test_skill_llm_provider.py::test_accepted_candidate_produces_code_card",
+            "backend/tests/test_skill_llm_provider.py::test_accepted_candidate_uses_requested_motion_topic",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-LLM-005",
+        kind=RequirementKind.SKILL_LLM,
+        title="LLM candidate audits must preserve provider, sanitizer, validator, safety review, and disclaimer",
+        description=(
+            "Every audit bundle records the request, the provider "
+            "envelope, the candidate (when produced), the sanitizer "
+            "result, the validator result, the safety review (when "
+            "accepted), and the verbatim Phase 15B disclaimer. The "
+            "filesystem layout is stable: ``request.json``, "
+            "``provider-result.json``, ``sanitizer-result.json``, "
+            "``validator-result.json``, ``llm-candidate-report.md``, "
+            "and (when accepted) ``candidate.json``, "
+            "``safety-review.json``, ``code-card.json``."
+        ),
+        architecture_refs=(
+            "docs/SKILL_LLM_CANDIDATE_AUDITS.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/audit.py",
+            "backend/app/skill_llm_provider/reporter.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_provider.py::test_accepted_audit_bundle_layout_is_complete",
+            "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejection_audit_bundle_layout",
+            "backend/tests/test_skill_llm_provider.py::test_audit_includes_disclaimer",
+            "backend/tests/test_skill_llm_provider.py::test_audit_preserves_provider_mode",
+            "backend/tests/test_skill_llm_provider.py::test_audit_json_is_stable_across_runs",
         ),
     ),
 )

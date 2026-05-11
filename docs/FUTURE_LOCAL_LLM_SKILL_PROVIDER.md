@@ -83,3 +83,15 @@ Even after a future local-LLM provider is added, the default
 `--provider` argument on every CLI must remain `deterministic`. The
 local LLM is an *optional* paraphrase layer, never a replacement
 for the catalog or the validator.
+
+## 7. Phase 15B status
+
+Phase 15B (Local LLM Skill Candidate Provider) is implemented as
+a *disabled-by-default* seam. See
+[`LOCAL_LLM_SKILL_PROVIDER.md`](LOCAL_LLM_SKILL_PROVIDER.md),
+[`LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md`](LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md),
+and [`FUTURE_LOCAL_MODEL_OPERATIONS.md`](FUTURE_LOCAL_MODEL_OPERATIONS.md)
+for the architecture, safety rules, and the operational plan a
+follow-up phase must satisfy before a real local model is wired
+up. Phase 15B does **not** call cloud APIs, does **not** open a
+network socket, and does **not** execute generated code.

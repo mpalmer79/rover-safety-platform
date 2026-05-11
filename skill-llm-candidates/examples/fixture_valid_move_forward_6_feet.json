@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "accepted",
+  "expected_rejection_reason": "",
+  "fixture_id": "fixture_valid_move_forward_6_feet",
+  "kind": "valid",
+  "request_text": "Move my robot 6 feet forward"
+}

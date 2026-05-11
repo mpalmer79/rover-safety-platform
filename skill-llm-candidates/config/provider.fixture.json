@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "endpoint": "",
+  "extra": {
+    "fixture_id": "fixture_valid_move_forward_6_feet"
+  },
+  "mode": "fixture",
+  "model_name": "fixture",
+  "notes": [
+    "Deterministic, offline. The default mode used by tests and the example generator.",
+    "Override 'extra.fixture_id' to pick a different canonical fixture."
+  ],
+  "provider_name": "fixture-provider"
+}

@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-11T11:24:16+00:00",
+  "generated_at_utc": "2026-05-11T12:24:49+00:00",
   "overall_status": "passed",
-  "row_count": 83,
+  "row_count": 88,
   "rows": [
     {
       "architecture_refs": [
@@ -1871,6 +1871,134 @@
         "backend/tests/test_skill_authoring.py::test_skill_layer_has_no_frontend_imports"
       ],
       "title": "Code-card metadata supports a future reviewer UI without adding frontend dependencies"
+    },
+    {
+      "architecture_refs": [
+        "docs/LOCAL_LLM_SKILL_PROVIDER.md",
+        "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/config.py",
+        "backend/app/skill_llm_provider/provider.py",
+        "backend/app/skill_llm_provider/adapter.py"
+      ],
+      "kind": "skill_llm",
+      "requirement_id": "REQ-SKILL-LLM-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 6 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_provider.py::test_default_provider_mode_is_disabled",
+        "backend/tests/test_skill_llm_provider.py::test_disabled_provider_returns_not_configured",
+        "backend/tests/test_skill_llm_provider.py::test_local_http_requires_allow_local_provider_flag",
+        "backend/tests/test_skill_llm_provider.py::test_local_http_requires_config_enabled",
+        "backend/tests/test_skill_llm_provider.py::test_ollama_returns_not_configured_when_disabled",
+        "backend/tests/test_skill_llm_provider.py::test_llama_cpp_returns_not_configured_when_disabled"
+      ],
+      "title": "Local LLM skill providers must be disabled by default"
+    },
+    {
+      "architecture_refs": [
+        "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/config.py",
+        "backend/app/skill_llm_provider/provider.py"
+      ],
+      "kind": "skill_llm",
+      "requirement_id": "REQ-SKILL-LLM-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_provider.py::test_cloud_endpoint_is_rejected",
+        "backend/tests/test_skill_llm_provider.py::test_https_endpoint_is_rejected",
+        "backend/tests/test_skill_llm_provider.py::test_loopback_endpoint_is_accepted_by_policy",
+        "backend/tests/test_skill_llm_provider.py::test_provider_layer_has_no_cloud_sdk_imports"
+      ],
+      "title": "Cloud or external LLM endpoints must be rejected"
+    },
+    {
+      "architecture_refs": [
+        "docs/LOCAL_LLM_SKILL_PROVIDER.md",
+        "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/sanitizer.py",
+        "backend/app/skill_llm_provider/validator_bridge.py",
+        "backend/app/skill_llm_provider/adapter.py"
+      ],
+      "kind": "skill_llm",
+      "requirement_id": "REQ-SKILL-LLM-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 13 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_direct_cmd_vel",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_allows_cmd_vel_requested",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_while_true",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_subprocess",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_os_system",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_eval_exec",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_socket",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_requests_httpx",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_openai_anthropic_cohere_imports",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_api_key_password_secret",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_ros2_topic_pub_cmd_vel",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejects_safety_override_phrases",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejection_skips_validator"
+      ],
+      "title": "LLM candidates must pass the sanitizer before deterministic skill validation"
+    },
+    {
+      "architecture_refs": [
+        "docs/LOCAL_LLM_SKILL_PROVIDER.md",
+        "docs/SKILL_SAFETY_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/validator_bridge.py",
+        "backend/app/skill_authoring/validator.py"
+      ],
+      "kind": "skill_llm",
+      "requirement_id": "REQ-SKILL-LLM-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 5 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_provider.py::test_valid_candidate_is_accepted",
+        "backend/tests/test_skill_llm_provider.py::test_missing_stop_command_is_validator_rejected",
+        "backend/tests/test_skill_llm_provider.py::test_missing_timeout_is_validator_rejected",
+        "backend/tests/test_skill_llm_provider.py::test_accepted_candidate_produces_code_card",
+        "backend/tests/test_skill_llm_provider.py::test_accepted_candidate_uses_requested_motion_topic"
+      ],
+      "title": "Accepted candidates must preserve requested-motion safety boundaries"
+    },
+    {
+      "architecture_refs": [
+        "docs/SKILL_LLM_CANDIDATE_AUDITS.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/audit.py",
+        "backend/app/skill_llm_provider/reporter.py"
+      ],
+      "kind": "skill_llm",
+      "requirement_id": "REQ-SKILL-LLM-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 5 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_provider.py::test_accepted_audit_bundle_layout_is_complete",
+        "backend/tests/test_skill_llm_provider.py::test_sanitizer_rejection_audit_bundle_layout",
+        "backend/tests/test_skill_llm_provider.py::test_audit_includes_disclaimer",
+        "backend/tests/test_skill_llm_provider.py::test_audit_preserves_provider_mode",
+        "backend/tests/test_skill_llm_provider.py::test_audit_json_is_stable_across_runs"
+      ],
+      "title": "LLM candidate audits must preserve provider, sanitizer, validator, safety review, and disclaimer"
     }
   ]
 }

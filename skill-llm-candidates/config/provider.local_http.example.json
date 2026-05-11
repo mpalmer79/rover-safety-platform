@@ -1,0 +1,13 @@
+{
+  "enabled": false,
+  "endpoint": "http://127.0.0.1:8000",
+  "extra": {},
+  "mode": "local_http",
+  "model_name": "local-model",
+  "notes": [
+    "EXAMPLE config for a local HTTP provider. Phase 15B does not perform a network call even when enabled.",
+    "Flip 'enabled' to true AND pass --allow-local-provider on the CLI to send the request through the local_http path.",
+    "endpoint must be on loopback (localhost / 127.0.0.1 / ::1); cloud hosts are rejected by config policy."
+  ],
+  "provider_name": "local-http-provider"
+}
