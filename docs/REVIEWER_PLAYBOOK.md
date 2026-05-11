@@ -377,6 +377,33 @@ arbitration remain authoritative.
 
 ---
 
+## Phase 17B (Railway + spatial visualisation) entry points
+
+If you are reviewing the Phase 17B work specifically:
+
+1. Start with [`MISSION_SPATIAL_VISUALIZATION.md`](MISSION_SPATIAL_VISUALIZATION.md)
+   for the deterministic 2D map architecture.
+2. Read [`MISSION_REPLAY_MAPS.md`](MISSION_REPLAY_MAPS.md) for the
+   per-mission detail composition.
+3. Read [`SPATIAL_REPLAY_ARCHITECTURE.md`](SPATIAL_REPLAY_ARCHITECTURE.md)
+   for the data-flow diagram and the dock-close-of-route
+   convention.
+4. Read [`RAILWAY_DEPLOYMENT_GUIDE.md`](RAILWAY_DEPLOYMENT_GUIDE.md)
+   for the Railway lane and the CI gate.
+5. Read [`OPERATOR_EXPERIENCE_GUIDELINES.md`](OPERATOR_EXPERIENCE_GUIDELINES.md)
+   for the UX rules every new panel follows.
+6. Skim `apps/mission-control/tests/spatial.test.ts`,
+   `apps/mission-control/tests/deployment.test.ts`, and the
+   prerendered HTML grep step in
+   `.github/workflows/mission-control-ci.yml` — those are the
+   honesty contract.
+
+The spatial layer derives coordinates deterministically from the
+audit's bounded inputs. No real-world telemetry is implied; every
+map labels its derivation source.
+
+---
+
 ## What this playbook does not do
 
 - It does not run anything for you. To run scenarios and inspect

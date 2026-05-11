@@ -59,6 +59,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 15B — Local LLM Skill Candidate Provider (disabled by default) | Implemented; cloud APIs forbidden; no network call in this phase; see section 3s |
 | Phase 16 — Governed Mission-to-Rehearsal Pipeline | Implemented; simulation-only; deterministic; validator-authoritative; see section 3t |
 | Phase 17A — Mission Control Experience & Autonomy Visualization Layer | Implemented; static-export Next.js workspace; reads committed artefacts only; see section 3u |
+| Phase 17B — Railway Deployment, Frontend CI, and Mission Spatial Visualization Foundation | Implemented; deterministic 2D maps from bounded inputs; Railway + frontend CI; see section 3v |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -1976,6 +1977,76 @@ A follow-up phase that wires the workbench into a real
 Gazebo-backed rehearsal must update
 `docs/MISSION_CONTROL_UI.md`, `docs/SAFETY_AUTHORITY_VISUALIZATION.md`,
 and add an ADR.
+
+---
+
+## 3v. Phase 17B: Railway Deployment, Frontend CI, and Mission Spatial Visualization Foundation
+
+### Status
+
+Implemented. Deterministic 2D mission maps derived from bounded
+waypoint inputs; Railway deployment configuration; GitHub Actions
+frontend CI gate.
+
+### Objectives
+
+Phase 17B turns the Phase 17A Mission Control workspace into a
+deployable, visually differentiated operator console. The big idea
+is a deterministic 2D spatial visualisation that uses ONLY the
+same bounded inputs (`bounded_distance_m`, `bounded_angle_deg`,
+`bounded_speed_mps`) the deterministic backend already records.
+There is no real-world coordinate anywhere in this layer.
+
+### Deliverables
+
+- `apps/mission-control/src/adapters/spatial.ts` — deterministic
+  route + event projection adapter.
+- 12 new components: `MissionMap`, `MissionRoute` (list),
+  `MissionPlaybackPanel`, `ReplayScrubber`,
+  `RouteProgressIndicator`, `WaypointOverlay`, `SafetyZoneLayer`,
+  `ZoneBoundaryOverlay`, `MissionEventMarker`,
+  `MissionSpatialTimeline`, `SupervisorInterventionOverlay`,
+  `WarehouseLaneMap`, plus `WhyRejectedDrilldown` for the
+  workbench / mission detail.
+- `apps/mission-control/railway.json`, `.env.example`,
+  `README.md` for Railway deployment.
+- `.github/workflows/mission-control-ci.yml` — typecheck + vitest
+  + build + static-HTML honesty grep.
+- 10 new requirements (`REQ-MVIS-001..010`) under
+  `RequirementKind.MISSION_VISUALIZATION`.
+- 5 new docs: `MISSION_SPATIAL_VISUALIZATION`,
+  `RAILWAY_DEPLOYMENT_GUIDE`, `MISSION_REPLAY_MAPS`,
+  `OPERATOR_EXPERIENCE_GUIDELINES`, `SPATIAL_REPLAY_ARCHITECTURE`.
+
+### Acceptance Criteria
+
+- the deterministic route adapter labels its derivation source on
+  every output (`bounded_inputs`, `topology_only`, `unavailable`);
+- the map renders an explicit placeholder for unavailable plans;
+- repeated calls to `buildMissionRoute` produce identical output;
+- every replay marker carries the audit event's deterministic
+  hash verbatim;
+- the frontend CI workflow asserts the prerendered HTML contains
+  the `Simulation-only` banner and never the string
+  `bag-backed: yes`;
+- the Railway build runs typecheck + vitest + build before the
+  start command;
+- the package still imports no cloud SDK, no `child_process`,
+  no `net`, no `dgram`.
+
+### What Phase 17B does NOT do
+
+- it does not run on Railway alongside ROS / Gazebo / live bag
+  capture — the Railway deploy is the UI only;
+- it does not invent coordinates — the adapter derives them
+  deterministically from bounded inputs;
+- it does not stream telemetry — there is none;
+- it does not claim safety certification or live deployment;
+- it does not weaken any Phase 0..17A honesty rule.
+
+A follow-up phase that wires the spatial layer to bag-backed runs
+must update `docs/MISSION_SPATIAL_VISUALIZATION.md`,
+`docs/SPATIAL_REPLAY_ARCHITECTURE.md`, and add an ADR.
 
 ---
 

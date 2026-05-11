@@ -73,6 +73,7 @@ produces nothing a reliability engineer can defend.
 | 15B | Local LLM skill candidate provider (disabled by default; no cloud APIs) | `backend/app/skill_llm_provider/`, `skill-llm-candidates/` |
 | 16 | Governed mission-to-rehearsal pipeline (simulation-only) | `backend/app/mission_rehearsal/`, `mission-rehearsals/` |
 | 17A | Mission control UI (static-export Next.js; reads committed artefacts only) | `apps/mission-control/` |
+| 17B | Railway deployment + frontend CI + spatial replay visualisation (deterministic 2D maps from bounded inputs) | `apps/mission-control/src/adapters/spatial.ts`, `apps/mission-control/railway.json`, `.github/workflows/mission-control-ci.yml` |
 
 Each phase had hard-out-of-scope rules: no SLAM, no perception ML,
 no RL, no cloud robotics, no hardware drivers, no UI polish, no
