@@ -97,6 +97,16 @@ jobs:
         # gating" for the pinned values + remediation notes.
         run: npm run test
 
+      - name: Surface a11y violations distinctly
+        # jest-axe failures already failed the vitest run above; this
+        # step re-runs ONLY the a11y suite and labels its output so
+        # the CI log makes accessibility regressions easy to spot.
+        if: failure()
+        run: |
+          echo "::group::accessibility (jest-axe) report"
+          npx vitest run tests/a11y.test.tsx --reporter=verbose || true
+          echo "::endgroup::"
+
       - name: Upload frontend coverage artefact
         if: always()
         uses: actions/upload-artifact@v4
