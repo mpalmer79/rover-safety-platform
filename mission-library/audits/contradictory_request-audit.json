@@ -1,0 +1,72 @@
+{
+  "assumptions": [],
+  "compile_hash": "2d829235e3787196fe14de150382e250d055dcc4a935986d1fd3d894f6f49658",
+  "compiler_version": "phase14a-1",
+  "constraints": [
+    {
+      "constraint_id": "con-02",
+      "constraint_kind": "avoid_region",
+      "label": "avoid_region/alpha",
+      "parameters": {
+        "region": "alpha"
+      },
+      "source_clause": "do not enter waypoint alpha"
+    }
+  ],
+  "disclaimer": "This system is not safety-certified and does not authorize autonomous deployment.",
+  "extracted_objectives": [
+    {
+      "label": "move/alpha",
+      "objective_id": "obj-01",
+      "objective_kind": "move",
+      "parameters": {
+        "target": "alpha"
+      },
+      "source_clause": "drive to waypoint alpha"
+    },
+    {
+      "label": "return_to_dock",
+      "objective_id": "obj-03",
+      "objective_kind": "return_to_dock",
+      "parameters": {},
+      "source_clause": "return to dock"
+    }
+  ],
+  "generated_at_utc": "2026-05-12T00:00:00+00:00",
+  "normalized_intent": "drive to waypoint alpha. do not enter waypoint alpha. return to dock",
+  "odd_profile_id": "default-warehouse",
+  "original_intent": "Drive to waypoint alpha. Do not enter waypoint alpha. Return to dock.",
+  "plan_id": "contradictory_request",
+  "rejected_instructions": [],
+  "replay_binding_id": "replay-contradictory_request",
+  "replay_compatibility": {
+    "binding_id": "replay-contradictory_request",
+    "runtime_executed": false
+  },
+  "risk": {
+    "band": "critical",
+    "drivers": [
+      "mission_complexity:10",
+      "rejections:1"
+    ],
+    "mitigations": [
+      "supervised operator review before execution",
+      "dry-run in simulation before live execution"
+    ],
+    "required_reviewer_actions": [
+      "manual approval required - critical mission cannot auto-pass",
+      "resolve compile rejections before submission"
+    ],
+    "score": 95
+  },
+  "status": "compile_rejected",
+  "validation_diagnostics": [
+    {
+      "clause": "do not enter waypoint alpha",
+      "code": "contradiction",
+      "field": "alpha",
+      "message": "mission both visits and avoids region 'alpha'",
+      "severity": "rejection"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Patrol patrol_loop_a. Pause at checkpoint bravo. Return to dock.

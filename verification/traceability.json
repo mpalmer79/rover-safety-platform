@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-10T20:51:48+00:00",
+  "generated_at_utc": "2026-05-11T02:15:44+00:00",
   "overall_status": "passed",
-  "row_count": 58,
+  "row_count": 68,
   "rows": [
     {
       "architecture_refs": [
@@ -1334,6 +1334,204 @@
         "backend/tests/test_reviewer_exports.py::test_reviewer_summary_distinguishes_origins"
       ],
       "title": "Reviewer exports must not claim safety certification or infer causality"
+    },
+    {
+      "architecture_refs": [
+        "docs/NATURAL_LANGUAGE_MISSION_COMPILER.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/natural_language_mission/compiler.py",
+        "backend/app/natural_language_mission/parser.py"
+      ],
+      "kind": "mission_compiler",
+      "requirement_id": "REQ-MCOMP-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_natural_language_mission.py::test_compile_is_byte_deterministic",
+        "backend/tests/test_natural_language_mission.py::test_compile_hash_stable",
+        "backend/tests/test_natural_language_mission.py::test_compiler_does_not_import_llm_sdks"
+      ],
+      "title": "Mission compiler must be deterministic and offline"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_INTENT_GRAMMAR.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/natural_language_mission/templates.py",
+        "backend/app/natural_language_mission/parser.py"
+      ],
+      "kind": "mission_compiler",
+      "requirement_id": "REQ-MCOMP-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_natural_language_mission.py::test_unsupported_instruction_rejected",
+        "backend/tests/test_natural_language_mission.py::test_dangerous_unsupported_instruction_rejected"
+      ],
+      "title": "Compiler must use bounded grammar templates and reject unsupported instructions"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_INTENT_GRAMMAR.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/natural_language_mission/parser.py",
+        "backend/app/natural_language_mission/diagnostics.py"
+      ],
+      "kind": "mission_compiler",
+      "requirement_id": "REQ-MCOMP-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_natural_language_mission.py::test_ambiguous_destination_preserved",
+        "backend/tests/test_natural_language_mission.py::test_compiler_never_invents_waypoints"
+      ],
+      "title": "Compiler must preserve ambiguity honestly"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_INTENT_GRAMMAR.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/natural_language_mission/validator.py",
+        "backend/app/natural_language_mission/constraints.py"
+      ],
+      "kind": "mission_compiler",
+      "requirement_id": "REQ-MCOMP-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "backend/tests/test_natural_language_mission.py::test_contradictory_instructions_rejected"
+      ],
+      "title": "Compiler must reject contradictory instructions"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_ASSURANCE_MODEL.md",
+        "docs/ODD.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/natural_language_mission/odd.py",
+        "backend/app/natural_language_mission/validator.py"
+      ],
+      "kind": "mission_compiler",
+      "requirement_id": "REQ-MCOMP-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_natural_language_mission.py::test_restricted_zone_mission_rejected",
+        "backend/tests/test_natural_language_mission.py::test_speed_outside_odd_rejected",
+        "backend/tests/test_natural_language_mission.py::test_time_window_outside_odd_rejected"
+      ],
+      "title": "Compiler must enforce ODD validation"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_RISK_CLASSIFICATION.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/natural_language_mission/risk.py"
+      ],
+      "kind": "mission_compiler",
+      "requirement_id": "REQ-MCOMP-006",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_natural_language_mission.py::test_risk_band_thresholds",
+        "backend/tests/test_natural_language_mission.py::test_critical_risk_requires_reviewer_action"
+      ],
+      "title": "Compiler must classify mission risk deterministically"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_COMPILER_WALKTHROUGH.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/natural_language_mission/compiler.py",
+        "backend/app/natural_language_mission/reporting.py"
+      ],
+      "kind": "mission_compiler",
+      "requirement_id": "REQ-MCOMP-007",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_natural_language_mission.py::test_mission_graph_is_deterministic",
+        "backend/tests/test_natural_language_mission.py::test_mission_graph_mermaid_byte_stable"
+      ],
+      "title": "Compiler must produce a deterministic mission graph"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_COMPILER_WALKTHROUGH.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/natural_language_mission/explainability.py"
+      ],
+      "kind": "mission_compiler",
+      "requirement_id": "REQ-MCOMP-008",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_natural_language_mission.py::test_explainability_chain_includes_all_stages",
+        "backend/tests/test_natural_language_mission.py::test_explainability_is_reproducible"
+      ],
+      "title": "Compiler must produce auditable explainability output"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_ASSURANCE_MODEL.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/natural_language_mission/audit.py"
+      ],
+      "kind": "mission_compiler",
+      "requirement_id": "REQ-MCOMP-009",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_natural_language_mission.py::test_audit_contains_all_required_fields",
+        "backend/tests/test_natural_language_mission.py::test_audit_carries_disclaimer"
+      ],
+      "title": "Compiler must emit a complete audit artefact"
+    },
+    {
+      "architecture_refs": [
+        "docs/HUMAN_TO_AUTONOMY_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/natural_language_mission/replay_binding.py"
+      ],
+      "kind": "mission_compiler",
+      "requirement_id": "REQ-MCOMP-010",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_natural_language_mission.py::test_replay_binding_marks_runtime_not_executed",
+        "backend/tests/test_natural_language_mission.py::test_replay_binding_emits_stable_markers"
+      ],
+      "title": "Compiler must produce replay-compatible metadata without claiming runtime execution"
     }
   ]
 }

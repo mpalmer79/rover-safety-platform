@@ -35,6 +35,7 @@ class RequirementKind(str, Enum):
     IMPACT = "impact"
     PROGRAMME = "programme"
     EXPORT = "export"
+    MISSION_COMPILER = "mission_compiler"
 
 
 @dataclass(frozen=True)
@@ -1577,6 +1578,219 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "backend/tests/test_reviewer_exports.py::test_subsystem_risk_causality_claimed_false",
             "backend/tests/test_reviewer_exports.py::test_reviewer_summary_includes_disclaimer",
             "backend/tests/test_reviewer_exports.py::test_reviewer_summary_distinguishes_origins",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCOMP-001",
+        kind=RequirementKind.MISSION_COMPILER,
+        title="Mission compiler must be deterministic and offline",
+        description=(
+            "Identical input strings produce byte-identical compiled "
+            "mission plans (modulo caller-supplied reference time). "
+            "The compiler never calls a remote API and never imports "
+            "an LLM SDK; it runs offline on the standard library."
+        ),
+        architecture_refs=("docs/NATURAL_LANGUAGE_MISSION_COMPILER.md",),
+        implementation_refs=(
+            "backend/app/natural_language_mission/compiler.py",
+            "backend/app/natural_language_mission/parser.py",
+        ),
+        test_refs=(
+            "backend/tests/test_natural_language_mission.py::test_compile_is_byte_deterministic",
+            "backend/tests/test_natural_language_mission.py::test_compile_hash_stable",
+            "backend/tests/test_natural_language_mission.py::test_compiler_does_not_import_llm_sdks",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCOMP-002",
+        kind=RequirementKind.MISSION_COMPILER,
+        title="Compiler must use bounded grammar templates and reject unsupported instructions",
+        description=(
+            "Natural language input is matched against a closed set "
+            "of grammar templates. Instructions that do not match a "
+            "supported template are recorded as "
+            "``unsupported_instruction`` diagnostics and never "
+            "translated into mission objectives."
+        ),
+        architecture_refs=("docs/MISSION_INTENT_GRAMMAR.md",),
+        implementation_refs=(
+            "backend/app/natural_language_mission/templates.py",
+            "backend/app/natural_language_mission/parser.py",
+        ),
+        test_refs=(
+            "backend/tests/test_natural_language_mission.py::test_unsupported_instruction_rejected",
+            "backend/tests/test_natural_language_mission.py::test_dangerous_unsupported_instruction_rejected",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCOMP-003",
+        kind=RequirementKind.MISSION_COMPILER,
+        title="Compiler must preserve ambiguity honestly",
+        description=(
+            "Vague destinations and underspecified instructions "
+            "produce ``ambiguous`` diagnostics with a structured "
+            "reason. The compiler never invents coordinates, "
+            "objectives, or stages to resolve ambiguity."
+        ),
+        architecture_refs=("docs/MISSION_INTENT_GRAMMAR.md",),
+        implementation_refs=(
+            "backend/app/natural_language_mission/parser.py",
+            "backend/app/natural_language_mission/diagnostics.py",
+        ),
+        test_refs=(
+            "backend/tests/test_natural_language_mission.py::test_ambiguous_destination_preserved",
+            "backend/tests/test_natural_language_mission.py::test_compiler_never_invents_waypoints",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCOMP-004",
+        kind=RequirementKind.MISSION_COMPILER,
+        title="Compiler must reject contradictory instructions",
+        description=(
+            "When two instructions in the same intent disagree "
+            "(e.g. drive to A and do not drive to A), the compiler "
+            "rejects the mission with status "
+            "``compile_rejected`` and a structured "
+            "``contradiction`` diagnostic listing both clauses."
+        ),
+        architecture_refs=("docs/MISSION_INTENT_GRAMMAR.md",),
+        implementation_refs=(
+            "backend/app/natural_language_mission/validator.py",
+            "backend/app/natural_language_mission/constraints.py",
+        ),
+        test_refs=(
+            "backend/tests/test_natural_language_mission.py::test_contradictory_instructions_rejected",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCOMP-005",
+        kind=RequirementKind.MISSION_COMPILER,
+        title="Compiler must enforce ODD validation",
+        description=(
+            "Mission plans must validate against the active ODD "
+            "profile (authorised zones, prohibited regions, speed "
+            "limits, time windows, lidar / battery / dock "
+            "assumptions). Plans outside the ODD fail compilation "
+            "with status ``compile_rejected`` and an "
+            "``odd_violation`` diagnostic."
+        ),
+        architecture_refs=(
+            "docs/MISSION_ASSURANCE_MODEL.md",
+            "docs/ODD.md",
+        ),
+        implementation_refs=(
+            "backend/app/natural_language_mission/odd.py",
+            "backend/app/natural_language_mission/validator.py",
+        ),
+        test_refs=(
+            "backend/tests/test_natural_language_mission.py::test_restricted_zone_mission_rejected",
+            "backend/tests/test_natural_language_mission.py::test_speed_outside_odd_rejected",
+            "backend/tests/test_natural_language_mission.py::test_time_window_outside_odd_rejected",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCOMP-006",
+        kind=RequirementKind.MISSION_COMPILER,
+        title="Compiler must classify mission risk deterministically",
+        description=(
+            "Each compiled mission carries a ``risk`` block with a "
+            "band drawn from ``informational``, ``low``, "
+            "``moderate``, ``elevated``, ``high``, ``critical``, a "
+            "deterministic numeric score, a list of risk drivers, "
+            "and mitigation recommendations. Critical-risk missions "
+            "never auto-pass."
+        ),
+        architecture_refs=("docs/MISSION_RISK_CLASSIFICATION.md",),
+        implementation_refs=(
+            "backend/app/natural_language_mission/risk.py",
+        ),
+        test_refs=(
+            "backend/tests/test_natural_language_mission.py::test_risk_band_thresholds",
+            "backend/tests/test_natural_language_mission.py::test_critical_risk_requires_reviewer_action",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCOMP-007",
+        kind=RequirementKind.MISSION_COMPILER,
+        title="Compiler must produce a deterministic mission graph",
+        description=(
+            "Each compiled mission emits an ordered mission graph "
+            "with stages, dependencies, recovery branches, and "
+            "abort branches. The graph is rendered in JSON + "
+            "Markdown + Mermaid; identical input produces "
+            "byte-identical Mermaid."
+        ),
+        architecture_refs=("docs/MISSION_COMPILER_WALKTHROUGH.md",),
+        implementation_refs=(
+            "backend/app/natural_language_mission/compiler.py",
+            "backend/app/natural_language_mission/reporting.py",
+        ),
+        test_refs=(
+            "backend/tests/test_natural_language_mission.py::test_mission_graph_is_deterministic",
+            "backend/tests/test_natural_language_mission.py::test_mission_graph_mermaid_byte_stable",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCOMP-008",
+        kind=RequirementKind.MISSION_COMPILER,
+        title="Compiler must produce auditable explainability output",
+        description=(
+            "Each compile run emits an explainability chain "
+            "(USER INPUT -> EXTRACTED INTENT -> NORMALIZED COMMANDS "
+            "-> VALIDATION RESULTS -> RISK CLASSIFICATION -> "
+            "FINAL COMPILED PLAN). The chain is reproducible and "
+            "never references hidden state."
+        ),
+        architecture_refs=("docs/MISSION_COMPILER_WALKTHROUGH.md",),
+        implementation_refs=(
+            "backend/app/natural_language_mission/explainability.py",
+        ),
+        test_refs=(
+            "backend/tests/test_natural_language_mission.py::test_explainability_chain_includes_all_stages",
+            "backend/tests/test_natural_language_mission.py::test_explainability_is_reproducible",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCOMP-009",
+        kind=RequirementKind.MISSION_COMPILER,
+        title="Compiler must emit a complete audit artefact",
+        description=(
+            "Each compile run emits a ``mission-audit.json`` and "
+            "``mission-audit.md`` containing the original request, "
+            "normalised request, extracted objectives, validation "
+            "outcomes, rejected instructions, assumptions, risk, "
+            "ODD profile id, compile timestamp, deterministic "
+            "compile hash, compiler version, and the verbatim "
+            "non-certification disclaimer."
+        ),
+        architecture_refs=("docs/MISSION_ASSURANCE_MODEL.md",),
+        implementation_refs=(
+            "backend/app/natural_language_mission/audit.py",
+        ),
+        test_refs=(
+            "backend/tests/test_natural_language_mission.py::test_audit_contains_all_required_fields",
+            "backend/tests/test_natural_language_mission.py::test_audit_carries_disclaimer",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCOMP-010",
+        kind=RequirementKind.MISSION_COMPILER,
+        title="Compiler must produce replay-compatible metadata without claiming runtime execution",
+        description=(
+            "Each compiled mission emits replay-binding metadata "
+            "(scenario id, timeline markers, mission stages, "
+            "decision points) sufficient for the existing replay "
+            "layer to align future runs. The compiler explicitly "
+            "marks ``runtime_executed=false`` and never references "
+            "fabricated bag or event evidence."
+        ),
+        architecture_refs=("docs/HUMAN_TO_AUTONOMY_BOUNDARY.md",),
+        implementation_refs=(
+            "backend/app/natural_language_mission/replay_binding.py",
+        ),
+        test_refs=(
+            "backend/tests/test_natural_language_mission.py::test_replay_binding_marks_runtime_not_executed",
+            "backend/tests/test_natural_language_mission.py::test_replay_binding_emits_stable_markers",
         ),
     ),
 )

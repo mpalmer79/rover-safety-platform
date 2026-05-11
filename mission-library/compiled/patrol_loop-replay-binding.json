@@ -1,0 +1,26 @@
+{
+  "decision_points": [
+    "edge:start->n-01",
+    "edge:n-01->n-02",
+    "edge:n-02->n-03",
+    "edge:n-03->end"
+  ],
+  "mission_stages": [
+    "Mission start",
+    "patrol/patrol_loop_a",
+    "pause/bravo",
+    "return_to_dock",
+    "Mission end"
+  ],
+  "plan_id": "patrol_loop",
+  "replay_binding_id": "replay-patrol_loop",
+  "runtime_executed": false,
+  "scenario_id": "compiled-patrol_loop",
+  "timeline_markers": [
+    "stage:start:start",
+    "stage:patrol:n-01",
+    "stage:pause:n-02",
+    "stage:return_to_dock:n-03",
+    "stage:end:end"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "decision_points": [
+    "edge:start->end:rejected"
+  ],
+  "mission_stages": [
+    "Mission start",
+    "Mission rejected"
+  ],
+  "plan_id": "contradictory_request",
+  "replay_binding_id": "replay-contradictory_request",
+  "runtime_executed": false,
+  "scenario_id": "compiled-contradictory_request",
+  "timeline_markers": [
+    "stage:start:start",
+    "stage:end:end"
+  ]
+}

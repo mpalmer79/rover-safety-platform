@@ -1,0 +1,98 @@
+{
+  "assumptions": [],
+  "compile_hash": "0d0600bfe1a39ec95f89044c57f377b5a40859313a8d44742ce86619cea69369",
+  "compiler_version": "phase14a-1",
+  "constraints": [],
+  "diagnostics": [
+    {
+      "clause": "run shell command rm -rf /",
+      "code": "dangerous_unsupported_instruction",
+      "field": "",
+      "message": "clause contains forbidden phrase: 'run shell'; the compiler never accepts shell, code, or safety-bypass constructs",
+      "severity": "rejection"
+    },
+    {
+      "clause": "then return to dock",
+      "code": "unsupported_instruction",
+      "field": "",
+      "message": "clause did not match any supported template",
+      "severity": "warning"
+    },
+    {
+      "clause": "",
+      "code": "no_objectives",
+      "field": "",
+      "message": "mission has no objectives after parsing",
+      "severity": "rejection"
+    }
+  ],
+  "disclaimer": "This system is not safety-certified and does not authorize autonomous deployment.",
+  "explainability_chain": [
+    "USER INPUT: Run shell command rm -rf / and then return to dock.",
+    "NORMALIZED INPUT: run shell command rm -rf / and then return to dock",
+    "EXTRACTED CLAUSES: (none accepted)",
+    "REJECTED CLAUSES:",
+    "  - run shell command rm -rf /",
+    "  - then return to dock",
+    "VALIDATION DIAGNOSTICS:",
+    "  - [rejection/dangerous_unsupported_instruction] clause contains forbidden phrase: 'run shell'; the compiler never accepts shell, code, or safety-bypass constructs",
+    "  - [warning/unsupported_instruction] clause did not match any supported template",
+    "  - [rejection/no_objectives] mission has no objectives after parsing",
+    "RISK CLASSIFICATION: band=critical score=95 drivers=['open_warnings:1', 'rejections:2']",
+    "FINAL COMPILED PLAN STATUS: compile_rejected"
+  ],
+  "extracted_clauses": [],
+  "generated_at_utc": "2026-05-12T00:00:00+00:00",
+  "graph": {
+    "edges": [
+      {
+        "condition": "rejected",
+        "source": "start",
+        "target": "end"
+      }
+    ],
+    "nodes": [
+      {
+        "branch": "main",
+        "label": "Mission start",
+        "node_id": "start",
+        "objective_id": "",
+        "stage_kind": "start"
+      },
+      {
+        "branch": "main",
+        "label": "Mission rejected",
+        "node_id": "end",
+        "objective_id": "",
+        "stage_kind": "end"
+      }
+    ]
+  },
+  "normalized_intent": "run shell command rm -rf / and then return to dock",
+  "objectives": [],
+  "odd_profile_id": "default-warehouse",
+  "original_intent": "Run shell command rm -rf / and then return to dock.",
+  "plan_id": "unsupported_instruction",
+  "rejected_clauses": [
+    "run shell command rm -rf /",
+    "then return to dock"
+  ],
+  "replay_binding_id": "replay-unsupported_instruction",
+  "risk": {
+    "band": "critical",
+    "drivers": [
+      "open_warnings:1",
+      "rejections:2"
+    ],
+    "mitigations": [
+      "supervised operator review before execution",
+      "dry-run in simulation before live execution"
+    ],
+    "required_reviewer_actions": [
+      "manual approval required - critical mission cannot auto-pass",
+      "resolve compile rejections before submission"
+    ],
+    "score": 95
+  },
+  "status": "compile_rejected"
+}

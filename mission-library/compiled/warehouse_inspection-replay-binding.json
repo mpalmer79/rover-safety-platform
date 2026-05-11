@@ -1,0 +1,23 @@
+{
+  "decision_points": [
+    "edge:start->n-01",
+    "edge:n-01->n-02",
+    "edge:n-02->end"
+  ],
+  "mission_stages": [
+    "Mission start",
+    "move/bravo",
+    "inspect/loading_zone_two",
+    "Mission end"
+  ],
+  "plan_id": "warehouse_inspection",
+  "replay_binding_id": "replay-warehouse_inspection",
+  "runtime_executed": false,
+  "scenario_id": "compiled-warehouse_inspection",
+  "timeline_markers": [
+    "stage:start:start",
+    "stage:move:n-01",
+    "stage:inspect:n-02",
+    "stage:end:end"
+  ]
+}

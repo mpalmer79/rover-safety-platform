@@ -1,0 +1,57 @@
+{
+  "assumptions": [],
+  "compile_hash": "9ec6bfbe652020e9c6d91e01c9c18209fd5420d662c71b738e392c98a024f793",
+  "compiler_version": "phase14a-1",
+  "constraints": [],
+  "disclaimer": "This system is not safety-certified and does not authorize autonomous deployment.",
+  "extracted_objectives": [
+    {
+      "label": "patrol/patrol_loop_a",
+      "objective_id": "obj-01",
+      "objective_kind": "patrol",
+      "parameters": {
+        "zone": "patrol_loop_a"
+      },
+      "source_clause": "patrol patrol_loop_a"
+    },
+    {
+      "label": "pause/bravo",
+      "objective_id": "obj-02",
+      "objective_kind": "pause",
+      "parameters": {
+        "target": "bravo"
+      },
+      "source_clause": "pause at checkpoint bravo"
+    },
+    {
+      "label": "return_to_dock",
+      "objective_id": "obj-03",
+      "objective_kind": "return_to_dock",
+      "parameters": {},
+      "source_clause": "return to dock"
+    }
+  ],
+  "generated_at_utc": "2026-05-12T00:00:00+00:00",
+  "normalized_intent": "patrol patrol_loop_a. pause at checkpoint bravo. return to dock",
+  "odd_profile_id": "default-warehouse",
+  "original_intent": "Patrol patrol_loop_a. Pause at checkpoint bravo. Return to dock.",
+  "plan_id": "patrol_loop",
+  "rejected_instructions": [],
+  "replay_binding_id": "replay-patrol_loop",
+  "replay_compatibility": {
+    "binding_id": "replay-patrol_loop",
+    "runtime_executed": false
+  },
+  "risk": {
+    "band": "moderate",
+    "drivers": [
+      "mission_complexity:20",
+      "extended_autonomy_stages:1"
+    ],
+    "mitigations": [],
+    "required_reviewer_actions": [],
+    "score": 35
+  },
+  "status": "compile_ok",
+  "validation_diagnostics": []
+}

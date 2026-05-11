@@ -1,0 +1,17 @@
+{
+  "decision_points": [
+    "edge:start->end:rejected"
+  ],
+  "mission_stages": [
+    "Mission start",
+    "Mission rejected"
+  ],
+  "plan_id": "unsupported_instruction",
+  "replay_binding_id": "replay-unsupported_instruction",
+  "runtime_executed": false,
+  "scenario_id": "compiled-unsupported_instruction",
+  "timeline_markers": [
+    "stage:start:start",
+    "stage:end:end"
+  ]
+}

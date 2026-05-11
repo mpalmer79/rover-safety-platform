@@ -1,0 +1,1 @@
+Drive to waypoint bravo. Inspect loading_zone_two. Avoid restricted corridors. Return to dock if lidar health degrades. Limit speed to 1.0 m/s.
