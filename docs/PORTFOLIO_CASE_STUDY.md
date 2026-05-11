@@ -75,6 +75,7 @@ produces nothing a reliability engineer can defend.
 | 17A | Mission control UI (static-export Next.js; reads committed artefacts only) | `apps/mission-control/` |
 | 17B | Railway deployment + frontend CI + spatial replay visualisation (deterministic 2D maps from bounded inputs) | `apps/mission-control/src/adapters/spatial.ts`, `apps/mission-control/railway.json`, `.github/workflows/mission-control-ci.yml` |
 | 17C | Bag-backed spatial replay upgrade (fixture + bag_backed artefact pathway; honesty gatekeeper for the bag_backed label) | `backend/app/spatial_replay/`, `spatial-replay/`, `apps/mission-control/src/components/SpatialReplayBadge.tsx` |
+| 18 | Immersive mission control UX + artefact governance hardening (canonical registry, deterministic hydration, R3F immersive scene, mission narrative, evidence lineage) | `backend/app/artifact_registry/`, `tools/hydrate_replay_artifacts.py`, `spatial-replay/registry/`, `apps/mission-control/src/3d/`, `apps/mission-control/src/components/MissionStoryPanel.tsx`, `apps/mission-control/src/components/EvidenceLineageGraph.tsx` |
 
 Each phase had hard-out-of-scope rules: no SLAM, no perception ML,
 no RL, no cloud robotics, no hardware drivers, no UI polish, no

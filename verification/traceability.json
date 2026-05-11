@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-11T18:08:28+00:00",
+  "generated_at_utc": "2026-05-11T18:57:34+00:00",
   "overall_status": "passed",
-  "row_count": 123,
+  "row_count": 143,
   "rows": [
     {
       "architecture_refs": [
@@ -2734,6 +2734,405 @@
         "backend/tests/test_spatial_replay.py::test_is_honestly_bag_backed_rejects_fixture"
       ],
       "title": "Spatial-replay validator is the single bag-backed gatekeeper"
+    },
+    {
+      "architecture_refs": [
+        "docs/ARTIFACT_GOVERNANCE_MODEL.md",
+        "docs/DETERMINISTIC_REPLAY_HYDRATION.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/artifact_registry/manifest.py",
+        "backend/app/artifact_registry/registry.py",
+        "apps/mission-control/src/adapters/loader.ts",
+        "spatial-replay/registry/canonical-artifacts.json"
+      ],
+      "kind": "artifact_registry",
+      "requirement_id": "REQ-ARTREG-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_artifact_registry.py::test_canonical_registry_loads_and_validates",
+        "apps/mission-control/tests/replay-governance.test.ts::loadArtifactRegistry > returns the committed canonical registry"
+      ],
+      "title": "Canonical artefact registry is the single source of truth"
+    },
+    {
+      "architecture_refs": [
+        "docs/DETERMINISTIC_REPLAY_HYDRATION.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/artifact_registry/deterministic_hash.py",
+        "backend/app/artifact_registry/validation.py",
+        "tools/hydrate_replay_artifacts.py"
+      ],
+      "kind": "artifact_registry",
+      "requirement_id": "REQ-ARTREG-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_artifact_registry.py::test_verify_artifact_failed_on_mismatch",
+        "backend/tests/test_artifact_registry.py::test_canonical_registry_paths_match_disk",
+        "apps/mission-control/tests/hydration-honesty.test.tsx::Phase 18 honesty rules > the canonical registry JSON's expected_hash matches the bytes on disk"
+      ],
+      "title": "Deterministic hashes are committed and verified"
+    },
+    {
+      "architecture_refs": [
+        "docs/DETERMINISTIC_REPLAY_HYDRATION.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/artifact_registry/hydration.py",
+        "tools/hydrate_replay_artifacts.py",
+        ".github/workflows/replay-hydration.yml",
+        ".github/workflows/mission-control-ci.yml"
+      ],
+      "kind": "artifact_registry",
+      "requirement_id": "REQ-ARTREG-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_hydration.py::test_hydration_is_idempotent",
+        "backend/tests/test_replay_hydration.py::test_hydration_passes_on_committed_registry"
+      ],
+      "title": "Hydration is idempotent"
+    },
+    {
+      "architecture_refs": [
+        "docs/ARTIFACT_GOVERNANCE_MODEL.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/artifact_registry/lifecycle.py"
+      ],
+      "kind": "artifact_registry",
+      "requirement_id": "REQ-ARTREG-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_artifact_registry.py::test_can_promote_only_moves_up",
+        "backend/tests/test_artifact_registry.py::test_can_promote_unknown_state_rejected"
+      ],
+      "title": "Lifecycle promotion only moves up the rung order"
+    },
+    {
+      "architecture_refs": [
+        "docs/ARTIFACT_GOVERNANCE_MODEL.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/artifact_registry/lifecycle.py",
+        "apps/mission-control/src/components/ReplayLifecyclePanel.tsx"
+      ],
+      "kind": "artifact_registry",
+      "requirement_id": "REQ-ARTREG-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "backend/tests/test_artifact_registry.py::test_lifecycle_clamped_to_committed_when_integrity_drops"
+      ],
+      "title": "Integrity downgrades clamp the lifecycle claim"
+    },
+    {
+      "architecture_refs": [
+        "docs/DETERMINISTIC_REPLAY_HYDRATION.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/artifact_registry/hydration.py"
+      ],
+      "kind": "artifact_registry",
+      "requirement_id": "REQ-ARTREG-006",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "backend/tests/test_replay_hydration.py::test_hydration_does_not_rewrite_registry_on_failure"
+      ],
+      "title": "A failing hydration NEVER rewrites the canonical registry"
+    },
+    {
+      "architecture_refs": [
+        "docs/ARTIFACT_GOVERNANCE_MODEL.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/artifact_registry/registry.py",
+        "apps/mission-control/src/adapters/loader.ts"
+      ],
+      "kind": "artifact_registry",
+      "requirement_id": "REQ-ARTREG-007",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "backend/tests/test_artifact_registry.py::test_list_authoritative_records_filters"
+      ],
+      "title": "Deprecated records are hidden from the UI"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_EVIDENCE_LINEAGE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/ReplayConfidencePanel.tsx",
+        "apps/mission-control/src/components/EvidenceLineageGraph.tsx"
+      ],
+      "kind": "artifact_registry",
+      "requirement_id": "REQ-ARTREG-008",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/artifact-lineage.test.tsx::ReplayConfidencePanel > computes a fixture band as medium",
+        "apps/mission-control/tests/artifact-lineage.test.tsx::ReplayConfidencePanel > computes a bag-backed band as high when integrity passes",
+        "apps/mission-control/tests/artifact-lineage.test.tsx::ReplayConfidencePanel > downgrades to low when integrity is partial"
+      ],
+      "title": "Frontend confidence panel surfaces all governance inputs"
+    },
+    {
+      "architecture_refs": [
+        "docs/DETERMINISTIC_REPLAY_HYDRATION.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/DeterministicHashChain.tsx",
+        "apps/mission-control/src/components/ArtifactIntegrityBadge.tsx"
+      ],
+      "kind": "artifact_registry",
+      "requirement_id": "REQ-ARTREG-009",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/artifact-lineage.test.tsx::DeterministicHashChain > renders one row per file with sha256 prefix",
+        "apps/mission-control/tests/artifact-lineage.test.tsx::ArtifactIntegrityBadge > renders the verbatim integrity string"
+      ],
+      "title": "Hash chain panel exposes sha256 prefixes to the operator"
+    },
+    {
+      "architecture_refs": [
+        "docs/DETERMINISTIC_REPLAY_HYDRATION.md",
+        "docs/RAILWAY_DEPLOYMENT_GUIDE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        ".github/workflows/replay-hydration.yml",
+        ".github/workflows/mission-control-ci.yml"
+      ],
+      "kind": "artifact_registry",
+      "requirement_id": "REQ-ARTREG-010",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/hydration-honesty.test.tsx::Phase 18 honesty rules > the canonical registry JSON's expected_hash matches the bytes on disk"
+      ],
+      "title": "CI fails honestly when hydration drifts the working tree"
+    },
+    {
+      "architecture_refs": [
+        "docs/IMMERSIVE_MISSION_CONTROL.md",
+        "docs/3D_VISUALIZATION_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/3d/MissionScene.tsx",
+        "apps/mission-control/src/3d/ReplayTrajectory3D.tsx"
+      ],
+      "kind": "immersive_viz",
+      "requirement_id": "REQ-IMMVIZ-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/3d-scene.test.tsx::MissionTimelineBridge > falls back to the 2D panel when WebGL is unavailable",
+        "apps/mission-control/tests/hydration-honesty.test.tsx::Phase 18 honesty rules > 3d scene components surface the derivation source"
+      ],
+      "title": "Immersive scene reads spatial-replay artefacts verbatim"
+    },
+    {
+      "architecture_refs": [
+        "docs/CINEMATIC_REPLAY_ARCHITECTURE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/3d/ReplayCameraRig.tsx"
+      ],
+      "kind": "immersive_viz",
+      "requirement_id": "REQ-IMMVIZ-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/cinematic-playback.test.ts::ReplayCameraRig > is deterministic for identical inputs",
+        "apps/mission-control/tests/cinematic-playback.test.ts::ReplayCameraRig > overview camera is farther from the focus than operator review"
+      ],
+      "title": "Camera rig is deterministic across every playback mode"
+    },
+    {
+      "architecture_refs": [
+        "docs/3D_VISUALIZATION_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/3d/MissionScene.tsx",
+        "apps/mission-control/tests/hydration-honesty.test.tsx"
+      ],
+      "kind": "immersive_viz",
+      "requirement_id": "REQ-IMMVIZ-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/hydration-honesty.test.tsx::Phase 18 honesty rules > never imports a websocket / streaming / socket.io client",
+        "apps/mission-control/tests/hydration-honesty.test.tsx::Phase 18 honesty rules > never uses raw WebSocket / EventSource constructors"
+      ],
+      "title": "Immersive layer never opens a network socket"
+    },
+    {
+      "architecture_refs": [
+        "docs/IMMERSIVE_MISSION_CONTROL.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/3d/MissionTimelineBridge.tsx"
+      ],
+      "kind": "immersive_viz",
+      "requirement_id": "REQ-IMMVIZ-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/3d-scene.test.tsx::MissionTimelineBridge > falls back to the 2D panel when WebGL is unavailable",
+        "apps/mission-control/tests/3d-scene.test.tsx::MissionTimelineBridge > renders the 2D fallback when prefer2D is explicit"
+      ],
+      "title": "Immersive playback degrades to the 2D panel when WebGL is unavailable"
+    },
+    {
+      "architecture_refs": [
+        "docs/OPERATOR_REVIEW_EXPERIENCE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/MissionStoryPanel.tsx"
+      ],
+      "kind": "immersive_viz",
+      "requirement_id": "REQ-IMMVIZ-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/mission-storytelling.test.tsx::MissionStoryPanel > renders one step per lifecycle phase for an accepted mission",
+        "apps/mission-control/tests/mission-storytelling.test.tsx::MissionStoryPanel > marks rejected missions as fail and names the failure reason"
+      ],
+      "title": "Mission narrative panel derives steps from the audit only"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_EVIDENCE_LINEAGE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/EvidenceLineageGraph.tsx"
+      ],
+      "kind": "immersive_viz",
+      "requirement_id": "REQ-IMMVIZ-006",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/artifact-lineage.test.tsx::EvidenceLineageGraph > renders the lineage chain for a fixture artefact",
+        "apps/mission-control/tests/artifact-lineage.test.tsx::EvidenceLineageGraph > renders the lineage chain for a bag-backed artefact"
+      ],
+      "title": "Evidence lineage graph shows the source-to-render chain"
+    },
+    {
+      "architecture_refs": [
+        "docs/CINEMATIC_REPLAY_ARCHITECTURE.md",
+        "docs/OPERATOR_REVIEW_EXPERIENCE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/3d/MissionPlayback3D.tsx",
+        "apps/mission-control/src/3d/ReplayCameraRig.tsx"
+      ],
+      "kind": "immersive_viz",
+      "requirement_id": "REQ-IMMVIZ-007",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/cinematic-playback.test.ts::ReplayCameraRig > returns the verbatim mode label",
+        "apps/mission-control/tests/cinematic-playback.test.ts::ReplayCameraRig > trajectory analysis looks at the scene center"
+      ],
+      "title": "Playback modes are operator-facing and labelled"
+    },
+    {
+      "architecture_refs": [
+        "docs/REPLAY_EVIDENCE_LINEAGE.md",
+        "docs/SPATIAL_REPLAY_HONESTY_RULES.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/ReplayConfidencePanel.tsx"
+      ],
+      "kind": "immersive_viz",
+      "requirement_id": "REQ-IMMVIZ-008",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/artifact-lineage.test.tsx::ReplayConfidencePanel > computes a fixture band as medium",
+        "apps/mission-control/tests/artifact-lineage.test.tsx::ReplayConfidencePanel > downgrades to low when integrity is partial"
+      ],
+      "title": "Confidence band never upgrades the underlying derivation"
+    },
+    {
+      "architecture_refs": [
+        "docs/3D_VISUALIZATION_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/3d/MissionScene.tsx"
+      ],
+      "kind": "immersive_viz",
+      "requirement_id": "REQ-IMMVIZ-009",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/hydration-honesty.test.tsx::Phase 18 honesty rules > 3d module never parses bag files or imports rosbag2"
+      ],
+      "title": "3D module imports no rosbag / mcap parser"
+    },
+    {
+      "architecture_refs": [
+        "docs/IMMERSIVE_MISSION_CONTROL.md",
+        "docs/3D_VISUALIZATION_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/3d/MissionScene.tsx",
+        "apps/mission-control/src/3d/MissionPlayback3D.tsx"
+      ],
+      "kind": "immersive_viz",
+      "requirement_id": "REQ-IMMVIZ-010",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/hydration-honesty.test.tsx::Phase 18 honesty rules > never polls with setInterval inside src/"
+      ],
+      "title": "No setInterval / polling loop runs in the operator UI"
     }
   ]
 }

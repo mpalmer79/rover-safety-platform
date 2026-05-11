@@ -3,21 +3,28 @@ import { notFound } from "next/navigation";
 
 import {
   listRehearsalIds,
+  loadArtifactRegistryRecord,
   loadRehearsalAudit,
   loadSpatialReplay,
 } from "@/adapters/loader";
 import { selectMissionRoute } from "@/adapters/spatial";
+import { MissionTimelineBridge } from "@/3d/MissionTimelineBridge";
+import { ArtifactIntegrityBadge } from "@/components/ArtifactIntegrityBadge";
 import { AuditPanel } from "@/components/AuditPanel";
 import { CompilerDecisionCard } from "@/components/CompilerDecisionCard";
+import { DeterministicHashChain } from "@/components/DeterministicHashChain";
+import { EvidenceLineageGraph } from "@/components/EvidenceLineageGraph";
 import { EvidenceStatusChip } from "@/components/EvidenceStatusChip";
 import { MermaidView } from "@/components/MermaidView";
 import { MissionEventMarker } from "@/components/MissionEventMarker";
-import { MissionPlaybackPanel } from "@/components/MissionPlaybackPanel";
 import { MissionRouteList } from "@/components/MissionRoute";
 import { MissionSpatialTimeline } from "@/components/MissionSpatialTimeline";
 import { MissionStateStepper } from "@/components/MissionStateStepper";
+import { MissionStoryPanel } from "@/components/MissionStoryPanel";
 import { Panel } from "@/components/Panel";
 import { ReplayAnalyticsPanel } from "@/components/ReplayAnalyticsPanel";
+import { ReplayConfidencePanel } from "@/components/ReplayConfidencePanel";
+import { ReplayLifecyclePanel } from "@/components/ReplayLifecyclePanel";
 import { ReplayTimeline } from "@/components/ReplayTimeline";
 import { RiskBandBadge } from "@/components/RiskBandBadge";
 import { SafetyZoneLayer } from "@/components/SafetyZoneLayer";
@@ -51,6 +58,9 @@ export default async function MissionPage({ params }: MissionPageProps) {
   // when one is present. The artefact's derivation_source is rendered
   // verbatim in the map caption + playback badge.
   const spatialReplay = await loadSpatialReplay(params.id);
+  // Phase 18: read the canonical registry record for the run so the
+  // UI can surface lifecycle, integrity, and registered files.
+  const artifactRecord = await loadArtifactRegistryRecord(params.id);
   const route = selectMissionRoute(plan, spatialReplay);
 
   return (
@@ -100,10 +110,12 @@ export default async function MissionPage({ params }: MissionPageProps) {
         <WhyRejectedDrilldown audit={audit} />
       ) : null}
 
+      <MissionStoryPanel audit={audit} />
+
       <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
         <div className="space-y-4">
           {runtime ? (
-            <MissionPlaybackPanel
+            <MissionTimelineBridge
               plan={plan}
               events={runtime.events}
               spatialReplay={spatialReplay}
@@ -114,6 +126,14 @@ export default async function MissionPage({ params }: MissionPageProps) {
               <MissionRouteList route={route} />
             </Panel>
           ) : null}
+          <ReplayConfidencePanel
+            artifact={spatialReplay}
+            record={artifactRecord}
+          />
+          <EvidenceLineageGraph
+            artifact={spatialReplay}
+            record={artifactRecord}
+          />
           {plan ? (
             <Panel
               eyebrow="Mission plan"
@@ -202,6 +222,21 @@ export default async function MissionPage({ params }: MissionPageProps) {
 
         <div className="space-y-4">
           <AuditPanel audit={audit} />
+          <ReplayLifecyclePanel record={artifactRecord} />
+          {artifactRecord ? (
+            <Panel
+              eyebrow="Deterministic hashes"
+              title="Registered files"
+              trailing={
+                <ArtifactIntegrityBadge
+                  integrity={artifactRecord.integrity}
+                  lifecycle={artifactRecord.lifecycle}
+                />
+              }
+            >
+              <DeterministicHashChain files={artifactRecord.files} />
+            </Panel>
+          ) : null}
           <Panel eyebrow="Safety zones" title="Topic + constraint layers">
             <SafetyZoneLayer plan={plan} />
             <div className="mt-3 border-t border-base-200 pt-3">

@@ -52,6 +52,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Python (for replay hydration gate)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        working-directory: ${{ github.workspace }}
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest pyyaml
+
+      - name: Hydrate canonical replay artefacts (Phase 18 gate)
+        working-directory: ${{ github.workspace }}
+        run: python tools/hydrate_replay_artifacts.py --check-only
+
+      - name: Verify hydration produced no working-tree drift
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet -- spatial-replay/runs; then
+            echo "::error::hydration drifted committed spatial-replay/runs/"
+            git --no-pager diff -- spatial-replay/runs
+            exit 1
+          fi
+
       - name: Set up Node.js 22
         uses: actions/setup-node@v4
         with:

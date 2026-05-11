@@ -61,6 +61,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 17A — Mission Control Experience & Autonomy Visualization Layer | Implemented; static-export Next.js workspace; reads committed artefacts only; see section 3u |
 | Phase 17B — Railway Deployment, Frontend CI, and Mission Spatial Visualization Foundation | Implemented; deterministic 2D maps from bounded inputs; Railway + frontend CI; see section 3v |
 | Phase 17C — Bag-Backed Spatial Replay Upgrade | Implemented; bag_backed + fixture artefact pathway; never fabricates telemetry; see section 3w |
+| Phase 18 — Immersive Mission Control UX + Artefact Governance Hardening | Implemented; canonical artefact registry, deterministic hydration CLI, immersive 3D mission scene, mission narrative + evidence lineage; see section 3x |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -2120,6 +2121,76 @@ bag on the qualified self-hosted runner, generate the operator
 post-processed `pose-samples.jsonl`, and commit the resulting
 `spatial-replay/runs/<run_id>/` directory. The frontend will
 auto-detect the artefact and render the bag-backed badge.
+
+---
+
+## 3x. Phase 18: Immersive Mission Control UX + Artefact Governance Hardening
+
+The platform remains **not safety-certified.** Phase 18 has TWO
+goals: (a) eliminate the artefact lifecycle instability that
+broke Phase 17C CI, and (b) lift the operator console into a
+visually elite, deterministic 3D mission scene.
+
+### Deliverables — artefact governance
+
+- `backend/app/artifact_registry/` package
+  (`models.py`, `manifest.py`, `registry.py`, `validation.py`,
+  `lifecycle.py`, `hydration.py`, `deterministic_hash.py`,
+  `reporter.py`).
+- `tools/hydrate_replay_artifacts.py` CLI.
+- `spatial-replay/registry/canonical-artifacts.json`.
+- `.github/workflows/replay-hydration.yml` (dedicated check).
+- Updated `.github/workflows/mission-control-ci.yml` (hydration
+  is the first stage).
+- Frontend reads the registry first via
+  `loadArtifactRegistry` / `loadArtifactRegistryRecord`.
+- New `REQ-ARTREG-001..010`.
+
+### Deliverables — immersive UX
+
+- `apps/mission-control/src/3d/` package
+  (`MissionScene`, `ReplayTrajectory3D`, `WaypointNode3D`,
+  `EventBeacon3D`, `SupervisorIntervention3D`,
+  `SafetyBoundaryVolume`, `WarehouseEnvironment`,
+  `RobotGhostModel`, `ReplayCameraRig`, `MissionPlayback3D`,
+  `MissionTimelineBridge`).
+- New components: `SpatialReplayBadge` reused; new
+  `MissionStoryPanel`, `EvidenceLineageGraph`,
+  `ReplayConfidencePanel`, `ReplayLifecyclePanel`,
+  `ArtifactIntegrityBadge`, `DeterministicHashChain`.
+- Tailwind palette extended with `status.warning`, plus
+  `panel-elevated` / `glass-panel` / `console-backdrop` utilities.
+- New `REQ-IMMVIZ-001..010`.
+
+### Honesty guardrails
+
+- A failing hydration NEVER rewrites the canonical registry.
+- The frontend reads the registry first; deprecated records are
+  hidden.
+- The 3D scene reads exclusively from committed artefacts — no
+  websocket, no streaming client, no `setInterval`, no
+  fabricated coordinates.
+- The 2D fallback runs whenever WebGL is unavailable; data path
+  is unchanged.
+- Confidence band never upgrades a fixture to `high` or ignores a
+  failed integrity.
+
+### What Phase 18 does NOT do
+
+- Does not stream live telemetry.
+- Does not parse real `.mcap` / `.db3` files.
+- Does not animate continuously — every state change is operator-
+  driven (mode tab or scrubber).
+- Does not bypass the safety supervisor or motion arbitration.
+- Does not claim safety certification.
+
+### Recommended next phase
+
+**Phase 19 — bag-backed first run + reviewer export of immersive
+recordings.** Wire one real bag-backed run through the registry +
+immersive scene, and add a "snapshot the active scene" reviewer
+export so an operator can attach a deterministic still to a PR
+review.
 
 ---
 

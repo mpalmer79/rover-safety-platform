@@ -1,0 +1,73 @@
+# Phase 18 — replay-hydration gate.
+#
+# Runs `tools/hydrate_replay_artifacts.py` against the canonical
+# artefact registry. The job fails honestly when:
+#
+#   * the registry is missing or malformed;
+#   * a registered artefact is missing on disk;
+#   * a hydration pass changes a deterministic hash;
+#   * a hydration pass cannot rebuild an artefact.
+#
+# Honesty contract: this workflow never invents data. It rebuilds
+# committed canonical fixtures and verifies the hashes match what
+# the registry records.
+
+name: replay-hydration
+
+on:
+  pull_request:
+    paths:
+      - "backend/app/spatial_replay/**"
+      - "backend/app/artifact_registry/**"
+      - "spatial-replay/**"
+      - "mission-rehearsals/**"
+      - "tools/hydrate_replay_artifacts.py"
+      - "tools/generate_spatial_replay.py"
+      - ".github/workflows/replay-hydration.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/app/spatial_replay/**"
+      - "backend/app/artifact_registry/**"
+      - "spatial-replay/**"
+      - "mission-rehearsals/**"
+      - "tools/hydrate_replay_artifacts.py"
+      - "tools/generate_spatial_replay.py"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: replay-hydration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  hydrate:
+    name: Deterministic replay hydration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest pyyaml
+
+      - name: Run hydration in check-only mode
+        run: python tools/hydrate_replay_artifacts.py --check-only
+
+      - name: Verify hydration produced no working-tree drift
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet -- spatial-replay/runs; then
+            echo "::error::hydration drifted committed spatial-replay/runs/"
+            git --no-pager diff -- spatial-replay/runs
+            exit 1
+          fi

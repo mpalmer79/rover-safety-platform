@@ -1,0 +1,58 @@
+{
+  "artefact_root": "spatial-replay",
+  "generated_at_utc": "2026-05-11T18:40:11.961935+00:00",
+  "notes": [
+    "Canonical artefact registry for Phase 18 artefact-governance layer.",
+    "Hydration is run via tools/hydrate_replay_artifacts.py.",
+    "Hash drift between this registry and on-disk bytes fails CI honestly."
+  ],
+  "records": [
+    {
+      "bag_status": "missing_manifest",
+      "derivation_source": "fixture",
+      "files": [
+        {
+          "description": "event \u2192 pose-sample alignments",
+          "expected_hash": "cb94e34bf5be4b5bdabccf3695f8e5abf3acb475563a4b6d1d76fc4cf2d0537f",
+          "relative_path": "spatial-replay/runs/canonical-fixture/event-alignment.json",
+          "size_bytes": 4284
+        },
+        {
+          "description": "human-readable hydration report",
+          "expected_hash": "6717d817fb31892d6562ebd3a338c55508faeea7e4646c9a59c5ca936afe9787",
+          "relative_path": "spatial-replay/runs/canonical-fixture/spatial-replay-report.md",
+          "size_bytes": 1023
+        },
+        {
+          "description": "frontend-consumable spatial-replay artefact",
+          "expected_hash": "d3225936609a9d671600ac0e0fb7542797afe3584b7ba181a5eadcd50b6753cb",
+          "relative_path": "spatial-replay/runs/canonical-fixture/spatial-replay.json",
+          "size_bytes": 8956
+        },
+        {
+          "description": "per-artefact validation summary",
+          "expected_hash": "a58bce232ebcaeb74d8cd8640019250abe0608a199dd48009cba45372e528aa7",
+          "relative_path": "spatial-replay/runs/canonical-fixture/spatial-validation.json",
+          "size_bytes": 160
+        },
+        {
+          "description": "pose-sample stream (one sample per line)",
+          "expected_hash": "0e962b795dc86cc9f02ca57f82f22e28cf370406a22bf460a568fe2f88169c96",
+          "relative_path": "spatial-replay/runs/canonical-fixture/trajectory.jsonl",
+          "size_bytes": 1984
+        }
+      ],
+      "generated_at_utc": "2026-05-11T18:00:00+00:00",
+      "integrity": "unverified",
+      "kind": "spatial_replay",
+      "lifecycle": "canonical",
+      "notes": [
+        "Hand-authored fixture; see spatial-replay/fixtures/canonical-fixture/MANIFEST.md"
+      ],
+      "related_mission_id": "warehouse_pickup_route_alpha",
+      "related_scenario_id": "warehouse_pickup_route_alpha",
+      "run_id": "canonical-fixture"
+    }
+  ],
+  "schema_version": "phase18-1"
+}
