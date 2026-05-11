@@ -1,0 +1,17 @@
+{
+  "decision_points": [
+    "edge:start->end:rejected"
+  ],
+  "mission_stages": [
+    "Mission start",
+    "Mission rejected"
+  ],
+  "plan_id": "restricted_zone_rejected",
+  "replay_binding_id": "replay-restricted_zone_rejected",
+  "runtime_executed": false,
+  "scenario_id": "compiled-restricted_zone_rejected",
+  "timeline_markers": [
+    "stage:start:start",
+    "stage:end:end"
+  ]
+}

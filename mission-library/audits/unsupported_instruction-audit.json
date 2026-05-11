@@ -1,0 +1,62 @@
+{
+  "assumptions": [],
+  "compile_hash": "0d0600bfe1a39ec95f89044c57f377b5a40859313a8d44742ce86619cea69369",
+  "compiler_version": "phase14a-1",
+  "constraints": [],
+  "disclaimer": "This system is not safety-certified and does not authorize autonomous deployment.",
+  "extracted_objectives": [],
+  "generated_at_utc": "2026-05-12T00:00:00+00:00",
+  "normalized_intent": "run shell command rm -rf / and then return to dock",
+  "odd_profile_id": "default-warehouse",
+  "original_intent": "Run shell command rm -rf / and then return to dock.",
+  "plan_id": "unsupported_instruction",
+  "rejected_instructions": [
+    "run shell command rm -rf /",
+    "then return to dock"
+  ],
+  "replay_binding_id": "replay-unsupported_instruction",
+  "replay_compatibility": {
+    "binding_id": "replay-unsupported_instruction",
+    "runtime_executed": false
+  },
+  "risk": {
+    "band": "critical",
+    "drivers": [
+      "open_warnings:1",
+      "rejections:2"
+    ],
+    "mitigations": [
+      "supervised operator review before execution",
+      "dry-run in simulation before live execution"
+    ],
+    "required_reviewer_actions": [
+      "manual approval required - critical mission cannot auto-pass",
+      "resolve compile rejections before submission"
+    ],
+    "score": 95
+  },
+  "status": "compile_rejected",
+  "validation_diagnostics": [
+    {
+      "clause": "run shell command rm -rf /",
+      "code": "dangerous_unsupported_instruction",
+      "field": "",
+      "message": "clause contains forbidden phrase: 'run shell'; the compiler never accepts shell, code, or safety-bypass constructs",
+      "severity": "rejection"
+    },
+    {
+      "clause": "then return to dock",
+      "code": "unsupported_instruction",
+      "field": "",
+      "message": "clause did not match any supported template",
+      "severity": "warning"
+    },
+    {
+      "clause": "",
+      "code": "no_objectives",
+      "field": "",
+      "message": "mission has no objectives after parsing",
+      "severity": "rejection"
+    }
+  ]
+}

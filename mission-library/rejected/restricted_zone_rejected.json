@@ -1,0 +1,99 @@
+{
+  "assumptions": [
+    "Mission does not include a return-to-dock; operator is expected to recover the rover."
+  ],
+  "compile_hash": "720396c6ef15bd8d5c29294ff718c4df105615adb0c432b5e631e16443e88f95",
+  "compiler_version": "phase14a-1",
+  "constraints": [],
+  "diagnostics": [
+    {
+      "clause": "drive to restricted_corridor_one",
+      "code": "odd_violation",
+      "field": "region",
+      "message": "objective targets prohibited region 'restricted_corridor_one' for ODD profile 'default-warehouse'",
+      "severity": "rejection"
+    }
+  ],
+  "disclaimer": "This system is not safety-certified and does not authorize autonomous deployment.",
+  "explainability_chain": [
+    "USER INPUT: Drive to restricted_corridor_one.",
+    "NORMALIZED INPUT: drive to restricted_corridor_one",
+    "EXTRACTED CLAUSES:",
+    "  - [move_to_target] drive to restricted_corridor_one :: target=restricted_corridor_one",
+    "NORMALIZED OBJECTIVES:",
+    "  - obj-01 move :: move/restricted_corridor_one",
+    "VALIDATION DIAGNOSTICS:",
+    "  - [rejection/odd_violation] objective targets prohibited region 'restricted_corridor_one' for ODD profile 'default-warehouse'",
+    "RISK CLASSIFICATION: band=critical score=95 drivers=['rejections:1']",
+    "FINAL COMPILED PLAN STATUS: compile_rejected"
+  ],
+  "extracted_clauses": [
+    {
+      "normalized": "drive to restricted_corridor_one",
+      "raw": "drive to restricted_corridor_one",
+      "slots": {
+        "target": "restricted_corridor_one"
+      },
+      "template_id": "move_to_target"
+    }
+  ],
+  "generated_at_utc": "2026-05-12T00:00:00+00:00",
+  "graph": {
+    "edges": [
+      {
+        "condition": "rejected",
+        "source": "start",
+        "target": "end"
+      }
+    ],
+    "nodes": [
+      {
+        "branch": "main",
+        "label": "Mission start",
+        "node_id": "start",
+        "objective_id": "",
+        "stage_kind": "start"
+      },
+      {
+        "branch": "main",
+        "label": "Mission rejected",
+        "node_id": "end",
+        "objective_id": "",
+        "stage_kind": "end"
+      }
+    ]
+  },
+  "normalized_intent": "drive to restricted_corridor_one",
+  "objectives": [
+    {
+      "label": "move/restricted_corridor_one",
+      "objective_id": "obj-01",
+      "objective_kind": "move",
+      "parameters": {
+        "target": "restricted_corridor_one"
+      },
+      "source_clause": "drive to restricted_corridor_one"
+    }
+  ],
+  "odd_profile_id": "default-warehouse",
+  "original_intent": "Drive to restricted_corridor_one.",
+  "plan_id": "restricted_zone_rejected",
+  "rejected_clauses": [],
+  "replay_binding_id": "replay-restricted_zone_rejected",
+  "risk": {
+    "band": "critical",
+    "drivers": [
+      "rejections:1"
+    ],
+    "mitigations": [
+      "supervised operator review before execution",
+      "dry-run in simulation before live execution"
+    ],
+    "required_reviewer_actions": [
+      "manual approval required - critical mission cannot auto-pass",
+      "resolve compile rejections before submission"
+    ],
+    "score": 95
+  },
+  "status": "compile_rejected"
+}

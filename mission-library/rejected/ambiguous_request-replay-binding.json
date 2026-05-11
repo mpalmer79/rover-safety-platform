@@ -1,0 +1,17 @@
+{
+  "decision_points": [
+    "edge:start->end:rejected"
+  ],
+  "mission_stages": [
+    "Mission start",
+    "Mission rejected"
+  ],
+  "plan_id": "ambiguous_request",
+  "replay_binding_id": "replay-ambiguous_request",
+  "runtime_executed": false,
+  "scenario_id": "compiled-ambiguous_request",
+  "timeline_markers": [
+    "stage:start:start",
+    "stage:end:end"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "decision_points": [
+    "edge:start->n-01",
+    "edge:n-01->end",
+    "edge:n-01->recovery_dock:safety_trigger",
+    "edge:recovery_dock->end"
+  ],
+  "mission_stages": [
+    "Mission start",
+    "inspect/inspection_zone_north",
+    "Mission end",
+    "Recovery: return to dock"
+  ],
+  "plan_id": "degraded_lidar_contingency",
+  "replay_binding_id": "replay-degraded_lidar_contingency",
+  "runtime_executed": false,
+  "scenario_id": "compiled-degraded_lidar_contingency",
+  "timeline_markers": [
+    "stage:start:start",
+    "stage:inspect:n-01",
+    "stage:end:end",
+    "stage:return_to_dock:recovery_dock"
+  ]
+}

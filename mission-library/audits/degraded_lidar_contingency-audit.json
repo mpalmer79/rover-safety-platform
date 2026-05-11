@@ -1,0 +1,71 @@
+{
+  "assumptions": [
+    "Mission does not include a return-to-dock; operator is expected to recover the rover.",
+    "Safety trigger is honoured by the runtime safety supervisor, not by the compiler."
+  ],
+  "compile_hash": "929588f3613b840609a12b0ee467f04a3210288c2a4673db088797207c5f9835",
+  "compiler_version": "phase14a-1",
+  "constraints": [
+    {
+      "constraint_id": "con-02",
+      "constraint_kind": "safety_trigger",
+      "label": "safety_trigger/lidar stale",
+      "parameters": {
+        "trigger": "lidar stale"
+      },
+      "source_clause": "safe-stop on lidar stale"
+    },
+    {
+      "constraint_id": "con-03",
+      "constraint_kind": "contingency",
+      "label": "contingency",
+      "parameters": {},
+      "source_clause": "continue under degraded conditions"
+    },
+    {
+      "constraint_id": "con-04",
+      "constraint_kind": "recovery_directive",
+      "label": "recovery_directive/lidar stale",
+      "parameters": {
+        "trigger": "lidar stale"
+      },
+      "source_clause": "return to dock if lidar stale"
+    }
+  ],
+  "disclaimer": "This system is not safety-certified and does not authorize autonomous deployment.",
+  "extracted_objectives": [
+    {
+      "label": "inspect/inspection_zone_north",
+      "objective_id": "obj-01",
+      "objective_kind": "inspect",
+      "parameters": {
+        "zone": "inspection_zone_north"
+      },
+      "source_clause": "inspect inspection_zone_north"
+    }
+  ],
+  "generated_at_utc": "2026-05-12T00:00:00+00:00",
+  "normalized_intent": "inspect inspection_zone_north. safe-stop on lidar stale. continue under degraded conditions. return to dock if lidar stale",
+  "odd_profile_id": "default-warehouse",
+  "original_intent": "Inspect inspection_zone_north. Safe-stop on lidar stale. Continue under degraded conditions. Return to dock if lidar stale.",
+  "plan_id": "degraded_lidar_contingency",
+  "rejected_instructions": [],
+  "replay_binding_id": "replay-degraded_lidar_contingency",
+  "replay_compatibility": {
+    "binding_id": "replay-degraded_lidar_contingency",
+    "runtime_executed": false
+  },
+  "risk": {
+    "band": "low",
+    "drivers": [
+      "extended_autonomy_stages:1",
+      "safety_trigger_present",
+      "recovery_directive_present"
+    ],
+    "mitigations": [],
+    "required_reviewer_actions": [],
+    "score": 20
+  },
+  "status": "compile_ok",
+  "validation_diagnostics": []
+}

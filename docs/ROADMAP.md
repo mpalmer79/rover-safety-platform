@@ -1386,6 +1386,112 @@ navigate.
 
 ---
 
+## 3p. Phase 14A: Deterministic Natural Language Mission Compiler
+
+### Goal
+
+Translate natural-language mission intent into a structured,
+validated, replay-compatible **candidate** mission plan, using a
+deterministic, offline grammar compiler. Demonstrate the boundary
+between AI intent generation and mission-authoritative robotics
+systems. The platform is **not safety-certified**; this compiler
+never authorises motion and never executes user intent.
+
+### Hard scope rules
+
+- Offline only. No remote APIs, no LLM SDKs, no embeddings, no
+  vector databases, no GPU, no online inference.
+- Deterministic only. Identical input produces byte-identical
+  output (modulo caller-supplied reference time).
+- Bounded grammar. Anything outside the closed template set is
+  recorded as `unsupported_instruction` and rejected.
+- No autonomy authority. Safety supervisor and mission runtime
+  remain authoritative.
+- No fabricated coordinates, waypoints, world-model facts, or
+  replay evidence.
+
+### Deliverables
+
+- `backend/app/natural_language_mission/` (15 modules):
+  `models`, `templates`, `parser`, `constraints`, `odd`,
+  `validator`, `risk`, `compiler`, `diagnostics`,
+  `explainability`, `audit`, `replay_binding`, `reporting`,
+  `examples`, `__init__`.
+- CLIs (`rover_ws/tools/`):
+  - `compile_mission_intent.py`
+  - `validate_mission_plan.py`
+  - `explain_mission_plan.py`
+  - `generate_mission_audit.py`
+  - `_generate_mission_library.py` (internal canonical-bundle generator)
+- `mission-library/` canonical bundle (7 examples: warehouse
+  inspection, patrol loop, degraded-lidar contingency,
+  restricted-zone rejected, ambiguous request, contradictory
+  request, unsupported instruction):
+  - `intents/<id>.txt`
+  - `compiled/<id>.json` / `.md` / `-replay-binding.json`
+  - `rejected/<id>.json` / `.md` / `-replay-binding.json`
+  - `audits/<id>-audit.json` / `.md`
+  - `examples/<id>.md` summary cards
+- Requirement IDs `REQ-MCOMP-001..010` and
+  `RequirementKind.MISSION_COMPILER`. (Note: existing
+  `REQ-MISSION-001..002` from Phase 3 are kept; this phase uses the
+  `REQ-MCOMP-*` namespace to avoid ID collisions.)
+- Tests: `backend/tests/test_natural_language_mission.py`
+  (~71 tests, all deterministic).
+- Docs: `NATURAL_LANGUAGE_MISSION_COMPILER.md`,
+  `MISSION_ASSURANCE_MODEL.md`, `MISSION_INTENT_GRAMMAR.md`,
+  `MISSION_RISK_CLASSIFICATION.md`,
+  `HUMAN_TO_AUTONOMY_BOUNDARY.md`,
+  `MISSION_COMPILER_WALKTHROUGH.md`.
+
+### Honesty rules preserved
+
+- The compiler never invents waypoints, zones, or coordinates.
+- The compiler never silently resolves ambiguity.
+- The compiler never marks a critical-risk mission as auto-pass.
+- The compiler never imports an LLM SDK or contacts a remote
+  endpoint (test asserts).
+- `runtime_executed=false` is pinned in every replay-binding
+  artefact (test asserts).
+- The verbatim "not safety-certified" disclaimer appears in every
+  artefact (test asserts).
+
+### What Phase 14A does NOT do
+
+- Does not modify the safety supervisor, motion arbitration, or
+  mission runtime.
+- Does not introduce runtime behaviour, new autonomy, or new
+  safety claims.
+- Does not implement reviewer-approval workflow.
+- Does not run, simulate, or execute compiled missions.
+
+### Portfolio Signal
+
+- Demonstrates the boundary between AI intent generation and
+  mission-authoritative robotics systems.
+- Demonstrates governed autonomy: bounded grammar + ODD validation
+  + deterministic risk classification + audit + explainability.
+- Demonstrates honest fall-backs: ambiguity preserved, rejections
+  surfaced with structured diagnostics, no fabricated information.
+
+### Phase 14B (future, NOT implemented)
+
+A future Phase 14B could explore:
+
+- an *optional* offline LLM translation layer that maps free text
+  to the bounded grammar of Phase 14A — output still validated by
+  the same compiler;
+- constrained semantic extraction with a vetted local model;
+- a reviewer-approval workflow with audit trails;
+- a mission-review UI;
+- simulation-backed mission previews via the existing scenario
+  engine.
+
+None of these are implemented in Phase 14A. Phase 14A is the
+*ground truth* on which any such layer would have to rely.
+
+---
+
 ## 4. Phase 1: Gazebo Simulation Bringup
 
 ### Objectives

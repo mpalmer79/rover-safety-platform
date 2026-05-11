@@ -1,0 +1,98 @@
+{
+  "assumptions": [],
+  "compile_hash": "f42ffd207e169e775cbec5a4e8cdffcc654120039bcf0c6c3b442c16d58b450f",
+  "compiler_version": "phase14a-1",
+  "constraints": [],
+  "diagnostics": [
+    {
+      "clause": "go somewhere near the loading area",
+      "code": "ambiguous_clause",
+      "field": "",
+      "message": "clause is ambiguous and was not converted to an objective: matched phrase 'somewhere near'",
+      "severity": "warning"
+    },
+    {
+      "clause": "check it out",
+      "code": "unsupported_instruction",
+      "field": "",
+      "message": "clause did not match any supported template",
+      "severity": "warning"
+    },
+    {
+      "clause": "",
+      "code": "no_objectives",
+      "field": "",
+      "message": "mission has no objectives after parsing",
+      "severity": "rejection"
+    }
+  ],
+  "disclaimer": "This system is not safety-certified and does not authorize autonomous deployment.",
+  "explainability_chain": [
+    "USER INPUT: Go somewhere near the loading area and check it out.",
+    "NORMALIZED INPUT: go somewhere near the loading area and check it out",
+    "EXTRACTED CLAUSES: (none accepted)",
+    "REJECTED CLAUSES:",
+    "  - go somewhere near the loading area",
+    "  - check it out",
+    "VALIDATION DIAGNOSTICS:",
+    "  - [warning/ambiguous_clause] clause is ambiguous and was not converted to an objective: matched phrase 'somewhere near'",
+    "  - [warning/unsupported_instruction] clause did not match any supported template",
+    "  - [rejection/no_objectives] mission has no objectives after parsing",
+    "RISK CLASSIFICATION: band=critical score=95 drivers=['open_warnings:2', 'rejections:1']",
+    "FINAL COMPILED PLAN STATUS: compile_rejected"
+  ],
+  "extracted_clauses": [],
+  "generated_at_utc": "2026-05-12T00:00:00+00:00",
+  "graph": {
+    "edges": [
+      {
+        "condition": "rejected",
+        "source": "start",
+        "target": "end"
+      }
+    ],
+    "nodes": [
+      {
+        "branch": "main",
+        "label": "Mission start",
+        "node_id": "start",
+        "objective_id": "",
+        "stage_kind": "start"
+      },
+      {
+        "branch": "main",
+        "label": "Mission rejected",
+        "node_id": "end",
+        "objective_id": "",
+        "stage_kind": "end"
+      }
+    ]
+  },
+  "normalized_intent": "go somewhere near the loading area and check it out",
+  "objectives": [],
+  "odd_profile_id": "default-warehouse",
+  "original_intent": "Go somewhere near the loading area and check it out.",
+  "plan_id": "ambiguous_request",
+  "rejected_clauses": [
+    "go somewhere near the loading area",
+    "check it out"
+  ],
+  "replay_binding_id": "replay-ambiguous_request",
+  "risk": {
+    "band": "critical",
+    "drivers": [
+      "open_warnings:2",
+      "rejections:1"
+    ],
+    "mitigations": [
+      "supervised operator review before execution",
+      "dry-run in simulation before live execution"
+    ],
+    "required_reviewer_actions": [
+      "manual approval required - critical mission cannot auto-pass",
+      "resolve compile rejections before submission"
+    ],
+    "score": 95
+  },
+  "status": "compile_rejected"
+}
