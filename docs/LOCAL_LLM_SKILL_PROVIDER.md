@@ -1,8 +1,14 @@
-# Local LLM Skill Provider (Phase 15B)
+# Local LLM Skill Provider (Phase 15B → 19)
 
 The platform is **not safety-certified.** Phase 15B adds a
 *disabled-by-default*, *local-only* seam where a future local LLM
-could propose robotics-skill code candidates. The deterministic
+could propose robotics-skill code candidates. **Phase 19 adds an
+intelligence layer** (candidate normalisation, deterministic
+ranking, suggestion-only repair, readiness check, safety critique)
+without granting the model any authority. See
+`docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md`.
+
+The deterministic
 Phase 15A skill validator and the runtime safety supervisor remain
 authoritative.
 

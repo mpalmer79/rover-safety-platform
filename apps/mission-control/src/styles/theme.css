@@ -1,0 +1,148 @@
+/*
+ * Phase 19 theme variables.
+ *
+ * The values mirror ``src/styles/tokens.ts``. ``html.light`` and
+ * ``html.dark`` switch the variable values without re-mounting any
+ * component; the variables are then consumed by Tailwind utilities
+ * via ``bg-[var(...)]`` and by the components/page surfaces below.
+ *
+ * Hard rules:
+ *   - no #000 / #fff anywhere in this file;
+ *   - text colour never lands on a solid black/white surface;
+ *   - light + dark are each operator-grade — neither feels harsh.
+ */
+
+:root,
+html.dark {
+  --mc-bg-0: #10141c;
+  --mc-bg-1: #0e1320;
+  --mc-bg-2: #0c1018;
+  --mc-surface: #161b26;
+  --mc-surface-elevated: #1c2230;
+  --mc-surface-overlay: rgba(28, 34, 48, 0.72);
+  --mc-border: #262d3e;
+  --mc-border-strong: #3a4258;
+  --mc-text: #dbe0ec;
+  --mc-text-muted: #8b93a8;
+  --mc-text-inverse: #0d1117;
+  --mc-accent: #5dd6c4;
+  --mc-accent-soft: #143733;
+  --mc-status-completed: #5fd987;
+  --mc-status-pending: #facc56;
+  --mc-status-warning: #fb923c;
+  --mc-status-rejected: #f87171;
+  --mc-status-aborted: #b39bff;
+  --mc-panel-grad-0: rgba(28, 34, 48, 0.92);
+  --mc-panel-grad-1: rgba(20, 26, 38, 0.92);
+  --mc-hero-grad-0: rgba(31, 41, 59, 0.85);
+  --mc-hero-grad-1: rgba(15, 23, 34, 0.95);
+  color-scheme: dark;
+}
+
+html.light {
+  --mc-bg-0: #f6f8fb;
+  --mc-bg-1: #eef1f7;
+  --mc-bg-2: #e7ecf3;
+  --mc-surface: #fbfcfe;
+  --mc-surface-elevated: #fdfefe;
+  --mc-surface-overlay: rgba(255, 255, 255, 0.68);
+  --mc-border: #d6dbe6;
+  --mc-border-strong: #b4bccc;
+  --mc-text: #1f2937;
+  --mc-text-muted: #5b6478;
+  --mc-text-inverse: #fbfcfe;
+  --mc-accent: #1d8f86;
+  --mc-accent-soft: #d5ede9;
+  --mc-status-completed: #2f8f4f;
+  --mc-status-pending: #c79018;
+  --mc-status-warning: #c2570f;
+  --mc-status-rejected: #c64545;
+  --mc-status-aborted: #6f57c5;
+  --mc-panel-grad-0: rgba(251, 252, 254, 0.96);
+  --mc-panel-grad-1: rgba(241, 244, 250, 0.96);
+  --mc-hero-grad-0: rgba(247, 250, 255, 0.92);
+  --mc-hero-grad-1: rgba(228, 234, 247, 0.92);
+  color-scheme: light;
+}
+
+/* Page-level gradient backdrop. Uses the three background stops so
+   the page reads as a layered surface, never as a flat fill. */
+html,
+body {
+  background:
+    radial-gradient(
+      circle at 18% 12%,
+      color-mix(in srgb, var(--mc-accent) 16%, transparent) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 82% 88%,
+      color-mix(in srgb, var(--mc-status-aborted) 12%, transparent) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      var(--mc-bg-0) 0%,
+      var(--mc-bg-1) 55%,
+      var(--mc-bg-2) 100%
+    );
+  color: var(--mc-text);
+}
+
+/* Reduced motion respect. */
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transition,
+  html.theme-transition * {
+    transition: none !important;
+  }
+}
+
+html.theme-transition,
+html.theme-transition * {
+  transition:
+    background-color 220ms ease,
+    color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+/* Panel gradient utility. Components apply
+   ``className="surface-panel"`` to inherit. */
+.surface-panel {
+  background: linear-gradient(
+    150deg,
+    var(--mc-panel-grad-0) 0%,
+    var(--mc-panel-grad-1) 100%
+  );
+  border: 1px solid var(--mc-border);
+  color: var(--mc-text);
+  border-radius: 0.5rem;
+}
+
+.surface-hero {
+  background: linear-gradient(
+    140deg,
+    var(--mc-hero-grad-0) 0%,
+    var(--mc-hero-grad-1) 100%
+  );
+  border: 1px solid var(--mc-border);
+  border-radius: 0.75rem;
+}
+
+.surface-glass {
+  background: var(--mc-surface-overlay);
+  border: 1px solid var(--mc-border);
+  border-radius: 0.5rem;
+  backdrop-filter: blur(10px);
+}
+
+.text-muted {
+  color: var(--mc-text-muted);
+}
+
+/* Mobile-first responsive helpers. */
+@media (max-width: 720px) {
+  body {
+    font-size: 0.96rem;
+  }
+}

@@ -6,9 +6,13 @@ import {
   loadTraceability,
 } from "@/adapters/loader";
 import { GovernanceHealthPanel } from "@/components/GovernanceHealthPanel";
+import { GradientPanel } from "@/components/GradientPanel";
 import { MissionCard } from "@/components/MissionCard";
+import { PageSurface } from "@/components/PageSurface";
 import { Panel } from "@/components/Panel";
 import { RequirementBadge } from "@/components/RequirementBadge";
+import { ResponsiveGrid } from "@/components/ResponsiveGrid";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { WarehouseLaneMap } from "@/components/WarehouseLaneMap";
 import { formatTimestamp } from "@/lib/utils";
 
@@ -26,25 +30,31 @@ export default async function DashboardPage() {
   );
 
   return (
+    <PageSurface>
     <div className="space-y-6">
-      <header className="flex items-start justify-between gap-4">
-        <div className="space-y-1">
-          <p className="label">Operator console</p>
-          <h1 className="display-1">Mission Control Dashboard</h1>
-          <p className="text-base-700">
-            Live deterministic-pipeline snapshot. Every value comes from
-            committed JSON artefacts on disk; nothing here is
-            synthesised at render time.
-          </p>
-        </div>
-        <div className="flex items-center gap-2 rounded border border-base-200 bg-base-100 px-3 py-1.5 text-xs text-base-700">
-          <Activity aria-hidden className="h-4 w-4 text-accent" />
-          <span>
-            {sortedAudits.length} rehearsal audits ·{" "}
-            {traceability?.row_count ?? 0} requirements
-          </span>
-        </div>
-      </header>
+      <GradientPanel elevated className="px-4 py-4 sm:px-5 sm:py-5">
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-1">
+            <p className="label">Operator console</p>
+            <h1 className="display-1">Mission Control Dashboard</h1>
+            <p className="text-muted text-sm sm:text-base">
+              Live deterministic-pipeline snapshot. Every value comes from
+              committed JSON artefacts on disk; nothing here is
+              synthesised at render time.
+            </p>
+          </div>
+          <div className="flex flex-col items-start gap-2 sm:items-end">
+            <ThemeToggle emphasis="medium" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--mc-border)] bg-[color:var(--mc-surface-overlay)] px-3 py-1.5 text-xs text-[color:var(--mc-text)]">
+              <Activity aria-hidden className="h-4 w-4 text-[color:var(--mc-accent)]" />
+              <span>
+                {sortedAudits.length} rehearsal audits ·{" "}
+                {traceability?.row_count ?? 0} requirements
+              </span>
+            </div>
+          </div>
+        </header>
+      </GradientPanel>
 
       <GovernanceHealthPanel audits={sortedAudits} traceability={traceability} />
 
@@ -60,11 +70,11 @@ export default async function DashboardPage() {
         <WarehouseLaneMap />
       </Panel>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <ResponsiveGrid shape="mission">
         <Panel
           eyebrow="Recent rehearsals"
           title="Mission cards"
-          trailing={<span className="text-xs text-base-500">{sortedAudits.length} bundles</span>}
+          trailing={<span className="text-xs text-muted">{sortedAudits.length} bundles</span>}
         >
           <div className="grid gap-3">
             {sortedAudits.length === 0 ? (
@@ -153,6 +163,9 @@ export default async function DashboardPage() {
                       "REQ-SKILL-001",
                       "REQ-SKILL-LLM-001",
                       "REQ-REHEARSAL-001",
+                      "REQ-DESIGN-001",
+                      "REQ-SKILL-INTEL-001",
+                      "REQ-SNAPSHOT-001",
                     ].includes(r.req_id),
                   )
                   .map((r) => (
@@ -167,7 +180,8 @@ export default async function DashboardPage() {
             </Panel>
           ) : null}
         </div>
-      </div>
+      </ResponsiveGrid>
     </div>
+    </PageSurface>
   );
 }

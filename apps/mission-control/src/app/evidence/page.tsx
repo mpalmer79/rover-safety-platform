@@ -3,6 +3,7 @@ import { Panel } from "@/components/Panel";
 import { RequirementBadge } from "@/components/RequirementBadge";
 import { StatusPill } from "@/components/StatusPill";
 import { formatTimestamp } from "@/lib/utils";
+import { PageSurface } from "@/components/PageSurface";
 
 export const dynamic = "force-static";
 
@@ -10,6 +11,7 @@ export default async function EvidencePage() {
   const traceability = await loadTraceability();
 
   return (
+    <PageSurface>
     <div className="space-y-6">
       <header className="space-y-1">
         <p className="label">Evidence & audit explorer</p>
@@ -110,5 +112,6 @@ export default async function EvidencePage() {
         </ul>
       </Panel>
     </div>
+    </PageSurface>
   );
 }

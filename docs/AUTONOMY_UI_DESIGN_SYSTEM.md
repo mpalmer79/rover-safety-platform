@@ -1,8 +1,15 @@
-# Autonomy UI Design System (Phase 18)
+# Autonomy UI Design System (Phase 18 → 19)
 
 The platform is **not safety-certified.** This document records
 the visual + interaction language the operator console uses so
 that future panels stay coherent.
+
+**Phase 19 supersedes this document for the token + theme layer.**
+See `docs/MISSION_CONTROL_DESIGN_SYSTEM.md` for the canonical
+off-black / off-white token system, gradient surface rules, and
+responsive layout primitives. This document is preserved as the
+Phase 18 reference for downstream callers that still hard-code
+Tailwind utility classes.
 
 ## 1. Palette
 

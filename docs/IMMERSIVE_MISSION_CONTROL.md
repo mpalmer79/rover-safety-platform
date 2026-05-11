@@ -1,10 +1,16 @@
-# Immersive Mission Control (Phase 18)
+# Immersive Mission Control (Phase 18 → 19)
 
 The platform is **not safety-certified.** Phase 18 layers an
 immersive 3D mission scene on top of the deterministic Phase
 17B/17C mission map. The immersive layer is opt-in (WebGL-gated),
 deterministic (no animation loops), and reads exclusively from
 committed replay artefacts.
+
+**Phase 19 update:** the immersive scene now lives inside the
+Phase 19 design system (`PageSurface`, `GradientPanel`, the
+light/dark theme tokens) and the new `SceneSnapshotPanel` surfaces
+the reviewer-snapshot eligibility metadata alongside the scene.
+See `docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md`.
 
 ## 1. What's new
 

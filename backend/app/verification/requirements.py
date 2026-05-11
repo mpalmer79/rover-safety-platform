@@ -46,6 +46,9 @@ class RequirementKind(str, Enum):
     SPATIAL_REPLAY = "spatial_replay"
     ARTIFACT_REGISTRY = "artifact_registry"
     IMMERSIVE_VIZ = "immersive_viz"
+    DESIGN_SYSTEM = "design_system"
+    SKILL_LLM_INTELLIGENCE = "skill_llm_intelligence"
+    SCENE_SNAPSHOT = "scene_snapshot"
 
 
 @dataclass(frozen=True)
@@ -3687,6 +3690,579 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         ),
         test_refs=(
             "apps/mission-control/tests/hydration-honesty.test.tsx::Phase 18 honesty rules > never polls with setInterval inside src/",
+        ),
+    ),
+    # -----------------------------------------------------------------
+    # Phase 19 — design system + responsive UX + LLM intelligence + scene snapshot
+    # -----------------------------------------------------------------
+    Requirement(
+        req_id="REQ-DESIGN-001",
+        kind=RequirementKind.DESIGN_SYSTEM,
+        title="No solid black or solid white background tokens",
+        description=(
+            "The Mission Control design system bans pure #000 / #fff "
+            "from every theme token. Dark mode resolves to an off-"
+            "black graphite (#10141c family); light mode resolves to "
+            "a warm off-white (#f6f8fb family). The honesty grep in "
+            "``design-tokens.test.ts`` enforces this across the "
+            "entire ``src/`` tree."
+        ),
+        architecture_refs=(
+            "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
+            "docs/THEME_AND_RESPONSIVE_UI.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/styles/tokens.ts",
+            "apps/mission-control/src/styles/theme.css",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/design-tokens.test.ts::Phase 19 design tokens > no token resolves to pure black or pure white",
+            "apps/mission-control/tests/design-tokens.test.ts::source-level honesty rules > no source file uses bg-black / bg-white / text-black / text-white classes",
+            "apps/mission-control/tests/design-tokens.test.ts::source-level honesty rules > no source file uses raw #000 / #fff hex values (token violations)",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-DESIGN-002",
+        kind=RequirementKind.DESIGN_SYSTEM,
+        title="Theme toggle persists user preference and supports system preference",
+        description=(
+            "The home-page ``ThemeToggle`` writes the chosen theme to "
+            "``localStorage`` under ``mc-theme-preference``; the next "
+            "page load reads that key before paint via the bootstrap "
+            "script. When no stored preference exists the provider "
+            "falls back to ``prefers-color-scheme`` and finally to "
+            "``DEFAULT_THEME = 'dark'``."
+        ),
+        architecture_refs=(
+            "docs/THEME_AND_RESPONSIVE_UI.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/lib/theme-provider.tsx",
+            "apps/mission-control/src/components/ThemeToggle.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/theme.test.tsx::ThemeProvider + useTheme > toggle flips between dark and light and persists the choice",
+            "apps/mission-control/tests/theme.test.tsx::ThemeProvider + useTheme > respects a stored preference on mount",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-DESIGN-003",
+        kind=RequirementKind.DESIGN_SYSTEM,
+        title="ThemeToggle is accessible (role=switch, aria-label, keyboard)",
+        description=(
+            "The toggle exposes ``role='switch'``, ``aria-checked``, "
+            "and an ``aria-label`` that names the next state. The "
+            "underlying element is a button so keyboard activation "
+            "(Space / Enter) works natively."
+        ),
+        architecture_refs=(
+            "docs/THEME_AND_RESPONSIVE_UI.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/ThemeToggle.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/theme.test.tsx::ThemeProvider + useTheme > ThemeToggle has aria-label describing the next state",
+            "apps/mission-control/tests/theme.test.tsx::ThemeProvider + useTheme > ThemeToggle is accessible via keyboard (role=switch)",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-DESIGN-004",
+        kind=RequirementKind.DESIGN_SYSTEM,
+        title="Pages are responsive across mobile, tablet, and desktop",
+        description=(
+            "Every primary route renders inside a ``PageSurface`` + "
+            "``ResponsiveGrid`` and avoids horizontal overflow. The "
+            "``ResponsiveShell`` swaps the desktop sidebar for a "
+            "mobile drawer below the ``md`` breakpoint."
+        ),
+        architecture_refs=(
+            "docs/THEME_AND_RESPONSIVE_UI.md",
+            "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/ResponsiveShell.tsx",
+            "apps/mission-control/src/components/PageSurface.tsx",
+            "apps/mission-control/src/components/ResponsiveGrid.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/responsive-layout.test.tsx::PageSurface > applies mobile-first padding + max-w-7xl cap",
+            "apps/mission-control/tests/responsive-layout.test.tsx::ResponsiveGrid > auto shape adds md:grid-cols-2 and xl:grid-cols-3",
+            "apps/mission-control/tests/responsive-layout.test.tsx::ResponsiveGrid > mission shape collapses to a single column on small screens",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-DESIGN-005",
+        kind=RequirementKind.DESIGN_SYSTEM,
+        title="Gradient surface system replaces flat fills",
+        description=(
+            "``GradientPanel`` exposes four tones (default, accent, "
+            "warning, rejected) and is the single source for panel "
+            "backgrounds. Components prefer this over re-implementing "
+            "``bg-[linear-gradient(...)]`` ad-hoc."
+        ),
+        architecture_refs=(
+            "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/GradientPanel.tsx",
+            "apps/mission-control/src/styles/theme.css",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/responsive-layout.test.tsx::GradientPanel tones > renders the default neutral tone",
+            "apps/mission-control/tests/responsive-layout.test.tsx::GradientPanel tones > does not apply pure-color bg-black / bg-white",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-DESIGN-006",
+        kind=RequirementKind.DESIGN_SYSTEM,
+        title="Tokens map to CSS variables that both themes share",
+        description=(
+            "The ``CSS_VAR`` map enumerates the canonical CSS "
+            "variable names. Components consume tokens via "
+            "``var(--mc-*)`` so theme switching never re-renders the "
+            "tree."
+        ),
+        architecture_refs=(
+            "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
+            "docs/THEME_AND_RESPONSIVE_UI.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/styles/tokens.ts",
+            "apps/mission-control/src/styles/theme.css",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/design-tokens.test.ts::Phase 19 design tokens > declares the full CSS variable map",
+            "apps/mission-control/tests/design-tokens.test.ts::Phase 19 design tokens > exports both light and dark token sets",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-DESIGN-007",
+        kind=RequirementKind.DESIGN_SYSTEM,
+        title="Safety boundary banner remains visible in every theme",
+        description=(
+            "The Phase 17A safety banner is rendered above the "
+            "responsive shell so neither mobile nor desktop layouts "
+            "can hide it. Tests assert the verbatim "
+            "``Simulation-only`` string remains in the DOM."
+        ),
+        architecture_refs=(
+            "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/SafetyBoundaryBanner.tsx",
+            "apps/mission-control/src/app/layout.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/responsive-layout.test.tsx::Safety boundary banner remains visible > renders the Simulation-only banner",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-DESIGN-008",
+        kind=RequirementKind.DESIGN_SYSTEM,
+        title="No-FOUC bootstrap script resolves theme before paint",
+        description=(
+            "``THEME_BOOTSTRAP_SCRIPT`` runs synchronously inside "
+            "``<head>``: it reads the stored preference (or the "
+            "system preference) and applies the matching class to "
+            "``<html>`` BEFORE the page paints. The page never "
+            "flashes harsh black/white during load."
+        ),
+        architecture_refs=(
+            "docs/THEME_AND_RESPONSIVE_UI.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/lib/theme-provider.tsx",
+            "apps/mission-control/src/app/layout.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/theme.test.tsx::ThemeProvider + useTheme > toggle does not flash pure black/white during load",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-DESIGN-009",
+        kind=RequirementKind.DESIGN_SYSTEM,
+        title="Mission narrative + evidence components inherit theme tokens",
+        description=(
+            "The Phase 17C / 17B / 18 components (``MissionMap``, "
+            "``ReplayConfidencePanel``, ``EvidenceLineageGraph``, "
+            "``MissionStoryPanel``) read from CSS variables so the "
+            "dark and light themes both look operator-grade without "
+            "harsh contrast."
+        ),
+        architecture_refs=(
+            "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
+            "docs/AUTONOMY_UI_DESIGN_SYSTEM.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/MissionMap.tsx",
+            "apps/mission-control/src/components/MissionStoryPanel.tsx",
+            "apps/mission-control/src/components/EvidenceLineageGraph.tsx",
+            "apps/mission-control/src/components/ReplayConfidencePanel.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/design-tokens.test.ts::source-level honesty rules > no source file uses bg-black / bg-white / text-black / text-white classes",
+            "apps/mission-control/tests/mission-storytelling.test.tsx::MissionStoryPanel > renders one step per lifecycle phase for an accepted mission",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-DESIGN-010",
+        kind=RequirementKind.DESIGN_SYSTEM,
+        title="Responsive shell stays scrollable with min-w-0 main",
+        description=(
+            "The ``ResponsiveShell`` keeps its ``<main>`` element "
+            "with ``min-w-0`` and ``overflow-y-auto`` so wide tables, "
+            "long event streams, and the immersive 3D scene do not "
+            "create horizontal overflow on mobile."
+        ),
+        architecture_refs=(
+            "docs/THEME_AND_RESPONSIVE_UI.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/ResponsiveShell.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/responsive-layout.test.tsx::PageSurface > applies mobile-first padding + max-w-7xl cap",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-INTEL-001",
+        kind=RequirementKind.SKILL_LLM_INTELLIGENCE,
+        title="Candidate ranking is deterministic",
+        description=(
+            "``rank_candidates`` returns the same ordering + scores "
+            "for identical inputs. Tied candidates are broken by "
+            "``candidate_id`` so the ranking is fully reproducible."
+        ),
+        architecture_refs=(
+            "docs/LLM_CANDIDATE_RANKING_MODEL.md",
+            "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/candidate_ranker.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_intelligence.py::test_ranking_is_deterministic_for_identical_inputs",
+            "backend/tests/test_skill_llm_intelligence.py::test_ranking_serialises_to_dict",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-INTEL-002",
+        kind=RequirementKind.SKILL_LLM_INTELLIGENCE,
+        title="Validator outcome dominates candidate ranking",
+        description=(
+            "A candidate the validator rejected ranks below a "
+            "candidate the validator accepted, even when the "
+            "rejected candidate has better surface qualities "
+            "(longer explanation, declared uncertainties, etc.)."
+        ),
+        architecture_refs=(
+            "docs/LLM_CANDIDATE_RANKING_MODEL.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/candidate_ranker.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_intelligence.py::test_validator_outcome_dominates_ranking",
+            "backend/tests/test_skill_llm_intelligence.py::test_sanitizer_rejection_dominates",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-INTEL-003",
+        kind=RequirementKind.SKILL_LLM_INTELLIGENCE,
+        title="Overconfident candidates without validator acceptance are penalised",
+        description=(
+            "Model confidence is metadata only. A candidate that "
+            "claims high / overconfident confidence WITHOUT a "
+            "validator acceptance picks up the "
+            "``overconfident_without_validation`` penalty."
+        ),
+        architecture_refs=(
+            "docs/LLM_CANDIDATE_RANKING_MODEL.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/candidate_ranker.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_intelligence.py::test_overconfident_without_validation_is_penalised",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-INTEL-004",
+        kind=RequirementKind.SKILL_LLM_INTELLIGENCE,
+        title="Candidate normalization preserves the raw payload",
+        description=(
+            "``NormalizationResult.raw_payload`` always equals the "
+            "input string verbatim, even on rejection. The audit "
+            "trail can therefore reconstruct exactly what the "
+            "provider returned."
+        ),
+        architecture_refs=(
+            "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/candidate_normalizer.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_intelligence.py::test_normalize_strips_markdown_fences",
+            "backend/tests/test_skill_llm_intelligence.py::test_normalize_rejects_invalid_json",
+            "backend/tests/test_skill_llm_intelligence.py::test_normalize_aliases_topic_lists",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-INTEL-005",
+        kind=RequirementKind.SKILL_LLM_INTELLIGENCE,
+        title="Repair suggestions are suggestion-only; never auto-applied",
+        description=(
+            "Every :class:`RepairBundle` has ``status`` in "
+            "``{suggestion_only, not_applicable, "
+            "requires_human_review}``. No code path mutates the "
+            "candidate's source or promotes a rejected candidate to "
+            "accepted."
+        ),
+        architecture_refs=(
+            "docs/LLM_REPAIR_SUGGESTIONS.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/candidate_repair.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_intelligence.py::test_repair_suggests_stop_command_when_missing",
+            "backend/tests/test_skill_llm_intelligence.py::test_repair_status_not_applicable_for_clean_candidate",
+            "backend/tests/test_skill_llm_intelligence.py::test_repair_escalates_human_review_for_unsafe_categories",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-INTEL-006",
+        kind=RequirementKind.SKILL_LLM_INTELLIGENCE,
+        title="Safety critique covers every honesty category",
+        description=(
+            "``critique_candidate`` returns one item per category "
+            "in ``CRITIQUE_CATEGORIES``. A direct ``/cmd_vel`` "
+            "publication produces a ``fail`` actuator-authority "
+            "verdict; a clean candidate produces ``ok`` across the "
+            "board."
+        ),
+        architecture_refs=(
+            "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/safety_critique.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_intelligence.py::test_critique_flags_direct_cmd_vel",
+            "backend/tests/test_skill_llm_intelligence.py::test_critique_passes_for_clean_candidate",
+            "backend/tests/test_skill_llm_intelligence.py::test_critique_warns_on_overconfident_no_uncertainty",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-INTEL-007",
+        kind=RequirementKind.SKILL_LLM_INTELLIGENCE,
+        title="Provider readiness check never opens a socket",
+        description=(
+            "``check_provider_readiness`` inspects the config + the "
+            "endpoint hostname only. It does NOT construct a socket, "
+            "open a connection, or call any provider. The honesty "
+            "test in ``test_skill_llm_intelligence.py`` monkey-"
+            "patches ``socket.socket`` to a raising stub to enforce "
+            "this rule."
+        ),
+        architecture_refs=(
+            "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md",
+            "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/provider_readiness.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_intelligence.py::test_readiness_never_opens_a_socket",
+            "backend/tests/test_skill_llm_intelligence.py::test_local_endpoint_requires_opt_in",
+            "backend/tests/test_skill_llm_intelligence.py::test_remote_endpoint_is_rejected_even_when_enabled",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-INTEL-008",
+        kind=RequirementKind.SKILL_LLM_INTELLIGENCE,
+        title="Local provider remains disabled by default",
+        description=(
+            "A default :class:`SkillLLMProviderConfig` with "
+            "``mode='disabled'`` reports ``status='disabled'`` and "
+            "``execution_allowed=False``. Flipping a single flag "
+            "without an explicit local endpoint never enables real "
+            "model execution."
+        ),
+        architecture_refs=(
+            "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/provider_readiness.py",
+            "backend/app/skill_llm_provider/config.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_intelligence.py::test_disabled_provider_readiness_reports_disabled",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-INTEL-009",
+        kind=RequirementKind.SKILL_LLM_INTELLIGENCE,
+        title="Model capability registry is metadata-only",
+        description=(
+            "The capability registry stores operator-declared "
+            "metadata (family, params, context, declared strengths "
+            "+ weaknesses). The metadata never influences sanitizer "
+            "or validator outcomes."
+        ),
+        architecture_refs=(
+            "docs/FUTURE_LOCAL_MODEL_OPERATIONS.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_llm_provider/model_capabilities.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_intelligence.py::test_default_capability_registry_includes_canonical_fixture",
+            "backend/tests/test_skill_llm_intelligence.py::test_capability_to_dict_round_trips",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-INTEL-010",
+        kind=RequirementKind.SKILL_LLM_INTELLIGENCE,
+        title="Fixture set covers accepted, rejected, and ambiguous cases",
+        description=(
+            "``skill-llm-candidates/examples/`` contains accepted "
+            "(move/rotate/stop), rejected (direct cmd_vel, shell, "
+            "network, etc.), ambiguous (``move over there``, "
+            "``turn a little``), and overconfident-unsafe examples. "
+            "The fixture provider can synthesise candidates that "
+            "exercise every ranking + critique branch."
+        ),
+        architecture_refs=(
+            "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md",
+        ),
+        implementation_refs=(
+            "skill-llm-candidates/examples/fixture_ambiguous_destination.json",
+            "skill-llm-candidates/examples/fixture_ambiguous_distance.json",
+            "skill-llm-candidates/examples/fixture_overconfident_unsafe.json",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_llm_intelligence.py::test_ranking_is_deterministic_for_identical_inputs",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SNAPSHOT-001",
+        kind=RequirementKind.SCENE_SNAPSHOT,
+        title="Scene snapshot is not_executed without a backing artefact",
+        description=(
+            "When the spatial-replay artefact is missing OR the "
+            "registry record is missing, the snapshot pipeline "
+            "returns ``status='unavailable'`` (both missing) or "
+            "``status='not_executed'`` (only one missing). "
+            "The frontend renders the missing-inputs list verbatim."
+        ),
+        architecture_refs=(
+            "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md",
+        ),
+        implementation_refs=(
+            "backend/app/scene_snapshot/pipeline.py",
+            "apps/mission-control/src/adapters/sceneSnapshot.ts",
+        ),
+        test_refs=(
+            "backend/tests/test_scene_snapshot.py::test_missing_run_id_reports_unavailable",
+            "apps/mission-control/tests/scene-snapshot.test.tsx::computeSceneSnapshot > returns unavailable when nothing exists",
+            "apps/mission-control/tests/scene-snapshot.test.tsx::SceneSnapshotPanel > renders the not_executed missing-inputs list when bag_status mismatches",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SNAPSHOT-002",
+        kind=RequirementKind.SCENE_SNAPSHOT,
+        title="Fixture replays never become bag-backed snapshots",
+        description=(
+            "A run whose ``derivation_source='fixture'`` always "
+            "produces ``status='fixture'`` and "
+            "``reviewer_export_ready=False`` regardless of integrity "
+            "or registry state."
+        ),
+        architecture_refs=(
+            "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md",
+            "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
+        ),
+        implementation_refs=(
+            "backend/app/scene_snapshot/pipeline.py",
+            "apps/mission-control/src/components/SceneSnapshotPanel.tsx",
+        ),
+        test_refs=(
+            "backend/tests/test_scene_snapshot.py::test_fixture_run_is_not_bag_backed",
+            "backend/tests/test_scene_snapshot.py::test_committed_canonical_fixture_is_not_bag_backed",
+            "apps/mission-control/tests/scene-snapshot.test.tsx::SceneSnapshotPanel > renders fixture status with the no-bag-backed note",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SNAPSHOT-003",
+        kind=RequirementKind.SCENE_SNAPSHOT,
+        title="Bag-backed snapshot requires real bag-backed inputs",
+        description=(
+            "Eligibility for a bag-backed snapshot requires "
+            "``derivation_source='bag_backed'``, "
+            "``bag_status='bag_backed'``, AND registry integrity = "
+            "``passed`` (recomputed from the bytes on disk). All "
+            "three signals must align."
+        ),
+        architecture_refs=(
+            "docs/FIRST_BAG_BACKED_RUN_PLAYBOOK.md",
+            "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md",
+        ),
+        implementation_refs=(
+            "backend/app/scene_snapshot/pipeline.py",
+        ),
+        test_refs=(
+            "backend/tests/test_scene_snapshot.py::test_bag_backed_run_is_eligible_when_integrity_passes",
+            "backend/tests/test_scene_snapshot.py::test_bag_backed_run_is_not_eligible_when_artifact_missing",
+            "apps/mission-control/tests/scene-snapshot.test.tsx::computeSceneSnapshot > returns bag_backed status only when derivation + bag_status + integrity all align",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SNAPSHOT-004",
+        kind=RequirementKind.SCENE_SNAPSHOT,
+        title="Snapshot artefact carries a hash chain + disclaimer",
+        description=(
+            "Every emitted snapshot serialises its artefact registry "
+            "files' sha256 prefixes plus the verbatim disclaimer "
+            "from ``SNAPSHOT_DISCLAIMER``."
+        ),
+        architecture_refs=(
+            "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md",
+        ),
+        implementation_refs=(
+            "backend/app/scene_snapshot/pipeline.py",
+            "apps/mission-control/src/components/SceneSnapshotPanel.tsx",
+        ),
+        test_refs=(
+            "backend/tests/test_scene_snapshot.py::test_build_snapshot_returns_hash_chain",
+            "backend/tests/test_scene_snapshot.py::test_snapshot_serialises_with_disclaimer",
+            "apps/mission-control/tests/scene-snapshot.test.tsx::SceneSnapshotPanel > renders the hash chain when a registry record is present",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SNAPSHOT-005",
+        kind=RequirementKind.SCENE_SNAPSHOT,
+        title="Snapshot pipeline never generates a screenshot binary",
+        description=(
+            "Phase 19 ships metadata only. The CLI writes "
+            "``<run>.scene-snapshot.json`` + "
+            "``<run>.scene-snapshot.md`` and never invokes a browser "
+            "/ image-rendering harness. A future phase wires that "
+            "harness in once a real bag-backed run exists."
+        ),
+        architecture_refs=(
+            "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md",
+            "docs/FIRST_BAG_BACKED_RUN_PLAYBOOK.md",
+        ),
+        implementation_refs=(
+            "tools/generate_reviewer_scene_snapshot.py",
+            "backend/app/scene_snapshot/pipeline.py",
+        ),
+        test_refs=(
+            "backend/tests/test_scene_snapshot.py::test_write_snapshot_artefacts_creates_files",
+            "backend/tests/test_scene_snapshot.py::test_committed_canonical_fixture_lists_no_bag_backed_inputs",
         ),
     ),
 )

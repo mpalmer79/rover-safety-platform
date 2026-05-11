@@ -62,6 +62,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 17B — Railway Deployment, Frontend CI, and Mission Spatial Visualization Foundation | Implemented; deterministic 2D maps from bounded inputs; Railway + frontend CI; see section 3v |
 | Phase 17C — Bag-Backed Spatial Replay Upgrade | Implemented; bag_backed + fixture artefact pathway; never fabricates telemetry; see section 3w |
 | Phase 18 — Immersive Mission Control UX + Artefact Governance Hardening | Implemented; canonical artefact registry, deterministic hydration CLI, immersive 3D mission scene, mission narrative + evidence lineage; see section 3x |
+| Phase 19 — Mission Control Design System, Responsive UX, Local LLM Intelligence, Scene Snapshot Readiness | Implemented; theme system + light/dark toggle, responsive layout shell, candidate ranking + repair + critique, reviewer scene snapshot metadata; see section 3y |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -2191,6 +2192,96 @@ recordings.** Wire one real bag-backed run through the registry +
 immersive scene, and add a "snapshot the active scene" reviewer
 export so an operator can attach a deterministic still to a PR
 review.
+
+---
+
+## 3y. Phase 19: Mission Control Design System, Responsive UX, Local LLM Intelligence, Scene Snapshot Readiness
+
+The platform remains **not safety-certified.** Phase 19 has four
+coordinated goals:
+
+1. **Design system + responsive UX.** A formal token + theme
+   system replaces ad-hoc colour usage. No surface uses pure
+   black or pure white. Light + dark themes both feel
+   operator-grade. Every primary route is mobile / tablet /
+   desktop friendly via `PageSurface` + `ResponsiveGrid`.
+2. **Light / dark toggle.** A medium-sized `ThemeToggle` lives in
+   the home-page hero. Preference persists in `localStorage`,
+   defaults to the system preference, and is applied via an
+   inline bootstrap script BEFORE the page paints (no FOUC).
+3. **Local LLM intelligence.** Six new modules under
+   `backend/app/skill_llm_provider/`:
+   `candidate_normalizer`, `candidate_ranker`, `candidate_repair`,
+   `provider_readiness`, `model_capabilities`, `safety_critique`.
+   Ranking is deterministic; the validator outcome dominates;
+   repair suggestions are suggestion-only; the readiness check
+   never opens a socket.
+4. **Reviewer scene snapshot readiness.** `backend/app/scene_snapshot/`
+   + `tools/generate_reviewer_scene_snapshot.py` build deterministic
+   metadata for a reviewer-grade scene snapshot. A snapshot is only
+   `bag_backed` when a real bag-backed spatial replay exists; today
+   the canonical fixture produces an honest `fixture` status with
+   the missing inputs listed.
+
+### Deliverables — design system
+
+- `apps/mission-control/src/styles/{tokens.ts,theme.css}`
+- `apps/mission-control/src/lib/theme-provider.tsx` +
+  `THEME_BOOTSTRAP_SCRIPT`
+- `apps/mission-control/src/components/{ThemeToggle,
+  ResponsiveShell, PageSurface, GradientPanel, ResponsiveGrid}.tsx`
+- Updated `layout.tsx`, `page.tsx`, and all primary routes wrapped
+  in `PageSurface`
+- New `REQ-DESIGN-001..010`
+
+### Deliverables — LLM intelligence
+
+- New modules under `backend/app/skill_llm_provider/`
+- Expanded `skill-llm-candidates/examples/` (ambiguous +
+  overconfident-unsafe fixtures)
+- New `REQ-SKILL-INTEL-001..010`
+
+### Deliverables — scene snapshot
+
+- `backend/app/scene_snapshot/` (models + pipeline)
+- `tools/generate_reviewer_scene_snapshot.py` CLI
+- `apps/mission-control/src/adapters/sceneSnapshot.ts`
+- `apps/mission-control/src/components/SceneSnapshotPanel.tsx`
+- New `REQ-SNAPSHOT-001..005`
+
+### Honesty guardrails
+
+- No design token resolves to pure black / pure white; no source
+  file uses `bg-black`, `bg-white`, `text-black`, `text-white`.
+- The theme toggle never flashes harsh colours during load.
+- Local LLM provider remains disabled by default; readiness never
+  opens a socket; remote endpoints are rejected.
+- Candidate confidence is metadata; the validator outcome
+  dominates ranking.
+- Repair suggestions are never auto-applied; categorical
+  escalations (shell, network, safety-override) require human
+  review.
+- Scene snapshots are metadata only — no screenshot is generated.
+- A fixture-derived run never becomes a bag-backed snapshot.
+
+### What Phase 19 does NOT do
+
+- Does not enable a real LLM by default.
+- Does not call cloud APIs.
+- Does not open network sockets in tests.
+- Does not execute generated code.
+- Does not publish to ROS topics.
+- Does not render a snapshot screenshot.
+- Does not change the safety supervisor or motion arbitration.
+
+### Recommended next phase
+
+**Phase 20 — first real bag-backed run + reviewer screenshot
+harness.** Run one Phase 13 scenario on a qualified self-hosted
+runner, commit `evidence/runtime/<run_id>/{bag-manifest,
+pose-samples}.jsonl`, register the run, and add a deterministic
+playwright-based snapshot harness that produces an actual PNG when
+the snapshot pipeline reports `reviewer_export_ready=true`.
 
 ---
 

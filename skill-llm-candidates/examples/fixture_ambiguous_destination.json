@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "validator_rejected",
+  "expected_rejection_reason": "ambiguous_request",
+  "fixture_id": "fixture_ambiguous_destination",
+  "kind": "ambiguous",
+  "request_text": "move over there"
+}

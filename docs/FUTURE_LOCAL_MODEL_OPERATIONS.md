@@ -3,8 +3,15 @@
 The platform is **not safety-certified.** This document describes
 the operational plan a follow-up phase must satisfy before wiring
 up a real local LLM (Ollama, llama.cpp, vLLM, or similar) to the
-Phase 15B provider seam. It is intentionally aspirational; Phase
-15B does **not** implement any of it.
+Phase 15B provider seam.
+
+**Phase 19 update:** the readiness check, capability registry, and
+ranking layers shipped in Phase 19 (see
+`docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md`). What remains
+aspirational is **enabling a real local provider in production**:
+the provider remains disabled by default and the capability
+registry's `qualified` flag is `False` for every real model until
+a reviewer signs the local qualification checklist.
 
 ## 1. What Phase 15B already provides
 
