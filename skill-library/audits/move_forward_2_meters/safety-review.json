@@ -1,0 +1,22 @@
+{
+  "allowed_topics": [
+    "/cmd_vel_requested"
+  ],
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "human_review_required": false,
+  "notes": [
+    "Uses /cmd_vel_requested instead of /cmd_vel.",
+    "Final zero command is sent.",
+    "Safety supervisor remains authoritative for actual motion.",
+    "Command expires after the computed duration.",
+    "Safety supervisor authorises actual motion via /cmd_vel_authorized.",
+    "Distance is a *request*; the supervisor may clamp or reject."
+  ],
+  "reason_codes": [
+    "validation_passed"
+  ],
+  "risk_band": "guarded",
+  "safety_status": "guarded"
+}

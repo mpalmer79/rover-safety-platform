@@ -1,0 +1,36 @@
+{
+  "animation_steps": [
+    "imports",
+    "publisher setup",
+    "stop command",
+    "safety explanation"
+  ],
+  "code": "# This snippet only publishes /cmd_vel_requested.\n# The rover safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This code is not safety-certified.\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\nPUBLISH_COUNT = 5\nPUBLISH_RATE_HZ = 10.0\n\n\nclass StopRequester(Node):\n    def __init__(self) -> None:\n        super().__init__(\"stop_requester\")\n        # NOTE: /cmd_vel_requested, not /cmd_vel.\n        self.publisher = self.create_publisher(Twist, \"/cmd_vel_requested\", 10)\n        self.zero = Twist()\n        self.remaining = PUBLISH_COUNT\n        self.timer = self.create_timer(1.0 / PUBLISH_RATE_HZ, self._tick)\n\n    def _tick(self) -> None:\n        if self.remaining <= 0:\n            self.timer.cancel()\n            return\n        self.publisher.publish(self.zero)\n        self.remaining -= 1\n\n\ndef main() -> None:\n    rclpy.init()\n    node = StopRequester()\n    try:\n        while rclpy.ok() and node.remaining > 0:\n            rclpy.spin_once(node, timeout_sec=0.1)\n    finally:\n        node.destroy_node()\n        rclpy.shutdown()\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "copy_label": "Copy Stop immediately",
+  "diagnostics": [
+    {
+      "code": "request_accepted",
+      "message": "stop request recognised",
+      "parameter": "",
+      "severity": "info"
+    },
+    {
+      "code": "validation_passed",
+      "message": "generated code passed safety validation",
+      "parameter": "",
+      "severity": "info"
+    }
+  ],
+  "language": "python_ros2",
+  "line_count": 41,
+  "risk_band": "low",
+  "safety_badges": [
+    "requested-motion-only",
+    "supervisor-authorised",
+    "risk:low",
+    "not-safety-certified"
+  ],
+  "skill_type": "stop_immediately",
+  "subtitle": "Publishes 5 zero Twists to /cmd_vel_requested.",
+  "title": "Stop immediately"
+}

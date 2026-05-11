@@ -1,0 +1,6 @@
+{
+  "language": "python_ros2",
+  "request_id": "spin_motors_directly",
+  "requested_at_utc": "2026-05-13T00:00:00+00:00",
+  "text": "Spin the motors directly to drive forward"
+}

@@ -1,0 +1,98 @@
+{
+  "code": "# This snippet only publishes /cmd_vel_requested.\n# The rover safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This code is not safety-certified.\nimport math\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\n# --- bounded parameters -----------------------------------------------\nANGLE_DEG = 45.00            # requested angle magnitude\nDIRECTION_SIGN = -1.0        # +1.0 = left, -1.0 = right\nANGULAR_SPEED_RAD_S = 0.40\nPUBLISH_RATE_HZ = 10.0\nANGLE_RAD = math.radians(ANGLE_DEG)\nDURATION_S = ANGLE_RAD / ANGULAR_SPEED_RAD_S\nTIMEOUT_S = DURATION_S * 1.50\n\n\nclass RotateRequester(Node):\n    def __init__(self) -> None:\n        super().__init__(\"rotate_requester\")\n        # NOTE: /cmd_vel_requested, not /cmd_vel.\n        self.publisher = self.create_publisher(Twist, \"/cmd_vel_requested\", 10)\n        self.timer = self.create_timer(1.0 / PUBLISH_RATE_HZ, self._tick)\n        self.start_time = self.get_clock().now()\n        self.cmd = Twist()\n        self.cmd.angular.z = DIRECTION_SIGN * ANGULAR_SPEED_RAD_S\n        self.finished = False\n\n    def _tick(self) -> None:\n        elapsed = (self.get_clock().now() - self.start_time).nanoseconds * 1e-9\n        if self.finished:\n            return\n        if elapsed >= DURATION_S or elapsed >= TIMEOUT_S:\n            self._publish_zero_and_finish()\n            return\n        self.publisher.publish(self.cmd)\n\n    def _publish_zero_and_finish(self) -> None:\n        zero = Twist()\n        self.publisher.publish(zero)\n        self.finished = True\n        self.get_logger().info(\"rotate complete; requested zero motion\")\n\n\ndef main() -> None:\n    rclpy.init()\n    node = RotateRequester()\n    try:\n        while rclpy.ok() and not node.finished:\n            rclpy.spin_once(node, timeout_sec=0.1)\n    finally:\n        node._publish_zero_and_finish()\n        node.destroy_node()\n        rclpy.shutdown()\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "code_card": {
+    "animation_steps": [
+      "imports",
+      "constants",
+      "publisher setup",
+      "bounded command loop",
+      "stop command",
+      "safety explanation"
+    ],
+    "code": "# This snippet only publishes /cmd_vel_requested.\n# The rover safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This code is not safety-certified.\nimport math\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\n# --- bounded parameters -----------------------------------------------\nANGLE_DEG = 45.00            # requested angle magnitude\nDIRECTION_SIGN = -1.0        # +1.0 = left, -1.0 = right\nANGULAR_SPEED_RAD_S = 0.40\nPUBLISH_RATE_HZ = 10.0\nANGLE_RAD = math.radians(ANGLE_DEG)\nDURATION_S = ANGLE_RAD / ANGULAR_SPEED_RAD_S\nTIMEOUT_S = DURATION_S * 1.50\n\n\nclass RotateRequester(Node):\n    def __init__(self) -> None:\n        super().__init__(\"rotate_requester\")\n        # NOTE: /cmd_vel_requested, not /cmd_vel.\n        self.publisher = self.create_publisher(Twist, \"/cmd_vel_requested\", 10)\n        self.timer = self.create_timer(1.0 / PUBLISH_RATE_HZ, self._tick)\n        self.start_time = self.get_clock().now()\n        self.cmd = Twist()\n        self.cmd.angular.z = DIRECTION_SIGN * ANGULAR_SPEED_RAD_S\n        self.finished = False\n\n    def _tick(self) -> None:\n        elapsed = (self.get_clock().now() - self.start_time).nanoseconds * 1e-9\n        if self.finished:\n            return\n        if elapsed >= DURATION_S or elapsed >= TIMEOUT_S:\n            self._publish_zero_and_finish()\n            return\n        self.publisher.publish(self.cmd)\n\n    def _publish_zero_and_finish(self) -> None:\n        zero = Twist()\n        self.publisher.publish(zero)\n        self.finished = True\n        self.get_logger().info(\"rotate complete; requested zero motion\")\n\n\ndef main() -> None:\n    rclpy.init()\n    node = RotateRequester()\n    try:\n        while rclpy.ok() and not node.finished:\n            rclpy.spin_once(node, timeout_sec=0.1)\n    finally:\n        node._publish_zero_and_finish()\n        node.destroy_node()\n        rclpy.shutdown()\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "copy_label": "Copy Rotate right 45.00 deg",
+    "diagnostics": [
+      {
+        "code": "request_accepted",
+        "message": "rotate right 45.0 degrees",
+        "parameter": "",
+        "severity": "info"
+      },
+      {
+        "code": "validation_passed",
+        "message": "generated code passed safety validation",
+        "parameter": "",
+        "severity": "info"
+      }
+    ],
+    "language": "python_ros2",
+    "line_count": 59,
+    "risk_band": "guarded",
+    "safety_badges": [
+      "requested-motion-only",
+      "supervisor-authorised",
+      "risk:guarded",
+      "not-safety-certified"
+    ],
+    "skill_type": "rotate_degrees",
+    "subtitle": "Publishes /cmd_vel_requested at 0.40 rad/s for 1.96 s, then zero.",
+    "title": "Rotate right 45.00 deg"
+  },
+  "diagnostics": [
+    {
+      "code": "request_accepted",
+      "message": "rotate right 45.0 degrees",
+      "parameter": "",
+      "severity": "info"
+    },
+    {
+      "code": "validation_passed",
+      "message": "generated code passed safety validation",
+      "parameter": "",
+      "severity": "info"
+    }
+  ],
+  "disclaimer": "This generated skill is an engineering development aid. It does not represent autonomous execution, safety certification, or regulatory approval.",
+  "generated_at_utc": "2026-05-13T00:00:00+00:00",
+  "language": "python_ros2",
+  "normalised_text": "turn right 45 degrees",
+  "parameters": [
+    {
+      "name": "angle_degrees",
+      "units": "deg",
+      "value": 45.0
+    },
+    {
+      "name": "direction",
+      "units": "",
+      "value": "right"
+    }
+  ],
+  "request_text": "Turn right 45 degrees",
+  "safety_review": {
+    "allowed_topics": [
+      "/cmd_vel_requested"
+    ],
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "human_review_required": false,
+    "notes": [
+      "Uses /cmd_vel_requested instead of /cmd_vel.",
+      "Final zero command is sent.",
+      "Safety supervisor remains authoritative for actual motion.",
+      "Command expires after the computed duration.",
+      "Safety supervisor authorises actual motion via /cmd_vel_authorized.",
+      "Angle is a *request*; the supervisor may clamp or reject."
+    ],
+    "reason_codes": [
+      "validation_passed"
+    ],
+    "risk_band": "guarded",
+    "safety_status": "guarded"
+  },
+  "skill_id": "skill-rotate_right_45_degrees",
+  "skill_type": "rotate_degrees",
+  "subtitle": "Publishes /cmd_vel_requested at 0.40 rad/s for 1.96 s, then zero.",
+  "title": "Rotate right 45.00 deg"
+}

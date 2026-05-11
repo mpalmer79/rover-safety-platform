@@ -1,0 +1,7 @@
+{
+  "example_id": "move_forward_2_meters",
+  "expected_status": "generated",
+  "language": "python_ros2",
+  "notes": "distance specified directly in meters",
+  "text": "Drive forward 2 meters"
+}

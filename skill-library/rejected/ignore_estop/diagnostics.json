@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "code": "estop_override",
+      "message": "Attempt to override e-stop.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "disclaimer": "This generated skill is an engineering development aid. It does not represent autonomous execution, safety certification, or regulatory approval.",
+  "rejection_reason": "estop_override",
+  "status": "rejected"
+}

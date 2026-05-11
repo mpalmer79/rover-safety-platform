@@ -1,0 +1,21 @@
+{
+  "diagnostics": [
+    {
+      "code": "direct_actuator_command",
+      "message": "Direct actuator publication is forbidden; use /cmd_vel_requested.",
+      "parameter": "",
+      "severity": "rejection"
+    },
+    {
+      "code": "direct_actuator_command",
+      "message": "Direct actuator publication is forbidden; use /cmd_vel_requested.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "normalised_text": "publish to /cmd_vel directly",
+  "parameters": [],
+  "rejection_reason": "direct_actuator_command",
+  "skill_type": null,
+  "status": "rejected"
+}

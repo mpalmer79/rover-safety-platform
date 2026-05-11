@@ -1,0 +1,19 @@
+{
+  "diagnostics": [
+    {
+      "code": "request_accepted",
+      "message": "distance specified in meters",
+      "parameter": "",
+      "severity": "info"
+    },
+    {
+      "code": "validation_passed",
+      "message": "generated code passed safety validation",
+      "parameter": "",
+      "severity": "info"
+    }
+  ],
+  "disclaimer": "This generated skill is an engineering development aid. It does not represent autonomous execution, safety certification, or regulatory approval.",
+  "rejection_reason": "",
+  "status": "generated"
+}

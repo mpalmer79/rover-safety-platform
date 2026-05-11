@@ -1,0 +1,7 @@
+{
+  "example_id": "publish_requested_motion",
+  "expected_status": "generated",
+  "language": "python_ros2",
+  "notes": "single bounded publication",
+  "text": "Publish a requested-motion command"
+}

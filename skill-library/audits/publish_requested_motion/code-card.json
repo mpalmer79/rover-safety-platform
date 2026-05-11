@@ -1,0 +1,36 @@
+{
+  "animation_steps": [
+    "imports",
+    "publisher setup",
+    "single publish",
+    "safety explanation"
+  ],
+  "code": "# This snippet only publishes /cmd_vel_requested.\n# The rover safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This code is not safety-certified.\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\n\ndef main() -> None:\n    rclpy.init()\n    node = Node(\"requested_motion_publisher\")\n    # NOTE: /cmd_vel_requested, not /cmd_vel.\n    publisher = node.create_publisher(Twist, \"/cmd_vel_requested\", 10)\n    msg = Twist()\n    msg.linear.x = 0.20\n    msg.angular.z = 0.00\n    publisher.publish(msg)\n    node.get_logger().info(\"requested-motion command published\")\n    node.destroy_node()\n    rclpy.shutdown()\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "copy_label": "Copy Publish a single requested-motion command",
+  "diagnostics": [
+    {
+      "code": "request_accepted",
+      "message": "single requested-motion publication",
+      "parameter": "",
+      "severity": "info"
+    },
+    {
+      "code": "validation_passed",
+      "message": "generated code passed safety validation",
+      "parameter": "",
+      "severity": "info"
+    }
+  ],
+  "language": "python_ros2",
+  "line_count": 24,
+  "risk_band": "guarded",
+  "safety_badges": [
+    "requested-motion-only",
+    "supervisor-authorised",
+    "risk:guarded",
+    "not-safety-certified"
+  ],
+  "skill_type": "publish_requested_motion",
+  "subtitle": "Publishes one Twist (lin=0.20, ang=0.00) to /cmd_vel_requested.",
+  "title": "Publish a single requested-motion command"
+}

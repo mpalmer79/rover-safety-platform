@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "code": "unbounded_speed",
+      "message": "Unbounded speed request; speed must remain within safety limits.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "disclaimer": "This generated skill is an engineering development aid. It does not represent autonomous execution, safety certification, or regulatory approval.",
+  "rejection_reason": "unbounded_speed",
+  "status": "rejected"
+}

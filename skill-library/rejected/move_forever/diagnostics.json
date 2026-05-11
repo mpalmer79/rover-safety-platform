@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "code": "unbounded_motion",
+      "message": "Unbounded motion request; every motion must be duration-bounded.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "disclaimer": "This generated skill is an engineering development aid. It does not represent autonomous execution, safety certification, or regulatory approval.",
+  "rejection_reason": "unbounded_motion",
+  "status": "rejected"
+}

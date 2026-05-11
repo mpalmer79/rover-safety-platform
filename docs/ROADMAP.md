@@ -55,6 +55,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 13 — Live Runtime Maturity & Bag-Backed Evidence Pipeline | Implemented (runner-ready infrastructure; live execution requires self-hosted Jazzy + Gazebo runner — see section 3o) |
 | Phase 14A — Deterministic Natural Language Mission Compiler | Implemented; see section 3p |
 | Phase 14B — Pluggable LLM Mission Proposal Layer (offline / mock-only) | Implemented; external LLM providers intentionally disabled; see section 3q |
+| Phase 15A — Deterministic Robotics Skill Authoring Workbench | Implemented; offline / template-only; see section 3r |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -1650,6 +1651,85 @@ could propose a mission *candidate*, but where:
 A future phase that wires up a real external provider must follow
 `docs/FUTURE_LLM_INTEGRATION_PLAN.md` and must not weaken the
 sanitizer or the compiler boundary.
+
+---
+
+## 3r. Phase 15A: Deterministic Robotics Skill Authoring Workbench
+
+### Status
+
+Implemented in this repository. External LLM providers, local LLM
+inference, and code execution are intentionally not implemented.
+
+### Objectives
+
+Phase 15A adds an offline, deterministic workbench that translates
+common robotics developer requests into validated, copyable code
+snippets:
+
+- "What code do I need to move my robot 6 feet forward?"
+- "Rotate left 90 degrees"
+- "Stop immediately"
+- "Bind keyboard key 'w' to move forward"
+- "Go to waypoint alpha"
+
+The deterministic safety supervisor and motion arbitration remain
+authoritative. No generated snippet may publish to ``/cmd_vel``;
+every motion template uses ``/cmd_vel_requested`` only.
+
+### Deliverables
+
+- `backend/app/skill_authoring/` — eleven modules (models, catalog,
+  intent_parser, templates, generator, validator, safety_review,
+  diagnostics, audit, reporter, examples).
+- Three CLIs:
+  - `rover_ws/tools/generate_robotics_skill.py`,
+  - `rover_ws/tools/validate_robotics_skill.py`,
+  - `rover_ws/tools/generate_skill_examples.py`.
+- Canonical examples in `skill-library/` (10 accepted + 9 rejected),
+  each with a full audit bundle.
+- Five new requirements (`REQ-SKILL-001..005`) under
+  `RequirementKind.SKILL`.
+- Five new docs:
+  `docs/ROBOTICS_SKILL_AUTHORING_WORKBENCH.md`,
+  `docs/SKILL_TEMPLATE_CATALOG.md`,
+  `docs/SKILL_SAFETY_BOUNDARY.md`,
+  `docs/CODE_CARD_METADATA.md`,
+  `docs/FUTURE_LOCAL_LLM_SKILL_PROVIDER.md`.
+
+### Acceptance Criteria
+
+- the parser deterministically routes every request to one of
+  ``generated`` / ``unsupported`` / ``ambiguous`` / ``rejected`` /
+  ``validation_failed``;
+- "6 feet" deterministically converts to 1.8288 m;
+- every motion template uses ``/cmd_vel_requested`` and publishes a
+  final zero ``Twist``;
+- the validator rejects direct ``/cmd_vel`` references in
+  executable code, ``subprocess`` / ``os.system`` / ``eval`` /
+  ``exec``, raw sockets, ``urllib.request`` / ``requests`` / LLM
+  SDK imports, and ``while True:`` loops;
+- forbidden phrasing (disable safety, ignore estop, drive forever,
+  max speed, spin motors, run shell, execute python, curl http,
+  disable lidar) produces a deterministic rejection;
+- every accepted skill carries a ``CodeCard`` payload and an audit
+  bundle with the verbatim disclaimer;
+- repeated runs against the same ``--generated-at`` produce
+  byte-identical audit artefacts;
+- nothing in the package imports an LLM SDK, a network library, or
+  ``rclpy``.
+
+### What Phase 15A does NOT do
+
+- run a real LLM (no Ollama, no llama.cpp, no external API);
+- execute generated code;
+- publish to any ROS topic;
+- generate hardware drivers or shell snippets;
+- ship a UI (only `CodeCard` metadata for a future UI).
+
+A follow-up phase that adds a local LLM must follow
+`docs/FUTURE_LOCAL_LLM_SKILL_PROVIDER.md` and must not weaken the
+deterministic parser, the validator, or the audit boundary.
 
 ---
 

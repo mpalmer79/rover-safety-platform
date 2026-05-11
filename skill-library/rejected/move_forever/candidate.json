@@ -1,0 +1,15 @@
+{
+  "diagnostics": [
+    {
+      "code": "unbounded_motion",
+      "message": "Unbounded motion request; every motion must be duration-bounded.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "normalised_text": "drive forward forever",
+  "parameters": [],
+  "rejection_reason": "unbounded_motion",
+  "skill_type": null,
+  "status": "rejected"
+}

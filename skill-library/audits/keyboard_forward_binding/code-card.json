@@ -1,0 +1,38 @@
+{
+  "animation_steps": [
+    "imports",
+    "constants",
+    "publisher setup",
+    "bounded command loop",
+    "stop command",
+    "safety explanation"
+  ],
+  "code": "# This snippet only publishes /cmd_vel_requested.\n# The rover safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This code is not safety-certified.\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\nKEY = \"w\"\nLINEAR_SPEED_MPS = 0.20\nPUBLISH_RATE_HZ = 10.0\nWATCHDOG_SECONDS = 0.50\n\n\nclass KeyboardForwardBinding(Node):\n    def __init__(self) -> None:\n        super().__init__(\"keyboard_forward_binding\")\n        # NOTE: /cmd_vel_requested, not /cmd_vel.\n        self.publisher = self.create_publisher(Twist, \"/cmd_vel_requested\", 10)\n        self.timer = self.create_timer(1.0 / PUBLISH_RATE_HZ, self._tick)\n        self.last_key_event = self.get_clock().now()\n        self.key_held = False\n\n    def on_key_down(self, key: str) -> None:\n        if key == KEY:\n            self.key_held = True\n            self.last_key_event = self.get_clock().now()\n\n    def on_key_up(self, key: str) -> None:\n        if key == KEY:\n            self.key_held = False\n\n    def _tick(self) -> None:\n        elapsed_since_event = (\n            self.get_clock().now() - self.last_key_event\n        ).nanoseconds * 1e-9\n        if not self.key_held or elapsed_since_event > WATCHDOG_SECONDS:\n            # Watchdog timeout: zero motion to /cmd_vel_requested.\n            zero = Twist()\n            self.publisher.publish(zero)\n            return\n        cmd = Twist()\n        cmd.linear.x = LINEAR_SPEED_MPS\n        self.publisher.publish(cmd)\n\n\ndef main() -> None:\n    rclpy.init()\n    node = KeyboardForwardBinding()\n    try:\n        rclpy.spin(node)\n    finally:\n        # Always send a final zero before exit.\n        zero = Twist()\n        node.publisher.publish(zero)\n        node.destroy_node()\n        rclpy.shutdown()\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "copy_label": "Copy Bind keyboard key 'w' to forward motion",
+  "diagnostics": [
+    {
+      "code": "request_accepted",
+      "message": "keyboard key 'w' bound to forward motion",
+      "parameter": "",
+      "severity": "info"
+    },
+    {
+      "code": "validation_passed",
+      "message": "generated code passed safety validation",
+      "parameter": "",
+      "severity": "info"
+    }
+  ],
+  "language": "python_ros2",
+  "line_count": 60,
+  "risk_band": "guarded",
+  "safety_badges": [
+    "requested-motion-only",
+    "supervisor-authorised",
+    "risk:guarded",
+    "not-safety-certified"
+  ],
+  "skill_type": "keyboard_forward_binding",
+  "subtitle": "Publishes /cmd_vel_requested while held; zeroes on release.",
+  "title": "Bind keyboard key 'w' to forward motion"
+}

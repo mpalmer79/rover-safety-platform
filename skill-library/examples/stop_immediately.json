@@ -1,0 +1,7 @@
+{
+  "example_id": "stop_immediately",
+  "expected_status": "generated",
+  "language": "python_ros2",
+  "notes": "bounded zero-publication",
+  "text": "Stop the robot immediately"
+}

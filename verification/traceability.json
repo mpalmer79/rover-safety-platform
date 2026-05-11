@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-11T03:08:00+00:00",
+  "generated_at_utc": "2026-05-11T11:24:16+00:00",
   "overall_status": "passed",
-  "row_count": 78,
+  "row_count": 83,
   "rows": [
     {
       "architecture_refs": [
@@ -1749,6 +1749,128 @@
         "backend/tests/test_mission_proposal.py::test_audit_preserves_provider_mode"
       ],
       "title": "Proposal audits must preserve provider mode, sanitizer results, compiler diagnostics, and safety-boundary disclaimers"
+    },
+    {
+      "architecture_refs": [
+        "docs/ROBOTICS_SKILL_AUTHORING_WORKBENCH.md",
+        "docs/SKILL_TEMPLATE_CATALOG.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_authoring/catalog.py",
+        "backend/app/skill_authoring/intent_parser.py",
+        "backend/app/skill_authoring/templates.py",
+        "backend/app/skill_authoring/generator.py"
+      ],
+      "kind": "skill",
+      "requirement_id": "REQ-SKILL-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 5 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_authoring.py::test_move_forward_6_feet_generates_bounded_python",
+        "backend/tests/test_skill_authoring.py::test_parser_rejects_unsupported_instruction",
+        "backend/tests/test_skill_authoring.py::test_unsupported_request_is_unsupported",
+        "backend/tests/test_skill_authoring.py::test_catalog_is_closed_set",
+        "backend/tests/test_skill_authoring.py::test_generator_is_deterministic_for_fixed_timestamp"
+      ],
+      "title": "Skill requests compile only through deterministic templates"
+    },
+    {
+      "architecture_refs": [
+        "docs/SKILL_SAFETY_BOUNDARY.md",
+        "docs/SAFETY_MODEL.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_authoring/templates.py",
+        "backend/app/skill_authoring/validator.py"
+      ],
+      "kind": "skill",
+      "requirement_id": "REQ-SKILL-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_authoring.py::test_move_forward_code_uses_requested_motion_topic",
+        "backend/tests/test_skill_authoring.py::test_no_template_publishes_directly_to_cmd_vel",
+        "backend/tests/test_skill_authoring.py::test_validator_rejects_direct_cmd_vel_publication",
+        "backend/tests/test_skill_authoring.py::test_motion_snippets_publish_final_zero"
+      ],
+      "title": "Generated motion code uses /cmd_vel_requested only"
+    },
+    {
+      "architecture_refs": [
+        "docs/SKILL_SAFETY_BOUNDARY.md",
+        "docs/ROBOTICS_SKILL_AUTHORING_WORKBENCH.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_authoring/intent_parser.py",
+        "backend/app/skill_authoring/diagnostics.py"
+      ],
+      "kind": "skill",
+      "requirement_id": "REQ-SKILL-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 10 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_authoring.py::test_ambiguous_move_forward_is_ambiguous",
+        "backend/tests/test_skill_authoring.py::test_direct_cmd_vel_request_is_rejected",
+        "backend/tests/test_skill_authoring.py::test_disable_safety_is_rejected",
+        "backend/tests/test_skill_authoring.py::test_ignore_estop_is_rejected",
+        "backend/tests/test_skill_authoring.py::test_unbounded_motion_is_rejected",
+        "backend/tests/test_skill_authoring.py::test_unbounded_speed_is_rejected",
+        "backend/tests/test_skill_authoring.py::test_direct_motor_control_is_rejected",
+        "backend/tests/test_skill_authoring.py::test_shell_command_is_rejected",
+        "backend/tests/test_skill_authoring.py::test_sensor_disable_is_rejected",
+        "backend/tests/test_skill_authoring.py::test_distance_out_of_range_is_rejected"
+      ],
+      "title": "Unsupported, ambiguous, or unsafe requests produce deterministic diagnostics"
+    },
+    {
+      "architecture_refs": [
+        "docs/ROBOTICS_SKILL_AUTHORING_WORKBENCH.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_authoring/safety_review.py",
+        "backend/app/skill_authoring/audit.py",
+        "backend/app/skill_authoring/reporter.py"
+      ],
+      "kind": "skill",
+      "requirement_id": "REQ-SKILL-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 4 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_authoring.py::test_audit_bundle_layout_is_complete_for_accepted",
+        "backend/tests/test_skill_authoring.py::test_rejection_bundle_layout_is_complete",
+        "backend/tests/test_skill_authoring.py::test_audit_includes_disclaimer",
+        "backend/tests/test_skill_authoring.py::test_safety_review_lists_allowed_and_forbidden_topics"
+      ],
+      "title": "Generated skills include safety reviews, diagnostics, and audit artifacts"
+    },
+    {
+      "architecture_refs": [
+        "docs/CODE_CARD_METADATA.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_authoring/diagnostics.py",
+        "backend/app/skill_authoring/models.py"
+      ],
+      "kind": "skill",
+      "requirement_id": "REQ-SKILL-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_authoring.py::test_code_card_metadata_present_on_accepted_skill",
+        "backend/tests/test_skill_authoring.py::test_code_card_animation_steps_for_move_forward",
+        "backend/tests/test_skill_authoring.py::test_skill_layer_has_no_frontend_imports"
+      ],
+      "title": "Code-card metadata supports a future reviewer UI without adding frontend dependencies"
     }
   ]
 }

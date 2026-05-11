@@ -1,0 +1,7 @@
+{
+  "example_id": "move_forward_6_feet",
+  "expected_status": "generated",
+  "language": "python_ros2",
+  "notes": "6 feet -> 1.8288 m via deterministic conversion",
+  "text": "What code do I need to move my robot 6 feet forward?"
+}
