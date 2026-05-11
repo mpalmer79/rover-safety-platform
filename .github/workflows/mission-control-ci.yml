@@ -90,8 +90,19 @@ jobs:
       - name: TypeScript strict typecheck
         run: npm run typecheck
 
-      - name: Vitest (adapters + components + honesty + spatial + deploy)
+      - name: Vitest with v8 coverage gate
+        # Honest floors live in vitest.config.ts. The job fails when
+        # any threshold (global or safety-relevant per-file) is
+        # crossed. See apps/mission-control/README.md "Coverage
+        # gating" for the pinned values + remediation notes.
         run: npm run test
+
+      - name: Upload frontend coverage artefact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mission-control-coverage
+          path: apps/mission-control/coverage/
 
       - name: Next.js static export build
         run: npm run build
