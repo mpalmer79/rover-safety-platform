@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-11T02:29:30+00:00",
+  "generated_at_utc": "2026-05-11T03:08:00+00:00",
   "overall_status": "passed",
-  "row_count": 73,
+  "row_count": 78,
   "rows": [
     {
       "architecture_refs": [
@@ -1633,6 +1633,122 @@
         "backend/tests/test_live_runtime.py::test_workflow_uses_workflow_dispatch_only"
       ],
       "title": "GitHub-hosted CI must not claim live runtime execution"
+    },
+    {
+      "architecture_refs": [
+        "docs/LLM_MISSION_PROPOSAL_LAYER.md",
+        "docs/LLM_SAFETY_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/mission_proposal/__init__.py",
+        "backend/app/mission_proposal/adapter.py",
+        "backend/app/mission_proposal/provider.py"
+      ],
+      "kind": "proposal",
+      "requirement_id": "REQ-PROPOSAL-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_mission_proposal.py::test_proposal_layer_never_publishes_actuator_topics",
+        "backend/tests/test_mission_proposal.py::test_proposal_layer_has_no_runtime_authority_fields"
+      ],
+      "title": "Mission proposal providers must not execute or authorize robot motion"
+    },
+    {
+      "architecture_refs": [
+        "docs/LLM_MISSION_PROPOSAL_LAYER.md",
+        "docs/FUTURE_LLM_INTEGRATION_PLAN.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/mission_proposal/provider.py",
+        "backend/app/mission_proposal/mock_provider.py"
+      ],
+      "kind": "proposal",
+      "requirement_id": "REQ-PROPOSAL-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_mission_proposal.py::test_external_provider_is_disabled",
+        "backend/tests/test_mission_proposal.py::test_proposal_layer_has_no_llm_sdk_imports",
+        "backend/tests/test_mission_proposal.py::test_resolve_provider_rejects_unknown_modes"
+      ],
+      "title": "External LLM providers must remain disabled"
+    },
+    {
+      "architecture_refs": [
+        "docs/LLM_SAFETY_BOUNDARY.md",
+        "docs/MISSION_PROPOSAL_AUDIT.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/mission_proposal/sanitizer.py",
+        "backend/app/mission_proposal/adapter.py"
+      ],
+      "kind": "proposal",
+      "requirement_id": "REQ-PROPOSAL-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 8 test(s)",
+      "test_refs": [
+        "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_actuator_command",
+        "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_safety_override",
+        "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_code_execution",
+        "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_shell_command",
+        "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_estop_override",
+        "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_sensor_disable",
+        "backend/tests/test_mission_proposal.py::test_sanitizer_accepts_valid_inspection",
+        "backend/tests/test_mission_proposal.py::test_adapter_does_not_invoke_compiler_on_rejection"
+      ],
+      "title": "Proposal outputs must be sanitized before compiler validation"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_PROPOSAL_AUDIT.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/mission_proposal/adapter.py",
+        "backend/app/mission_proposal/audit.py",
+        "backend/app/mission_proposal/mock_provider.py"
+      ],
+      "kind": "proposal",
+      "requirement_id": "REQ-PROPOSAL-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 5 test(s)",
+      "test_refs": [
+        "backend/tests/test_mission_proposal.py::test_mock_provider_is_deterministic",
+        "backend/tests/test_mission_proposal.py::test_ambiguous_proposal_is_compiled_requires_review",
+        "backend/tests/test_mission_proposal.py::test_restricted_proposal_is_compiled_rejected",
+        "backend/tests/test_mission_proposal.py::test_unsafe_proposal_is_rejected_by_sanitizer",
+        "backend/tests/test_mission_proposal.py::test_audit_json_is_stable_across_runs"
+      ],
+      "title": "Unsafe or ambiguous proposals must produce deterministic diagnostics"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_PROPOSAL_AUDIT.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/mission_proposal/audit.py",
+        "backend/app/mission_proposal/reporter.py"
+      ],
+      "kind": "proposal",
+      "requirement_id": "REQ-PROPOSAL-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_mission_proposal.py::test_audit_bundle_layout_is_complete",
+        "backend/tests/test_mission_proposal.py::test_audit_markdown_contains_disclaimer",
+        "backend/tests/test_mission_proposal.py::test_audit_preserves_provider_mode"
+      ],
+      "title": "Proposal audits must preserve provider mode, sanitizer results, compiler diagnostics, and safety-boundary disclaimers"
     }
   ]
 }

@@ -255,6 +255,26 @@ natively.
 
 ---
 
+## Phase 14B (LLM mission proposal layer) entry points
+
+If you are reviewing the Phase 14B work specifically:
+
+1. Start with [`LLM_MISSION_PROPOSAL_LAYER.md`](LLM_MISSION_PROPOSAL_LAYER.md)
+   — the architectural contract and where the seam plugs in.
+2. Read [`LLM_SAFETY_BOUNDARY.md`](LLM_SAFETY_BOUNDARY.md) for what
+   the proposal layer is forbidden from doing.
+3. Skim [`MISSION_PROPOSAL_AUDIT.md`](MISSION_PROPOSAL_AUDIT.md) and
+   one fixture bundle under `mission-proposals/audits/`.
+4. Read [`FUTURE_LLM_INTEGRATION_PLAN.md`](FUTURE_LLM_INTEGRATION_PLAN.md)
+   if you care about the path forward.
+
+No real LLM API is called. External provider modes return a
+deterministic ``not_configured`` response. The deterministic Phase
+14A mission compiler remains authoritative for what is interpretable;
+the runtime safety supervisor remains authoritative for what moves.
+
+---
+
 ## What this playbook does not do
 
 - It does not run anything for you. To run scenarios and inspect

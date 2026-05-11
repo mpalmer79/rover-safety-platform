@@ -1,0 +1,4 @@
+{
+  "compiler_input": "Inspect inspection_zone_north. Safe-stop on lidar stale. Continue under degraded conditions. Return to dock if lidar stale.",
+  "proposal_id": "mock_lidar_degradation"
+}

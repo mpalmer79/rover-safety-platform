@@ -1,0 +1,47 @@
+{
+  "accepted": false,
+  "blocked_phrases": [
+    "ignore safety",
+    "disable safety",
+    "disable safety supervisor",
+    "override estop",
+    "continue despite sensor failure"
+  ],
+  "diagnostics": [
+    {
+      "code": "safety_override",
+      "matched_phrase": "ignore safety",
+      "message": "Attempt to ignore safety supervisor",
+      "severity": "rejection"
+    },
+    {
+      "code": "safety_override",
+      "matched_phrase": "disable safety",
+      "message": "Attempt to disable safety supervisor",
+      "severity": "rejection"
+    },
+    {
+      "code": "safety_override",
+      "matched_phrase": "disable safety supervisor",
+      "message": "Attempt to disable safety supervisor",
+      "severity": "rejection"
+    },
+    {
+      "code": "estop_override",
+      "matched_phrase": "override estop",
+      "message": "Attempt to override e-stop",
+      "severity": "rejection"
+    },
+    {
+      "code": "continue_despite_failure",
+      "matched_phrase": "continue despite sensor failure",
+      "message": "Attempt to continue under sensor failure",
+      "severity": "rejection"
+    }
+  ],
+  "notes": [
+    "provider self-labels confidence='overconfident'; treat as suspect"
+  ],
+  "sanitized_intent": "",
+  "status": "rejected"
+}

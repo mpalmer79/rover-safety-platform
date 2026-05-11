@@ -1,0 +1,175 @@
+{
+  "compiler_plan": {
+    "assumptions": [
+      "Mission does not include a return-to-dock; operator is expected to recover the rover.",
+      "Safety trigger is honoured by the runtime safety supervisor, not by the compiler."
+    ],
+    "compile_hash": "e13e96b19cfc7be67bc99118da15bc4f6af70ab526acdf0e5f3788ed3a1dae0c",
+    "compiler_version": "phase14a-1",
+    "constraints": [
+      {
+        "constraint_id": "con-02",
+        "constraint_kind": "safety_trigger",
+        "label": "safety_trigger/lidar stale",
+        "parameters": {
+          "trigger": "lidar stale"
+        },
+        "source_clause": "safe-stop on lidar stale"
+      },
+      {
+        "constraint_id": "con-03",
+        "constraint_kind": "contingency",
+        "label": "contingency",
+        "parameters": {},
+        "source_clause": "continue under degraded conditions"
+      },
+      {
+        "constraint_id": "con-04",
+        "constraint_kind": "recovery_directive",
+        "label": "recovery_directive/lidar stale",
+        "parameters": {
+          "trigger": "lidar stale"
+        },
+        "source_clause": "return to dock if lidar stale"
+      }
+    ],
+    "diagnostics": [],
+    "disclaimer": "This system is not safety-certified and does not authorize autonomous deployment.",
+    "explainability_chain": [
+      "USER INPUT: Inspect inspection_zone_north. Safe-stop on lidar stale. Continue under degraded conditions. Return to dock if lidar stale.",
+      "NORMALIZED INPUT: inspect inspection_zone_north. safe-stop on lidar stale. continue under degraded conditions. return to dock if lidar stale",
+      "EXTRACTED CLAUSES:",
+      "  - [inspect_zone] inspect inspection_zone_north :: zone=inspection_zone_north",
+      "  - [safe_stop_on_trigger] safe-stop on lidar stale :: trigger=lidar stale",
+      "  - [continue_under_degraded] continue under degraded conditions :: (no slots)",
+      "  - [recovery_directive_return_to_dock] return to dock if lidar stale :: trigger=lidar stale",
+      "NORMALIZED OBJECTIVES:",
+      "  - obj-01 inspect :: inspect/inspection_zone_north",
+      "NORMALIZED CONSTRAINTS:",
+      "  - con-02 safety_trigger :: safety_trigger/lidar stale",
+      "  - con-03 contingency :: contingency",
+      "  - con-04 recovery_directive :: recovery_directive/lidar stale",
+      "VALIDATION DIAGNOSTICS: (none)",
+      "RISK CLASSIFICATION: band=low score=20 drivers=['extended_autonomy_stages:1', 'safety_trigger_present', 'recovery_directive_present']",
+      "FINAL COMPILED PLAN STATUS: compile_ok"
+    ],
+    "extracted_clauses": [
+      {
+        "normalized": "inspect inspection_zone_north",
+        "raw": "inspect inspection_zone_north",
+        "slots": {
+          "zone": "inspection_zone_north"
+        },
+        "template_id": "inspect_zone"
+      },
+      {
+        "normalized": "safe-stop on lidar stale",
+        "raw": "safe-stop on lidar stale",
+        "slots": {
+          "trigger": "lidar stale"
+        },
+        "template_id": "safe_stop_on_trigger"
+      },
+      {
+        "normalized": "continue under degraded conditions",
+        "raw": "continue under degraded conditions",
+        "slots": {},
+        "template_id": "continue_under_degraded"
+      },
+      {
+        "normalized": "return to dock if lidar stale",
+        "raw": "return to dock if lidar stale",
+        "slots": {
+          "trigger": "lidar stale"
+        },
+        "template_id": "recovery_directive_return_to_dock"
+      }
+    ],
+    "generated_at_utc": "2026-05-12T00:00:00+00:00",
+    "graph": {
+      "edges": [
+        {
+          "condition": "",
+          "source": "start",
+          "target": "n-01"
+        },
+        {
+          "condition": "",
+          "source": "n-01",
+          "target": "end"
+        },
+        {
+          "condition": "safety_trigger",
+          "source": "n-01",
+          "target": "recovery_dock"
+        },
+        {
+          "condition": "",
+          "source": "recovery_dock",
+          "target": "end"
+        }
+      ],
+      "nodes": [
+        {
+          "branch": "main",
+          "label": "Mission start",
+          "node_id": "start",
+          "objective_id": "",
+          "stage_kind": "start"
+        },
+        {
+          "branch": "main",
+          "label": "inspect/inspection_zone_north",
+          "node_id": "n-01",
+          "objective_id": "obj-01",
+          "stage_kind": "inspect"
+        },
+        {
+          "branch": "main",
+          "label": "Mission end",
+          "node_id": "end",
+          "objective_id": "",
+          "stage_kind": "end"
+        },
+        {
+          "branch": "recovery",
+          "label": "Recovery: return to dock",
+          "node_id": "recovery_dock",
+          "objective_id": "",
+          "stage_kind": "return_to_dock"
+        }
+      ]
+    },
+    "normalized_intent": "inspect inspection_zone_north. safe-stop on lidar stale. continue under degraded conditions. return to dock if lidar stale",
+    "objectives": [
+      {
+        "label": "inspect/inspection_zone_north",
+        "objective_id": "obj-01",
+        "objective_kind": "inspect",
+        "parameters": {
+          "zone": "inspection_zone_north"
+        },
+        "source_clause": "inspect inspection_zone_north"
+      }
+    ],
+    "odd_profile_id": "default-warehouse",
+    "original_intent": "Inspect inspection_zone_north. Safe-stop on lidar stale. Continue under degraded conditions. Return to dock if lidar stale.",
+    "plan_id": "proposal-mock_lidar_degradation",
+    "rejected_clauses": [],
+    "replay_binding_id": "replay-proposal-mock_lidar_degradation",
+    "risk": {
+      "band": "low",
+      "drivers": [
+        "extended_autonomy_stages:1",
+        "safety_trigger_present",
+        "recovery_directive_present"
+      ],
+      "mitigations": [],
+      "required_reviewer_actions": [],
+      "score": 20
+    },
+    "status": "compile_ok"
+  },
+  "compiler_status": "compile_ok",
+  "proposal_id": "mock_lidar_degradation"
+}

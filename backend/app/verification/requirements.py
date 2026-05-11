@@ -37,6 +37,7 @@ class RequirementKind(str, Enum):
     EXPORT = "export"
     LIVE = "live"
     MISSION_COMPILER = "mission_compiler"
+    PROPOSAL = "proposal"
 
 
 @dataclass(frozen=True)
@@ -1908,6 +1909,157 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "backend/tests/test_live_runtime.py::test_workflow_is_self_hosted_only",
             "backend/tests/test_live_runtime.py::test_workflow_does_not_target_github_hosted_runners",
             "backend/tests/test_live_runtime.py::test_workflow_uses_workflow_dispatch_only",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROPOSAL-001",
+        kind=RequirementKind.PROPOSAL,
+        title="Mission proposal providers must not execute or authorize robot motion",
+        description=(
+            "The mission proposal layer is offline and read-only "
+            "with respect to actuator state. Nothing in "
+            "``backend/app/mission_proposal/`` publishes "
+            "``/cmd_vel`` or any actuator topic, nothing toggles "
+            "the safety supervisor, and nothing in the adapter or "
+            "audit invokes the runtime. The deterministic mission "
+            "compiler (Phase 14A) and the runtime safety supervisor "
+            "remain authoritative for any motion that ultimately "
+            "occurs."
+        ),
+        architecture_refs=(
+            "docs/LLM_MISSION_PROPOSAL_LAYER.md",
+            "docs/LLM_SAFETY_BOUNDARY.md",
+        ),
+        implementation_refs=(
+            "backend/app/mission_proposal/__init__.py",
+            "backend/app/mission_proposal/adapter.py",
+            "backend/app/mission_proposal/provider.py",
+        ),
+        test_refs=(
+            "backend/tests/test_mission_proposal.py::test_proposal_layer_never_publishes_actuator_topics",
+            "backend/tests/test_mission_proposal.py::test_proposal_layer_has_no_runtime_authority_fields",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROPOSAL-002",
+        kind=RequirementKind.PROPOSAL,
+        title="External LLM providers must remain disabled",
+        description=(
+            "Phase 14B ships only the mock provider and the "
+            "offline-fixture provider. Any provider mode other than "
+            "``mock`` and ``offline_fixture`` returns a "
+            "deterministic ``not_configured`` response with the "
+            "verbatim reason "
+            "``external LLM providers are intentionally disabled "
+            "in Phase 14B``. No module in "
+            "``backend/app/mission_proposal/`` imports an LLM SDK."
+        ),
+        architecture_refs=(
+            "docs/LLM_MISSION_PROPOSAL_LAYER.md",
+            "docs/FUTURE_LLM_INTEGRATION_PLAN.md",
+        ),
+        implementation_refs=(
+            "backend/app/mission_proposal/provider.py",
+            "backend/app/mission_proposal/mock_provider.py",
+        ),
+        test_refs=(
+            "backend/tests/test_mission_proposal.py::test_external_provider_is_disabled",
+            "backend/tests/test_mission_proposal.py::test_proposal_layer_has_no_llm_sdk_imports",
+            "backend/tests/test_mission_proposal.py::test_resolve_provider_rejects_unknown_modes",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROPOSAL-003",
+        kind=RequirementKind.PROPOSAL,
+        title="Proposal outputs must be sanitized before compiler validation",
+        description=(
+            "Every proposal passes through "
+            "``mission_proposal.sanitize_proposal`` before its text "
+            "is handed to the Phase 14A compiler. The sanitizer "
+            "rejects proposals that reference direct actuator "
+            "commands, safety-supervisor overrides, e-stop "
+            "overrides, lidar disables, continue-despite-failure "
+            "directives, shell or code execution, network "
+            "commands, or destructive shell commands. The compiler "
+            "is never invoked on a rejected proposal."
+        ),
+        architecture_refs=(
+            "docs/LLM_SAFETY_BOUNDARY.md",
+            "docs/MISSION_PROPOSAL_AUDIT.md",
+        ),
+        implementation_refs=(
+            "backend/app/mission_proposal/sanitizer.py",
+            "backend/app/mission_proposal/adapter.py",
+        ),
+        test_refs=(
+            "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_actuator_command",
+            "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_safety_override",
+            "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_code_execution",
+            "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_shell_command",
+            "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_estop_override",
+            "backend/tests/test_mission_proposal.py::test_sanitizer_rejects_sensor_disable",
+            "backend/tests/test_mission_proposal.py::test_sanitizer_accepts_valid_inspection",
+            "backend/tests/test_mission_proposal.py::test_adapter_does_not_invoke_compiler_on_rejection",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROPOSAL-004",
+        kind=RequirementKind.PROPOSAL,
+        title="Unsafe or ambiguous proposals must produce deterministic diagnostics",
+        description=(
+            "Given the same proposal, the sanitizer, adapter and "
+            "compiler produce byte-identical diagnostics and "
+            "audit artefacts. An ambiguous proposal is labelled "
+            "``proposal_compiled_requires_review``; an unsafe "
+            "proposal is labelled "
+            "``proposal_rejected_by_sanitizer``; a restricted-zone "
+            "proposal is labelled "
+            "``proposal_rejected_by_compiler``. The audit JSON is "
+            "stable across repeated runs."
+        ),
+        architecture_refs=(
+            "docs/MISSION_PROPOSAL_AUDIT.md",
+        ),
+        implementation_refs=(
+            "backend/app/mission_proposal/adapter.py",
+            "backend/app/mission_proposal/audit.py",
+            "backend/app/mission_proposal/mock_provider.py",
+        ),
+        test_refs=(
+            "backend/tests/test_mission_proposal.py::test_mock_provider_is_deterministic",
+            "backend/tests/test_mission_proposal.py::test_ambiguous_proposal_is_compiled_requires_review",
+            "backend/tests/test_mission_proposal.py::test_restricted_proposal_is_compiled_rejected",
+            "backend/tests/test_mission_proposal.py::test_unsafe_proposal_is_rejected_by_sanitizer",
+            "backend/tests/test_mission_proposal.py::test_audit_json_is_stable_across_runs",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-PROPOSAL-005",
+        kind=RequirementKind.PROPOSAL,
+        title="Proposal audits must preserve provider mode, sanitizer results, compiler diagnostics, and safety-boundary disclaimers",
+        description=(
+            "Every audit bundle ("
+            "``proposal.json``, "
+            "``sanitizer-result.json``, "
+            "``compiler-input.json``, "
+            "``compiler-result.json``, "
+            "``proposal-audit.json``, "
+            "``proposal-audit.md`` "
+            ") includes the provider mode, the sanitizer diagnostics, "
+            "the compiler diagnostics (when invoked), and the verbatim "
+            "safety-boundary disclaimer."
+        ),
+        architecture_refs=(
+            "docs/MISSION_PROPOSAL_AUDIT.md",
+        ),
+        implementation_refs=(
+            "backend/app/mission_proposal/audit.py",
+            "backend/app/mission_proposal/reporter.py",
+        ),
+        test_refs=(
+            "backend/tests/test_mission_proposal.py::test_audit_bundle_layout_is_complete",
+            "backend/tests/test_mission_proposal.py::test_audit_markdown_contains_disclaimer",
+            "backend/tests/test_mission_proposal.py::test_audit_preserves_provider_mode",
         ),
     ),
 )

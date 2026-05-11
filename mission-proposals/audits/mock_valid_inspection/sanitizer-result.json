@@ -1,0 +1,8 @@
+{
+  "accepted": true,
+  "blocked_phrases": [],
+  "diagnostics": [],
+  "notes": [],
+  "sanitized_intent": "Drive to waypoint bravo. Inspect loading_zone_two. Limit speed to 1.0 m/s. Avoid restricted corridors. Return to dock if lidar health degrades.",
+  "status": "accepted"
+}

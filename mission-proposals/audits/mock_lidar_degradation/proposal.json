@@ -1,0 +1,19 @@
+{
+  "confidence_label": "medium",
+  "known_uncertainties": [
+    "exact lidar staleness threshold is supervisor-owned, not proposal-owned"
+  ],
+  "proposal_id": "mock_lidar_degradation",
+  "proposed_constraints": [
+    "Safe-stop on lidar stale",
+    "Continue under degraded conditions"
+  ],
+  "proposed_intent": "Inspect inspection_zone_north.",
+  "proposed_location": "inspection_zone_north",
+  "proposed_motion_style": "slow",
+  "proposed_recovery_policy": "Return to dock if lidar stale",
+  "provider_mode": "offline_fixture",
+  "provider_name": "mock-provider",
+  "raw_response": "{\"plan\": [\"inspect inspection_zone_north\", \"contingency: lidar stale\"]}",
+  "source_text": "mock lidar degradation"
+}

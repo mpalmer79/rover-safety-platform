@@ -66,6 +66,9 @@ produces nothing a reliability engineer can defend.
 | 10 | Reliability programme review + longitudinal governance | `backend/app/programme_review/`, `programme-review/` |
 | 11 | Reviewer export package + notebook scaffolding | `backend/app/reviewer_exports/`, `reviewer-export/` |
 | 12 | Reviewer operations playbook + portfolio presentation | This document, `REVIEWER_PLAYBOOK.md`, diagrams |
+| 13 | Live runtime maturity + bag-backed evidence pipeline | `backend/app/live_runtime/`, `.github/workflows/live-runtime-evidence.yml` |
+| 14A | Deterministic natural-language mission compiler | `backend/app/natural_language_mission/`, `mission-library/` |
+| 14B | Pluggable LLM mission proposal layer (offline / mock-only) | `backend/app/mission_proposal/`, `mission-proposals/` |
 
 Each phase had hard-out-of-scope rules: no SLAM, no perception ML,
 no RL, no cloud robotics, no hardware drivers, no UI polish, no
