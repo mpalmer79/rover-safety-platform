@@ -12,7 +12,12 @@ dependencies = []
 
 [project.optional-dependencies]
 api = ["fastapi>=0.100", "uvicorn>=0.23"]
-dev = ["pytest>=7.0", "httpx>=0.24", "pytest-cov>=4.0"]
+dev = [
+  "pytest>=7.0",
+  "httpx>=0.24",
+  "pytest-cov>=4.0",
+  "pytest-randomly>=3.0",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]

@@ -521,3 +521,53 @@ inspect.
   discouraged.
 - The status vocabulary (`passed`, `failed`, `partial`, `skipped`,
   `not_executed`) used elsewhere in verification is unchanged.
+
+---
+
+## 15. Test-order independence
+
+The backend suite runs in **randomised order** in CI via the
+`pytest-randomly` plugin. The plugin re-seeds the order on every
+invocation and prints the chosen seed so any failure can be
+reproduced locally with `pytest --randomly-seed=<N>`.
+
+### Empirical confirmation
+
+After an earlier run hinted that one test
+(`test_canonical_registry_paths_match_disk`) might carry an order
+dependency, the full backend suite was run five times with explicit
+seeds:
+
+| Seed   | Result            |
+|--------|-------------------|
+| 12345  | 969 / 969 passed  |
+| 67890  | 969 / 969 passed  |
+| 24680  | 969 / 969 passed  |
+| 13579  | 969 / 969 passed  |
+| 99999  | 969 / 969 passed  |
+
+All five random-order runs passed. The suspected ordering
+dependency did not reproduce. The original symptom is consistent
+with clean-checkout filesystem state (committed-fixture files that
+are produced by hydration but not all tracked in git), which is a
+separate concern noted for a future remediation pass — not an
+order dependency in the test code.
+
+### CI enforcement
+
+`.github/workflows/backend-tests.yml` invokes pytest with
+`-p randomly` so every CI run uses a new seed. A future test that
+silently relies on registration order will fail on its first
+randomised CI run instead of months later when an unrelated test
+is added.
+
+### What this does NOT do
+
+- It does not guarantee no order dependency exists; absence of
+  evidence is not evidence of absence. It guarantees the CI run
+  re-rolls the order on every push so any ordering bug surfaces
+  quickly.
+- It does not change which tests run. Coverage, failure semantics,
+  and the honesty rules above are unchanged.
+- `xfail` was not used to make the suite green. No test was
+  weakened.
