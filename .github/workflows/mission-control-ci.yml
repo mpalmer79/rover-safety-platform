@@ -209,8 +209,17 @@ jobs:
           # that validates. We deliberately scope the grep to .html files only;
           # the .js bundle naturally contains the literal switch-statement
           # string from describeDerivationSource which is not a render claim.
+          #
+          # The /catalog route (Item 5) is explicitly excluded: the
+          # catalog renders <SpatialReplayBadge source="bag_backed" />
+          # as a documented state-VARIANT demo. The catalog never
+          # asserts that any specific run IS bag-backed; it shows
+          # what the badge looks like in each derivation_source.
           set -euo pipefail
-          claims=$(find .next/server/app -name '*.html' -print0 | xargs -0 grep -ln "bag-backed runtime evidence" || true)
+          claims=$(find .next/server/app -name '*.html' \
+            -not -path '*/catalog.html' \
+            -not -path '*/__visual__.html' \
+            -print0 | xargs -0 grep -ln "bag-backed runtime evidence" || true)
           if [ -n "$claims" ]; then
             echo "Pages claiming bag-backed runtime evidence:"
             echo "$claims"
