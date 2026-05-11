@@ -2,6 +2,7 @@ import { ShieldCheck } from "lucide-react";
 
 import { Panel } from "@/components/Panel";
 import { MermaidView } from "@/components/MermaidView";
+import { PageSurface } from "@/components/PageSurface";
 
 export const dynamic = "force-static";
 
@@ -56,6 +57,7 @@ const AUTHORITY_RULES = [
 
 export default function SafetyPage() {
   return (
+    <PageSurface>
     <div className="space-y-6">
       <header className="space-y-1">
         <p className="label">Safety authority</p>
@@ -95,5 +97,6 @@ export default function SafetyPage() {
         </ul>
       </Panel>
     </div>
+    </PageSurface>
   );
 }

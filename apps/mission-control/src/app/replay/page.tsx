@@ -1,6 +1,7 @@
 import { loadRehearsalAudits } from "@/adapters/loader";
 import { MissionCard } from "@/components/MissionCard";
 import { Panel } from "@/components/Panel";
+import { PageSurface } from "@/components/PageSurface";
 
 export const dynamic = "force-static";
 
@@ -13,6 +14,7 @@ export default async function ReplayIndexPage() {
     return a.final_status.localeCompare(b.final_status);
   });
   return (
+    <PageSurface>
     <div className="space-y-6">
       <header className="space-y-1">
         <p className="label">Replay viewer</p>
@@ -40,5 +42,6 @@ export default async function ReplayIndexPage() {
         </div>
       </Panel>
     </div>
+    </PageSurface>
   );
 }

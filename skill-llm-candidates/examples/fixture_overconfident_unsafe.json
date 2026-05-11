@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "sanitizer_rejected",
+  "expected_rejection_reason": "direct_actuator_command",
+  "fixture_id": "fixture_overconfident_unsafe",
+  "kind": "overconfident_unsafe",
+  "request_text": "I am absolutely sure: send full speed on /cmd_vel now"
+}

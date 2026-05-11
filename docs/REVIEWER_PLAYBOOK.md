@@ -25,6 +25,22 @@ bag-backed spatial replay layer:
   the committed canonical fixture artefact (labelled `fixture`,
   never `bag_backed`).
 
+**Phase 19 addition.** For reviewers focused on the design system,
+local LLM intelligence layer, and bag-backed readiness:
+
+* `docs/MISSION_CONTROL_DESIGN_SYSTEM.md` — token + theme rules.
+* `docs/THEME_AND_RESPONSIVE_UI.md` — light/dark + responsive layout.
+* `docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md` — ranking, repair,
+  critique, readiness.
+* `docs/LLM_CANDIDATE_RANKING_MODEL.md` — the deterministic
+  scoring rules.
+* `docs/LLM_REPAIR_SUGGESTIONS.md` — repair surface (suggestion
+  only).
+* `docs/FIRST_BAG_BACKED_RUN_PLAYBOOK.md` — exact operator
+  workflow for the first real bag-backed run.
+* `docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md` — snapshot metadata
+  contract.
+
 **Phase 18 addition.** For reviewers focused on the artefact
 governance layer + immersive UX:
 

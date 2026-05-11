@@ -7,6 +7,7 @@ import {
 import { CodeCard } from "@/components/CodeCard";
 import { Panel } from "@/components/Panel";
 import { StatusPill } from "@/components/StatusPill";
+import { PageSurface } from "@/components/PageSurface";
 
 export const dynamic = "force-static";
 
@@ -20,6 +21,7 @@ export default async function WorkbenchPage() {
   const rejected = library.filter((e) => e.kind === "rejected");
 
   return (
+    <PageSurface>
     <div className="space-y-6">
       <header className="space-y-1">
         <p className="label">Mission proposal workbench</p>
@@ -113,5 +115,6 @@ export default async function WorkbenchPage() {
         )}
       </div>
     </div>
+    </PageSurface>
   );
 }

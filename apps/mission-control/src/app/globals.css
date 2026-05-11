@@ -3,15 +3,11 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    color-scheme: dark;
-  }
-
   html,
   body {
-    @apply bg-base-0 text-base-800;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
+    color: var(--mc-text);
   }
 
   body {
@@ -19,54 +15,96 @@
   }
 
   a {
-    @apply text-base-800 transition-colors hover:text-accent;
+    color: var(--mc-text);
+    transition: color 160ms ease;
+  }
+  a:hover {
+    color: var(--mc-accent);
   }
 }
 
 @layer components {
   .panel {
-    @apply rounded-md border border-base-200 bg-base-50 shadow-panel;
+    background: linear-gradient(
+      150deg,
+      var(--mc-panel-grad-0) 0%,
+      var(--mc-panel-grad-1) 100%
+    );
+    border: 1px solid var(--mc-border);
+    color: var(--mc-text);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--mc-border) 30%, transparent),
+      0 1px 2px color-mix(in srgb, var(--mc-text-inverse) 25%, transparent);
   }
 
   .panel-tight {
-    @apply rounded border border-base-200 bg-base-50;
+    background: var(--mc-surface);
+    border: 1px solid var(--mc-border);
+    color: var(--mc-text);
+    border-radius: 0.375rem;
   }
 
   .panel-elevated {
-    @apply rounded-md border border-base-300 bg-base-50/95 shadow-elevated;
+    background: linear-gradient(
+      150deg,
+      var(--mc-panel-grad-0) 0%,
+      var(--mc-panel-grad-1) 100%
+    );
+    border: 1px solid var(--mc-border-strong);
+    color: var(--mc-text);
+    border-radius: 0.5rem;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--mc-border) 40%, transparent),
+      0 8px 24px -12px color-mix(in srgb, var(--mc-text-inverse) 45%, transparent);
   }
 
   .glass-panel {
-    @apply rounded-md border border-base-300/60 bg-base-100/70 shadow-elevated backdrop-blur-md;
+    background: var(--mc-surface-overlay);
+    border: 1px solid var(--mc-border);
+    color: var(--mc-text);
+    border-radius: 0.5rem;
+    backdrop-filter: blur(10px);
   }
 
   .label {
-    @apply text-[11px] uppercase tracking-[0.14em] text-base-500;
+    color: var(--mc-text-muted);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
 
   .display-1 {
-    @apply text-3xl font-semibold tracking-tight text-base-900;
+    color: var(--mc-text);
+    font-size: 1.875rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   .display-2 {
-    @apply text-xl font-semibold tracking-tight text-base-900;
+    color: var(--mc-text);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   .body-mono {
-    @apply font-mono text-sm leading-relaxed text-base-700;
+    color: var(--mc-text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
   }
 
   .console-backdrop {
     background-image:
       radial-gradient(
         circle at 18% 12%,
-        rgba(60, 180, 168, 0.08) 0%,
-        rgba(60, 180, 168, 0) 45%
+        color-mix(in srgb, var(--mc-accent) 14%, transparent) 0%,
+        transparent 45%
       ),
       radial-gradient(
         circle at 78% 88%,
-        rgba(167, 139, 250, 0.06) 0%,
-        rgba(167, 139, 250, 0) 45%
+        color-mix(in srgb, var(--mc-status-aborted) 12%, transparent) 0%,
+        transparent 45%
       );
   }
 }

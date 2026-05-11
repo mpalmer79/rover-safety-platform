@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-11T18:57:34+00:00",
+  "generated_at_utc": "2026-05-11T20:02:20+00:00",
   "overall_status": "passed",
-  "row_count": 143,
+  "row_count": 168,
   "rows": [
     {
       "architecture_refs": [
@@ -3133,6 +3133,512 @@
         "apps/mission-control/tests/hydration-honesty.test.tsx::Phase 18 honesty rules > never polls with setInterval inside src/"
       ],
       "title": "No setInterval / polling loop runs in the operator UI"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
+        "docs/THEME_AND_RESPONSIVE_UI.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/styles/tokens.ts",
+        "apps/mission-control/src/styles/theme.css"
+      ],
+      "kind": "design_system",
+      "requirement_id": "REQ-DESIGN-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/design-tokens.test.ts::Phase 19 design tokens > no token resolves to pure black or pure white",
+        "apps/mission-control/tests/design-tokens.test.ts::source-level honesty rules > no source file uses bg-black / bg-white / text-black / text-white classes",
+        "apps/mission-control/tests/design-tokens.test.ts::source-level honesty rules > no source file uses raw #000 / #fff hex values (token violations)"
+      ],
+      "title": "No solid black or solid white background tokens"
+    },
+    {
+      "architecture_refs": [
+        "docs/THEME_AND_RESPONSIVE_UI.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/lib/theme-provider.tsx",
+        "apps/mission-control/src/components/ThemeToggle.tsx"
+      ],
+      "kind": "design_system",
+      "requirement_id": "REQ-DESIGN-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/theme.test.tsx::ThemeProvider + useTheme > toggle flips between dark and light and persists the choice",
+        "apps/mission-control/tests/theme.test.tsx::ThemeProvider + useTheme > respects a stored preference on mount"
+      ],
+      "title": "Theme toggle persists user preference and supports system preference"
+    },
+    {
+      "architecture_refs": [
+        "docs/THEME_AND_RESPONSIVE_UI.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/ThemeToggle.tsx"
+      ],
+      "kind": "design_system",
+      "requirement_id": "REQ-DESIGN-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/theme.test.tsx::ThemeProvider + useTheme > ThemeToggle has aria-label describing the next state",
+        "apps/mission-control/tests/theme.test.tsx::ThemeProvider + useTheme > ThemeToggle is accessible via keyboard (role=switch)"
+      ],
+      "title": "ThemeToggle is accessible (role=switch, aria-label, keyboard)"
+    },
+    {
+      "architecture_refs": [
+        "docs/THEME_AND_RESPONSIVE_UI.md",
+        "docs/MISSION_CONTROL_DESIGN_SYSTEM.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/ResponsiveShell.tsx",
+        "apps/mission-control/src/components/PageSurface.tsx",
+        "apps/mission-control/src/components/ResponsiveGrid.tsx"
+      ],
+      "kind": "design_system",
+      "requirement_id": "REQ-DESIGN-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/responsive-layout.test.tsx::PageSurface > applies mobile-first padding + max-w-7xl cap",
+        "apps/mission-control/tests/responsive-layout.test.tsx::ResponsiveGrid > auto shape adds md:grid-cols-2 and xl:grid-cols-3",
+        "apps/mission-control/tests/responsive-layout.test.tsx::ResponsiveGrid > mission shape collapses to a single column on small screens"
+      ],
+      "title": "Pages are responsive across mobile, tablet, and desktop"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_CONTROL_DESIGN_SYSTEM.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/GradientPanel.tsx",
+        "apps/mission-control/src/styles/theme.css"
+      ],
+      "kind": "design_system",
+      "requirement_id": "REQ-DESIGN-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/responsive-layout.test.tsx::GradientPanel tones > renders the default neutral tone",
+        "apps/mission-control/tests/responsive-layout.test.tsx::GradientPanel tones > does not apply pure-color bg-black / bg-white"
+      ],
+      "title": "Gradient surface system replaces flat fills"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
+        "docs/THEME_AND_RESPONSIVE_UI.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/styles/tokens.ts",
+        "apps/mission-control/src/styles/theme.css"
+      ],
+      "kind": "design_system",
+      "requirement_id": "REQ-DESIGN-006",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/design-tokens.test.ts::Phase 19 design tokens > declares the full CSS variable map",
+        "apps/mission-control/tests/design-tokens.test.ts::Phase 19 design tokens > exports both light and dark token sets"
+      ],
+      "title": "Tokens map to CSS variables that both themes share"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_CONTROL_DESIGN_SYSTEM.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/SafetyBoundaryBanner.tsx",
+        "apps/mission-control/src/app/layout.tsx"
+      ],
+      "kind": "design_system",
+      "requirement_id": "REQ-DESIGN-007",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/responsive-layout.test.tsx::Safety boundary banner remains visible > renders the Simulation-only banner"
+      ],
+      "title": "Safety boundary banner remains visible in every theme"
+    },
+    {
+      "architecture_refs": [
+        "docs/THEME_AND_RESPONSIVE_UI.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/lib/theme-provider.tsx",
+        "apps/mission-control/src/app/layout.tsx"
+      ],
+      "kind": "design_system",
+      "requirement_id": "REQ-DESIGN-008",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/theme.test.tsx::ThemeProvider + useTheme > toggle does not flash pure black/white during load"
+      ],
+      "title": "No-FOUC bootstrap script resolves theme before paint"
+    },
+    {
+      "architecture_refs": [
+        "docs/MISSION_CONTROL_DESIGN_SYSTEM.md",
+        "docs/AUTONOMY_UI_DESIGN_SYSTEM.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/MissionMap.tsx",
+        "apps/mission-control/src/components/MissionStoryPanel.tsx",
+        "apps/mission-control/src/components/EvidenceLineageGraph.tsx",
+        "apps/mission-control/src/components/ReplayConfidencePanel.tsx"
+      ],
+      "kind": "design_system",
+      "requirement_id": "REQ-DESIGN-009",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/design-tokens.test.ts::source-level honesty rules > no source file uses bg-black / bg-white / text-black / text-white classes",
+        "apps/mission-control/tests/mission-storytelling.test.tsx::MissionStoryPanel > renders one step per lifecycle phase for an accepted mission"
+      ],
+      "title": "Mission narrative + evidence components inherit theme tokens"
+    },
+    {
+      "architecture_refs": [
+        "docs/THEME_AND_RESPONSIVE_UI.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/ResponsiveShell.tsx"
+      ],
+      "kind": "design_system",
+      "requirement_id": "REQ-DESIGN-010",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/responsive-layout.test.tsx::PageSurface > applies mobile-first padding + max-w-7xl cap"
+      ],
+      "title": "Responsive shell stays scrollable with min-w-0 main"
+    },
+    {
+      "architecture_refs": [
+        "docs/LLM_CANDIDATE_RANKING_MODEL.md",
+        "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/candidate_ranker.py"
+      ],
+      "kind": "skill_llm_intelligence",
+      "requirement_id": "REQ-SKILL-INTEL-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_intelligence.py::test_ranking_is_deterministic_for_identical_inputs",
+        "backend/tests/test_skill_llm_intelligence.py::test_ranking_serialises_to_dict"
+      ],
+      "title": "Candidate ranking is deterministic"
+    },
+    {
+      "architecture_refs": [
+        "docs/LLM_CANDIDATE_RANKING_MODEL.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/candidate_ranker.py"
+      ],
+      "kind": "skill_llm_intelligence",
+      "requirement_id": "REQ-SKILL-INTEL-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_intelligence.py::test_validator_outcome_dominates_ranking",
+        "backend/tests/test_skill_llm_intelligence.py::test_sanitizer_rejection_dominates"
+      ],
+      "title": "Validator outcome dominates candidate ranking"
+    },
+    {
+      "architecture_refs": [
+        "docs/LLM_CANDIDATE_RANKING_MODEL.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/candidate_ranker.py"
+      ],
+      "kind": "skill_llm_intelligence",
+      "requirement_id": "REQ-SKILL-INTEL-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_intelligence.py::test_overconfident_without_validation_is_penalised"
+      ],
+      "title": "Overconfident candidates without validator acceptance are penalised"
+    },
+    {
+      "architecture_refs": [
+        "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/candidate_normalizer.py"
+      ],
+      "kind": "skill_llm_intelligence",
+      "requirement_id": "REQ-SKILL-INTEL-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_intelligence.py::test_normalize_strips_markdown_fences",
+        "backend/tests/test_skill_llm_intelligence.py::test_normalize_rejects_invalid_json",
+        "backend/tests/test_skill_llm_intelligence.py::test_normalize_aliases_topic_lists"
+      ],
+      "title": "Candidate normalization preserves the raw payload"
+    },
+    {
+      "architecture_refs": [
+        "docs/LLM_REPAIR_SUGGESTIONS.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/candidate_repair.py"
+      ],
+      "kind": "skill_llm_intelligence",
+      "requirement_id": "REQ-SKILL-INTEL-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_intelligence.py::test_repair_suggests_stop_command_when_missing",
+        "backend/tests/test_skill_llm_intelligence.py::test_repair_status_not_applicable_for_clean_candidate",
+        "backend/tests/test_skill_llm_intelligence.py::test_repair_escalates_human_review_for_unsafe_categories"
+      ],
+      "title": "Repair suggestions are suggestion-only; never auto-applied"
+    },
+    {
+      "architecture_refs": [
+        "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/safety_critique.py"
+      ],
+      "kind": "skill_llm_intelligence",
+      "requirement_id": "REQ-SKILL-INTEL-006",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_intelligence.py::test_critique_flags_direct_cmd_vel",
+        "backend/tests/test_skill_llm_intelligence.py::test_critique_passes_for_clean_candidate",
+        "backend/tests/test_skill_llm_intelligence.py::test_critique_warns_on_overconfident_no_uncertainty"
+      ],
+      "title": "Safety critique covers every honesty category"
+    },
+    {
+      "architecture_refs": [
+        "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md",
+        "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/provider_readiness.py"
+      ],
+      "kind": "skill_llm_intelligence",
+      "requirement_id": "REQ-SKILL-INTEL-007",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_intelligence.py::test_readiness_never_opens_a_socket",
+        "backend/tests/test_skill_llm_intelligence.py::test_local_endpoint_requires_opt_in",
+        "backend/tests/test_skill_llm_intelligence.py::test_remote_endpoint_is_rejected_even_when_enabled"
+      ],
+      "title": "Provider readiness check never opens a socket"
+    },
+    {
+      "architecture_refs": [
+        "docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/provider_readiness.py",
+        "backend/app/skill_llm_provider/config.py"
+      ],
+      "kind": "skill_llm_intelligence",
+      "requirement_id": "REQ-SKILL-INTEL-008",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_intelligence.py::test_disabled_provider_readiness_reports_disabled"
+      ],
+      "title": "Local provider remains disabled by default"
+    },
+    {
+      "architecture_refs": [
+        "docs/FUTURE_LOCAL_MODEL_OPERATIONS.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/skill_llm_provider/model_capabilities.py"
+      ],
+      "kind": "skill_llm_intelligence",
+      "requirement_id": "REQ-SKILL-INTEL-009",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_intelligence.py::test_default_capability_registry_includes_canonical_fixture",
+        "backend/tests/test_skill_llm_intelligence.py::test_capability_to_dict_round_trips"
+      ],
+      "title": "Model capability registry is metadata-only"
+    },
+    {
+      "architecture_refs": [
+        "docs/LOCAL_LLM_INTELLIGENCE_UPGRADE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "skill-llm-candidates/examples/fixture_ambiguous_destination.json",
+        "skill-llm-candidates/examples/fixture_ambiguous_distance.json",
+        "skill-llm-candidates/examples/fixture_overconfident_unsafe.json"
+      ],
+      "kind": "skill_llm_intelligence",
+      "requirement_id": "REQ-SKILL-INTEL-010",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "backend/tests/test_skill_llm_intelligence.py::test_ranking_is_deterministic_for_identical_inputs"
+      ],
+      "title": "Fixture set covers accepted, rejected, and ambiguous cases"
+    },
+    {
+      "architecture_refs": [
+        "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/scene_snapshot/pipeline.py",
+        "apps/mission-control/src/adapters/sceneSnapshot.ts"
+      ],
+      "kind": "scene_snapshot",
+      "requirement_id": "REQ-SNAPSHOT-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_scene_snapshot.py::test_missing_run_id_reports_unavailable",
+        "apps/mission-control/tests/scene-snapshot.test.tsx::computeSceneSnapshot > returns unavailable when nothing exists",
+        "apps/mission-control/tests/scene-snapshot.test.tsx::SceneSnapshotPanel > renders the not_executed missing-inputs list when bag_status mismatches"
+      ],
+      "title": "Scene snapshot is not_executed without a backing artefact"
+    },
+    {
+      "architecture_refs": [
+        "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md",
+        "docs/SPATIAL_REPLAY_HONESTY_RULES.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/scene_snapshot/pipeline.py",
+        "apps/mission-control/src/components/SceneSnapshotPanel.tsx"
+      ],
+      "kind": "scene_snapshot",
+      "requirement_id": "REQ-SNAPSHOT-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_scene_snapshot.py::test_fixture_run_is_not_bag_backed",
+        "backend/tests/test_scene_snapshot.py::test_committed_canonical_fixture_is_not_bag_backed",
+        "apps/mission-control/tests/scene-snapshot.test.tsx::SceneSnapshotPanel > renders fixture status with the no-bag-backed note"
+      ],
+      "title": "Fixture replays never become bag-backed snapshots"
+    },
+    {
+      "architecture_refs": [
+        "docs/FIRST_BAG_BACKED_RUN_PLAYBOOK.md",
+        "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/scene_snapshot/pipeline.py"
+      ],
+      "kind": "scene_snapshot",
+      "requirement_id": "REQ-SNAPSHOT-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_scene_snapshot.py::test_bag_backed_run_is_eligible_when_integrity_passes",
+        "backend/tests/test_scene_snapshot.py::test_bag_backed_run_is_not_eligible_when_artifact_missing",
+        "apps/mission-control/tests/scene-snapshot.test.tsx::computeSceneSnapshot > returns bag_backed status only when derivation + bag_status + integrity all align"
+      ],
+      "title": "Bag-backed snapshot requires real bag-backed inputs"
+    },
+    {
+      "architecture_refs": [
+        "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/scene_snapshot/pipeline.py",
+        "apps/mission-control/src/components/SceneSnapshotPanel.tsx"
+      ],
+      "kind": "scene_snapshot",
+      "requirement_id": "REQ-SNAPSHOT-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_scene_snapshot.py::test_build_snapshot_returns_hash_chain",
+        "backend/tests/test_scene_snapshot.py::test_snapshot_serialises_with_disclaimer",
+        "apps/mission-control/tests/scene-snapshot.test.tsx::SceneSnapshotPanel > renders the hash chain when a registry record is present"
+      ],
+      "title": "Snapshot artefact carries a hash chain + disclaimer"
+    },
+    {
+      "architecture_refs": [
+        "docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md",
+        "docs/FIRST_BAG_BACKED_RUN_PLAYBOOK.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "tools/generate_reviewer_scene_snapshot.py",
+        "backend/app/scene_snapshot/pipeline.py"
+      ],
+      "kind": "scene_snapshot",
+      "requirement_id": "REQ-SNAPSHOT-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_scene_snapshot.py::test_write_snapshot_artefacts_creates_files",
+        "backend/tests/test_scene_snapshot.py::test_committed_canonical_fixture_lists_no_bag_backed_inputs"
+      ],
+      "title": "Snapshot pipeline never generates a screenshot binary"
     }
   ]
 }

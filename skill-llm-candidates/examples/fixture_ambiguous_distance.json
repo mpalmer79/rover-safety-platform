@@ -1,0 +1,7 @@
+{
+  "expected_final_status": "validator_rejected",
+  "expected_rejection_reason": "ambiguous_request",
+  "fixture_id": "fixture_ambiguous_distance",
+  "kind": "ambiguous",
+  "request_text": "turn a little"
+}

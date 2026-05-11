@@ -10,6 +10,7 @@ import {
 import { selectMissionRoute } from "@/adapters/spatial";
 import { MissionTimelineBridge } from "@/3d/MissionTimelineBridge";
 import { ArtifactIntegrityBadge } from "@/components/ArtifactIntegrityBadge";
+import { PageSurface } from "@/components/PageSurface";
 import { AuditPanel } from "@/components/AuditPanel";
 import { CompilerDecisionCard } from "@/components/CompilerDecisionCard";
 import { DeterministicHashChain } from "@/components/DeterministicHashChain";
@@ -26,6 +27,7 @@ import { ReplayAnalyticsPanel } from "@/components/ReplayAnalyticsPanel";
 import { ReplayConfidencePanel } from "@/components/ReplayConfidencePanel";
 import { ReplayLifecyclePanel } from "@/components/ReplayLifecyclePanel";
 import { ReplayTimeline } from "@/components/ReplayTimeline";
+import { SceneSnapshotPanel } from "@/components/SceneSnapshotPanel";
 import { RiskBandBadge } from "@/components/RiskBandBadge";
 import { SafetyZoneLayer } from "@/components/SafetyZoneLayer";
 import { StatusPill } from "@/components/StatusPill";
@@ -64,16 +66,17 @@ export default async function MissionPage({ params }: MissionPageProps) {
   const route = selectMissionRoute(plan, spatialReplay);
 
   return (
+    <PageSurface>
     <div className="space-y-6">
-      <header className="flex items-start justify-between gap-4">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
           <p className="label">{audit.request.request_id}</p>
           <h1 className="display-1">
             {audit.request.description || audit.request.mission_id}
           </h1>
-          <p className="text-base-700">{audit.request.proposal_source}</p>
+          <p className="text-muted">{audit.request.proposal_source}</p>
         </div>
-        <div className="flex flex-col items-end gap-2">
+        <div className="flex flex-row flex-wrap items-start gap-2 sm:flex-col sm:items-end">
           <StatusPill label={String(audit.final_status)} />
           {plan ? <RiskBandBadge band={plan.risk_band} /> : null}
           <EvidenceStatusChip
@@ -223,6 +226,11 @@ export default async function MissionPage({ params }: MissionPageProps) {
         <div className="space-y-4">
           <AuditPanel audit={audit} />
           <ReplayLifecyclePanel record={artifactRecord} />
+          <SceneSnapshotPanel
+            runId={params.id}
+            artifact={spatialReplay}
+            record={artifactRecord}
+          />
           {artifactRecord ? (
             <Panel
               eyebrow="Deterministic hashes"
@@ -264,9 +272,10 @@ export default async function MissionPage({ params }: MissionPageProps) {
         </div>
       </div>
 
-      <p className="text-xs text-base-500">
+      <p className="text-muted text-xs">
         ← <Link className="underline" href="/replay">Back to replay index</Link>
       </p>
     </div>
+    </PageSurface>
   );
 }

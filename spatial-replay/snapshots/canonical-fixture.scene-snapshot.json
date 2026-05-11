@@ -1,0 +1,44 @@
+{
+  "artifact_hash_chain": [
+    {
+      "relative_path": "spatial-replay/runs/canonical-fixture/event-alignment.json",
+      "sha256_prefix": "cb94e34bf5be4b5b",
+      "size_bytes": "4284"
+    },
+    {
+      "relative_path": "spatial-replay/runs/canonical-fixture/spatial-replay-report.md",
+      "sha256_prefix": "6717d817fb31892d",
+      "size_bytes": "1023"
+    },
+    {
+      "relative_path": "spatial-replay/runs/canonical-fixture/spatial-replay.json",
+      "sha256_prefix": "d3225936609a9d67",
+      "size_bytes": "8956"
+    },
+    {
+      "relative_path": "spatial-replay/runs/canonical-fixture/spatial-validation.json",
+      "sha256_prefix": "a58bce232ebcaeb7",
+      "size_bytes": "160"
+    },
+    {
+      "relative_path": "spatial-replay/runs/canonical-fixture/trajectory.jsonl",
+      "sha256_prefix": "0e962b795dc86cc9",
+      "size_bytes": "1984"
+    }
+  ],
+  "artifact_registry_entry": "spatial-replay/registry/canonical-artifacts.json",
+  "bag_status": "missing_manifest",
+  "derivation_source": "fixture",
+  "disclaimer": "This project is not safety-certified. Reviewer scene snapshots are deterministic metadata, never live telemetry. A bag-backed snapshot requires real bag-backed spatial replay artefacts.",
+  "generated_at_utc": "2026-05-11T19:54:57.547242+00:00",
+  "integrity": "passed",
+  "missing_inputs": [],
+  "notes": [
+    "Fixture-derived run; not eligible for a bag-backed snapshot."
+  ],
+  "reviewer_export_ready": false,
+  "run_id": "canonical-fixture",
+  "scene_source": "",
+  "spatial_replay_path": "spatial-replay/runs/canonical-fixture/spatial-replay.json",
+  "status": "fixture"
+}
