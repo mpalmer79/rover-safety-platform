@@ -58,6 +58,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 15A — Deterministic Robotics Skill Authoring Workbench | Implemented; offline / template-only; see section 3r |
 | Phase 15B — Local LLM Skill Candidate Provider (disabled by default) | Implemented; cloud APIs forbidden; no network call in this phase; see section 3s |
 | Phase 16 — Governed Mission-to-Rehearsal Pipeline | Implemented; simulation-only; deterministic; validator-authoritative; see section 3t |
+| Phase 17A — Mission Control Experience & Autonomy Visualization Layer | Implemented; static-export Next.js workspace; reads committed artefacts only; see section 3u |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -1901,6 +1902,80 @@ motion arbitration remain the only path to actuator authority.
 
 A follow-up phase that wires the rehearsal pipeline into a real
 robot must follow `docs/FUTURE_DIGITAL_TWIN_DIRECTION.md`.
+
+---
+
+## 3u. Phase 17A: Mission Control Experience & Autonomy Visualization Layer
+
+### Status
+
+Implemented as a static-export Next.js 14 workspace at
+`apps/mission-control/`. Renders committed JSON artefacts only.
+No API routes; no live data fetching; no network surface.
+
+### Objectives
+
+Phase 17A turns the deterministic backend into a believable
+mission-control console. Five primary screens read directly from
+the audit bundles produced by Phases 13–16 plus the verification +
+traceability artefacts, so every value the operator sees is sourced
+from disk.
+
+### Deliverables
+
+- `apps/mission-control/` — Next.js 14 App Router workspace with
+  TypeScript, Tailwind, Framer Motion, Lucide icons, and Mermaid.
+- 16 reusable components (Panel, MissionCard, ReplayTimeline,
+  CodeCard, CompilerDecisionCard, SupervisorAuthorityPanel,
+  MissionStateStepper, RiskBandBadge, EvidenceStatusChip,
+  DeterministicHashDisplay, AuditPanel, GovernanceHealthPanel,
+  RequirementBadge, ReplayAnalyticsPanel, MermaidView,
+  SafetyBoundaryBanner).
+- 5 primary screens plus 10 static-prerendered per-mission detail
+  pages (one per committed rehearsal audit).
+- Deterministic TypeScript adapters that read JSON via
+  `fs.readFile` and return typed value objects (or `null` when an
+  artefact is missing).
+- 26 frontend tests across `adapter.test.ts`, `components.test.tsx`,
+  and `honesty.test.ts`.
+- Ten new requirements (`REQ-MCTRL-001..010`) under
+  `RequirementKind.MISSION_CONTROL`.
+- Five new docs:
+  `docs/MISSION_CONTROL_UI.md`,
+  `docs/AUTONOMY_VISUALIZATION_GUIDE.md`,
+  `docs/OPERATOR_WORKSTATION_ARCHITECTURE.md`,
+  `docs/REPLAY_VIEWER_GUIDE.md`,
+  `docs/SAFETY_AUTHORITY_VISUALIZATION.md`.
+
+### Acceptance Criteria
+
+- the frontend never imports `openai`, `@anthropic-ai/sdk`,
+  `cohere-ai`, `@google/generative-ai`, `axios`,
+  `isomorphic-fetch`, `node:child_process`, `node:net`, or
+  `node:dgram` (AST-style honesty test);
+- the `SafetyBoundaryBanner` renders on every page;
+- the `EvidenceStatusChip` cannot fabricate a `bag_backed=yes`
+  claim;
+- rejected missions remain visible across the dashboard, replay
+  viewer, and mission detail page;
+- adapters return `null` on missing artefacts and the UI shows an
+  honest placeholder;
+- the build is statically prerenderable (18 routes including the
+  10 per-mission detail pages).
+
+### What Phase 17A does NOT do
+
+- run real hardware;
+- open a network socket;
+- call cloud APIs;
+- execute generated code;
+- mark simulated rehearsal evidence as bag-backed;
+- imply real-world deployment or safety certification.
+
+A follow-up phase that wires the workbench into a real
+Gazebo-backed rehearsal must update
+`docs/MISSION_CONTROL_UI.md`, `docs/SAFETY_AUTHORITY_VISUALIZATION.md`,
+and add an ADR.
 
 ---
 

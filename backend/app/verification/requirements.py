@@ -41,6 +41,7 @@ class RequirementKind(str, Enum):
     SKILL = "skill"
     SKILL_LLM = "skill_llm"
     REHEARSAL = "rehearsal"
+    MISSION_CONTROL = "mission_control"
 
 
 @dataclass(frozen=True)
@@ -2494,6 +2495,258 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "backend/tests/test_mission_rehearsal.py::test_analytics_counts_supervisor_rejection",
             "backend/tests/test_mission_rehearsal.py::test_analytics_counts_validator_rejection",
             "backend/tests/test_mission_rehearsal.py::test_analytics_deterministic_replay_stable_flag",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCTRL-001",
+        kind=RequirementKind.MISSION_CONTROL,
+        title="Mission-control UI is simulation-only and never opens a network socket",
+        description=(
+            "The Phase 17A mission-control workspace at "
+            "``apps/mission-control/`` runs as a static-export "
+            "Next.js application. It reads JSON artefacts from "
+            "disk via Node.js ``fs.readFile`` and renders them. The "
+            "package never imports a cloud LLM SDK, a generic HTTP "
+            "client (``axios``, ``isomorphic-fetch``), Node's "
+            "``child_process`` / ``net`` / ``dgram`` modules. Every "
+            "page is statically prerenderable."
+        ),
+        architecture_refs=(
+            "docs/MISSION_CONTROL_UI.md",
+            "docs/OPERATOR_WORKSTATION_ARCHITECTURE.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/adapters/loader.ts",
+            "apps/mission-control/src/app/layout.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never imports a cloud LLM SDK or a generic HTTP client",
+            "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never spawns subprocesses or opens raw sockets",
+            "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never references a /cmd_vel publication outside comments + descriptive context",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCTRL-002",
+        kind=RequirementKind.MISSION_CONTROL,
+        title="Replay viewer distinguishes simulated rehearsals from bag-backed evidence",
+        description=(
+            "The ``EvidenceStatusChip`` component renders the "
+            "verbatim ``evidence_status`` AND ``bag_backed`` value "
+            "from the source artefact. A simulated rehearsal can "
+            "never appear as bag-backed; the chip's display text "
+            "would contradict itself. The replay viewer index labels "
+            "the overall bundle count as ``simulation-only · "
+            "bag-backed: 0`` to keep operator trust honest."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_VIEWER_GUIDE.md",
+            "docs/AUTONOMY_VISUALIZATION_GUIDE.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/EvidenceStatusChip.tsx",
+            "apps/mission-control/src/app/replay/page.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/components.test.tsx::EvidenceStatusChip > renders verbatim status and bag-backed=no",
+            "apps/mission-control/tests/components.test.tsx::EvidenceStatusChip > never silently inverts the bag-backed claim",
+            "apps/mission-control/tests/adapter.test.ts::rehearsal audit adapters > loads all audits in stable order",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCTRL-003",
+        kind=RequirementKind.MISSION_CONTROL,
+        title="Mission-control surfaces deterministic authority boundaries",
+        description=(
+            "Every operator surface (dashboard, workbench, replay, "
+            "safety authority, evidence) renders the persistent "
+            "``SafetyBoundaryBanner`` and exposes the supervisor "
+            "decision verbatim. The Safety Authority page explains "
+            "who can authorise motion, what is rejected, and why "
+            "``/cmd_vel_requested`` exists."
+        ),
+        architecture_refs=(
+            "docs/SAFETY_AUTHORITY_VISUALIZATION.md",
+            "docs/MISSION_CONTROL_UI.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/SafetyBoundaryBanner.tsx",
+            "apps/mission-control/src/components/SupervisorAuthorityPanel.tsx",
+            "apps/mission-control/src/app/safety/page.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/components.test.tsx::SafetyBoundaryBanner > declares the platform is not safety-certified",
+            "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > the SafetyBoundaryBanner is rendered from the root layout",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCTRL-004",
+        kind=RequirementKind.MISSION_CONTROL,
+        title="Generated code panels preserve the deterministic validator outcome",
+        description=(
+            "The Workbench's ``CodeCard`` component renders the "
+            "verbatim source emitted by the Phase 15A skill "
+            "workbench. The component does not autoformat, "
+            "re-flow, or trim the code text because the audit "
+            "bundle's deterministic hash depends on the exact "
+            "bytes. The card surfaces every safety badge from the "
+            "skill's code-card payload."
+        ),
+        architecture_refs=(
+            "docs/AUTONOMY_VISUALIZATION_GUIDE.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/CodeCard.tsx",
+            "apps/mission-control/src/app/workbench/page.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/adapter.test.ts::skill library > loads accepted skills with code cards",
+            "apps/mission-control/tests/adapter.test.ts::skill library > the move_forward_6_feet skill converts to 1.8288 m",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCTRL-005",
+        kind=RequirementKind.MISSION_CONTROL,
+        title="Dashboards do not fabricate live runtime status",
+        description=(
+            "The dashboard reads "
+            "``live-runtime/live-runtime-maturity.json`` verbatim "
+            "and exposes the same status text the Phase 13 "
+            "aggregator emitted. Bag-backed counts are sourced "
+            "directly; the dashboard never recodes "
+            "``not_established`` into something more optimistic. "
+            "When the artefact is missing on disk the dashboard "
+            "shows an honest placeholder."
+        ),
+        architecture_refs=(
+            "docs/MISSION_CONTROL_UI.md",
+            "docs/LIVE_RUNTIME_MATURITY_REPORT.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/adapters/loader.ts",
+            "apps/mission-control/src/app/page.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/adapter.test.ts::traceability > reads the committed traceability JSON",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCTRL-006",
+        kind=RequirementKind.MISSION_CONTROL,
+        title="Rejected missions remain visible",
+        description=(
+            "The replay viewer and the mission detail page render "
+            "every audit, including those whose ``final_status`` is "
+            "``rejected`` or ``aborted``. The status pill is "
+            "colour-coded but never hidden; the mission stepper "
+            "shows the halt point; the audit panel preserves the "
+            "rejection reason. No filter silently drops rejected "
+            "rehearsals."
+        ),
+        architecture_refs=(
+            "docs/REPLAY_VIEWER_GUIDE.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/MissionCard.tsx",
+            "apps/mission-control/src/components/MissionStateStepper.tsx",
+            "apps/mission-control/src/app/replay/page.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/adapter.test.ts::rehearsal audit adapters > preserves rejection reasons",
+            "apps/mission-control/tests/components.test.tsx::MissionStateStepper > does not silently hide the rejected state",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCTRL-007",
+        kind=RequirementKind.MISSION_CONTROL,
+        title="Mission-control adapters return null on missing artefacts",
+        description=(
+            "Adapter functions in "
+            "``apps/mission-control/src/adapters/loader.ts`` return "
+            "``null`` (or an empty array) when an artefact is "
+            "missing. They never synthesise a happy-path value. "
+            "The UI handles the null case with an honest placeholder "
+            "(e.g. ``No rehearsal events recorded.``)."
+        ),
+        architecture_refs=(
+            "docs/OPERATOR_WORKSTATION_ARCHITECTURE.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/adapters/loader.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/adapter.test.ts::rehearsal audit adapters > returns null for unknown audits",
+            "apps/mission-control/tests/components.test.tsx::DeterministicHashDisplay > handles null hashes without crashing",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCTRL-008",
+        kind=RequirementKind.MISSION_CONTROL,
+        title="Operator surfaces preserve deterministic hashes",
+        description=(
+            "Plan, runtime, replay, and per-event deterministic "
+            "hashes are rendered via the ``DeterministicHashDisplay`` "
+            "component. The full hash is exposed in the tooltip "
+            "so a reviewer can confirm reproducibility without "
+            "leaving the console."
+        ),
+        architecture_refs=(
+            "docs/AUTONOMY_VISUALIZATION_GUIDE.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/DeterministicHashDisplay.tsx",
+            "apps/mission-control/src/components/AuditPanel.tsx",
+            "apps/mission-control/src/components/ReplayTimeline.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/components.test.tsx::DeterministicHashDisplay > renders the short hash and the full hash via title",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCTRL-009",
+        kind=RequirementKind.MISSION_CONTROL,
+        title="Mission-control does not claim live deployment",
+        description=(
+            "The persistent ``SafetyBoundaryBanner`` declares the "
+            "platform is simulation-only and not safety-certified "
+            "on every page. The sidebar's honesty footer repeats "
+            "that bag-backed evidence count remains 0. No CTA, "
+            "button, or surface implies live robot deployment."
+        ),
+        architecture_refs=(
+            "docs/SAFETY_AUTHORITY_VISUALIZATION.md",
+            "docs/MISSION_CONTROL_UI.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/SafetyBoundaryBanner.tsx",
+            "apps/mission-control/src/components/SiteNav.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/components.test.tsx::SafetyBoundaryBanner > declares the platform is not safety-certified",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MCTRL-010",
+        kind=RequirementKind.MISSION_CONTROL,
+        title="Frontend never imports a cloud LLM SDK or live-network module",
+        description=(
+            "An AST-style honesty test asserts the frontend source "
+            "tree never imports ``openai``, ``@anthropic-ai/sdk``, "
+            "``cohere-ai``, ``@google/generative-ai``, ``axios``, "
+            "``isomorphic-fetch``, ``node:child_process``, "
+            "``node:net``, or ``node:dgram``. The Phase 17A layer "
+            "therefore cannot exfiltrate operator text, cannot "
+            "spawn processes, and cannot open arbitrary sockets."
+        ),
+        architecture_refs=(
+            "docs/MISSION_CONTROL_UI.md",
+            "docs/OPERATOR_WORKSTATION_ARCHITECTURE.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never imports a cloud LLM SDK or a generic HTTP client",
+            "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never spawns subprocesses or opens raw sockets",
         ),
     ),
 )

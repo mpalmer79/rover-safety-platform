@@ -348,6 +348,35 @@ artefact in this directory authorises live robot motion.
 
 ---
 
+## Phase 17A (mission control UI) entry points
+
+If you are reviewing the Phase 17A work specifically:
+
+1. Start with [`MISSION_CONTROL_UI.md`](MISSION_CONTROL_UI.md) for
+   the architectural overview and screen list.
+2. Read [`AUTONOMY_VISUALIZATION_GUIDE.md`](AUTONOMY_VISUALIZATION_GUIDE.md)
+   for the per-component design rationale.
+3. Read [`OPERATOR_WORKSTATION_ARCHITECTURE.md`](OPERATOR_WORKSTATION_ARCHITECTURE.md)
+   for the adapter layer and data flow.
+4. Read [`REPLAY_VIEWER_GUIDE.md`](REPLAY_VIEWER_GUIDE.md) and
+   [`SAFETY_AUTHORITY_VISUALIZATION.md`](SAFETY_AUTHORITY_VISUALIZATION.md)
+   for the two screens that anchor the safety story.
+5. Run the workspace locally:
+   ```
+   cd apps/mission-control
+   npm install
+   npm run test
+   npm run build
+   npm run dev
+   ```
+
+The UI never opens a network socket, never imports a cloud SDK,
+never executes generated code, and never marks simulated rehearsal
+evidence as bag-backed. The runtime safety supervisor and motion
+arbitration remain authoritative.
+
+---
+
 ## What this playbook does not do
 
 - It does not run anything for you. To run scenarios and inspect

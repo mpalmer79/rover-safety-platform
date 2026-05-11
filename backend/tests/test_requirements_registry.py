@@ -70,12 +70,17 @@ def test_requirement_scenario_refs_resolve_to_known_scenarios() -> None:
 
 
 def test_requirement_test_refs_have_expected_format() -> None:
+    # Backend / rover_ws tests live in pytest modules (.py). Phase 17A's
+    # mission-control UI is verified by vitest (.test.ts / .test.tsx);
+    # both module shapes are acceptable as long as the ``::`` separator
+    # is present so the reference is unambiguous.
+    allowed_suffixes = (".py", ".test.ts", ".test.tsx")
     for r in REQUIREMENTS:
         for ref in r.test_refs:
             assert "::" in ref, f"{r.req_id} test ref {ref!r} missing '::'"
             module_part, _ = ref.split("::", 1)
-            assert module_part.endswith(".py"), (
-                f"{r.req_id} test ref {ref!r} module not .py"
+            assert module_part.endswith(allowed_suffixes), (
+                f"{r.req_id} test ref {ref!r} module not in {allowed_suffixes}"
             )
 
 
