@@ -1,0 +1,11 @@
+{
+  "description": "Infinite patrol loop attempt (rejected)",
+  "mission_id": "infinite_patrol_loop",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "operator": "test-operator",
+  "proposal_source": "while True: patrol forever.",
+  "request_id": "infinite_patrol_loop",
+  "requested_at_utc": "2026-05-13T00:00:00+00:00",
+  "seed": 42
+}

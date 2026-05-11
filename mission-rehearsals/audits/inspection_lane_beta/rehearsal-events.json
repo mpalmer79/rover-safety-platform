@@ -1,0 +1,199 @@
+[
+  {
+    "description": "mission rehearsal created",
+    "deterministic_hash": "0da894304b29f003",
+    "event_id": "inspection_lane_beta-evt-0000",
+    "event_subtype": "created",
+    "event_time_ns": 0,
+    "event_type": "mission",
+    "mission_id": "inspection_lane_beta",
+    "payload": {
+      "deterministic_hash": "175532b90b9f7a7b",
+      "request_id": "inspection_lane_beta",
+      "risk_band": "guarded",
+      "seed": 42
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_runtime"
+  },
+  {
+    "description": "validation passed",
+    "deterministic_hash": "5c04ef232ee4ccd8",
+    "event_id": "inspection_lane_beta-evt-0001",
+    "event_subtype": "passed",
+    "event_time_ns": 100000000,
+    "event_type": "validation",
+    "mission_id": "inspection_lane_beta",
+    "payload": {
+      "diagnostics": []
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_validator"
+  },
+  {
+    "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+    "deterministic_hash": "712022c27baf9554",
+    "event_id": "inspection_lane_beta-evt-0002",
+    "event_subtype": "approved",
+    "event_time_ns": 200000000,
+    "event_type": "supervisor",
+    "mission_id": "inspection_lane_beta",
+    "payload": {
+      "decision_id": "decision-inspection_lane_beta",
+      "decision_status": "approved",
+      "rejected_reasons": [],
+      "safety_status": "guarded"
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_supervisor"
+  },
+  {
+    "description": "mission rehearsal started",
+    "deterministic_hash": "ab1555b7f35530b9",
+    "event_id": "inspection_lane_beta-evt-0003",
+    "event_subtype": "rehearsal_started",
+    "event_time_ns": 300000000,
+    "event_type": "mission",
+    "mission_id": "inspection_lane_beta",
+    "payload": {
+      "seed": 42
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_runtime"
+  },
+  {
+    "description": "waypoint beta requested",
+    "deterministic_hash": "7657635c54265235",
+    "event_id": "inspection_lane_beta-evt-0004",
+    "event_subtype": "waypoint_requested",
+    "event_time_ns": 400000000,
+    "event_type": "motion",
+    "mission_id": "inspection_lane_beta",
+    "payload": {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 1.5,
+      "bounded_speed_mps": 0.2,
+      "label": "Lane beta",
+      "stage_kind": "inspect",
+      "waypoint_id": "beta"
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_runtime"
+  },
+  {
+    "description": "safety check passed for beta",
+    "deterministic_hash": "0c3cfe9a54e701a7",
+    "event_id": "inspection_lane_beta-evt-0005",
+    "event_subtype": "safety_check_passed",
+    "event_time_ns": 500000000,
+    "event_type": "safety",
+    "mission_id": "inspection_lane_beta",
+    "payload": {
+      "waypoint_id": "beta"
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_supervisor"
+  },
+  {
+    "description": "simulated motion request for beta",
+    "deterministic_hash": "fa2635b53194f7e5",
+    "event_id": "inspection_lane_beta-evt-0006",
+    "event_subtype": "motion_request_simulated",
+    "event_time_ns": 600000000,
+    "event_type": "motion",
+    "mission_id": "inspection_lane_beta",
+    "payload": {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 1.5,
+      "bounded_speed_mps": 0.2,
+      "label": "Lane beta",
+      "stage_kind": "inspect",
+      "waypoint_id": "beta"
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_runtime"
+  },
+  {
+    "description": "waypoint beta reached (simulated)",
+    "deterministic_hash": "24776cd335adeb78",
+    "event_id": "inspection_lane_beta-evt-0007",
+    "event_subtype": "waypoint_reached",
+    "event_time_ns": 700000000,
+    "event_type": "motion",
+    "mission_id": "inspection_lane_beta",
+    "payload": {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 1.5,
+      "bounded_speed_mps": 0.2,
+      "label": "Lane beta",
+      "stage_kind": "inspect",
+      "waypoint_id": "beta"
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_runtime"
+  },
+  {
+    "description": "waypoint dock requested",
+    "deterministic_hash": "9afab448ee25f161",
+    "event_id": "inspection_lane_beta-evt-0008",
+    "event_subtype": "waypoint_requested",
+    "event_time_ns": 800000000,
+    "event_type": "motion",
+    "mission_id": "inspection_lane_beta",
+    "payload": {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 0.0,
+      "bounded_speed_mps": 0.0,
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "dock"
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_runtime"
+  },
+  {
+    "description": "safety check passed for dock",
+    "deterministic_hash": "e6792ad65d43d059",
+    "event_id": "inspection_lane_beta-evt-0009",
+    "event_subtype": "safety_check_passed",
+    "event_time_ns": 900000000,
+    "event_type": "safety",
+    "mission_id": "inspection_lane_beta",
+    "payload": {
+      "waypoint_id": "dock"
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_supervisor"
+  },
+  {
+    "description": "simulated motion request for dock",
+    "deterministic_hash": "a3cc18ba257fb1d5",
+    "event_id": "inspection_lane_beta-evt-0010",
+    "event_subtype": "motion_request_simulated",
+    "event_time_ns": 1000000000,
+    "event_type": "motion",
+    "mission_id": "inspection_lane_beta",
+    "payload": {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 0.0,
+      "bounded_speed_mps": 0.0,
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "dock"
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_runtime"
+  },
+  {
+    "description": "mission rehearsal completed (simulated)",
+    "deterministic_hash": "a2c389c8f2db59d6",
+    "event_id": "inspection_lane_beta-evt-0011",
+    "event_subtype": "completed",
+    "event_time_ns": 1100000000,
+    "event_type": "mission",
+    "mission_id": "inspection_lane_beta",
+    "payload": {},
+    "severity": "info",
+    "source_phase": "rehearsal_runtime"
+  }
+]

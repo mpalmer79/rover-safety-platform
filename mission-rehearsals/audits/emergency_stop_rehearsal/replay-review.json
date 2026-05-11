@@ -1,0 +1,71 @@
+{
+  "bag_backed": false,
+  "deterministic_hash": "2bdf6ab718edf6f3",
+  "evidence_status": "simulated",
+  "mission_id": "emergency_stop_rehearsal",
+  "notes": [
+    "Rehearsal evidence is simulation-only; no rosbag exists.",
+    "Plan deterministic hash: 06d24bc424006848",
+    "Runtime deterministic hash: bc0107c8577fc76e"
+  ],
+  "rendered_markdown": "# Rehearsal replay review: emergency_stop_rehearsal\n\n_Simulation-only. No bag artefacts exist for this rehearsal._\n\n- **Mission id:** `emergency_stop_rehearsal`\n- **Plan hash:** `06d24bc424006848`\n- **Runtime hash:** `bc0107c8577fc76e`\n- **Evidence status:** `simulated`\n- **Bag-backed:** False\n- **Final status:** `completed`\n- **Review status:** `passed`\n- **Markers recorded:** 7\n\n## Notes\n- Rehearsal evidence is simulation-only; no rosbag exists.\n- Plan deterministic hash: 06d24bc424006848\n- Runtime deterministic hash: bc0107c8577fc76e\n\n## Authority statement\n\nThis replay review is generated from a simulation-only rehearsal. No live bag exists. The runtime safety supervisor remains authoritative for any future real run.\n",
+  "replay_markers": [
+    {
+      "description": "mission rehearsal created",
+      "deterministic_hash": "e80160ed7b79846c",
+      "marker_id": "emergency_stop_rehearsal-evt-0000",
+      "subtype": "created",
+      "time_ns": 0,
+      "type": "mission"
+    },
+    {
+      "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+      "deterministic_hash": "0ae09fbf19d261bb",
+      "marker_id": "emergency_stop_rehearsal-evt-0002",
+      "subtype": "approved",
+      "time_ns": 200000000,
+      "type": "supervisor"
+    },
+    {
+      "description": "mission rehearsal started",
+      "deterministic_hash": "11bfc060cb6b0a4b",
+      "marker_id": "emergency_stop_rehearsal-evt-0003",
+      "subtype": "rehearsal_started",
+      "time_ns": 300000000,
+      "type": "mission"
+    },
+    {
+      "description": "waypoint stop requested",
+      "deterministic_hash": "96d70268200e438d",
+      "marker_id": "emergency_stop_rehearsal-evt-0004",
+      "subtype": "waypoint_requested",
+      "time_ns": 400000000,
+      "type": "motion"
+    },
+    {
+      "description": "safety check passed for stop",
+      "deterministic_hash": "858ee8228fe39e19",
+      "marker_id": "emergency_stop_rehearsal-evt-0005",
+      "subtype": "safety_check_passed",
+      "time_ns": 500000000,
+      "type": "safety"
+    },
+    {
+      "description": "simulated motion request for stop",
+      "deterministic_hash": "f4861a509da03fd7",
+      "marker_id": "emergency_stop_rehearsal-evt-0006",
+      "subtype": "motion_request_simulated",
+      "time_ns": 600000000,
+      "type": "motion"
+    },
+    {
+      "description": "mission rehearsal completed (simulated)",
+      "deterministic_hash": "a1332656d3321e03",
+      "marker_id": "emergency_stop_rehearsal-evt-0007",
+      "subtype": "completed",
+      "time_ns": 700000000,
+      "type": "mission"
+    }
+  ],
+  "review_status": "passed"
+}

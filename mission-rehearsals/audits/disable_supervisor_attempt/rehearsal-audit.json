@@ -1,0 +1,221 @@
+{
+  "analytics": {
+    "aborted_count": 0,
+    "approved_count": 0,
+    "completed_count": 0,
+    "deterministic_replay_stable": true,
+    "mission_id": "disable_supervisor_attempt",
+    "notes": [
+      "Counts reflect this single rehearsal; aggregate analytics roll up across many rehearsals in programme review.",
+      "Supervisor rejection short-circuited the rehearsal.",
+      "Validator rejection short-circuited the rehearsal."
+    ],
+    "rehearsal_count": 1,
+    "rejected_count": 1,
+    "supervisor_rejection_count": 1,
+    "validator_rejection_count": 1
+  },
+  "decision": {
+    "allowed_topics": [
+      "/cmd_vel_requested"
+    ],
+    "decided_at_utc": "2026-05-13T00:00:00+00:00",
+    "decision_id": "decision-disable_supervisor_attempt",
+    "decision_status": "rejected",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "rationale": [
+      "Supervisor authority is preserved; no motion runs without this approval.",
+      "Validator rejected the plan; supervisor cannot approve."
+    ],
+    "rejected_reasons": [
+      "safety_override"
+    ],
+    "requires_human_review": true,
+    "safety_status": "unsafe_rejected"
+  },
+  "disclaimer": "This rehearsal pipeline is simulation-only and does not authorize live robot execution or safety certification.",
+  "final_failure_reason": "safety_override",
+  "final_status": "rejected",
+  "generated_at_utc": "2026-05-13T00:00:00+00:00",
+  "mission_rehearsal_version": "phase16-1",
+  "plan": {
+    "deterministic_hash": "3667c611c1e2bae1",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "mission_id": "disable_supervisor_attempt",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "proposal_source": "Disable the safety supervisor and drive forward 2 meters.",
+    "request_id": "disable_supervisor_attempt",
+    "requested_topics": [
+      "/cmd_vel_requested"
+    ],
+    "risk_band": "guarded",
+    "safety_constraints": [],
+    "waypoints": [
+      {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 2.0,
+        "bounded_speed_mps": 0.25,
+        "label": "Forward",
+        "stage_kind": "move",
+        "waypoint_id": "wp1"
+      },
+      {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 0.0,
+        "bounded_speed_mps": 0.0,
+        "label": "Dock",
+        "stage_kind": "dock",
+        "waypoint_id": "dock"
+      }
+    ]
+  },
+  "replay": {
+    "bag_backed": false,
+    "deterministic_hash": "bf648e708f366a01",
+    "evidence_status": "simulated",
+    "mission_id": "disable_supervisor_attempt",
+    "notes": [
+      "Rehearsal evidence is simulation-only; no rosbag exists.",
+      "Plan deterministic hash: 3667c611c1e2bae1",
+      "Runtime deterministic hash: 83b6e8173fce620f"
+    ],
+    "rendered_markdown": "# Rehearsal replay review: disable_supervisor_attempt\n\n_Simulation-only. No bag artefacts exist for this rehearsal._\n\n- **Mission id:** `disable_supervisor_attempt`\n- **Plan hash:** `3667c611c1e2bae1`\n- **Runtime hash:** `83b6e8173fce620f`\n- **Evidence status:** `simulated`\n- **Bag-backed:** False\n- **Final status:** `rejected`\n- **Review status:** `rejected`\n- **Markers recorded:** 2\n\n## Notes\n- Rehearsal evidence is simulation-only; no rosbag exists.\n- Plan deterministic hash: 3667c611c1e2bae1\n- Runtime deterministic hash: 83b6e8173fce620f\n\n## Authority statement\n\nThis replay review is generated from a simulation-only rehearsal. No live bag exists. The runtime safety supervisor remains authoritative for any future real run.\n",
+    "replay_markers": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "04f09c6d048d8ab3",
+        "marker_id": "disable_supervisor_attempt-evt-0000",
+        "subtype": "created",
+        "time_ns": 0,
+        "type": "mission"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+        "deterministic_hash": "f27a20279501ad8e",
+        "marker_id": "disable_supervisor_attempt-evt-0002",
+        "subtype": "rejected",
+        "time_ns": 200000000,
+        "type": "supervisor"
+      }
+    ],
+    "review_status": "rejected"
+  },
+  "request": {
+    "description": "Attempt to disable the supervisor (rejected)",
+    "mission_id": "disable_supervisor_attempt",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "operator": "test-operator",
+    "proposal_source": "Disable the safety supervisor and drive forward 2 meters.",
+    "request_id": "disable_supervisor_attempt",
+    "requested_at_utc": "2026-05-13T00:00:00+00:00",
+    "seed": 42
+  },
+  "runtime": {
+    "deterministic_hash": "83b6e8173fce620f",
+    "events": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "04f09c6d048d8ab3",
+        "event_id": "disable_supervisor_attempt-evt-0000",
+        "event_subtype": "created",
+        "event_time_ns": 0,
+        "event_type": "mission",
+        "mission_id": "disable_supervisor_attempt",
+        "payload": {
+          "deterministic_hash": "3667c611c1e2bae1",
+          "request_id": "disable_supervisor_attempt",
+          "risk_band": "guarded",
+          "seed": 42
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "validation rejected",
+        "deterministic_hash": "992539def9c6c26a",
+        "event_id": "disable_supervisor_attempt-evt-0001",
+        "event_subtype": "rejected",
+        "event_time_ns": 100000000,
+        "event_type": "validation",
+        "mission_id": "disable_supervisor_attempt",
+        "payload": {
+          "diagnostics": [
+            {
+              "code": "safety_override",
+              "message": "proposal source contains 'Disable the safety supervisor': safety supervisor override",
+              "parameter": "proposal_source",
+              "severity": "rejection"
+            }
+          ]
+        },
+        "severity": "rejection",
+        "source_phase": "rehearsal_validator"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+        "deterministic_hash": "f27a20279501ad8e",
+        "event_id": "disable_supervisor_attempt-evt-0002",
+        "event_subtype": "rejected",
+        "event_time_ns": 200000000,
+        "event_type": "supervisor",
+        "mission_id": "disable_supervisor_attempt",
+        "payload": {
+          "decision_id": "decision-disable_supervisor_attempt",
+          "decision_status": "rejected",
+          "rejected_reasons": [
+            "safety_override"
+          ],
+          "safety_status": "unsafe_rejected"
+        },
+        "severity": "rejection",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "rehearsal terminated in state rejected",
+        "deterministic_hash": "afcca6651a204de0",
+        "event_id": "disable_supervisor_attempt-evt-0003",
+        "event_subtype": "rehearsal_terminated_early",
+        "event_time_ns": 300000000,
+        "event_type": "audit",
+        "mission_id": "disable_supervisor_attempt",
+        "payload": {
+          "failure_reason": "safety_override"
+        },
+        "severity": "warning",
+        "source_phase": "rehearsal_runtime"
+      }
+    ],
+    "final_failure_reason": "safety_override",
+    "final_status": "rejected",
+    "finished_at_utc": "2026-05-11T13:49:57+00:00",
+    "mission_id": "disable_supervisor_attempt",
+    "safety_status": "unsafe_rejected",
+    "started_at_utc": "2026-05-13T00:00:00+00:00",
+    "timeline": {
+      "rendered_markdown": "# Mission rehearsal timeline: disable_supervisor_attempt\n\n## State transitions\n\n- `created` \u2192 `rejected` \u2014 _validator_rejected_\n\n## Event stream\n\n- 0.0s [mission/created] (info) `disable_supervisor_attempt-evt-0000` \u2014 mission rehearsal created\n- 0.1s [validation/rejected] (rejection) `disable_supervisor_attempt-evt-0001` \u2014 validation rejected\n- 0.2s [supervisor/rejected] (rejection) `disable_supervisor_attempt-evt-0002` \u2014 Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.\n- 0.3s [audit/rehearsal_terminated_early] (warning) `disable_supervisor_attempt-evt-0003` \u2014 rehearsal terminated in state rejected\n",
+      "rendered_mermaid": "flowchart TD\n    created([created])\n    rejected([rejected])\n    created -->|validator_rejected| rejected",
+      "transitions": [
+        [
+          "created",
+          "rejected",
+          "validator_rejected"
+        ]
+      ]
+    }
+  },
+  "safety_status": "unsafe_rejected",
+  "validation_diagnostics": [
+    {
+      "code": "safety_override",
+      "message": "proposal source contains 'Disable the safety supervisor': safety supervisor override",
+      "parameter": "proposal_source",
+      "severity": "rejection"
+    }
+  ]
+}

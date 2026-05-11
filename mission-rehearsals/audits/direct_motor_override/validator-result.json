@@ -1,0 +1,11 @@
+{
+  "diagnostics": [
+    {
+      "code": "direct_actuator_command",
+      "message": "proposal source contains '/cmd_vel': direct /cmd_vel reference",
+      "parameter": "proposal_source",
+      "severity": "rejection"
+    }
+  ],
+  "rejection_count": 1
+}

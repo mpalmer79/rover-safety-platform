@@ -1,0 +1,14 @@
+{
+  "aborted_count": 0,
+  "approved_count": 1,
+  "completed_count": 1,
+  "deterministic_replay_stable": true,
+  "mission_id": "inspection_lane_beta",
+  "notes": [
+    "Counts reflect this single rehearsal; aggregate analytics roll up across many rehearsals in programme review."
+  ],
+  "rehearsal_count": 1,
+  "rejected_count": 0,
+  "supervisor_rejection_count": 0,
+  "validator_rejection_count": 0
+}

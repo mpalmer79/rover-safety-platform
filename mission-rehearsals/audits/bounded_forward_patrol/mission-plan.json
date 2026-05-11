@@ -1,0 +1,36 @@
+{
+  "deterministic_hash": "7c7a9fb2b6cb5e2f",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "mission_id": "bounded_forward_patrol",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "proposal_source": "Patrol forward bounded distance and dock.",
+  "request_id": "bounded_forward_patrol",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "risk_band": "low",
+  "safety_constraints": [
+    "bounded patrol"
+  ],
+  "waypoints": [
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 3.0,
+      "bounded_speed_mps": 0.25,
+      "label": "Patrol leg",
+      "stage_kind": "patrol",
+      "waypoint_id": "wp1"
+    },
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 0.0,
+      "bounded_speed_mps": 0.0,
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "wp2"
+    }
+  ]
+}

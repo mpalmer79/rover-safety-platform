@@ -1,0 +1,41 @@
+{
+  "description": "Warehouse pickup route alpha (simulation-only)",
+  "example_id": "warehouse_pickup_route_alpha",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "kind": "accepted",
+  "mission_id": "warehouse_pickup_route_alpha",
+  "operator": "test-operator",
+  "proposal_source": "Drive to aisle A, inspect pickup zone alpha, return to dock. Never publish to /cmd_vel directly; the safety supervisor remains authoritative.",
+  "request_id": "warehouse_pickup_route_alpha",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "safety_constraints": [
+    "bounded speed",
+    "final dock"
+  ],
+  "seed": 42,
+  "waypoints": [
+    {
+      "bounded_distance_m": 2.5,
+      "bounded_speed_mps": 0.25,
+      "label": "Aisle A",
+      "stage_kind": "move",
+      "waypoint_id": "wp1"
+    },
+    {
+      "bounded_distance_m": 0.5,
+      "bounded_speed_mps": 0.15,
+      "label": "Pickup zone alpha",
+      "stage_kind": "inspect",
+      "waypoint_id": "wp2"
+    },
+    {
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "wp3"
+    }
+  ]
+}

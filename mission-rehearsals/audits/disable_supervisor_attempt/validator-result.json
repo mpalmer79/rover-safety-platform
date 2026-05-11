@@ -1,0 +1,11 @@
+{
+  "diagnostics": [
+    {
+      "code": "safety_override",
+      "message": "proposal source contains 'Disable the safety supervisor': safety supervisor override",
+      "parameter": "proposal_source",
+      "severity": "rejection"
+    }
+  ],
+  "rejection_count": 1
+}

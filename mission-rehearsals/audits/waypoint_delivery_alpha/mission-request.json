@@ -1,0 +1,11 @@
+{
+  "description": "Deliver to waypoint alpha and return",
+  "mission_id": "waypoint_delivery_alpha",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "operator": "test-operator",
+  "proposal_source": "Deliver to waypoint alpha, return to dock.",
+  "request_id": "waypoint_delivery_alpha",
+  "requested_at_utc": "2026-05-13T00:00:00+00:00",
+  "seed": 42
+}

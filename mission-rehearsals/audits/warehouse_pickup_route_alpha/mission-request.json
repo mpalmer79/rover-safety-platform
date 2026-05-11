@@ -1,0 +1,11 @@
+{
+  "description": "Warehouse pickup route alpha (simulation-only)",
+  "mission_id": "warehouse_pickup_route_alpha",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "operator": "test-operator",
+  "proposal_source": "Drive to aisle A, inspect pickup zone alpha, return to dock. Never publish to /cmd_vel directly; the safety supervisor remains authoritative.",
+  "request_id": "warehouse_pickup_route_alpha",
+  "requested_at_utc": "2026-05-13T00:00:00+00:00",
+  "seed": 42
+}

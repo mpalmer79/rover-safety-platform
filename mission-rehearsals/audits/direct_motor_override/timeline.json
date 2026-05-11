@@ -1,0 +1,82 @@
+{
+  "events": [
+    {
+      "description": "mission rehearsal created",
+      "deterministic_hash": "01bc818faca4ea90",
+      "event_id": "direct_motor_override-evt-0000",
+      "event_subtype": "created",
+      "event_time_ns": 0,
+      "event_type": "mission",
+      "mission_id": "direct_motor_override",
+      "payload": {
+        "deterministic_hash": "f92a73bee2974f47",
+        "request_id": "direct_motor_override",
+        "risk_band": "guarded",
+        "seed": 42
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "validation rejected",
+      "deterministic_hash": "8eb729de5829d8f5",
+      "event_id": "direct_motor_override-evt-0001",
+      "event_subtype": "rejected",
+      "event_time_ns": 100000000,
+      "event_type": "validation",
+      "mission_id": "direct_motor_override",
+      "payload": {
+        "diagnostics": [
+          {
+            "code": "direct_actuator_command",
+            "message": "proposal source contains '/cmd_vel': direct /cmd_vel reference",
+            "parameter": "proposal_source",
+            "severity": "rejection"
+          }
+        ]
+      },
+      "severity": "rejection",
+      "source_phase": "rehearsal_validator"
+    },
+    {
+      "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+      "deterministic_hash": "90eadb9cd67f6cd3",
+      "event_id": "direct_motor_override-evt-0002",
+      "event_subtype": "rejected",
+      "event_time_ns": 200000000,
+      "event_type": "supervisor",
+      "mission_id": "direct_motor_override",
+      "payload": {
+        "decision_id": "decision-direct_motor_override",
+        "decision_status": "rejected",
+        "rejected_reasons": [
+          "direct_actuator_command"
+        ],
+        "safety_status": "unsafe_rejected"
+      },
+      "severity": "rejection",
+      "source_phase": "rehearsal_supervisor"
+    },
+    {
+      "description": "rehearsal terminated in state rejected",
+      "deterministic_hash": "6c30bfcc89167163",
+      "event_id": "direct_motor_override-evt-0003",
+      "event_subtype": "rehearsal_terminated_early",
+      "event_time_ns": 300000000,
+      "event_type": "audit",
+      "mission_id": "direct_motor_override",
+      "payload": {
+        "failure_reason": "direct_actuator_command"
+      },
+      "severity": "warning",
+      "source_phase": "rehearsal_runtime"
+    }
+  ],
+  "transitions": [
+    [
+      "created",
+      "rejected",
+      "validator_rejected"
+    ]
+  ]
+}

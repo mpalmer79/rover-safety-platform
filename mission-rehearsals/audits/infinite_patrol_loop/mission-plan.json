@@ -1,0 +1,26 @@
+{
+  "deterministic_hash": "b6a86727fa956d53",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "mission_id": "infinite_patrol_loop",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "proposal_source": "while True: patrol forever.",
+  "request_id": "infinite_patrol_loop",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "risk_band": "low",
+  "safety_constraints": [],
+  "waypoints": [
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 2.0,
+      "bounded_speed_mps": 0.25,
+      "label": "Forever",
+      "stage_kind": "patrol",
+      "waypoint_id": "wp1"
+    }
+  ]
+}

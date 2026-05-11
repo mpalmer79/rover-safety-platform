@@ -57,6 +57,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 14B — Pluggable LLM Mission Proposal Layer (offline / mock-only) | Implemented; external LLM providers intentionally disabled; see section 3q |
 | Phase 15A — Deterministic Robotics Skill Authoring Workbench | Implemented; offline / template-only; see section 3r |
 | Phase 15B — Local LLM Skill Candidate Provider (disabled by default) | Implemented; cloud APIs forbidden; no network call in this phase; see section 3s |
+| Phase 16 — Governed Mission-to-Rehearsal Pipeline | Implemented; simulation-only; deterministic; validator-authoritative; see section 3t |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -1823,6 +1824,83 @@ are rejected by `require_local_endpoint`.
 
 The follow-up phase that wires up a real local model must satisfy
 `docs/FUTURE_LOCAL_MODEL_OPERATIONS.md`.
+
+---
+
+## 3t. Phase 16: Governed Mission-to-Rehearsal Pipeline
+
+### Status
+
+Implemented. Simulation-only, deterministic, validator-authoritative.
+
+### Objectives
+
+Phase 16 connects the deterministic compiler, the
+sanitizer + validator chokepoints, the safety supervisor authority
+gate, an explicit state machine, the replay system, and the
+analytics system into a single rehearsal flow:
+
+```
+LLM proposal → sanitizer → compiler → validator → supervisor
+            → state machine → simulated motion events
+            → replay bundle → analytics → audit bundle
+```
+
+The pipeline never runs on real hardware, never publishes to ROS,
+never opens a network socket, and never executes user code. Every
+artefact records `bag_backed=False`; the safety supervisor and
+motion arbitration remain the only path to actuator authority.
+
+### Deliverables
+
+- `backend/app/mission_rehearsal/` — fifteen modules (models, state
+  machine, safety scan, plan builder, validator, supervisor, event
+  factory, runtime, capture helpers, timeline renderer, replay
+  bridge, analytics bridge, audit, reporter, package init).
+- Four CLIs:
+  - `rover_ws/tools/run_mission_rehearsal.py`,
+  - `rover_ws/tools/validate_mission_rehearsal.py`,
+  - `rover_ws/tools/generate_rehearsal_examples.py`,
+  - `rover_ws/tools/generate_rehearsal_replay.py`.
+- Ten canonical fixtures in `mission-rehearsals/` (5 accepted, 5
+  rejected) each with a full audit bundle.
+- Five new requirements (`REQ-REHEARSAL-001..005`) under
+  `RequirementKind.REHEARSAL`.
+- Six new docs:
+  `docs/GOVERNED_MISSION_REHEARSAL.md`,
+  `docs/MISSION_REHEARSAL_STATE_MACHINE.md`,
+  `docs/SIMULATION_REHEARSAL_PIPELINE.md`,
+  `docs/REHEARSAL_REPLAY_INTEGRATION.md`,
+  `docs/REHEARSAL_SAFETY_BOUNDARY.md`,
+  `docs/FUTURE_DIGITAL_TWIN_DIRECTION.md`.
+
+### Acceptance Criteria
+
+- the package does not import `rclpy`, `socket`, `urllib.request`,
+  `requests`, `httpx`, or any cloud LLM SDK (AST-level test);
+- the state machine refuses to enter `rehearsing` unless the
+  supervisor decision is `approved`;
+- validator rejection short-circuits the supervisor;
+- replay bundles always report `bag_backed=False`;
+- analytics counters distinguish approved / rejected / aborted /
+  completed and supervisor / validator rejection;
+- repeated runs with the same `--generated-at` produce
+  byte-identical audit bundles;
+- every audit bundle carries the verbatim Phase 16 disclaimer.
+
+### What Phase 16 does NOT do
+
+- run real hardware;
+- publish to ROS topics;
+- open a network socket;
+- call cloud APIs;
+- execute user code;
+- claim safety certification;
+- mark rehearsal evidence as bag-backed;
+- mix simulated and bag-backed analytics without origin labelling.
+
+A follow-up phase that wires the rehearsal pipeline into a real
+robot must follow `docs/FUTURE_DIGITAL_TWIN_DIRECTION.md`.
 
 ---
 

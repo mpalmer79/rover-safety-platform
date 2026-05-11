@@ -1,0 +1,73 @@
+[
+  {
+    "description": "mission rehearsal created",
+    "deterministic_hash": "28776a066059e1dd",
+    "event_id": "restricted_zone_entry-evt-0000",
+    "event_subtype": "created",
+    "event_time_ns": 0,
+    "event_type": "mission",
+    "mission_id": "restricted_zone_entry",
+    "payload": {
+      "deterministic_hash": "3a4e433c88847882",
+      "request_id": "restricted_zone_entry",
+      "risk_band": "guarded",
+      "seed": 42
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_runtime"
+  },
+  {
+    "description": "validation rejected",
+    "deterministic_hash": "a6a7c1e51c0042cd",
+    "event_id": "restricted_zone_entry-evt-0001",
+    "event_subtype": "rejected",
+    "event_time_ns": 100000000,
+    "event_type": "validation",
+    "mission_id": "restricted_zone_entry",
+    "payload": {
+      "diagnostics": [
+        {
+          "code": "restricted_zone",
+          "message": "proposal source contains 'restricted_corridor': restricted corridor entry attempt",
+          "parameter": "proposal_source",
+          "severity": "rejection"
+        }
+      ]
+    },
+    "severity": "rejection",
+    "source_phase": "rehearsal_validator"
+  },
+  {
+    "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+    "deterministic_hash": "913c67638ed0ed47",
+    "event_id": "restricted_zone_entry-evt-0002",
+    "event_subtype": "rejected",
+    "event_time_ns": 200000000,
+    "event_type": "supervisor",
+    "mission_id": "restricted_zone_entry",
+    "payload": {
+      "decision_id": "decision-restricted_zone_entry",
+      "decision_status": "rejected",
+      "rejected_reasons": [
+        "restricted_zone"
+      ],
+      "safety_status": "unsafe_rejected"
+    },
+    "severity": "rejection",
+    "source_phase": "rehearsal_supervisor"
+  },
+  {
+    "description": "rehearsal terminated in state rejected",
+    "deterministic_hash": "6d8335b334f07be4",
+    "event_id": "restricted_zone_entry-evt-0003",
+    "event_subtype": "rehearsal_terminated_early",
+    "event_time_ns": 300000000,
+    "event_type": "audit",
+    "mission_id": "restricted_zone_entry",
+    "payload": {
+      "failure_reason": "restricted_zone"
+    },
+    "severity": "warning",
+    "source_phase": "rehearsal_runtime"
+  }
+]

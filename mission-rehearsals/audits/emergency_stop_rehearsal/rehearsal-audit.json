@@ -1,0 +1,314 @@
+{
+  "analytics": {
+    "aborted_count": 0,
+    "approved_count": 1,
+    "completed_count": 1,
+    "deterministic_replay_stable": true,
+    "mission_id": "emergency_stop_rehearsal",
+    "notes": [
+      "Counts reflect this single rehearsal; aggregate analytics roll up across many rehearsals in programme review."
+    ],
+    "rehearsal_count": 1,
+    "rejected_count": 0,
+    "supervisor_rejection_count": 0,
+    "validator_rejection_count": 0
+  },
+  "decision": {
+    "allowed_topics": [
+      "/cmd_vel_requested"
+    ],
+    "decided_at_utc": "2026-05-13T00:00:00+00:00",
+    "decision_id": "decision-emergency_stop_rehearsal",
+    "decision_status": "approved",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "rationale": [
+      "Supervisor authority is preserved; no motion runs without this approval.",
+      "Bounded motion, allowed topics, and stop condition verified."
+    ],
+    "rejected_reasons": [],
+    "requires_human_review": false,
+    "safety_status": "safe"
+  },
+  "disclaimer": "This rehearsal pipeline is simulation-only and does not authorize live robot execution or safety certification.",
+  "final_failure_reason": "",
+  "final_status": "completed",
+  "generated_at_utc": "2026-05-13T00:00:00+00:00",
+  "mission_rehearsal_version": "phase16-1",
+  "plan": {
+    "deterministic_hash": "06d24bc424006848",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "mission_id": "emergency_stop_rehearsal",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "proposal_source": "Stop the robot immediately.",
+    "request_id": "emergency_stop_rehearsal",
+    "requested_topics": [
+      "/cmd_vel_requested"
+    ],
+    "risk_band": "low",
+    "safety_constraints": [
+      "stop only"
+    ],
+    "waypoints": [
+      {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 0.0,
+        "bounded_speed_mps": 0.0,
+        "label": "Stop",
+        "stage_kind": "stop",
+        "waypoint_id": "stop"
+      }
+    ]
+  },
+  "replay": {
+    "bag_backed": false,
+    "deterministic_hash": "2bdf6ab718edf6f3",
+    "evidence_status": "simulated",
+    "mission_id": "emergency_stop_rehearsal",
+    "notes": [
+      "Rehearsal evidence is simulation-only; no rosbag exists.",
+      "Plan deterministic hash: 06d24bc424006848",
+      "Runtime deterministic hash: bc0107c8577fc76e"
+    ],
+    "rendered_markdown": "# Rehearsal replay review: emergency_stop_rehearsal\n\n_Simulation-only. No bag artefacts exist for this rehearsal._\n\n- **Mission id:** `emergency_stop_rehearsal`\n- **Plan hash:** `06d24bc424006848`\n- **Runtime hash:** `bc0107c8577fc76e`\n- **Evidence status:** `simulated`\n- **Bag-backed:** False\n- **Final status:** `completed`\n- **Review status:** `passed`\n- **Markers recorded:** 7\n\n## Notes\n- Rehearsal evidence is simulation-only; no rosbag exists.\n- Plan deterministic hash: 06d24bc424006848\n- Runtime deterministic hash: bc0107c8577fc76e\n\n## Authority statement\n\nThis replay review is generated from a simulation-only rehearsal. No live bag exists. The runtime safety supervisor remains authoritative for any future real run.\n",
+    "replay_markers": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "e80160ed7b79846c",
+        "marker_id": "emergency_stop_rehearsal-evt-0000",
+        "subtype": "created",
+        "time_ns": 0,
+        "type": "mission"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+        "deterministic_hash": "0ae09fbf19d261bb",
+        "marker_id": "emergency_stop_rehearsal-evt-0002",
+        "subtype": "approved",
+        "time_ns": 200000000,
+        "type": "supervisor"
+      },
+      {
+        "description": "mission rehearsal started",
+        "deterministic_hash": "11bfc060cb6b0a4b",
+        "marker_id": "emergency_stop_rehearsal-evt-0003",
+        "subtype": "rehearsal_started",
+        "time_ns": 300000000,
+        "type": "mission"
+      },
+      {
+        "description": "waypoint stop requested",
+        "deterministic_hash": "96d70268200e438d",
+        "marker_id": "emergency_stop_rehearsal-evt-0004",
+        "subtype": "waypoint_requested",
+        "time_ns": 400000000,
+        "type": "motion"
+      },
+      {
+        "description": "safety check passed for stop",
+        "deterministic_hash": "858ee8228fe39e19",
+        "marker_id": "emergency_stop_rehearsal-evt-0005",
+        "subtype": "safety_check_passed",
+        "time_ns": 500000000,
+        "type": "safety"
+      },
+      {
+        "description": "simulated motion request for stop",
+        "deterministic_hash": "f4861a509da03fd7",
+        "marker_id": "emergency_stop_rehearsal-evt-0006",
+        "subtype": "motion_request_simulated",
+        "time_ns": 600000000,
+        "type": "motion"
+      },
+      {
+        "description": "mission rehearsal completed (simulated)",
+        "deterministic_hash": "a1332656d3321e03",
+        "marker_id": "emergency_stop_rehearsal-evt-0007",
+        "subtype": "completed",
+        "time_ns": 700000000,
+        "type": "mission"
+      }
+    ],
+    "review_status": "passed"
+  },
+  "request": {
+    "description": "Stop the rover immediately",
+    "mission_id": "emergency_stop_rehearsal",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "operator": "test-operator",
+    "proposal_source": "Stop the robot immediately.",
+    "request_id": "emergency_stop_rehearsal",
+    "requested_at_utc": "2026-05-13T00:00:00+00:00",
+    "seed": 42
+  },
+  "runtime": {
+    "deterministic_hash": "bc0107c8577fc76e",
+    "events": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "e80160ed7b79846c",
+        "event_id": "emergency_stop_rehearsal-evt-0000",
+        "event_subtype": "created",
+        "event_time_ns": 0,
+        "event_type": "mission",
+        "mission_id": "emergency_stop_rehearsal",
+        "payload": {
+          "deterministic_hash": "06d24bc424006848",
+          "request_id": "emergency_stop_rehearsal",
+          "risk_band": "low",
+          "seed": 42
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "validation passed",
+        "deterministic_hash": "96df9e8ac935f411",
+        "event_id": "emergency_stop_rehearsal-evt-0001",
+        "event_subtype": "passed",
+        "event_time_ns": 100000000,
+        "event_type": "validation",
+        "mission_id": "emergency_stop_rehearsal",
+        "payload": {
+          "diagnostics": []
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_validator"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+        "deterministic_hash": "0ae09fbf19d261bb",
+        "event_id": "emergency_stop_rehearsal-evt-0002",
+        "event_subtype": "approved",
+        "event_time_ns": 200000000,
+        "event_type": "supervisor",
+        "mission_id": "emergency_stop_rehearsal",
+        "payload": {
+          "decision_id": "decision-emergency_stop_rehearsal",
+          "decision_status": "approved",
+          "rejected_reasons": [],
+          "safety_status": "safe"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "mission rehearsal started",
+        "deterministic_hash": "11bfc060cb6b0a4b",
+        "event_id": "emergency_stop_rehearsal-evt-0003",
+        "event_subtype": "rehearsal_started",
+        "event_time_ns": 300000000,
+        "event_type": "mission",
+        "mission_id": "emergency_stop_rehearsal",
+        "payload": {
+          "seed": 42
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "waypoint stop requested",
+        "deterministic_hash": "96d70268200e438d",
+        "event_id": "emergency_stop_rehearsal-evt-0004",
+        "event_subtype": "waypoint_requested",
+        "event_time_ns": 400000000,
+        "event_type": "motion",
+        "mission_id": "emergency_stop_rehearsal",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 0.0,
+          "bounded_speed_mps": 0.0,
+          "label": "Stop",
+          "stage_kind": "stop",
+          "waypoint_id": "stop"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "safety check passed for stop",
+        "deterministic_hash": "858ee8228fe39e19",
+        "event_id": "emergency_stop_rehearsal-evt-0005",
+        "event_subtype": "safety_check_passed",
+        "event_time_ns": 500000000,
+        "event_type": "safety",
+        "mission_id": "emergency_stop_rehearsal",
+        "payload": {
+          "waypoint_id": "stop"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "simulated motion request for stop",
+        "deterministic_hash": "f4861a509da03fd7",
+        "event_id": "emergency_stop_rehearsal-evt-0006",
+        "event_subtype": "motion_request_simulated",
+        "event_time_ns": 600000000,
+        "event_type": "motion",
+        "mission_id": "emergency_stop_rehearsal",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 0.0,
+          "bounded_speed_mps": 0.0,
+          "label": "Stop",
+          "stage_kind": "stop",
+          "waypoint_id": "stop"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "mission rehearsal completed (simulated)",
+        "deterministic_hash": "a1332656d3321e03",
+        "event_id": "emergency_stop_rehearsal-evt-0007",
+        "event_subtype": "completed",
+        "event_time_ns": 700000000,
+        "event_type": "mission",
+        "mission_id": "emergency_stop_rehearsal",
+        "payload": {},
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      }
+    ],
+    "final_failure_reason": "",
+    "final_status": "completed",
+    "finished_at_utc": "2026-05-11T13:49:57+00:00",
+    "mission_id": "emergency_stop_rehearsal",
+    "safety_status": "safe",
+    "started_at_utc": "2026-05-13T00:00:00+00:00",
+    "timeline": {
+      "rendered_markdown": "# Mission rehearsal timeline: emergency_stop_rehearsal\n\n## State transitions\n\n- `created` \u2192 `validated` \u2014 _validation_passed_\n- `validated` \u2192 `approved` \u2014 _supervisor_approved_\n- `approved` \u2192 `rehearsing` \u2014 _runtime_started_\n- `rehearsing` \u2192 `completed` \u2014 _mission_completed_\n\n## Event stream\n\n- 0.0s [mission/created] (info) `emergency_stop_rehearsal-evt-0000` \u2014 mission rehearsal created\n- 0.1s [validation/passed] (info) `emergency_stop_rehearsal-evt-0001` \u2014 validation passed\n- 0.2s [supervisor/approved] (info) `emergency_stop_rehearsal-evt-0002` \u2014 Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.\n- 0.3s [mission/rehearsal_started] (info) `emergency_stop_rehearsal-evt-0003` \u2014 mission rehearsal started\n- 0.4s [motion/waypoint_requested] (info) `emergency_stop_rehearsal-evt-0004` \u2014 waypoint stop requested\n- 0.5s [safety/safety_check_passed] (info) `emergency_stop_rehearsal-evt-0005` \u2014 safety check passed for stop\n- 0.6s [motion/motion_request_simulated] (info) `emergency_stop_rehearsal-evt-0006` \u2014 simulated motion request for stop\n- 0.7s [mission/completed] (info) `emergency_stop_rehearsal-evt-0007` \u2014 mission rehearsal completed (simulated)\n",
+      "rendered_mermaid": "flowchart TD\n    created([created])\n    validated([validated])\n    approved([approved])\n    rehearsing([rehearsing])\n    completed([completed])\n    created -->|validation_passed| validated\n    validated -->|supervisor_approved| approved\n    approved -->|runtime_started| rehearsing\n    rehearsing -->|mission_completed| completed",
+      "transitions": [
+        [
+          "created",
+          "validated",
+          "validation_passed"
+        ],
+        [
+          "validated",
+          "approved",
+          "supervisor_approved"
+        ],
+        [
+          "approved",
+          "rehearsing",
+          "runtime_started"
+        ],
+        [
+          "rehearsing",
+          "completed",
+          "mission_completed"
+        ]
+      ]
+    }
+  },
+  "safety_status": "safe",
+  "validation_diagnostics": []
+}

@@ -322,6 +322,32 @@ the runtime safety supervisor remain authoritative.
 
 ---
 
+## Phase 16 (governed mission-to-rehearsal pipeline) entry points
+
+If you are reviewing the Phase 16 work specifically:
+
+1. Start with [`GOVERNED_MISSION_REHEARSAL.md`](GOVERNED_MISSION_REHEARSAL.md)
+   — architectural contract for the pipeline.
+2. Read [`REHEARSAL_SAFETY_BOUNDARY.md`](REHEARSAL_SAFETY_BOUNDARY.md)
+   for what the pipeline is forbidden from doing.
+3. Skim [`MISSION_REHEARSAL_STATE_MACHINE.md`](MISSION_REHEARSAL_STATE_MACHINE.md)
+   and [`SIMULATION_REHEARSAL_PIPELINE.md`](SIMULATION_REHEARSAL_PIPELINE.md)
+   for the state transitions + JSON schema.
+4. Open one accepted bundle under
+   `mission-rehearsals/audits/warehouse_pickup_route_alpha/`
+   (request, plan, events, timeline, replay, analytics, audit).
+5. Read [`REHEARSAL_REPLAY_INTEGRATION.md`](REHEARSAL_REPLAY_INTEGRATION.md)
+   for the bag-backed honesty rule and the analytics shape.
+6. Read [`FUTURE_DIGITAL_TWIN_DIRECTION.md`](FUTURE_DIGITAL_TWIN_DIRECTION.md)
+   if you care about the path forward (intentionally not
+   implemented in Phase 16).
+
+The pipeline is simulation-only and deterministic. The runtime
+safety supervisor and motion arbitration remain authoritative; no
+artefact in this directory authorises live robot motion.
+
+---
+
 ## What this playbook does not do
 
 - It does not run anything for you. To run scenarios and inspect

@@ -40,6 +40,7 @@ class RequirementKind(str, Enum):
     PROPOSAL = "proposal"
     SKILL = "skill"
     SKILL_LLM = "skill_llm"
+    REHEARSAL = "rehearsal"
 
 
 @dataclass(frozen=True)
@@ -2359,6 +2360,140 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "backend/tests/test_skill_llm_provider.py::test_audit_includes_disclaimer",
             "backend/tests/test_skill_llm_provider.py::test_audit_preserves_provider_mode",
             "backend/tests/test_skill_llm_provider.py::test_audit_json_is_stable_across_runs",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-REHEARSAL-001",
+        kind=RequirementKind.REHEARSAL,
+        title="Mission rehearsals must remain simulation-only",
+        description=(
+            "The Phase 16 mission rehearsal pipeline never runs on "
+            "real hardware, never publishes to ROS, never opens a "
+            "network socket, and never executes user code. All "
+            "motion events are deterministic, simulated, and "
+            "labelled ``MOTION_REQUEST_SIMULATED``. Replay bundles "
+            "report ``bag_backed=False``; analytics distinguishes "
+            "simulated evidence from live evidence."
+        ),
+        architecture_refs=(
+            "docs/GOVERNED_MISSION_REHEARSAL.md",
+            "docs/REHEARSAL_SAFETY_BOUNDARY.md",
+        ),
+        implementation_refs=(
+            "backend/app/mission_rehearsal/rehearsal_runtime.py",
+            "backend/app/mission_rehearsal/rehearsal_replay_bridge.py",
+        ),
+        test_refs=(
+            "backend/tests/test_mission_rehearsal.py::test_rehearsal_runtime_emits_simulated_motion_only",
+            "backend/tests/test_mission_rehearsal.py::test_replay_bundle_is_not_bag_backed",
+            "backend/tests/test_mission_rehearsal.py::test_package_has_no_network_or_ros_imports",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-REHEARSAL-002",
+        kind=RequirementKind.REHEARSAL,
+        title="Mission rehearsals must preserve deterministic replay ordering",
+        description=(
+            "Identical inputs produce byte-identical event streams "
+            "and deterministic hashes. Event ordering is stable "
+            "across repeated runs; ``event_time_ns`` is derived "
+            "from the event sequence, not the wall clock."
+        ),
+        architecture_refs=(
+            "docs/SIMULATION_REHEARSAL_PIPELINE.md",
+            "docs/MISSION_REHEARSAL_STATE_MACHINE.md",
+        ),
+        implementation_refs=(
+            "backend/app/mission_rehearsal/rehearsal_events.py",
+            "backend/app/mission_rehearsal/rehearsal_runtime.py",
+        ),
+        test_refs=(
+            "backend/tests/test_mission_rehearsal.py::test_same_input_same_event_stream",
+            "backend/tests/test_mission_rehearsal.py::test_same_seed_same_timeline",
+            "backend/tests/test_mission_rehearsal.py::test_deterministic_hashes_stable",
+            "backend/tests/test_mission_rehearsal.py::test_replay_artifacts_are_stable_across_runs",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-REHEARSAL-003",
+        kind=RequirementKind.REHEARSAL,
+        title="Mission rehearsals require supervisor approval before execution simulation",
+        description=(
+            "The rehearsal state machine refuses to enter the "
+            "``rehearsing`` state unless the supervisor decision "
+            "is ``approved``. Validator-rejected plans never reach "
+            "the supervisor; supervisor-rejected plans never reach "
+            "the runtime. The state machine guarantees no skipped "
+            "approvals via the explicit transition set in "
+            "``rehearsal_state_machine.REHEARSAL_TRANSITIONS``."
+        ),
+        architecture_refs=(
+            "docs/MISSION_REHEARSAL_STATE_MACHINE.md",
+            "docs/REHEARSAL_SAFETY_BOUNDARY.md",
+        ),
+        implementation_refs=(
+            "backend/app/mission_rehearsal/rehearsal_supervisor.py",
+            "backend/app/mission_rehearsal/rehearsal_state_machine.py",
+            "backend/app/mission_rehearsal/rehearsal_runtime.py",
+        ),
+        test_refs=(
+            "backend/tests/test_mission_rehearsal.py::test_supervisor_rejection_blocks_rehearsing",
+            "backend/tests/test_mission_rehearsal.py::test_validator_rejection_blocks_supervisor",
+            "backend/tests/test_mission_rehearsal.py::test_state_machine_rejects_illegal_transition",
+            "backend/tests/test_mission_rehearsal.py::test_state_machine_allows_valid_transitions",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-REHEARSAL-004",
+        kind=RequirementKind.REHEARSAL,
+        title="Replay artifacts preserve evidence origin and deterministic hashes",
+        description=(
+            "Every rehearsal replay bundle records ``evidence_status"
+            "='simulated'`` and ``bag_backed=False``. The bundle "
+            "includes the plan's deterministic hash, the runtime's "
+            "deterministic hash, and every event's "
+            "``deterministic_hash``. No bag-backed claim is made "
+            "unless real bag artefacts exist (and Phase 16 never "
+            "produces real bag artefacts)."
+        ),
+        architecture_refs=(
+            "docs/REHEARSAL_REPLAY_INTEGRATION.md",
+            "docs/REPLAY_ANALYTICS.md",
+        ),
+        implementation_refs=(
+            "backend/app/mission_rehearsal/rehearsal_replay_bridge.py",
+            "backend/app/mission_rehearsal/rehearsal_audit.py",
+        ),
+        test_refs=(
+            "backend/tests/test_mission_rehearsal.py::test_replay_bundle_carries_evidence_origin",
+            "backend/tests/test_mission_rehearsal.py::test_replay_markers_carry_deterministic_hashes",
+            "backend/tests/test_mission_rehearsal.py::test_replay_bundle_is_not_bag_backed",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-REHEARSAL-005",
+        kind=RequirementKind.REHEARSAL,
+        title="Analytics distinguishes approved, rejected, aborted, and completed rehearsals",
+        description=(
+            "The Phase 16 analytics bridge emits separate "
+            "``approved_count``, ``rejected_count``, "
+            "``aborted_count``, ``completed_count``, "
+            "``supervisor_rejection_count``, and "
+            "``validator_rejection_count`` fields. No probabilistic "
+            "or AI-generated analytics are produced."
+        ),
+        architecture_refs=(
+            "docs/REHEARSAL_REPLAY_INTEGRATION.md",
+            "docs/REPLAY_ANALYTICS.md",
+        ),
+        implementation_refs=(
+            "backend/app/mission_rehearsal/rehearsal_analytics_bridge.py",
+        ),
+        test_refs=(
+            "backend/tests/test_mission_rehearsal.py::test_analytics_counts_completed_rehearsal",
+            "backend/tests/test_mission_rehearsal.py::test_analytics_counts_supervisor_rejection",
+            "backend/tests/test_mission_rehearsal.py::test_analytics_counts_validator_rejection",
+            "backend/tests/test_mission_rehearsal.py::test_analytics_deterministic_replay_stable_flag",
         ),
     ),
 )

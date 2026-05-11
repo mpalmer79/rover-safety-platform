@@ -1,0 +1,11 @@
+{
+  "description": "Inspect lane beta and dock",
+  "mission_id": "inspection_lane_beta",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "operator": "test-operator",
+  "proposal_source": "Inspect lane beta sensors, then dock.",
+  "request_id": "inspection_lane_beta",
+  "requested_at_utc": "2026-05-13T00:00:00+00:00",
+  "seed": 42
+}

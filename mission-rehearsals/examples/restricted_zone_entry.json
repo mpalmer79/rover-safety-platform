@@ -1,0 +1,31 @@
+{
+  "description": "Attempt to enter a restricted corridor (rejected)",
+  "example_id": "restricted_zone_entry",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "kind": "rejected",
+  "mission_id": "restricted_zone_entry",
+  "operator": "test-operator",
+  "proposal_source": "Drive to restricted_corridor_one.",
+  "request_id": "restricted_zone_entry",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "safety_constraints": [],
+  "seed": 42,
+  "waypoints": [
+    {
+      "bounded_distance_m": 2.0,
+      "bounded_speed_mps": 0.25,
+      "label": "Restricted corridor",
+      "stage_kind": "move",
+      "waypoint_id": "wp1"
+    },
+    {
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "dock"
+    }
+  ]
+}

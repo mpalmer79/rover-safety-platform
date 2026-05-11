@@ -1,0 +1,20 @@
+{
+  "allowed_topics": [
+    "/cmd_vel_requested"
+  ],
+  "decided_at_utc": "2026-05-13T00:00:00+00:00",
+  "decision_id": "decision-restricted_zone_entry",
+  "decision_status": "rejected",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "rationale": [
+    "Supervisor authority is preserved; no motion runs without this approval.",
+    "Validator rejected the plan; supervisor cannot approve."
+  ],
+  "rejected_reasons": [
+    "restricted_zone"
+  ],
+  "requires_human_review": true,
+  "safety_status": "unsafe_rejected"
+}

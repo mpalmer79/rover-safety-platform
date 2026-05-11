@@ -1,0 +1,31 @@
+{
+  "description": "Unsafe speed route (rejected)",
+  "example_id": "unsafe_speed_route",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "kind": "rejected",
+  "mission_id": "unsafe_speed_route",
+  "operator": "test-operator",
+  "proposal_source": "Move forward as fast as possible.",
+  "request_id": "unsafe_speed_route",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "safety_constraints": [],
+  "seed": 42,
+  "waypoints": [
+    {
+      "bounded_distance_m": 2.0,
+      "bounded_speed_mps": 2.0,
+      "label": "Forward",
+      "stage_kind": "move",
+      "waypoint_id": "wp1"
+    },
+    {
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "dock"
+    }
+  ]
+}

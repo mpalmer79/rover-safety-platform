@@ -1,0 +1,135 @@
+{
+  "bag_backed": false,
+  "deterministic_hash": "5d9714e7a057de44",
+  "evidence_status": "simulated",
+  "mission_id": "warehouse_pickup_route_alpha",
+  "notes": [
+    "Rehearsal evidence is simulation-only; no rosbag exists.",
+    "Plan deterministic hash: f81c659dedd1b715",
+    "Runtime deterministic hash: 4dd1ccf2ab96d6fb"
+  ],
+  "rendered_markdown": "# Rehearsal replay review: warehouse_pickup_route_alpha\n\n_Simulation-only. No bag artefacts exist for this rehearsal._\n\n- **Mission id:** `warehouse_pickup_route_alpha`\n- **Plan hash:** `f81c659dedd1b715`\n- **Runtime hash:** `4dd1ccf2ab96d6fb`\n- **Evidence status:** `simulated`\n- **Bag-backed:** False\n- **Final status:** `completed`\n- **Review status:** `passed`\n- **Markers recorded:** 15\n\n## Notes\n- Rehearsal evidence is simulation-only; no rosbag exists.\n- Plan deterministic hash: f81c659dedd1b715\n- Runtime deterministic hash: 4dd1ccf2ab96d6fb\n\n## Authority statement\n\nThis replay review is generated from a simulation-only rehearsal. No live bag exists. The runtime safety supervisor remains authoritative for any future real run.\n",
+  "replay_markers": [
+    {
+      "description": "mission rehearsal created",
+      "deterministic_hash": "5b153462d9b56dc4",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0000",
+      "subtype": "created",
+      "time_ns": 0,
+      "type": "mission"
+    },
+    {
+      "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+      "deterministic_hash": "358c96e4b423733d",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0002",
+      "subtype": "approved",
+      "time_ns": 200000000,
+      "type": "supervisor"
+    },
+    {
+      "description": "mission rehearsal started",
+      "deterministic_hash": "9328582ee7107740",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0003",
+      "subtype": "rehearsal_started",
+      "time_ns": 300000000,
+      "type": "mission"
+    },
+    {
+      "description": "waypoint wp1 requested",
+      "deterministic_hash": "bf6e5f7ba7fe84d8",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0004",
+      "subtype": "waypoint_requested",
+      "time_ns": 400000000,
+      "type": "motion"
+    },
+    {
+      "description": "safety check passed for wp1",
+      "deterministic_hash": "49fd87ce1f77db70",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0005",
+      "subtype": "safety_check_passed",
+      "time_ns": 500000000,
+      "type": "safety"
+    },
+    {
+      "description": "simulated motion request for wp1",
+      "deterministic_hash": "27191f6e11c87387",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0006",
+      "subtype": "motion_request_simulated",
+      "time_ns": 600000000,
+      "type": "motion"
+    },
+    {
+      "description": "waypoint wp1 reached (simulated)",
+      "deterministic_hash": "5e22da5bbe3c622f",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0007",
+      "subtype": "waypoint_reached",
+      "time_ns": 700000000,
+      "type": "motion"
+    },
+    {
+      "description": "waypoint wp2 requested",
+      "deterministic_hash": "33fa177ae0601000",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0008",
+      "subtype": "waypoint_requested",
+      "time_ns": 800000000,
+      "type": "motion"
+    },
+    {
+      "description": "safety check passed for wp2",
+      "deterministic_hash": "064ae2e4140a0cd6",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0009",
+      "subtype": "safety_check_passed",
+      "time_ns": 900000000,
+      "type": "safety"
+    },
+    {
+      "description": "simulated motion request for wp2",
+      "deterministic_hash": "daedafd9e9d13619",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0010",
+      "subtype": "motion_request_simulated",
+      "time_ns": 1000000000,
+      "type": "motion"
+    },
+    {
+      "description": "waypoint wp2 reached (simulated)",
+      "deterministic_hash": "23a9eec348ccb40f",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0011",
+      "subtype": "waypoint_reached",
+      "time_ns": 1100000000,
+      "type": "motion"
+    },
+    {
+      "description": "waypoint wp3 requested",
+      "deterministic_hash": "96fc305f69f859ca",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0012",
+      "subtype": "waypoint_requested",
+      "time_ns": 1200000000,
+      "type": "motion"
+    },
+    {
+      "description": "safety check passed for wp3",
+      "deterministic_hash": "c9bacc0afdd50571",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0013",
+      "subtype": "safety_check_passed",
+      "time_ns": 1300000000,
+      "type": "safety"
+    },
+    {
+      "description": "simulated motion request for wp3",
+      "deterministic_hash": "510f2c5ac7f502cc",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0014",
+      "subtype": "motion_request_simulated",
+      "time_ns": 1400000000,
+      "type": "motion"
+    },
+    {
+      "description": "mission rehearsal completed (simulated)",
+      "deterministic_hash": "d9fbe81a5aa143d5",
+      "marker_id": "warehouse_pickup_route_alpha-evt-0015",
+      "subtype": "completed",
+      "time_ns": 1500000000,
+      "type": "mission"
+    }
+  ],
+  "review_status": "passed"
+}

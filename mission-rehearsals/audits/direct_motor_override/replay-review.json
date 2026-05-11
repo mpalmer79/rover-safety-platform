@@ -1,0 +1,31 @@
+{
+  "bag_backed": false,
+  "deterministic_hash": "4b9673c17a04534e",
+  "evidence_status": "simulated",
+  "mission_id": "direct_motor_override",
+  "notes": [
+    "Rehearsal evidence is simulation-only; no rosbag exists.",
+    "Plan deterministic hash: f92a73bee2974f47",
+    "Runtime deterministic hash: 5b6bac42ee5fc219"
+  ],
+  "rendered_markdown": "# Rehearsal replay review: direct_motor_override\n\n_Simulation-only. No bag artefacts exist for this rehearsal._\n\n- **Mission id:** `direct_motor_override`\n- **Plan hash:** `f92a73bee2974f47`\n- **Runtime hash:** `5b6bac42ee5fc219`\n- **Evidence status:** `simulated`\n- **Bag-backed:** False\n- **Final status:** `rejected`\n- **Review status:** `rejected`\n- **Markers recorded:** 2\n\n## Notes\n- Rehearsal evidence is simulation-only; no rosbag exists.\n- Plan deterministic hash: f92a73bee2974f47\n- Runtime deterministic hash: 5b6bac42ee5fc219\n\n## Authority statement\n\nThis replay review is generated from a simulation-only rehearsal. No live bag exists. The runtime safety supervisor remains authoritative for any future real run.\n",
+  "replay_markers": [
+    {
+      "description": "mission rehearsal created",
+      "deterministic_hash": "01bc818faca4ea90",
+      "marker_id": "direct_motor_override-evt-0000",
+      "subtype": "created",
+      "time_ns": 0,
+      "type": "mission"
+    },
+    {
+      "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+      "deterministic_hash": "90eadb9cd67f6cd3",
+      "marker_id": "direct_motor_override-evt-0002",
+      "subtype": "rejected",
+      "time_ns": 200000000,
+      "type": "supervisor"
+    }
+  ],
+  "review_status": "rejected"
+}

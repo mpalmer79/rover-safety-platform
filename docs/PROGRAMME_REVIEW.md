@@ -141,3 +141,8 @@ subsystem-risk outputs, and `not_executed` runs surface as
 - [docs/CI_RELIABILITY_GATE.md](CI_RELIABILITY_GATE.md)
 - [docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md](LIVE_RUNTIME_EVIDENCE_PIPELINE.md)
 - [docs/LIVE_RUNTIME_MATURITY_REPORT.md](LIVE_RUNTIME_MATURITY_REPORT.md)
+- [docs/GOVERNED_MISSION_REHEARSAL.md](GOVERNED_MISSION_REHEARSAL.md) —
+  Phase 16 rehearsal analytics feed programme review through the same
+  filesystem layout as Phase 8 analytics, but every artefact is
+  labelled `simulated` so trends never silently mix simulated with
+  bag-backed evidence.

@@ -1,0 +1,28 @@
+{
+  "deterministic_hash": "06d24bc424006848",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "mission_id": "emergency_stop_rehearsal",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "proposal_source": "Stop the robot immediately.",
+  "request_id": "emergency_stop_rehearsal",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "risk_band": "low",
+  "safety_constraints": [
+    "stop only"
+  ],
+  "waypoints": [
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 0.0,
+      "bounded_speed_mps": 0.0,
+      "label": "Stop",
+      "stage_kind": "stop",
+      "waypoint_id": "stop"
+    }
+  ]
+}

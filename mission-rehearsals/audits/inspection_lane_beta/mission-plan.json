@@ -1,0 +1,37 @@
+{
+  "deterministic_hash": "175532b90b9f7a7b",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "mission_id": "inspection_lane_beta",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "proposal_source": "Inspect lane beta sensors, then dock.",
+  "request_id": "inspection_lane_beta",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "risk_band": "guarded",
+  "safety_constraints": [
+    "sensor inspection",
+    "bounded speed"
+  ],
+  "waypoints": [
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 1.5,
+      "bounded_speed_mps": 0.2,
+      "label": "Lane beta",
+      "stage_kind": "inspect",
+      "waypoint_id": "beta"
+    },
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 0.0,
+      "bounded_speed_mps": 0.0,
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "dock"
+    }
+  ]
+}

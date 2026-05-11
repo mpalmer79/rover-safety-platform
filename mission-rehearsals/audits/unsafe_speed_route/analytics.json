@@ -1,0 +1,16 @@
+{
+  "aborted_count": 0,
+  "approved_count": 0,
+  "completed_count": 0,
+  "deterministic_replay_stable": true,
+  "mission_id": "unsafe_speed_route",
+  "notes": [
+    "Counts reflect this single rehearsal; aggregate analytics roll up across many rehearsals in programme review.",
+    "Supervisor rejection short-circuited the rehearsal.",
+    "Validator rejection short-circuited the rehearsal."
+  ],
+  "rehearsal_count": 1,
+  "rejected_count": 1,
+  "supervisor_rejection_count": 1,
+  "validator_rejection_count": 1
+}
