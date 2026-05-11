@@ -1,0 +1,15 @@
+{
+  "diagnostics": [
+    {
+      "code": "ambiguous_request",
+      "message": "forward distance is unspecified; please give a distance with units",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "normalised_text": "move forward",
+  "parameters": [],
+  "rejection_reason": "ambiguous_request",
+  "skill_type": null,
+  "status": "ambiguous"
+}

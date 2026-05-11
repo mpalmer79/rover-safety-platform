@@ -1,0 +1,13 @@
+{
+  "diagnostics": [
+    {
+      "code": "safety_override",
+      "message": "Attempt to disable or bypass safety supervisor.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "disclaimer": "This generated skill is an engineering development aid. It does not represent autonomous execution, safety certification, or regulatory approval.",
+  "rejection_reason": "safety_override",
+  "status": "rejected"
+}

@@ -1,0 +1,15 @@
+{
+  "diagnostics": [
+    {
+      "code": "unbounded_speed",
+      "message": "Unbounded speed request; speed must remain within safety limits.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "normalised_text": "move forward as fast as possible",
+  "parameters": [],
+  "rejection_reason": "unbounded_speed",
+  "skill_type": null,
+  "status": "rejected"
+}

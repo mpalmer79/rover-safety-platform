@@ -1,0 +1,38 @@
+{
+  "animation_steps": [
+    "imports",
+    "constants",
+    "publisher setup",
+    "bounded command loop",
+    "stop command",
+    "safety explanation"
+  ],
+  "code": "# This snippet only publishes /cmd_vel_requested.\n# The rover safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This code is not safety-certified.\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\nBUTTON = \"a\"\nVERB = \"stop\"\nLINEAR_SPEED_MPS = 0.00\nPUBLISH_RATE_HZ = 10.0\nWATCHDOG_SECONDS = 0.50\n\n\nclass ControllerButtonBinding(Node):\n    def __init__(self) -> None:\n        super().__init__(\"controller_button_binding\")\n        # NOTE: /cmd_vel_requested, not /cmd_vel.\n        self.publisher = self.create_publisher(Twist, \"/cmd_vel_requested\", 10)\n        self.timer = self.create_timer(1.0 / PUBLISH_RATE_HZ, self._tick)\n        self.last_button_event = self.get_clock().now()\n        self.button_held = False\n\n    def on_button_event(self, button: str, pressed: bool) -> None:\n        if button == BUTTON:\n            self.button_held = pressed\n            self.last_button_event = self.get_clock().now()\n\n    def _tick(self) -> None:\n        elapsed_since_event = (\n            self.get_clock().now() - self.last_button_event\n        ).nanoseconds * 1e-9\n        cmd = Twist()\n        if (\n            not self.button_held\n            or elapsed_since_event > WATCHDOG_SECONDS\n        ):\n            self.publisher.publish(cmd)  # zero\n            return\n        cmd.linear.x = LINEAR_SPEED_MPS\n        self.publisher.publish(cmd)\n\n\ndef main() -> None:\n    rclpy.init()\n    node = ControllerButtonBinding()\n    try:\n        rclpy.spin(node)\n    finally:\n        zero = Twist()\n        node.publisher.publish(zero)\n        node.destroy_node()\n        rclpy.shutdown()\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "copy_label": "Copy Bind controller button 'a' to stop",
+  "diagnostics": [
+    {
+      "code": "request_accepted",
+      "message": "controller button 'a' bound to stop",
+      "parameter": "",
+      "severity": "info"
+    },
+    {
+      "code": "validation_passed",
+      "message": "generated code passed safety validation",
+      "parameter": "",
+      "severity": "info"
+    }
+  ],
+  "language": "python_ros2",
+  "line_count": 57,
+  "risk_band": "guarded",
+  "safety_badges": [
+    "requested-motion-only",
+    "supervisor-authorised",
+    "risk:guarded",
+    "not-safety-certified"
+  ],
+  "skill_type": "controller_button_binding",
+  "subtitle": "Publishes /cmd_vel_requested while held; zeroes on release.",
+  "title": "Bind controller button 'a' to stop"
+}

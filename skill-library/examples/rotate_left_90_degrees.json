@@ -1,0 +1,7 @@
+{
+  "example_id": "rotate_left_90_degrees",
+  "expected_status": "generated",
+  "language": "python_ros2",
+  "notes": "counter-clockwise rotation request",
+  "text": "Rotate left 90 degrees"
+}

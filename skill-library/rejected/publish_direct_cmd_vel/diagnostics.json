@@ -1,0 +1,19 @@
+{
+  "diagnostics": [
+    {
+      "code": "direct_actuator_command",
+      "message": "Direct actuator publication is forbidden; use /cmd_vel_requested.",
+      "parameter": "",
+      "severity": "rejection"
+    },
+    {
+      "code": "direct_actuator_command",
+      "message": "Direct actuator publication is forbidden; use /cmd_vel_requested.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "disclaimer": "This generated skill is an engineering development aid. It does not represent autonomous execution, safety certification, or regulatory approval.",
+  "rejection_reason": "direct_actuator_command",
+  "status": "rejected"
+}

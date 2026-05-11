@@ -1,0 +1,37 @@
+{
+  "animation_steps": [
+    "imports",
+    "publisher setup",
+    "build patrol message",
+    "publish patrol request",
+    "safety explanation"
+  ],
+  "code": "# This snippet only publishes /cmd_vel_requested.\n# The rover safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This code is not safety-certified.\nimport json\nimport rclpy\nfrom rclpy.node import Node\nfrom std_msgs.msg import String\n\nMISSION_TOPIC = \"/mission/patrol_request\"\nWAYPOINTS = [\"alpha\",\"beta\"]\n\n\ndef main() -> None:\n    rclpy.init()\n    node = Node(\"patrol_requester\")\n    # NOTE: publishes a mission request, not an actuator command.\n    publisher = node.create_publisher(String, MISSION_TOPIC, 10)\n    msg = String()\n    msg.data = json.dumps({\"waypoints\": WAYPOINTS})\n    publisher.publish(msg)\n    node.get_logger().info(\"requested patrol route\")\n    node.destroy_node()\n    rclpy.shutdown()\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "copy_label": "Copy Request patrol of 2 named waypoints",
+  "diagnostics": [
+    {
+      "code": "request_accepted",
+      "message": "patrol route with 2 named waypoints",
+      "parameter": "",
+      "severity": "info"
+    },
+    {
+      "code": "validation_passed",
+      "message": "generated code passed safety validation",
+      "parameter": "",
+      "severity": "info"
+    }
+  ],
+  "language": "python_ros2",
+  "line_count": 27,
+  "risk_band": "low",
+  "safety_badges": [
+    "mission-request-only",
+    "supervisor-authorised",
+    "risk:low",
+    "not-safety-certified"
+  ],
+  "skill_type": "patrol_route_template",
+  "subtitle": "Publishes a patrol mission request to /mission/patrol_request.",
+  "title": "Request patrol of 2 named waypoints"
+}

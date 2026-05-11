@@ -1,0 +1,15 @@
+{
+  "diagnostics": [
+    {
+      "code": "ambiguous_request",
+      "message": "destination is not a known waypoint",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "normalised_text": "drive to that basket",
+  "parameters": [],
+  "rejection_reason": "ambiguous_request",
+  "skill_type": null,
+  "status": "ambiguous"
+}

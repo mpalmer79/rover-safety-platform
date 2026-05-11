@@ -1,0 +1,7 @@
+{
+  "example_id": "keyboard_forward_binding",
+  "expected_status": "generated",
+  "language": "python_ros2",
+  "notes": "key-down/up watchdog binding",
+  "text": "Bind keyboard key 'w' to move forward"
+}

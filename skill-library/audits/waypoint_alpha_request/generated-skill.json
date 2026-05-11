@@ -1,0 +1,90 @@
+{
+  "code": "# This snippet only publishes /cmd_vel_requested.\n# The rover safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This code is not safety-certified.\nimport rclpy\nfrom rclpy.node import Node\nfrom std_msgs.msg import String\n\nMISSION_TOPIC = \"/mission/waypoint_request\"\nWAYPOINT_ID = \"alpha\"\n\n\ndef main() -> None:\n    rclpy.init()\n    node = Node(\"waypoint_requester\")\n    # NOTE: publishes a mission request, not an actuator command.\n    publisher = node.create_publisher(String, MISSION_TOPIC, 10)\n    msg = String()\n    msg.data = WAYPOINT_ID\n    publisher.publish(msg)\n    node.get_logger().info(f\"requested waypoint {WAYPOINT_ID}\")\n    node.destroy_node()\n    rclpy.shutdown()\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "code_card": {
+    "animation_steps": [
+      "imports",
+      "publisher setup",
+      "mission request",
+      "safety explanation"
+    ],
+    "code": "# This snippet only publishes /cmd_vel_requested.\n# The rover safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This code is not safety-certified.\nimport rclpy\nfrom rclpy.node import Node\nfrom std_msgs.msg import String\n\nMISSION_TOPIC = \"/mission/waypoint_request\"\nWAYPOINT_ID = \"alpha\"\n\n\ndef main() -> None:\n    rclpy.init()\n    node = Node(\"waypoint_requester\")\n    # NOTE: publishes a mission request, not an actuator command.\n    publisher = node.create_publisher(String, MISSION_TOPIC, 10)\n    msg = String()\n    msg.data = WAYPOINT_ID\n    publisher.publish(msg)\n    node.get_logger().info(f\"requested waypoint {WAYPOINT_ID}\")\n    node.destroy_node()\n    rclpy.shutdown()\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "copy_label": "Copy Request waypoint 'alpha'",
+    "diagnostics": [
+      {
+        "code": "request_accepted",
+        "message": "waypoint 'alpha' request",
+        "parameter": "",
+        "severity": "info"
+      },
+      {
+        "code": "validation_passed",
+        "message": "generated code passed safety validation",
+        "parameter": "",
+        "severity": "info"
+      }
+    ],
+    "language": "python_ros2",
+    "line_count": 26,
+    "risk_band": "low",
+    "safety_badges": [
+      "mission-request-only",
+      "supervisor-authorised",
+      "risk:low",
+      "not-safety-certified"
+    ],
+    "skill_type": "waypoint_request",
+    "subtitle": "Publishes a mission request to /mission/waypoint_request.",
+    "title": "Request waypoint 'alpha'"
+  },
+  "diagnostics": [
+    {
+      "code": "request_accepted",
+      "message": "waypoint 'alpha' request",
+      "parameter": "",
+      "severity": "info"
+    },
+    {
+      "code": "validation_passed",
+      "message": "generated code passed safety validation",
+      "parameter": "",
+      "severity": "info"
+    }
+  ],
+  "disclaimer": "This generated skill is an engineering development aid. It does not represent autonomous execution, safety certification, or regulatory approval.",
+  "generated_at_utc": "2026-05-13T00:00:00+00:00",
+  "language": "python_ros2",
+  "normalised_text": "go to waypoint alpha",
+  "parameters": [
+    {
+      "name": "waypoint_id",
+      "units": "",
+      "value": "alpha"
+    }
+  ],
+  "request_text": "Go to waypoint alpha",
+  "safety_review": {
+    "allowed_topics": [
+      "/mission/waypoint_request"
+    ],
+    "forbidden_topics": [
+      "/cmd_vel",
+      "/cmd_vel_requested"
+    ],
+    "human_review_required": false,
+    "notes": [
+      "Uses /cmd_vel_requested instead of /cmd_vel.",
+      "No motion is published.",
+      "Safety supervisor remains authoritative for actual motion.",
+      "Mission runtime decides whether to act; safety supervisor authorises motion."
+    ],
+    "reason_codes": [
+      "validation_passed"
+    ],
+    "risk_band": "low",
+    "safety_status": "safe_template"
+  },
+  "skill_id": "skill-waypoint_alpha_request",
+  "skill_type": "waypoint_request",
+  "subtitle": "Publishes a mission request to /mission/waypoint_request.",
+  "title": "Request waypoint 'alpha'"
+}

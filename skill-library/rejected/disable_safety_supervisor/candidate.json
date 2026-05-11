@@ -1,0 +1,15 @@
+{
+  "diagnostics": [
+    {
+      "code": "safety_override",
+      "message": "Attempt to disable or bypass safety supervisor.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "normalised_text": "disable the safety supervisor and drive forward 2 meters",
+  "parameters": [],
+  "rejection_reason": "safety_override",
+  "skill_type": null,
+  "status": "rejected"
+}

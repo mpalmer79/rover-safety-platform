@@ -275,6 +275,30 @@ the runtime safety supervisor remains authoritative for what moves.
 
 ---
 
+## Phase 15A (robotics skill authoring workbench) entry points
+
+If you are reviewing the Phase 15A work specifically:
+
+1. Start with [`ROBOTICS_SKILL_AUTHORING_WORKBENCH.md`](ROBOTICS_SKILL_AUTHORING_WORKBENCH.md)
+   — architectural contract.
+2. Read [`SKILL_SAFETY_BOUNDARY.md`](SKILL_SAFETY_BOUNDARY.md) for
+   what the workbench is forbidden from doing.
+3. Skim [`SKILL_TEMPLATE_CATALOG.md`](SKILL_TEMPLATE_CATALOG.md) for
+   the supported skill list + safety constraints, and one accepted
+   audit bundle (e.g. `skill-library/audits/move_forward_6_feet/`).
+4. Read [`CODE_CARD_METADATA.md`](CODE_CARD_METADATA.md) if you care
+   about the code-card payload a future UI would render.
+5. Read [`FUTURE_LOCAL_LLM_SKILL_PROVIDER.md`](FUTURE_LOCAL_LLM_SKILL_PROVIDER.md)
+   if you care about the path forward (intentionally not
+   implemented in Phase 15A).
+
+No real LLM, no code execution, no robot motion. The deterministic
+template catalog and validator are authoritative for what the
+workbench can emit; the runtime safety supervisor remains
+authoritative for what actually moves.
+
+---
+
 ## What this playbook does not do
 
 - It does not run anything for you. To run scenarios and inspect

@@ -1,0 +1,98 @@
+{
+  "code": "# This snippet only publishes /cmd_vel_requested.\n# The rover safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This code is not safety-certified.\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\n# --- bounded parameters -----------------------------------------------\nDISTANCE_M = 2.0000           # requested distance\nLINEAR_SPEED_MPS = 0.25        # conservative speed\nPUBLISH_RATE_HZ = 10.0       # Twist publish rate\nDURATION_S = DISTANCE_M / LINEAR_SPEED_MPS\nTIMEOUT_S = DURATION_S * 1.50        # hard timeout guard\n\n\nclass MoveForwardRequester(Node):\n    def __init__(self) -> None:\n        super().__init__(\"move_forward_requester\")\n        # NOTE: /cmd_vel_requested, not /cmd_vel. The safety supervisor\n        # validates this request and may clamp or reject it.\n        self.publisher = self.create_publisher(Twist, \"/cmd_vel_requested\", 10)\n        self.timer = self.create_timer(1.0 / PUBLISH_RATE_HZ, self._tick)\n        self.start_time = self.get_clock().now()\n        self.cmd = Twist()\n        self.cmd.linear.x = LINEAR_SPEED_MPS\n        self.finished = False\n\n    def _tick(self) -> None:\n        elapsed = (self.get_clock().now() - self.start_time).nanoseconds * 1e-9\n        if self.finished:\n            return\n        if elapsed >= DURATION_S or elapsed >= TIMEOUT_S:\n            self._publish_zero_and_finish()\n            return\n        self.publisher.publish(self.cmd)\n\n    def _publish_zero_and_finish(self) -> None:\n        zero = Twist()\n        self.publisher.publish(zero)\n        self.finished = True\n        self.get_logger().info(\"move_forward complete; requested zero motion\")\n\n\ndef main() -> None:\n    rclpy.init()\n    node = MoveForwardRequester()\n    try:\n        rclpy.spin_until_future_complete(node, future=_finished_future(node))\n    finally:\n        # Always send a final zero to /cmd_vel_requested.\n        node._publish_zero_and_finish()\n        node.destroy_node()\n        rclpy.shutdown()\n\n\ndef _finished_future(node):\n    from rclpy.task import Future\n    fut = Future()\n    def check():\n        if node.finished:\n            fut.set_result(True)\n    timer = node.create_timer(0.1, check)\n    return fut\n\n\nif __name__ == \"__main__\":\n    main()\n",
+  "code_card": {
+    "animation_steps": [
+      "imports",
+      "constants",
+      "publisher setup",
+      "bounded command loop",
+      "stop command",
+      "safety explanation"
+    ],
+    "code": "# This snippet only publishes /cmd_vel_requested.\n# The rover safety supervisor authorises actual motion via\n# /cmd_vel_authorized. This code is not safety-certified.\nimport rclpy\nfrom rclpy.node import Node\nfrom geometry_msgs.msg import Twist\n\n# --- bounded parameters -----------------------------------------------\nDISTANCE_M = 2.0000           # requested distance\nLINEAR_SPEED_MPS = 0.25        # conservative speed\nPUBLISH_RATE_HZ = 10.0       # Twist publish rate\nDURATION_S = DISTANCE_M / LINEAR_SPEED_MPS\nTIMEOUT_S = DURATION_S * 1.50        # hard timeout guard\n\n\nclass MoveForwardRequester(Node):\n    def __init__(self) -> None:\n        super().__init__(\"move_forward_requester\")\n        # NOTE: /cmd_vel_requested, not /cmd_vel. The safety supervisor\n        # validates this request and may clamp or reject it.\n        self.publisher = self.create_publisher(Twist, \"/cmd_vel_requested\", 10)\n        self.timer = self.create_timer(1.0 / PUBLISH_RATE_HZ, self._tick)\n        self.start_time = self.get_clock().now()\n        self.cmd = Twist()\n        self.cmd.linear.x = LINEAR_SPEED_MPS\n        self.finished = False\n\n    def _tick(self) -> None:\n        elapsed = (self.get_clock().now() - self.start_time).nanoseconds * 1e-9\n        if self.finished:\n            return\n        if elapsed >= DURATION_S or elapsed >= TIMEOUT_S:\n            self._publish_zero_and_finish()\n            return\n        self.publisher.publish(self.cmd)\n\n    def _publish_zero_and_finish(self) -> None:\n        zero = Twist()\n        self.publisher.publish(zero)\n        self.finished = True\n        self.get_logger().info(\"move_forward complete; requested zero motion\")\n\n\ndef main() -> None:\n    rclpy.init()\n    node = MoveForwardRequester()\n    try:\n        rclpy.spin_until_future_complete(node, future=_finished_future(node))\n    finally:\n        # Always send a final zero to /cmd_vel_requested.\n        node._publish_zero_and_finish()\n        node.destroy_node()\n        rclpy.shutdown()\n\n\ndef _finished_future(node):\n    from rclpy.task import Future\n    fut = Future()\n    def check():\n        if node.finished:\n            fut.set_result(True)\n    timer = node.create_timer(0.1, check)\n    return fut\n\n\nif __name__ == \"__main__\":\n    main()\n",
+    "copy_label": "Copy Move forward 2.0000 m",
+    "diagnostics": [
+      {
+        "code": "request_accepted",
+        "message": "distance specified in meters",
+        "parameter": "",
+        "severity": "info"
+      },
+      {
+        "code": "validation_passed",
+        "message": "generated code passed safety validation",
+        "parameter": "",
+        "severity": "info"
+      }
+    ],
+    "language": "python_ros2",
+    "line_count": 67,
+    "risk_band": "guarded",
+    "safety_badges": [
+      "requested-motion-only",
+      "supervisor-authorised",
+      "risk:guarded",
+      "not-safety-certified"
+    ],
+    "skill_type": "move_forward_distance",
+    "subtitle": "Publishes /cmd_vel_requested at 0.25 m/s for 8.00 s, then zero.",
+    "title": "Move forward 2.0000 m"
+  },
+  "diagnostics": [
+    {
+      "code": "request_accepted",
+      "message": "distance specified in meters",
+      "parameter": "",
+      "severity": "info"
+    },
+    {
+      "code": "validation_passed",
+      "message": "generated code passed safety validation",
+      "parameter": "",
+      "severity": "info"
+    }
+  ],
+  "disclaimer": "This generated skill is an engineering development aid. It does not represent autonomous execution, safety certification, or regulatory approval.",
+  "generated_at_utc": "2026-05-13T00:00:00+00:00",
+  "language": "python_ros2",
+  "normalised_text": "drive forward 2 meters",
+  "parameters": [
+    {
+      "name": "distance_meters",
+      "units": "m",
+      "value": 2.0
+    },
+    {
+      "name": "source_distance",
+      "units": "m",
+      "value": 2.0
+    }
+  ],
+  "request_text": "Drive forward 2 meters",
+  "safety_review": {
+    "allowed_topics": [
+      "/cmd_vel_requested"
+    ],
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "human_review_required": false,
+    "notes": [
+      "Uses /cmd_vel_requested instead of /cmd_vel.",
+      "Final zero command is sent.",
+      "Safety supervisor remains authoritative for actual motion.",
+      "Command expires after the computed duration.",
+      "Safety supervisor authorises actual motion via /cmd_vel_authorized.",
+      "Distance is a *request*; the supervisor may clamp or reject."
+    ],
+    "reason_codes": [
+      "validation_passed"
+    ],
+    "risk_band": "guarded",
+    "safety_status": "guarded"
+  },
+  "skill_id": "skill-move_forward_2_meters",
+  "skill_type": "move_forward_distance",
+  "subtitle": "Publishes /cmd_vel_requested at 0.25 m/s for 8.00 s, then zero.",
+  "title": "Move forward 2.0000 m"
+}

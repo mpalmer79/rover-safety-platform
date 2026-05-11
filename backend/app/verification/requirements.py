@@ -38,6 +38,7 @@ class RequirementKind(str, Enum):
     LIVE = "live"
     MISSION_COMPILER = "mission_compiler"
     PROPOSAL = "proposal"
+    SKILL = "skill"
 
 
 @dataclass(frozen=True)
@@ -2060,6 +2061,149 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "backend/tests/test_mission_proposal.py::test_audit_bundle_layout_is_complete",
             "backend/tests/test_mission_proposal.py::test_audit_markdown_contains_disclaimer",
             "backend/tests/test_mission_proposal.py::test_audit_preserves_provider_mode",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-001",
+        kind=RequirementKind.SKILL,
+        title="Skill requests compile only through deterministic templates",
+        description=(
+            "The Phase 15A skill authoring workbench maps a developer "
+            "request onto a closed catalog of templates. Unsupported "
+            "instructions never reach the template builder; the "
+            "parser emits a deterministic ``unsupported`` or "
+            "``ambiguous`` diagnosis instead of inventing parameters."
+        ),
+        architecture_refs=(
+            "docs/ROBOTICS_SKILL_AUTHORING_WORKBENCH.md",
+            "docs/SKILL_TEMPLATE_CATALOG.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_authoring/catalog.py",
+            "backend/app/skill_authoring/intent_parser.py",
+            "backend/app/skill_authoring/templates.py",
+            "backend/app/skill_authoring/generator.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_authoring.py::test_move_forward_6_feet_generates_bounded_python",
+            "backend/tests/test_skill_authoring.py::test_parser_rejects_unsupported_instruction",
+            "backend/tests/test_skill_authoring.py::test_unsupported_request_is_unsupported",
+            "backend/tests/test_skill_authoring.py::test_catalog_is_closed_set",
+            "backend/tests/test_skill_authoring.py::test_generator_is_deterministic_for_fixed_timestamp",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-002",
+        kind=RequirementKind.SKILL,
+        title="Generated motion code uses /cmd_vel_requested only",
+        description=(
+            "Every motion-bearing snippet emitted by the skill "
+            "workbench publishes to ``/cmd_vel_requested`` and never "
+            "to ``/cmd_vel``. The safety supervisor and motion "
+            "arbitration remain authoritative; the workbench is "
+            "incapable of granting actuator authority."
+        ),
+        architecture_refs=(
+            "docs/SKILL_SAFETY_BOUNDARY.md",
+            "docs/SAFETY_MODEL.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_authoring/templates.py",
+            "backend/app/skill_authoring/validator.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_authoring.py::test_move_forward_code_uses_requested_motion_topic",
+            "backend/tests/test_skill_authoring.py::test_no_template_publishes_directly_to_cmd_vel",
+            "backend/tests/test_skill_authoring.py::test_validator_rejects_direct_cmd_vel_publication",
+            "backend/tests/test_skill_authoring.py::test_motion_snippets_publish_final_zero",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-003",
+        kind=RequirementKind.SKILL,
+        title="Unsupported, ambiguous, or unsafe requests produce deterministic diagnostics",
+        description=(
+            "The parser routes a developer request to one of: "
+            "``generated``, ``unsupported``, ``ambiguous``, or "
+            "``rejected``. Forbidden phrases (direct actuator "
+            "command, safety override, e-stop override, unbounded "
+            "motion or speed, direct motor control, sensor disable, "
+            "shell or code execution, network egress) deterministically "
+            "produce a rejection with a stable diagnostic code."
+        ),
+        architecture_refs=(
+            "docs/SKILL_SAFETY_BOUNDARY.md",
+            "docs/ROBOTICS_SKILL_AUTHORING_WORKBENCH.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_authoring/intent_parser.py",
+            "backend/app/skill_authoring/diagnostics.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_authoring.py::test_ambiguous_move_forward_is_ambiguous",
+            "backend/tests/test_skill_authoring.py::test_direct_cmd_vel_request_is_rejected",
+            "backend/tests/test_skill_authoring.py::test_disable_safety_is_rejected",
+            "backend/tests/test_skill_authoring.py::test_ignore_estop_is_rejected",
+            "backend/tests/test_skill_authoring.py::test_unbounded_motion_is_rejected",
+            "backend/tests/test_skill_authoring.py::test_unbounded_speed_is_rejected",
+            "backend/tests/test_skill_authoring.py::test_direct_motor_control_is_rejected",
+            "backend/tests/test_skill_authoring.py::test_shell_command_is_rejected",
+            "backend/tests/test_skill_authoring.py::test_sensor_disable_is_rejected",
+            "backend/tests/test_skill_authoring.py::test_distance_out_of_range_is_rejected",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-004",
+        kind=RequirementKind.SKILL,
+        title="Generated skills include safety reviews, diagnostics, and audit artifacts",
+        description=(
+            "Every successful generation produces a "
+            "``GeneratedSkill`` that bundles parameters, "
+            "diagnostics, a ``SkillSafetyReview`` (status + risk "
+            "band + allowed/forbidden topics + notes), and a "
+            "filesystem audit bundle (request.json, generated-skill.json, "
+            "code.py, safety-review.json, diagnostics.json, "
+            "code-card.json, skill-report.md). Every rejected "
+            "generation produces a rejection bundle (request.json, "
+            "candidate.json, diagnostics.json, rejection-report.md)."
+        ),
+        architecture_refs=(
+            "docs/ROBOTICS_SKILL_AUTHORING_WORKBENCH.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_authoring/safety_review.py",
+            "backend/app/skill_authoring/audit.py",
+            "backend/app/skill_authoring/reporter.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_authoring.py::test_audit_bundle_layout_is_complete_for_accepted",
+            "backend/tests/test_skill_authoring.py::test_rejection_bundle_layout_is_complete",
+            "backend/tests/test_skill_authoring.py::test_audit_includes_disclaimer",
+            "backend/tests/test_skill_authoring.py::test_safety_review_lists_allowed_and_forbidden_topics",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SKILL-005",
+        kind=RequirementKind.SKILL,
+        title="Code-card metadata supports a future reviewer UI without adding frontend dependencies",
+        description=(
+            "Each generated skill includes a ``CodeCard`` payload "
+            "with title, subtitle, language, line count, copy "
+            "label, safety badges, animation steps, and risk band. "
+            "No frontend dependency is added in Phase 15A; the "
+            "metadata is JSON only."
+        ),
+        architecture_refs=(
+            "docs/CODE_CARD_METADATA.md",
+        ),
+        implementation_refs=(
+            "backend/app/skill_authoring/diagnostics.py",
+            "backend/app/skill_authoring/models.py",
+        ),
+        test_refs=(
+            "backend/tests/test_skill_authoring.py::test_code_card_metadata_present_on_accepted_skill",
+            "backend/tests/test_skill_authoring.py::test_code_card_animation_steps_for_move_forward",
+            "backend/tests/test_skill_authoring.py::test_skill_layer_has_no_frontend_imports",
         ),
     ),
 )

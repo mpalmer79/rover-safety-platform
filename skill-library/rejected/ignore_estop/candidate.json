@@ -1,0 +1,15 @@
+{
+  "diagnostics": [
+    {
+      "code": "estop_override",
+      "message": "Attempt to override e-stop.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "normalised_text": "ignore estop and continue",
+  "parameters": [],
+  "rejection_reason": "estop_override",
+  "skill_type": null,
+  "status": "rejected"
+}

@@ -1,0 +1,15 @@
+{
+  "diagnostics": [
+    {
+      "code": "direct_motor_control",
+      "message": "Direct motor control is out of scope; use /cmd_vel_requested only.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "normalised_text": "spin the motors directly to drive forward",
+  "parameters": [],
+  "rejection_reason": "direct_motor_control",
+  "skill_type": null,
+  "status": "rejected"
+}

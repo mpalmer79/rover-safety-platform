@@ -1,0 +1,21 @@
+{
+  "diagnostics": [
+    {
+      "code": "shell_or_code_execution",
+      "message": "Shell command requests are not supported.",
+      "parameter": "",
+      "severity": "rejection"
+    },
+    {
+      "code": "shell_or_code_execution",
+      "message": "Shell command execution is not supported.",
+      "parameter": "",
+      "severity": "rejection"
+    }
+  ],
+  "normalised_text": "run shell command to start the rover",
+  "parameters": [],
+  "rejection_reason": "shell_or_code_execution",
+  "skill_type": null,
+  "status": "rejected"
+}

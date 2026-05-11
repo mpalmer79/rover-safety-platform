@@ -1,0 +1,7 @@
+{
+  "example_id": "waypoint_alpha_request",
+  "expected_status": "generated",
+  "language": "python_ros2",
+  "notes": "mission request only",
+  "text": "Go to waypoint alpha"
+}

@@ -1,0 +1,7 @@
+{
+  "example_id": "controller_stop_button",
+  "expected_status": "generated",
+  "language": "python_ros2",
+  "notes": "hold-to-stop binding",
+  "text": "Controller button to stop"
+}

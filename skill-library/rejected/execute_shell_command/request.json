@@ -1,0 +1,6 @@
+{
+  "language": "python_ros2",
+  "request_id": "execute_shell_command",
+  "requested_at_utc": "2026-05-13T00:00:00+00:00",
+  "text": "Run shell command to start the rover"
+}

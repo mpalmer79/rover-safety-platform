@@ -1,0 +1,7 @@
+{
+  "example_id": "patrol_alpha_beta",
+  "expected_status": "generated",
+  "language": "python_ros2",
+  "notes": "named-waypoint patrol",
+  "text": "Patrol alpha beta"
+}
