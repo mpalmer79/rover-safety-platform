@@ -1,0 +1,56 @@
+# Smoke live-runtime scenario plan.
+#
+# Purpose: the FIRST real self-hosted Jazzy + Gazebo Harmonic run.
+# Brings up rover_bringup/full_system.launch.py, captures a short
+# rosbag2 bag, observes the documented topics, and shuts down
+# cleanly. No fault injection, no mission behaviour beyond bring-up.
+#
+# Pairs with docs/LIVE_BAG_CAPTURE_RUNBOOK.md and
+# docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md.
+
+plan_id: smoke-live-runtime
+description: |
+  Minimal bring-up + bag capture exercise to confirm a self-hosted
+  Jazzy/Gazebo runner can produce a real bag-backed evidence record.
+duration_seconds: 30
+smoke: true
+
+launch_files:
+  - rover_bringup/full_system.launch.py
+
+bag_topics:
+  - /clock
+  - /tf
+  - /tf_static
+  - /odom
+  - /cmd_vel_requested
+  - /cmd_vel_authorized
+  - /safety/state
+  - /safety/events
+  - /system/health
+
+required_topics:
+  - /clock
+  - /tf
+  - /tf_static
+  - /odom
+  - /cmd_vel_requested
+  - /cmd_vel_authorized
+  - /safety/state
+  - /safety/events
+  - /system/health
+
+optional_topics:
+  - /scan
+  - /imu
+  - /diagnostics/runtime_summary
+
+expected_safety_state: ACTIVE_NORMAL
+expected_evidence_mode: bag_backed
+qualification_scenarios:
+  - nominal_runtime_launch
+
+notes:
+  - this scenario does not exercise fault injection
+  - sensor topics (/scan, /imu) are optional in smoke mode
+  - if sensors are unavailable, the run reports partial, not failed

@@ -99,6 +99,15 @@ runner and **never** fails for missing live runtime evidence —
 absences become `insufficient_history` / `unknown` / `not_started`
 labels in the resulting bundle.
 
+## 6.b Phase 14 live runtime input
+
+When the Phase 14 self-hosted live runtime pipeline produces a
+`bag_backed` evidence record, programme review picks it up via the
+existing `evidence/runtime/<run_id>/` lookup. Until a real
+self-hosted run exists, programme review reports the live runtime
+maturity as `not_established`, matching
+`docs/LIVE_RUNTIME_MATURITY_REPORT.md`.
+
 ## 7. Honesty rules
 
 * Static-only evidence never silently aggregates with bag-backed.

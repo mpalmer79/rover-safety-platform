@@ -1,0 +1,172 @@
+# Phase 14 — Self-hosted live runtime evidence pipeline.
+#
+# This workflow is the only path that can produce bag-backed live
+# runtime evidence for this repository. It runs on a self-hosted
+# Ubuntu 24.04 + ROS 2 Jazzy + Gazebo Harmonic runner that has been
+# attached to this repository and labelled
+# ``self-hosted, ros-jazzy, gazebo``.
+#
+# DO NOT remove the ``runs-on`` labels and DO NOT add a
+# github-hosted runner. GitHub-hosted runners cannot run Gazebo
+# Harmonic and would fabricate misleading "live" evidence.
+#
+# The workflow is intentionally split into named steps so a
+# reviewer can attribute each artefact to the right phase:
+#
+#   1. host qualification
+#   2. workspace build
+#   3. live bag capture
+#   4. live evidence processing
+#   5. live evidence validation
+#   6. artefact upload
+#
+# Logs and the evidence directory are uploaded even when the run
+# fails so a reviewer can debug a botched live run.
+
+name: live-runtime-evidence
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenario_plan:
+        description: "Live scenario plan (YAML path under live-runtime/scenario-plans/)"
+        required: false
+        default: "live-runtime/scenario-plans/smoke-live-runtime.yaml"
+      run_id:
+        description: "Run id (defaults to a UTC timestamp)"
+        required: false
+        default: ""
+      promote_baseline:
+        description: "Promote the maturity baseline if the run is bag-backed"
+        required: false
+        default: "false"
+
+# Concurrency: only one live runtime evidence run at a time per ref
+# so two operators don't clobber each other's bag captures.
+concurrency:
+  group: live-runtime-evidence-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  live-runtime-evidence:
+    # ALL three labels are required. If your runner does not have
+    # them, attach a runner with them — do not relax this list.
+    runs-on: [self-hosted, ros-jazzy, gazebo]
+    timeout-minutes: 45
+
+    env:
+      LIVE_RUNTIME_RUN_ID: ${{ inputs.run_id }}
+      LIVE_RUNTIME_SCENARIO_PLAN: ${{ inputs.scenario_plan }}
+      LIVE_RUNTIME_PROMOTE_BASELINE: ${{ inputs.promote_baseline }}
+
+    steps:
+      - name: Refuse to run on a github-hosted runner
+        # Defence in depth: if someone strips the labels above, this
+        # check fails fast before any "live" evidence is written.
+        run: |
+          set -euo pipefail
+          if [ "${RUNNER_ENVIRONMENT:-}" = "github-hosted" ]; then
+            echo "::error::live-runtime-evidence may not run on github-hosted runners"
+            exit 1
+          fi
+          echo "runner_environment=${RUNNER_ENVIRONMENT:-self-hosted}"
+
+      - uses: actions/checkout@v4
+
+      - name: Resolve run id
+        id: ids
+        run: |
+          set -euo pipefail
+          run_id="${LIVE_RUNTIME_RUN_ID:-}"
+          if [ -z "${run_id}" ]; then
+            run_id="live-$(date -u +%Y%m%dT%H%M%SZ)"
+          fi
+          echo "run_id=${run_id}" >> "${GITHUB_OUTPUT}"
+          mkdir -p "evidence/runtime/${run_id}/logs"
+
+      - name: Host qualification
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          python3 rover_ws/tools/qualify_ros_host.py \
+            --evidence-root evidence/host \
+            --run-id "host-${{ steps.ids.outputs.run_id }}" \
+            2>&1 | tee "evidence/runtime/${{ steps.ids.outputs.run_id }}/logs/host-qualification.log"
+
+      - name: Build workspace
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          cd rover_ws
+          colcon build --symlink-install \
+            2>&1 | tee "../evidence/runtime/${{ steps.ids.outputs.run_id }}/logs/colcon-build.log"
+
+      - name: Live bag capture
+        # The full system launch must already be running, OR the
+        # capture step launches it. We prefer the latter via the
+        # one-command pipeline (next step) so this step is just a
+        # standalone smoke check — comment in/out per runner setup.
+        if: ${{ false }}
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          source rover_ws/install/setup.bash
+          python3 rover_ws/tools/live_bag_capture.py \
+            --scenario-plan "${LIVE_RUNTIME_SCENARIO_PLAN}" \
+            --output "evidence/runtime/${{ steps.ids.outputs.run_id }}/bag" \
+            --run-id "${{ steps.ids.outputs.run_id }}" \
+            --json \
+            2>&1 | tee "evidence/runtime/${{ steps.ids.outputs.run_id }}/logs/bag-capture.log"
+
+      - name: Run live runtime pipeline
+        run: |
+          set -euo pipefail
+          source /opt/ros/jazzy/setup.bash
+          source rover_ws/install/setup.bash
+          extra=()
+          if [ "${LIVE_RUNTIME_PROMOTE_BASELINE}" = "true" ]; then
+            extra+=(--promote-baseline)
+          fi
+          python3 rover_ws/tools/run_live_runtime_pipeline.py \
+            --scenario-plan "${LIVE_RUNTIME_SCENARIO_PLAN}" \
+            --runner-profile live-runtime/runner-profile.local.json \
+            --output "evidence/runtime/${{ steps.ids.outputs.run_id }}" \
+            --run-id "${{ steps.ids.outputs.run_id }}" \
+            --capture-bag \
+            --json \
+            "${extra[@]}" \
+            2>&1 | tee "evidence/runtime/${{ steps.ids.outputs.run_id }}/logs/pipeline.log"
+
+      - name: Validate live runtime evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          python3 rover_ws/tools/validate_live_runtime_evidence.py \
+            --evidence-dir "evidence/runtime/${{ steps.ids.outputs.run_id }}" \
+            --maturity-baseline live-runtime/baselines/maturity-baseline.json \
+            --json \
+            2>&1 | tee "evidence/runtime/${{ steps.ids.outputs.run_id }}/logs/validate.log"
+
+      - name: Upload live runtime evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-runtime-evidence-${{ steps.ids.outputs.run_id }}
+          path: |
+            evidence/runtime/${{ steps.ids.outputs.run_id }}/
+            evidence/host/host-${{ steps.ids.outputs.run_id }}/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload maturity baseline (if updated)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-runtime-maturity-baseline-${{ steps.ids.outputs.run_id }}
+          path: live-runtime/baselines/maturity-baseline.json
+          retention-days: 90
+          if-no-files-found: ignore

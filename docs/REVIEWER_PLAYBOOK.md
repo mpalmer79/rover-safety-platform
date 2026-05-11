@@ -255,6 +255,26 @@ natively.
 
 ---
 
+## Phase 14 live runtime entry points
+
+If you are reviewing the live runtime activation work specifically:
+
+1. Start with [`LIVE_RUNTIME_MATURITY_REPORT.md`](LIVE_RUNTIME_MATURITY_REPORT.md)
+   to learn whether bag-backed evidence has been observed.
+2. Read [`LIVE_RUNTIME_EVIDENCE_PIPELINE.md`](LIVE_RUNTIME_EVIDENCE_PIPELINE.md)
+   for the bag-backed contract.
+3. Read [`SELF_HOSTED_JAZZY_RUNNER_SETUP.md`](SELF_HOSTED_JAZZY_RUNNER_SETUP.md)
+   for the runner activation checklist.
+4. Read [`LIVE_RUNNER_PROFILE.md`](LIVE_RUNNER_PROFILE.md) for the
+   profile schema and the qualified/provisional/unqualified
+   lifecycle.
+5. Skim [`LIVE_BAG_CAPTURE_RUNBOOK.md`](LIVE_BAG_CAPTURE_RUNBOOK.md)
+   for the operator procedure.
+
+The committed maturity baseline is `not_established` and will
+remain so until a real self-hosted Jazzy + Gazebo Harmonic run is
+observed. Treat any other claim as a regression.
+
 ## What this playbook does not do
 
 - It does not run anything for you. To run scenarios and inspect

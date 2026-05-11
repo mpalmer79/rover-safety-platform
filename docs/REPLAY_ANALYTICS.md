@@ -4,6 +4,16 @@ This document describes the Phase 8 replay analytics layer. The
 platform is **not safety-certified**; the analytics layer produces
 engineering reliability material derived from existing artefacts.
 
+## Bag-backed evidence input (Phase 14)
+
+Replay analytics derive scores from the bag-backed live evidence
+produced by the Phase 14 pipeline. A run is treated as bag-backed
+only when `evidence/runtime/<run_id>/evidence.json` reports
+`mode: bag_backed` and the matching `bag-manifest.json` reports
+`status: bag_backed`. Any weaker classification keeps the analytics
+band capped at `partial`. See
+`docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md` for the contract.
+
 ## 1. Architectural principle
 
 Analytics are **downstream of evidence**. The layer reads the

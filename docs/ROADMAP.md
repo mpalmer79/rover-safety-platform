@@ -1687,6 +1687,33 @@ The following are deferred until a phase explicitly opens them, and require an A
 
 ---
 
+## 11.b Phase 14 — Persistent Self-Hosted Live Runtime Activation
+
+Phase 14 turns the static-source / static-workspace evidence path
+into a real, operational live-runtime path that depends on a
+self-hosted ROS 2 Jazzy + Gazebo Harmonic runner.
+
+Reviewer-facing artefacts:
+
+| Artefact                                          | Source                                              |
+|---------------------------------------------------|-----------------------------------------------------|
+| `docs/SELF_HOSTED_JAZZY_RUNNER_SETUP.md`          | runner activation checklist                         |
+| `docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md`          | one-command pipeline contract                       |
+| `docs/LIVE_BAG_CAPTURE_RUNBOOK.md`                | rosbag2 capture procedure                           |
+| `docs/LIVE_RUNNER_PROFILE.md`                     | runner profile schema + lifecycle                   |
+| `docs/LIVE_RUNTIME_MATURITY_REPORT.md`            | bag-backed maturity baseline                        |
+| `live-runtime/runner-profile.template.json`       | committed honest template                           |
+| `live-runtime/scenario-plans/smoke-live-runtime.yaml` | smoke scenario plan                              |
+| `live-runtime/baselines/maturity-baseline.template.json` | not_established baseline template            |
+| `.github/workflows/live-runtime-evidence.yml`     | self-hosted workflow (labels self-hosted, ros-jazzy, gazebo) |
+| `rover_ws/tools/run_live_runtime_pipeline.py`     | one-command pipeline                                |
+| `backend/app/live_runtime/`                       | classifier + processor library + tests              |
+
+Phase 14 does not add autonomy features. Its success metric is
+"can this repository produce real bag-backed runtime evidence on a
+self-hosted Jazzy runner?" The committed maturity baseline remains
+`not_established` until that evidence exists.
+
 ## 12. Portfolio Value Summary
 
 The roadmap is structured to produce reviewer-facing artifacts at every phase:

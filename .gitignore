@@ -12,3 +12,8 @@ dist/
 
 # Run artefacts (deterministic engine + ROS scenario suites write here)
 runs/
+
+# Live runtime local overrides (Phase 14)
+# Per-runner, may contain host-specific paths or runner identifiers.
+live-runtime/runner-profile.local.json
+live-runtime/baselines/maturity-baseline.json

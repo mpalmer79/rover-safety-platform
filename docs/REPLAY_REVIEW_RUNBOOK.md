@@ -9,6 +9,18 @@ evidence and rosbag2 artefacts**. It inspects, indexes, and produces
 metadata. It does **not** open bag files itself; that work is left
 to Foxglove.
 
+## Bag-backed evidence input (Phase 14)
+
+The Phase 14 live runtime pipeline produces the bag artefacts this
+runbook consumes. When the pipeline writes
+`evidence/runtime/<run_id>/`, the bag lives at
+`evidence/runtime/<run_id>/bag/` and the canonical classification
+lives in `evidence/runtime/<run_id>/bag-manifest.json`. A run is
+only `bag_backed` when the manifest's `status` is `bag_backed` —
+see `docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md` for the full contract.
+This runbook never upgrades a `partial` or `missing_bag` run into a
+bag-backed review.
+
 ## 1. Prerequisites
 
 The full live path requires:

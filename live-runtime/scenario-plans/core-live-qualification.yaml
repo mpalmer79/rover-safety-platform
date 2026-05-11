@@ -1,0 +1,64 @@
+# Core live qualification scenario plan.
+#
+# Longer self-hosted run that exercises the safety supervisor, the
+# command-path invariants, and the diagnostic streams. Pairs with
+# qualification/scenarios/*.yaml on the static-analysis side.
+
+plan_id: core-live-qualification
+description: |
+  Bring up the full system, run the documented qualification
+  scenarios on the live ROS graph, and capture a bag suitable for
+  replay-review and replay-analytics processing.
+duration_seconds: 300
+smoke: false
+
+launch_files:
+  - rover_bringup/full_system.launch.py
+
+bag_topics:
+  - /clock
+  - /tf
+  - /tf_static
+  - /odom
+  - /scan
+  - /imu
+  - /cmd_vel_requested
+  - /cmd_vel_authorized
+  - /safety/state
+  - /safety/events
+  - /system/health
+  - /diagnostics/runtime_summary
+  - /replay/markers
+
+required_topics:
+  - /clock
+  - /tf
+  - /tf_static
+  - /odom
+  - /cmd_vel_requested
+  - /cmd_vel_authorized
+  - /safety/state
+  - /safety/events
+  - /system/health
+  - /diagnostics/runtime_summary
+
+optional_topics:
+  - /scan
+  - /imu
+  - /replay/markers
+
+expected_safety_state: ACTIVE_NORMAL
+expected_evidence_mode: bag_backed
+
+qualification_scenarios:
+  - nominal_runtime_launch
+  - authorized_motion_path
+  - command_timeout_safe_stop
+  - safe_stop_command_zeroing
+  - stale_lidar_restricted_mode
+  - estop_latched_manual_reset_required
+
+notes:
+  - the bag capture is the source of truth for replay review
+  - any required topic missing from the bag inventory downgrades the run to partial
+  - the supervisor must remain authoritative over /cmd_vel_authorized throughout

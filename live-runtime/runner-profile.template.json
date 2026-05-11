@@ -1,0 +1,23 @@
+{
+  "runner_id": "self-hosted-jazzy-template",
+  "runner_status": "unqualified",
+  "qualification_status": "not_executed",
+  "labels": ["self-hosted", "ros-jazzy", "gazebo"],
+  "host_os": "Ubuntu 24.04 LTS",
+  "ros_distro": "jazzy",
+  "gazebo_version": "harmonic",
+  "python_version": "3.12",
+  "workspace_path": "${HOME}/rover_ws",
+  "bag_format": "mcap",
+  "last_qualified_at": null,
+  "last_qualified_run_id": null,
+  "last_bag_backed_run_id": null,
+  "known_limitations": [
+    "no self-hosted Jazzy/Gazebo runner attached",
+    "live runtime evidence has not been captured on this profile"
+  ],
+  "notes": [
+    "template: replace runner_id with the local self-hosted runner identifier before attaching to GitHub Actions",
+    "this committed profile must remain unqualified; only the per-runner local profile may flip to qualified after a bag-backed run"
+  ]
+}

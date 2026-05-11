@@ -1,0 +1,14 @@
+{
+  "status": "not_established",
+  "reason": "no bag-backed live run has been captured",
+  "bag_backed_runs": 0,
+  "last_run_id": null,
+  "last_run_at": null,
+  "last_runner_id": null,
+  "last_bag_dir": null,
+  "last_scenario_plan_id": null,
+  "notes": [
+    "the platform must remain at not_established until a real bag-backed run is observed; do not pin a fake baseline.",
+    "promotion is performed by rover_ws/tools/run_live_runtime_pipeline.py --promote-baseline"
+  ]
+}

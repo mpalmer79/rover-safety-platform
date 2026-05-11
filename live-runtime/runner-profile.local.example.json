@@ -1,0 +1,23 @@
+{
+  "runner_id": "rover-runner-01.example",
+  "runner_status": "provisional",
+  "qualification_status": "partial",
+  "labels": ["self-hosted", "ros-jazzy", "gazebo"],
+  "host_os": "Ubuntu 24.04 LTS",
+  "ros_distro": "jazzy",
+  "gazebo_version": "harmonic",
+  "python_version": "3.12.3",
+  "workspace_path": "/home/runner/rover_ws",
+  "bag_format": "mcap",
+  "last_qualified_at": null,
+  "last_qualified_run_id": null,
+  "last_bag_backed_run_id": null,
+  "known_limitations": [
+    "this is an EXAMPLE profile, not a real attached runner",
+    "qualification has not been executed; do not commit a 'qualified' profile without a bag-backed run id"
+  ],
+  "notes": [
+    "copy this file to runner-profile.local.json on the self-hosted host",
+    "runner-profile.local.json is gitignored; do not commit local credentials"
+  ]
+}
