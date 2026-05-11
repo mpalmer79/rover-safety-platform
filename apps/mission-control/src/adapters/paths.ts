@@ -28,6 +28,8 @@ export interface RepoPaths {
   liveRuntimeMaturity: string;
   spatialReplayRunsDir: string;
   spatialReplayRunPath: (runId: string) => string;
+  artifactRegistryJson: string;
+  hydrationReportJson: string;
 }
 
 export function repoPaths(root: string = repoRoot()): RepoPaths {
@@ -46,5 +48,17 @@ export function repoPaths(root: string = repoRoot()): RepoPaths {
     spatialReplayRunsDir: path.join(root, "spatial-replay", "runs"),
     spatialReplayRunPath: (runId: string) =>
       path.join(root, "spatial-replay", "runs", runId, "spatial-replay.json"),
+    artifactRegistryJson: path.join(
+      root,
+      "spatial-replay",
+      "registry",
+      "canonical-artifacts.json",
+    ),
+    hydrationReportJson: path.join(
+      root,
+      "spatial-replay",
+      "registry",
+      "hydration-report.json",
+    ),
   };
 }

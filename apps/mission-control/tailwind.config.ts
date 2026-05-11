@@ -55,12 +55,23 @@ const config: Config = {
         status: {
           completed: "#4ade80",
           pending: "#facc15",
+          warning: "#fb923c",
           rejected: "#f87171",
           aborted: "#a78bfa",
         },
       },
       boxShadow: {
         panel: "0 0 0 1px rgba(255,255,255,0.04), 0 1px 2px rgba(0,0,0,0.5)",
+        elevated:
+          "0 0 0 1px rgba(255,255,255,0.06), 0 4px 12px rgba(0,0,0,0.55)",
+        glow: "0 0 0 1px rgba(60,180,168,0.2), 0 0 18px rgba(60,180,168,0.18)",
+      },
+      backgroundImage: {
+        "console-grid":
+          "linear-gradient(rgba(60,180,168,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(60,180,168,0.06) 1px, transparent 1px)",
+      },
+      backgroundSize: {
+        "grid-48": "48px 48px",
       },
       keyframes: {
         "fade-in": {

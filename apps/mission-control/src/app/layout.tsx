@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-dvh bg-base-0 text-base-800">
+      <body className="console-backdrop min-h-dvh bg-base-0 text-base-800">
         <SafetyBoundaryBanner />
         <div className="grid min-h-[calc(100dvh-2.5rem)] grid-cols-[14rem_1fr]">
           <SiteNav />

@@ -2,6 +2,9 @@ import { promises as fs } from "node:fs";
 import * as path from "node:path";
 
 import type {
+  ArtifactRegistry,
+  ArtifactRegistryFile,
+  ArtifactRegistryRecord,
   LiveRuntimeMaturity,
   MissionLibraryEntry,
   MissionLibraryKind,
@@ -418,24 +421,134 @@ function coerceSpatialReplayArtifact(
 /**
  * Read the spatial-replay artefact for ``runId`` from disk.
  *
- * Returns ``null`` when the artefact is missing or malformed. The
- * caller decides what to do with the fallback (typically the
- * bounded-inputs adapter).
+ * Phase 18: the loader consults the canonical artefact registry
+ * before reading the file. If the registry exists and lists the
+ * run, we trust the file path it points to and verify the artefact
+ * is in an authoritative lifecycle state. If the registry is
+ * missing (e.g. CI hasn't hydrated yet) the loader falls back to
+ * the legacy filesystem-by-convention path so existing call sites
+ * keep working.
+ *
+ * Returns ``null`` when the artefact is missing or malformed.
  */
 export async function loadSpatialReplay(
   runId: string,
 ): Promise<SpatialReplayArtifact | null> {
   const paths = repoPaths();
+  const registry = await loadArtifactRegistry();
+  if (registry) {
+    const record = registry.records.find((r) => r.run_id === runId);
+    if (record) {
+      if (record.lifecycle === "deprecated") {
+        return null;
+      }
+      // Use the first registered ``spatial-replay.json`` if any.
+      const file = record.files.find((f) =>
+        f.relative_path.endsWith("spatial-replay.json"),
+      );
+      if (file) {
+        const root = path.dirname(paths.spatialReplayRunsDir.replace(/\/runs$/, ""));
+        // ``relative_path`` is repo-rooted (e.g. ``spatial-replay/runs/<run>/...``).
+        const absolute = path.resolve(root, "..", file.relative_path);
+        const raw = await readJson<SpatialReplayRaw>(absolute);
+        if (raw) return coerceSpatialReplayArtifact(raw);
+      }
+    }
+  }
+  // Legacy / fallback path.
   const raw = await readJson<SpatialReplayRaw>(paths.spatialReplayRunPath(runId));
   if (!raw) return null;
   return coerceSpatialReplayArtifact(raw);
 }
 
 /**
- * Return the list of available spatial-replay run ids (the
- * subdirectories of ``spatial-replay/runs``).
+ * Return the list of available spatial-replay run ids.
+ *
+ * Prefers the registry; falls back to filesystem discovery.
  */
 export async function listSpatialReplayRunIds(): Promise<readonly string[]> {
+  const registry = await loadArtifactRegistry();
+  if (registry) {
+    return registry.records
+      .filter(
+        (r) =>
+          r.lifecycle === "committed" ||
+          r.lifecycle === "verified" ||
+          r.lifecycle === "canonical",
+      )
+      .map((r) => r.run_id);
+  }
   const paths = repoPaths();
   return listSubdirs(paths.spatialReplayRunsDir);
+}
+
+// ---------------------------------------------------------------------
+// Phase 18 — artefact registry
+// ---------------------------------------------------------------------
+
+interface ArtifactRegistryRaw {
+  generated_at_utc?: string;
+  schema_version?: string;
+  artefact_root?: string;
+  notes?: string[];
+  records?: Array<Record<string, unknown>>;
+}
+
+function coerceRegistryFile(raw: Record<string, unknown>): ArtifactRegistryFile {
+  return {
+    relative_path: String(raw.relative_path ?? ""),
+    expected_hash: String(raw.expected_hash ?? ""),
+    size_bytes: Number(raw.size_bytes ?? 0),
+    description: String(raw.description ?? ""),
+  };
+}
+
+function coerceRegistryRecord(
+  raw: Record<string, unknown>,
+): ArtifactRegistryRecord {
+  const filesRaw = (raw.files as Array<Record<string, unknown>>) ?? [];
+  return {
+    run_id: String(raw.run_id ?? ""),
+    kind: String(raw.kind ?? ""),
+    derivation_source: String(raw.derivation_source ?? "unavailable") as
+      ArtifactRegistryRecord["derivation_source"],
+    bag_status: String(raw.bag_status ?? "missing_manifest") as
+      ArtifactRegistryRecord["bag_status"],
+    lifecycle: String(raw.lifecycle ?? "generated") as
+      ArtifactRegistryRecord["lifecycle"],
+    integrity: String(raw.integrity ?? "unverified") as
+      ArtifactRegistryRecord["integrity"],
+    related_mission_id: String(raw.related_mission_id ?? ""),
+    related_scenario_id: String(raw.related_scenario_id ?? ""),
+    notes: ((raw.notes as string[]) ?? []).map(String),
+    generated_at_utc: String(raw.generated_at_utc ?? ""),
+    files: filesRaw.map(coerceRegistryFile),
+  };
+}
+
+/**
+ * Read the canonical artefact registry from disk.
+ *
+ * Returns ``null`` when missing — Phase 18 frontend code paths
+ * gracefully degrade to the legacy filesystem-by-convention path.
+ */
+export async function loadArtifactRegistry(): Promise<ArtifactRegistry | null> {
+  const paths = repoPaths();
+  const raw = await readJson<ArtifactRegistryRaw>(paths.artifactRegistryJson);
+  if (!raw || !Array.isArray(raw.records)) return null;
+  return {
+    generated_at_utc: String(raw.generated_at_utc ?? ""),
+    schema_version: String(raw.schema_version ?? ""),
+    artefact_root: String(raw.artefact_root ?? "spatial-replay"),
+    notes: (raw.notes ?? []).map(String),
+    records: raw.records.map(coerceRegistryRecord),
+  };
+}
+
+export async function loadArtifactRegistryRecord(
+  runId: string,
+): Promise<ArtifactRegistryRecord | null> {
+  const reg = await loadArtifactRegistry();
+  if (!reg) return null;
+  return reg.records.find((r) => r.run_id === runId) ?? null;
 }

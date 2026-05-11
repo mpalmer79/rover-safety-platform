@@ -52,6 +52,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Python (for replay hydration gate)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        working-directory: ${{ github.workspace }}
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest pyyaml
+
+      - name: Hydrate canonical replay artefacts (Phase 18 gate)
+        working-directory: ${{ github.workspace }}
+        run: python tools/hydrate_replay_artifacts.py --check-only
+
+      - name: Verify hydration produced no working-tree drift
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet -- spatial-replay/runs; then
+            echo "::error::hydration drifted committed spatial-replay/runs/"
+            git --no-pager diff -- spatial-replay/runs
+            exit 1
+          fi
+
       - name: Set up Node.js 22
         uses: actions/setup-node@v4
         with:
@@ -158,10 +183,13 @@ jobs:
         run: |
           # The static export must not contain "Spatial source: bag-backed runtime evidence"
           # for any mission whose committed spatial-replay artefact is fixture-derived.
-          # Cross-check the two: list every page that mentions the bag-backed caption,
-          # and ensure each corresponds to an artefact that validates.
+          # Cross-check the two: list every PRERENDERED HTML page that mentions
+          # the bag-backed caption, and ensure each corresponds to an artefact
+          # that validates. We deliberately scope the grep to .html files only;
+          # the .js bundle naturally contains the literal switch-statement
+          # string from describeDerivationSource which is not a render claim.
           set -euo pipefail
-          claims=$(grep -RIln "bag-backed runtime evidence" .next/server/app || true)
+          claims=$(find .next/server/app -name '*.html' -print0 | xargs -0 grep -ln "bag-backed runtime evidence" || true)
           if [ -n "$claims" ]; then
             echo "Pages claiming bag-backed runtime evidence:"
             echo "$claims"

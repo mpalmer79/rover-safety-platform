@@ -311,3 +311,51 @@ export interface SpatialReplayArtifact {
   segments: readonly SpatialReplaySegment[];
   event_alignments: readonly SpatialReplayEventAlignment[];
 }
+
+// ---------------------------------------------------------------------
+// Phase 18 — artefact registry types
+// ---------------------------------------------------------------------
+
+export type ArtifactLifecycle =
+  | "generated"
+  | "hydrated"
+  | "committed"
+  | "verified"
+  | "canonical"
+  | "deprecated";
+
+export type ArtifactIntegrity =
+  | "passed"
+  | "partial"
+  | "failed"
+  | "missing"
+  | "unverified";
+
+export interface ArtifactRegistryFile {
+  relative_path: string;
+  expected_hash: string;
+  size_bytes: number;
+  description: string;
+}
+
+export interface ArtifactRegistryRecord {
+  run_id: string;
+  kind: string;
+  derivation_source: SpatialDerivationSource | string;
+  bag_status: SpatialBagStatus | string;
+  lifecycle: ArtifactLifecycle | string;
+  integrity: ArtifactIntegrity | string;
+  related_mission_id: string;
+  related_scenario_id: string;
+  notes: readonly string[];
+  generated_at_utc: string;
+  files: readonly ArtifactRegistryFile[];
+}
+
+export interface ArtifactRegistry {
+  generated_at_utc: string;
+  schema_version: string;
+  artefact_root: string;
+  notes: readonly string[];
+  records: readonly ArtifactRegistryRecord[];
+}

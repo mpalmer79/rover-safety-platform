@@ -1,0 +1,30 @@
+{
+  "artefact_root": "/home/user/rover-safety-platform",
+  "generated_at_utc": "2026-05-11T19:03:19.155227+00:00",
+  "notes": [],
+  "outcomes": [
+    {
+      "computed_hashes": {
+        "spatial-replay/runs/canonical-fixture/event-alignment.json": "cb94e34bf5be4b5bdabccf3695f8e5abf3acb475563a4b6d1d76fc4cf2d0537f",
+        "spatial-replay/runs/canonical-fixture/spatial-replay-report.md": "6717d817fb31892d6562ebd3a338c55508faeea7e4646c9a59c5ca936afe9787",
+        "spatial-replay/runs/canonical-fixture/spatial-replay.json": "d3225936609a9d671600ac0e0fb7542797afe3584b7ba181a5eadcd50b6753cb",
+        "spatial-replay/runs/canonical-fixture/spatial-validation.json": "a58bce232ebcaeb74d8cd8640019250abe0608a199dd48009cba45372e528aa7",
+        "spatial-replay/runs/canonical-fixture/trajectory.jsonl": "0e962b795dc86cc9f02ca57f82f22e28cf370406a22bf460a568fe2f88169c96"
+      },
+      "drift": [],
+      "expected_hashes": {
+        "spatial-replay/runs/canonical-fixture/event-alignment.json": "cb94e34bf5be4b5bdabccf3695f8e5abf3acb475563a4b6d1d76fc4cf2d0537f",
+        "spatial-replay/runs/canonical-fixture/spatial-replay-report.md": "6717d817fb31892d6562ebd3a338c55508faeea7e4646c9a59c5ca936afe9787",
+        "spatial-replay/runs/canonical-fixture/spatial-replay.json": "d3225936609a9d671600ac0e0fb7542797afe3584b7ba181a5eadcd50b6753cb",
+        "spatial-replay/runs/canonical-fixture/spatial-validation.json": "a58bce232ebcaeb74d8cd8640019250abe0608a199dd48009cba45372e528aa7",
+        "spatial-replay/runs/canonical-fixture/trajectory.jsonl": "0e962b795dc86cc9f02ca57f82f22e28cf370406a22bf460a568fe2f88169c96"
+      },
+      "integrity": "passed",
+      "rebuilt": true,
+      "run_id": "canonical-fixture",
+      "warnings": []
+    }
+  ],
+  "overall_integrity": "passed",
+  "registry_path": "/home/user/rover-safety-platform/spatial-replay/registry/canonical-artifacts.json"
+}

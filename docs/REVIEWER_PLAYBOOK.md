@@ -25,6 +25,27 @@ bag-backed spatial replay layer:
   the committed canonical fixture artefact (labelled `fixture`,
   never `bag_backed`).
 
+**Phase 18 addition.** For reviewers focused on the artefact
+governance layer + immersive UX:
+
+* `docs/ARTIFACT_GOVERNANCE_MODEL.md` — the registry's lifecycle
+  ladder, integrity model, and why-it-exists.
+* `docs/DETERMINISTIC_REPLAY_HYDRATION.md` — the hydration CLI +
+  the CI gates that make it deterministic.
+* `docs/REPLAY_EVIDENCE_LINEAGE.md` — how a reviewer reads the
+  source-to-render chain from one panel.
+* `docs/IMMERSIVE_MISSION_CONTROL.md` — what's in the 3D scene
+  and how the WebGL fallback works.
+* `docs/3D_VISUALIZATION_BOUNDARY.md` — the hard boundary the
+  immersive scene must respect.
+* `docs/CINEMATIC_REPLAY_ARCHITECTURE.md` — camera rig + playback
+  modes.
+* `docs/AUTONOMY_UI_DESIGN_SYSTEM.md` — palette, typography,
+  panels, motion.
+* `spatial-replay/registry/canonical-artifacts.json` — the
+  canonical registry; the only authoritative index of replay
+  artefacts.
+
 ## How to use this playbook
 
 1. Pick a column from the [audience matrix](#audience-matrix).

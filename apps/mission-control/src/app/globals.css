@@ -32,6 +32,14 @@
     @apply rounded border border-base-200 bg-base-50;
   }
 
+  .panel-elevated {
+    @apply rounded-md border border-base-300 bg-base-50/95 shadow-elevated;
+  }
+
+  .glass-panel {
+    @apply rounded-md border border-base-300/60 bg-base-100/70 shadow-elevated backdrop-blur-md;
+  }
+
   .label {
     @apply text-[11px] uppercase tracking-[0.14em] text-base-500;
   }
@@ -46,5 +54,19 @@
 
   .body-mono {
     @apply font-mono text-sm leading-relaxed text-base-700;
+  }
+
+  .console-backdrop {
+    background-image:
+      radial-gradient(
+        circle at 18% 12%,
+        rgba(60, 180, 168, 0.08) 0%,
+        rgba(60, 180, 168, 0) 45%
+      ),
+      radial-gradient(
+        circle at 78% 88%,
+        rgba(167, 139, 250, 0.06) 0%,
+        rgba(167, 139, 250, 0) 45%
+      );
   }
 }
