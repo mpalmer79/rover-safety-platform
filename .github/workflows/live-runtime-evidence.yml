@@ -16,9 +16,9 @@ on:
         required: true
         default: live-runtime/scenario-plans/core-live-qualification.yaml
       run_id:
-        description: "Run id (for the evidence directory)"
-        required: true
-        default: live-${{ github.run_id }}
+        description: "Run id for the evidence directory; leave blank to use live-<github-run-id>"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -27,6 +27,8 @@ jobs:
   live-runtime-evidence:
     runs-on: [self-hosted, ros-jazzy, gazebo]
     timeout-minutes: 90
+    env:
+      RUN_ID: ${{ github.event.inputs.run_id != '' && github.event.inputs.run_id || format('live-{0}', github.run_id) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,7 +50,7 @@ jobs:
         run: |
           python rover_ws/tools/qualify_ros_host.py \
               --evidence-root evidence/host \
-              --run-id "${{ github.event.inputs.run_id }}"
+              --run-id "${{ env.RUN_ID }}"
 
       - name: Build workspace
         shell: bash
@@ -67,19 +69,19 @@ jobs:
           python rover_ws/tools/live_bag_capture.py \
               --plan "${{ github.event.inputs.plan }}" \
               --evidence-root evidence/runtime \
-              --run-id "${{ github.event.inputs.run_id }}" \
+              --run-id "${{ env.RUN_ID }}" \
               --runner-profile live-runtime/runner-profile.json
 
       - name: Validate live evidence
         run: |
           python rover_ws/tools/validate_live_runtime_evidence.py \
-              --bundle "evidence/runtime/${{ github.event.inputs.run_id }}" \
+              --bundle "evidence/runtime/${{ env.RUN_ID }}" \
               --json
 
       - name: Process live evidence into downstream pipelines
         run: |
           python rover_ws/tools/process_live_runtime_evidence.py \
-              --bundle "evidence/runtime/${{ github.event.inputs.run_id }}" \
+              --bundle "evidence/runtime/${{ env.RUN_ID }}" \
               --apply \
               --json
 
@@ -92,8 +94,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: live-runtime-evidence-${{ github.event.inputs.run_id }}
+          name: live-runtime-evidence-${{ env.RUN_ID }}
           path: |
-            evidence/runtime/${{ github.event.inputs.run_id }}
+            evidence/runtime/${{ env.RUN_ID }}
             live-runtime/live-runtime-maturity.json
             docs/LIVE_RUNTIME_MATURITY_REPORT.md
