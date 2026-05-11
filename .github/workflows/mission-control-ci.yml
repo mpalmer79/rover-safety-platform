@@ -19,6 +19,7 @@ on:
       - "verification/traceability.json"
       - "mission-rehearsals/**"
       - "skill-library/**"
+      - "spatial-replay/**"
       - ".github/workflows/mission-control-ci.yml"
   push:
     branches:
@@ -28,6 +29,7 @@ on:
       - "verification/traceability.json"
       - "mission-rehearsals/**"
       - "skill-library/**"
+      - "spatial-replay/**"
 
 permissions:
   contents: read
@@ -97,4 +99,98 @@ jobs:
           if grep -RIn "bag-backed: yes" .next/server/app; then
             echo "::error::static export contains a bag-backed=yes claim"
             exit 1
+          fi
+
+      - name: Verify spatial-replay artefacts are internally honest
+        working-directory: ${{ github.workspace }}
+        run: |
+          # Phase 17C honesty rule: every committed
+          # spatial-replay artefact must declare a derivation_source
+          # consistent with its bag_status. The check fails on:
+          #
+          #   * derivation_source=bag_backed with bag_status != bag_backed
+          #   * derivation_source=bag_backed with sample_count == 0
+          #   * derivation_source=fixture with bag_status == bag_backed
+          #
+          # The rule is enforced here in addition to the unit tests so
+          # that a manually-edited artefact cannot bypass the gate.
+          set -euo pipefail
+          shopt -s nullglob
+          if [ -d spatial-replay/runs ]; then
+            python3 - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          errors = []
+          for run_dir in sorted(Path("spatial-replay/runs").iterdir()):
+              artefact = run_dir / "spatial-replay.json"
+              if not artefact.exists():
+                  continue
+              data = json.loads(artefact.read_text())
+              ds = data.get("derivation_source")
+              bs = data.get("bag_status")
+              sc = data.get("sample_count", 0)
+              if ds == "bag_backed":
+                  if bs != "bag_backed":
+                      errors.append(
+                          f"{artefact}: derivation_source=bag_backed but "
+                          f"bag_status={bs!r}"
+                      )
+                  if sc == 0:
+                      errors.append(
+                          f"{artefact}: derivation_source=bag_backed but "
+                          f"sample_count=0"
+                      )
+              if ds == "fixture" and bs == "bag_backed":
+                  errors.append(
+                      f"{artefact}: derivation_source=fixture but "
+                      f"bag_status=bag_backed"
+                  )
+          if errors:
+              for e in errors:
+                  print(f"::error::{e}")
+              sys.exit(1)
+          PY
+          fi
+
+      - name: Verify the prerendered HTML never claims bag-backed for a fixture
+        run: |
+          # The static export must not contain "Spatial source: bag-backed runtime evidence"
+          # for any mission whose committed spatial-replay artefact is fixture-derived.
+          # Cross-check the two: list every page that mentions the bag-backed caption,
+          # and ensure each corresponds to an artefact that validates.
+          set -euo pipefail
+          claims=$(grep -RIln "bag-backed runtime evidence" .next/server/app || true)
+          if [ -n "$claims" ]; then
+            echo "Pages claiming bag-backed runtime evidence:"
+            echo "$claims"
+            # Cross-check at least one committed artefact validates.
+            python3 - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          runs_root = Path("../../spatial-replay/runs")
+          # If no artefact has bag_backed status, any claim is fake.
+          any_bag_backed = False
+          if runs_root.exists():
+              for run_dir in runs_root.iterdir():
+                  art = run_dir / "spatial-replay.json"
+                  if art.exists():
+                      data = json.loads(art.read_text())
+                      if (
+                          data.get("derivation_source") == "bag_backed"
+                          and data.get("bag_status") == "bag_backed"
+                          and data.get("sample_count", 0) > 0
+                      ):
+                          any_bag_backed = True
+                          break
+          if not any_bag_backed:
+              print(
+                  "::error::prerendered HTML mentions 'bag-backed runtime "
+                  "evidence' but no spatial-replay artefact validates"
+              )
+              sys.exit(1)
+          PY
           fi

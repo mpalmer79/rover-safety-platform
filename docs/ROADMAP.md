@@ -60,6 +60,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 16 — Governed Mission-to-Rehearsal Pipeline | Implemented; simulation-only; deterministic; validator-authoritative; see section 3t |
 | Phase 17A — Mission Control Experience & Autonomy Visualization Layer | Implemented; static-export Next.js workspace; reads committed artefacts only; see section 3u |
 | Phase 17B — Railway Deployment, Frontend CI, and Mission Spatial Visualization Foundation | Implemented; deterministic 2D maps from bounded inputs; Railway + frontend CI; see section 3v |
+| Phase 17C — Bag-Backed Spatial Replay Upgrade | Implemented; bag_backed + fixture artefact pathway; never fabricates telemetry; see section 3w |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -2046,7 +2047,79 @@ There is no real-world coordinate anywhere in this layer.
 
 A follow-up phase that wires the spatial layer to bag-backed runs
 must update `docs/MISSION_SPATIAL_VISUALIZATION.md`,
-`docs/SPATIAL_REPLAY_ARCHITECTURE.md`, and add an ADR.
+`docs/SPATIAL_REPLAY_ARCHITECTURE.md`, and add an ADR. (Phase 17C
+below is that follow-up phase.)
+
+---
+
+## 3w. Phase 17C: Bag-Backed Spatial Replay Upgrade
+
+The platform remains **not safety-certified.** Phase 17C extends
+the Phase 17B spatial layer with two additional derivation
+sources that sit *above* bounded-inputs in the honesty hierarchy:
+
+```
+bag-backed spatial replay
+↓ fallback
+fixture-derived spatial replay
+↓ fallback
+bounded-inputs derived spatial replay   ← Phase 17B path
+↓ fallback
+topology-only replay                    ← Phase 17B path
+↓ fallback
+spatial data unavailable
+```
+
+### Deliverables
+
+- `backend/app/spatial_replay/` package
+  (`models.py`, `manifest_loader.py`, `pose_extractor.py`,
+  `trajectory_builder.py`, `event_aligner.py`, `validator.py`,
+  `reporter.py`, `builder.py`);
+- `tools/generate_spatial_replay.py` CLI;
+- `spatial-replay/fixtures/canonical-fixture/pose-samples.jsonl`
+  fixture and `spatial-replay/runs/canonical-fixture/` artefacts;
+- `apps/mission-control/src/adapters/spatial.ts` extended with
+  `buildMissionRouteFromArtifact`, `selectMissionRoute`,
+  `describeDerivationSource`, `artifactIsBagBacked`;
+- `apps/mission-control/src/adapters/loader.ts::loadSpatialReplay`;
+- `apps/mission-control/src/components/SpatialReplayBadge.tsx`;
+- Phase 17C honesty greps in `.github/workflows/mission-control-ci.yml`;
+- `REQ-SREPLAY-001..010` (10 new requirements);
+- 4 new docs (`BAG_BACKED_SPATIAL_REPLAY.md`,
+  `SPATIAL_REPLAY_ARTIFACT_FORMAT.md`,
+  `SPATIAL_REPLAY_HONESTY_RULES.md`,
+  `BAG_TO_TRAJECTORY_PIPELINE.md`).
+
+### Honesty guardrails
+
+- `derivation_source = bag_backed` requires bag-manifest validation,
+  bag paths on disk, metadata yaml on disk, validation passed /
+  partial, and runtime pose samples;
+- fixtures are never relabelled `bag_backed`;
+- the trajectory builder never invents pose samples;
+- the event aligner falls back to off-map when out of tolerance;
+- the CI workflow rejects any prerendered HTML that claims
+  `bag-backed runtime evidence` without a backing artefact.
+
+### What Phase 17C does NOT do
+
+- it does not parse `.mcap` / `.db3` files; the operator does that
+  post-run;
+- it does not run on real hardware;
+- it does not stream telemetry;
+- it does not publish to ROS topics;
+- it does not bypass the safety supervisor or motion arbitration;
+- it does not claim safety certification.
+
+### Recommended next phase
+
+**Phase 17D — bag-backed trajectory ADR + first real run.** Pick
+one scenario from the Phase 13 qualification plan, produce a real
+bag on the qualified self-hosted runner, generate the operator
+post-processed `pose-samples.jsonl`, and commit the resulting
+`spatial-replay/runs/<run_id>/` directory. The frontend will
+auto-detect the artefact and render the bag-backed badge.
 
 ---
 

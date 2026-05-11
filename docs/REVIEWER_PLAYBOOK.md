@@ -7,6 +7,24 @@ on **how much time you have** and **why you are reviewing**.
 If in doubt, start with the [5-minute path](#5-minute-path-everyone)
 and then pick the audience-specific path that fits.
 
+**Phase 17C addition.** For reviewers focused on the
+bag-backed spatial replay layer:
+
+* `docs/BAG_BACKED_SPATIAL_REPLAY.md` — evidence hierarchy + what
+  a real bag-backed run produces.
+* `docs/SPATIAL_REPLAY_HONESTY_RULES.md` — the rules that
+  gatekeep the `bag_backed` label across backend, frontend, and
+  CI.
+* `docs/SPATIAL_REPLAY_ARTIFACT_FORMAT.md` — the on-disk schema
+  of `spatial-replay/runs/<id>/spatial-replay.json`.
+* `docs/BAG_TO_TRAJECTORY_PIPELINE.md` — how a self-hosted runner
+  becomes a `bag_backed` artefact.
+* `backend/app/spatial_replay/` — the package; the manifest loader
+  and validator are the single source of truth for honesty rules.
+* `spatial-replay/runs/canonical-fixture/spatial-replay.json` —
+  the committed canonical fixture artefact (labelled `fixture`,
+  never `bag_backed`).
+
 ## How to use this playbook
 
 1. Pick a column from the [audience matrix](#audience-matrix).

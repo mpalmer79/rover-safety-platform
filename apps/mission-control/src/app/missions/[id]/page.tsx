@@ -4,8 +4,9 @@ import { notFound } from "next/navigation";
 import {
   listRehearsalIds,
   loadRehearsalAudit,
+  loadSpatialReplay,
 } from "@/adapters/loader";
-import { buildMissionRoute } from "@/adapters/spatial";
+import { selectMissionRoute } from "@/adapters/spatial";
 import { AuditPanel } from "@/components/AuditPanel";
 import { CompilerDecisionCard } from "@/components/CompilerDecisionCard";
 import { EvidenceStatusChip } from "@/components/EvidenceStatusChip";
@@ -46,6 +47,11 @@ export default async function MissionPage({ params }: MissionPageProps) {
   const plan = audit.plan;
   const runtime = audit.runtime;
   const replay = audit.replay;
+  // Phase 17C: prefer a spatial-replay artefact (bag_backed or fixture)
+  // when one is present. The artefact's derivation_source is rendered
+  // verbatim in the map caption + playback badge.
+  const spatialReplay = await loadSpatialReplay(params.id);
+  const route = selectMissionRoute(plan, spatialReplay);
 
   return (
     <div className="space-y-6">
@@ -97,11 +103,15 @@ export default async function MissionPage({ params }: MissionPageProps) {
       <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
         <div className="space-y-4">
           {runtime ? (
-            <MissionPlaybackPanel plan={plan} events={runtime.events} />
+            <MissionPlaybackPanel
+              plan={plan}
+              events={runtime.events}
+              spatialReplay={spatialReplay}
+            />
           ) : null}
           {plan ? (
             <Panel eyebrow="Mission route" title="Waypoint inputs">
-              <MissionRouteList route={buildMissionRoute(plan)} />
+              <MissionRouteList route={route} />
             </Panel>
           ) : null}
           {plan ? (

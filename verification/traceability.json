@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-11T17:10:19+00:00",
+  "generated_at_utc": "2026-05-11T18:08:28+00:00",
   "overall_status": "passed",
-  "row_count": 113,
+  "row_count": 123,
   "rows": [
     {
       "architecture_refs": [
@@ -2525,6 +2525,215 @@
         "apps/mission-control/tests/components.test.tsx::RouteProgressIndicator > shows placeholder for empty waypoints"
       ],
       "title": "Operator surfaces communicate spatial-data unavailability honestly"
+    },
+    {
+      "architecture_refs": [
+        "docs/BAG_BACKED_SPATIAL_REPLAY.md",
+        "docs/SPATIAL_REPLAY_HONESTY_RULES.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/spatial_replay/manifest_loader.py",
+        "backend/app/spatial_replay/builder.py"
+      ],
+      "kind": "spatial_replay",
+      "requirement_id": "REQ-SREPLAY-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_spatial_replay.py::test_missing_manifest_blocks_bag_backed",
+        "backend/tests/test_spatial_replay.py::test_partial_manifest_blocks_bag_backed",
+        "backend/tests/test_spatial_replay.py::test_missing_pose_samples_blocks_bag_backed"
+      ],
+      "title": "A run is bag-backed only when the bag manifest validates"
+    },
+    {
+      "architecture_refs": [
+        "docs/BAG_BACKED_SPATIAL_REPLAY.md",
+        "docs/SPATIAL_REPLAY_ARTIFACT_FORMAT.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/spatial_replay/pose_extractor.py",
+        "backend/app/spatial_replay/builder.py",
+        "spatial-replay/fixtures/canonical-fixture/pose-samples.jsonl"
+      ],
+      "kind": "spatial_replay",
+      "requirement_id": "REQ-SREPLAY-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_spatial_replay.py::test_fixture_samples_are_not_bag_backed",
+        "backend/tests/test_spatial_replay.py::test_canonical_fixture_emits_fixture_derivation"
+      ],
+      "title": "Fixture-derived spatial samples are never bag-backed"
+    },
+    {
+      "architecture_refs": [
+        "docs/SPATIAL_REPLAY_ARTIFACT_FORMAT.md",
+        "docs/SPATIAL_REPLAY_ARCHITECTURE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/spatial_replay/reporter.py",
+        "backend/app/spatial_replay/validator.py",
+        "apps/mission-control/src/adapters/spatial.ts"
+      ],
+      "kind": "spatial_replay",
+      "requirement_id": "REQ-SREPLAY-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_spatial_replay.py::test_derivation_source_round_trips_through_json",
+        "backend/tests/test_spatial_replay.py::test_validator_rejects_bag_backed_without_samples",
+        "apps/mission-control/tests/spatial-replay.test.ts::loadSpatialReplay > preserves derivation_source from artefact"
+      ],
+      "title": "Derivation source is preserved through every artefact"
+    },
+    {
+      "architecture_refs": [
+        "docs/BAG_TO_TRAJECTORY_PIPELINE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/spatial_replay/trajectory_builder.py"
+      ],
+      "kind": "spatial_replay",
+      "requirement_id": "REQ-SREPLAY-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_spatial_replay.py::test_segments_are_deterministic",
+        "backend/tests/test_spatial_replay.py::test_classify_trajectory_complete_partial_missing"
+      ],
+      "title": "Trajectory builder is deterministic for ordered samples"
+    },
+    {
+      "architecture_refs": [
+        "docs/BAG_TO_TRAJECTORY_PIPELINE.md",
+        "docs/MISSION_REPLAY_MAPS.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/spatial_replay/event_aligner.py"
+      ],
+      "kind": "spatial_replay",
+      "requirement_id": "REQ-SREPLAY-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_spatial_replay.py::test_event_alignment_off_map_when_out_of_tolerance",
+        "backend/tests/test_spatial_replay.py::test_event_alignment_matches_nearest_sample"
+      ],
+      "title": "Event alignment falls back to off-map when out of tolerance"
+    },
+    {
+      "architecture_refs": [
+        "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
+        "docs/BAG_BACKED_SPATIAL_REPLAY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/spatial_replay/trajectory_builder.py",
+        "backend/app/spatial_replay/validator.py"
+      ],
+      "kind": "spatial_replay",
+      "requirement_id": "REQ-SREPLAY-006",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 1 test(s)",
+      "test_refs": [
+        "backend/tests/test_spatial_replay.py::test_missing_topic_produces_warning_not_fabrication"
+      ],
+      "title": "Missing pose topics surface as warnings, never fabricated samples"
+    },
+    {
+      "architecture_refs": [
+        "docs/SPATIAL_REPLAY_ARCHITECTURE.md",
+        "docs/MISSION_REPLAY_MAPS.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/adapters/spatial.ts",
+        "apps/mission-control/src/adapters/loader.ts"
+      ],
+      "kind": "spatial_replay",
+      "requirement_id": "REQ-SREPLAY-007",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/spatial-replay.test.ts::loadSpatialReplay > returns fixture artefact for canonical-fixture",
+        "apps/mission-control/tests/spatial-replay.test.ts::buildMissionRouteFromArtifact > prefers artefact over plan"
+      ],
+      "title": "Frontend prefers a spatial-replay artefact when present and valid"
+    },
+    {
+      "architecture_refs": [
+        "docs/OPERATOR_EXPERIENCE_GUIDELINES.md",
+        "docs/MISSION_REPLAY_MAPS.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "apps/mission-control/src/components/MissionMap.tsx",
+        "apps/mission-control/src/components/MissionPlaybackPanel.tsx"
+      ],
+      "kind": "spatial_replay",
+      "requirement_id": "REQ-SREPLAY-008",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/spatial-honesty.test.tsx::MissionMap > caption names the derivation source",
+        "apps/mission-control/tests/spatial-honesty.test.tsx::MissionPlaybackPanel > badge surfaces bag-backed vs fixture"
+      ],
+      "title": "Mission Control surfaces the derivation source visibly"
+    },
+    {
+      "architecture_refs": [
+        "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
+        "docs/RAILWAY_DEPLOYMENT_GUIDE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        ".github/workflows/mission-control-ci.yml",
+        "apps/mission-control/src/components/EvidenceStatusChip.tsx"
+      ],
+      "kind": "spatial_replay",
+      "requirement_id": "REQ-SREPLAY-009",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "apps/mission-control/tests/spatial-honesty.test.tsx::CI honesty grep > no fake bag-backed claim in prerendered HTML",
+        "apps/mission-control/tests/deployment.test.ts::mission-control-ci.yml > runs the full honesty gate"
+      ],
+      "title": "No static export renders bag-backed without a manifest backing it"
+    },
+    {
+      "architecture_refs": [
+        "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
+        "docs/BAG_BACKED_SPATIAL_REPLAY.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/spatial_replay/validator.py"
+      ],
+      "kind": "spatial_replay",
+      "requirement_id": "REQ-SREPLAY-010",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_spatial_replay.py::test_is_honestly_bag_backed_requires_samples",
+        "backend/tests/test_spatial_replay.py::test_is_honestly_bag_backed_rejects_fixture"
+      ],
+      "title": "Spatial-replay validator is the single bag-backed gatekeeper"
     }
   ]
 }

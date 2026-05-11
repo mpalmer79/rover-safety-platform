@@ -3,7 +3,7 @@ import type {
   SpatialEventMarker,
   SpatialWaypoint,
 } from "@/adapters/spatial";
-import { fitViewBox } from "@/adapters/spatial";
+import { describeDerivationSource, fitViewBox } from "@/adapters/spatial";
 import { cn } from "@/lib/utils";
 
 interface MissionMapProps {
@@ -201,9 +201,14 @@ export function MissionMap({
       </svg>
       <figcaption className="border-t border-base-200 px-3 py-2 text-[11px] text-base-500">
         <span className="label mr-2">map</span>
-        {route.derivation_source === "bounded_inputs"
-          ? "Derived layout from bounded distance/angle inputs. No real coordinates."
-          : "Topology layout — no bounded distance available; waypoints arranged in order."}
+        <span data-testid="mission-map-derivation">
+          {describeDerivationSource(route.derivation_source)}
+        </span>
+        {route.derivation_source === "fixture" ? (
+          <span className="ml-2 text-status-pending">
+            Fixture-derived spatial replay. Not bag-backed evidence.
+          </span>
+        ) : null}
       </figcaption>
     </figure>
   );

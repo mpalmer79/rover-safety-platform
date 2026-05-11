@@ -23,6 +23,18 @@ The Phase 17B map honours that:
 * an unknown / missing plan renders an explicit placeholder, not an
   empty SVG.
 
+**Phase 17C** adds two additional derivation sources that sit
+*above* bounded-inputs in the honesty hierarchy:
+
+* ``bag_backed`` — when a real bag manifest validates AND runtime
+  pose samples exist on disk.
+* ``fixture`` — when a committed fixture pose-samples file exists
+  but the bag manifest does not validate.
+
+See `docs/BAG_BACKED_SPATIAL_REPLAY.md` for the full evidence
+hierarchy and `docs/SPATIAL_REPLAY_HONESTY_RULES.md` for the rules
+that gatekeep the `bag_backed` label.
+
 The contract is enforced by tests:
 
 * `apps/mission-control/tests/spatial.test.ts` covers the

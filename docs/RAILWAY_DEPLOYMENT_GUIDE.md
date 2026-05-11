@@ -1,4 +1,4 @@
-# Railway Deployment Guide (Phase 17B)
+# Railway Deployment Guide (Phase 17B → 17C)
 
 The platform is **not safety-certified.** Phase 17B adds a Railway
 deployment lane for the mission-control workspace at
@@ -6,6 +6,14 @@ deployment lane for the mission-control workspace at
 nothing in the rest of the platform (ROS 2 Jazzy, Gazebo Harmonic,
 bag capture, runtime supervisor) runs on Railway, and the
 deployment surface has no path to live actuator authority.
+
+**Phase 17C** does not change the deployment surface. The
+spatial-replay artefacts under `spatial-replay/runs/` are read at
+build time and prerendered into the static export, exactly like
+the rehearsal audits. The CI workflow
+(`.github/workflows/mission-control-ci.yml`) gained two additional
+honesty greps that fail the build when a committed spatial-replay
+artefact violates the bag-backed honesty rules.
 
 ## 1. What ships to Railway
 
