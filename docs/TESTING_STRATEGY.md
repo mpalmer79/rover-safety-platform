@@ -424,3 +424,100 @@ Phase 3-specific gates:
 The platform is **not safety-certified.** This testing layer
 demonstrates verification discipline; it does not assert regulatory
 conformance.
+
+---
+
+## 14. Coverage gating
+
+Backend test coverage is measured by `pytest-cov` and enforced in
+CI on every push and pull request.
+
+### Observed baseline
+
+At the time pytest-cov was wired in:
+
+- **Suite-wide coverage over `app/`:** 83% (with `app/api/*` and
+  package `__init__.py` re-exports omitted, the measured value is
+  82.87%).
+- **`app/safety/supervisor.py`:** 89%
+- **`app/safety/arbitration.py`:** 89%
+- **`app/safety/transitions.py`:** 100%
+
+### Pinned floors
+
+| Floor                              | Value | Source                          |
+|------------------------------------|-------|---------------------------------|
+| Global `app/` coverage             | **81%** | `pyproject.toml [tool.coverage.report].fail_under` |
+| `app/safety/supervisor.py`         | **88%** | CI gate (observed − 1, remediation) |
+| `app/safety/arbitration.py`        | **88%** | CI gate (observed − 1, remediation) |
+| `app/safety/transitions.py`        | **95%** | CI gate (target floor; module already at 100%) |
+
+All four floors are enforced by `.github/workflows/backend-tests.yml`
+on every push and pull request. The job fails when any floor is
+crossed.
+
+The pinned floors are deliberately **honest**, not aspirational:
+
+- the global floor is `observed_coverage − 2` (rounded down), not a
+  target;
+- the per-file floors for the two safety modules currently below
+  95% sit at `observed − 1` until the remediation in the next
+  section closes the gap.
+
+### Coverage is a floor, not a target
+
+High coverage of trivial code is worse than honest coverage of
+safety-critical code. Counting lines tells you nothing about
+whether the safety supervisor's arbitration rules are exercised by
+realistic inputs. The pinned floors exist to prevent **regression**;
+they are not a measure of quality.
+
+The three modules below carry the safety-authority claim and must
+not regress below 95% once they reach it:
+
+- `app/safety/supervisor.py`
+- `app/safety/arbitration.py`
+- `app/safety/transitions.py`
+
+`transitions.py` already sits at 100%. `supervisor.py` and
+`arbitration.py` are currently below the 95% target — see the
+next section.
+
+### Remediation — safety modules below 95%
+
+| Module                       | Current | Target | Gap   |
+|------------------------------|--------:|-------:|------:|
+| `app/safety/supervisor.py`   | 89%     | 95%    | 6 pp  |
+| `app/safety/arbitration.py`  | 89%     | 95%    | 6 pp  |
+
+These two modules are pinned at 88% **temporarily**. They must not
+slip further, and a follow-up pass should add tests for the
+uncovered lines (visible in the `term-missing` output of any local
+`pytest --cov=app` run). The remaining uncovered lines are
+primarily defensive branches (E-stop latching paths, watchdog
+expiry races, restricted-mode clamping edge cases) that need
+deliberate test cases rather than coverage-padding ones.
+
+### How to inspect coverage locally
+
+```bash
+cd backend
+python -m pytest tests/ -q --cov=app --cov-report=term-missing
+# HTML report (not committed; covered by .gitignore):
+python -m pytest tests/ -q --cov=app --cov-report=html
+open htmlcov/index.html
+```
+
+`coverage.xml` + `htmlcov/` are uploaded by the CI workflow on
+every run; download them from the run's "Artifacts" section to
+inspect.
+
+### Honesty rules
+
+- The pinned floors are **honest current floors**, not aspirational
+  targets.
+- A floor breach fails CI; nothing silently lowers a floor.
+- Adding low-value tests to push a number up is explicitly
+  discouraged.
+- The status vocabulary (`passed`, `failed`, `partial`, `skipped`,
+  `not_executed`) used elsewhere in verification is unchanged.
