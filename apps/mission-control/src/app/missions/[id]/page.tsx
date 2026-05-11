@@ -5,17 +5,26 @@ import {
   listRehearsalIds,
   loadRehearsalAudit,
 } from "@/adapters/loader";
+import { buildMissionRoute } from "@/adapters/spatial";
 import { AuditPanel } from "@/components/AuditPanel";
 import { CompilerDecisionCard } from "@/components/CompilerDecisionCard";
 import { EvidenceStatusChip } from "@/components/EvidenceStatusChip";
 import { MermaidView } from "@/components/MermaidView";
+import { MissionEventMarker } from "@/components/MissionEventMarker";
+import { MissionPlaybackPanel } from "@/components/MissionPlaybackPanel";
+import { MissionRouteList } from "@/components/MissionRoute";
+import { MissionSpatialTimeline } from "@/components/MissionSpatialTimeline";
 import { MissionStateStepper } from "@/components/MissionStateStepper";
 import { Panel } from "@/components/Panel";
 import { ReplayAnalyticsPanel } from "@/components/ReplayAnalyticsPanel";
 import { ReplayTimeline } from "@/components/ReplayTimeline";
 import { RiskBandBadge } from "@/components/RiskBandBadge";
+import { SafetyZoneLayer } from "@/components/SafetyZoneLayer";
 import { StatusPill } from "@/components/StatusPill";
 import { SupervisorAuthorityPanel } from "@/components/SupervisorAuthorityPanel";
+import { SupervisorInterventionOverlay } from "@/components/SupervisorInterventionOverlay";
+import { WhyRejectedDrilldown } from "@/components/WhyRejectedDrilldown";
+import { ZoneBoundaryOverlay } from "@/components/ZoneBoundaryOverlay";
 
 export const dynamic = "force-static";
 
@@ -65,8 +74,36 @@ export default async function MissionPage({ params }: MissionPageProps) {
         />
       </Panel>
 
+      {runtime ? (
+        <Panel
+          eyebrow="Mission flow"
+          title="Spatial timeline"
+          trailing={
+            <div className="flex gap-3">
+              <MissionEventMarker severity="info" label="info" />
+              <MissionEventMarker severity="warning" label="warning" />
+              <MissionEventMarker severity="rejection" label="rejection" />
+            </div>
+          }
+        >
+          <MissionSpatialTimeline events={runtime.events} />
+        </Panel>
+      ) : null}
+
+      {audit.final_status === "rejected" ? (
+        <WhyRejectedDrilldown audit={audit} />
+      ) : null}
+
       <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
         <div className="space-y-4">
+          {runtime ? (
+            <MissionPlaybackPanel plan={plan} events={runtime.events} />
+          ) : null}
+          {plan ? (
+            <Panel eyebrow="Mission route" title="Waypoint inputs">
+              <MissionRouteList route={buildMissionRoute(plan)} />
+            </Panel>
+          ) : null}
           {plan ? (
             <Panel
               eyebrow="Mission plan"
@@ -155,6 +192,17 @@ export default async function MissionPage({ params }: MissionPageProps) {
 
         <div className="space-y-4">
           <AuditPanel audit={audit} />
+          <Panel eyebrow="Safety zones" title="Topic + constraint layers">
+            <SafetyZoneLayer plan={plan} />
+            <div className="mt-3 border-t border-base-200 pt-3">
+              <ZoneBoundaryOverlay audit={audit} />
+            </div>
+          </Panel>
+          {runtime ? (
+            <Panel eyebrow="Supervisor activity" title="Interventions">
+              <SupervisorInterventionOverlay events={runtime.events} />
+            </Panel>
+          ) : null}
           <ReplayAnalyticsPanel analytics={audit.analytics} />
           {replay ? (
             <Panel eyebrow="Replay markers" title={`${replay.replay_markers.length} markers`}>

@@ -42,6 +42,7 @@ class RequirementKind(str, Enum):
     SKILL_LLM = "skill_llm"
     REHEARSAL = "rehearsal"
     MISSION_CONTROL = "mission_control"
+    MISSION_VISUALIZATION = "mission_visualization"
 
 
 @dataclass(frozen=True)
@@ -2747,6 +2748,251 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         test_refs=(
             "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never imports a cloud LLM SDK or a generic HTTP client",
             "apps/mission-control/tests/honesty.test.ts::frontend honesty rules > never spawns subprocesses or opens raw sockets",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MVIS-001",
+        kind=RequirementKind.MISSION_VISUALIZATION,
+        title="Mission maps preserve the simulated / bag-backed distinction",
+        description=(
+            "Every spatial visualisation declares its data origin in "
+            "the figure caption (``derived from bounded inputs``, "
+            "``topology only``, or ``unavailable``). Replay bundles "
+            "rendered on the map always read ``bag_backed=false``; "
+            "no map surface can fabricate a bag-backed claim."
+        ),
+        architecture_refs=(
+            "docs/MISSION_SPATIAL_VISUALIZATION.md",
+            "docs/MISSION_REPLAY_MAPS.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/MissionMap.tsx",
+            "apps/mission-control/src/adapters/spatial.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/spatial.test.ts::MissionMap derivation > labels the derivation source on every route",
+            "apps/mission-control/tests/spatial.test.ts::MissionMap derivation > unavailable plan renders an honest placeholder",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MVIS-002",
+        kind=RequirementKind.MISSION_VISUALIZATION,
+        title="Replay overlays preserve evidence origin",
+        description=(
+            "The mission playback panel surfaces the verbatim "
+            "``EvidenceStatusChip`` alongside the deterministic map. "
+            "Event markers projected onto the map carry the same "
+            "deterministic hashes as the audit JSON events; the UI "
+            "renders no marker that the audit didn't record."
+        ),
+        architecture_refs=(
+            "docs/MISSION_REPLAY_MAPS.md",
+            "docs/SPATIAL_REPLAY_ARCHITECTURE.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/MissionPlaybackPanel.tsx",
+            "apps/mission-control/src/components/MissionEventMarker.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/spatial.test.ts::event projection > carries through deterministic hashes",
+            "apps/mission-control/tests/spatial.test.ts::event projection > marks events without waypoint payloads as off-map",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MVIS-003",
+        kind=RequirementKind.MISSION_VISUALIZATION,
+        title="Rejected missions remain visually rejected on every map and timeline",
+        description=(
+            "The ``MissionSpatialTimeline`` and the ``MissionMap`` "
+            "render rejected and aborted rehearsals with severity-"
+            "specific colours. The ``WhyRejectedDrilldown`` panel "
+            "always appears on a rejected mission detail page; it "
+            "lists the verbatim validator and supervisor rejection "
+            "codes."
+        ),
+        architecture_refs=(
+            "docs/MISSION_SPATIAL_VISUALIZATION.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/MissionSpatialTimeline.tsx",
+            "apps/mission-control/src/components/WhyRejectedDrilldown.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/components.test.tsx::WhyRejectedDrilldown > shows the verbatim rejection reason",
+            "apps/mission-control/tests/components.test.tsx::WhyRejectedDrilldown > renders nothing on accepted missions",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MVIS-004",
+        kind=RequirementKind.MISSION_VISUALIZATION,
+        title="Supervisor interventions remain visible on the map and detail page",
+        description=(
+            "The ``SupervisorInterventionOverlay`` lists every "
+            "supervisor or safety event with severity > info. The "
+            "list is never silently filtered, even for rehearsals "
+            "that completed without rejection (an empty list is "
+            "rendered as an honest placeholder)."
+        ),
+        architecture_refs=(
+            "docs/MISSION_REPLAY_MAPS.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/SupervisorInterventionOverlay.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/components.test.tsx::SupervisorInterventionOverlay > lists rejection events",
+            "apps/mission-control/tests/components.test.tsx::SupervisorInterventionOverlay > renders honest placeholder for empty input",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MVIS-005",
+        kind=RequirementKind.MISSION_VISUALIZATION,
+        title="Spatial playback must not fabricate unavailable coordinates",
+        description=(
+            "The deterministic ``buildMissionRoute`` adapter returns "
+            "``derivation_source='unavailable'`` when the plan has "
+            "no waypoints, ``'topology_only'`` when no bounded "
+            "distance/angle is present, and ``'bounded_inputs'`` "
+            "otherwise. The UI renders an honest placeholder for "
+            "the unavailable case rather than inventing positions."
+        ),
+        architecture_refs=(
+            "docs/MISSION_SPATIAL_VISUALIZATION.md",
+            "docs/SPATIAL_REPLAY_ARCHITECTURE.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/adapters/spatial.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/spatial.test.ts::MissionMap derivation > unavailable plan renders an honest placeholder",
+            "apps/mission-control/tests/spatial.test.ts::buildMissionRoute > topology-only fallback when no distance is bounded",
+            "apps/mission-control/tests/spatial.test.ts::buildMissionRoute > deterministic across repeated calls",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MVIS-006",
+        kind=RequirementKind.MISSION_VISUALIZATION,
+        title="Mission route segments use only bounded distance + angle inputs",
+        description=(
+            "Spatial coordinates are derived deterministically from "
+            "the audit's ``bounded_distance_m`` and "
+            "``bounded_angle_deg`` per waypoint. No coordinate is "
+            "fabricated; the adapter never reads real-time data, "
+            "never queries a network resource, and never randomises "
+            "positions."
+        ),
+        architecture_refs=(
+            "docs/MISSION_SPATIAL_VISUALIZATION.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/adapters/spatial.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/spatial.test.ts::buildMissionRoute > forward motion advances along heading deterministically",
+            "apps/mission-control/tests/spatial.test.ts::buildMissionRoute > deterministic across repeated calls",
+            "apps/mission-control/tests/spatial.test.ts::buildMissionRoute > stops and docks add no displacement",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MVIS-007",
+        kind=RequirementKind.MISSION_VISUALIZATION,
+        title="Frontend deployment preserves honesty-boundary rendering",
+        description=(
+            "Railway deploys via ``railway.json``; the build step "
+            "runs ``npm run typecheck && npm run test && npm run "
+            "build`` before any artefact is served. The "
+            "``mission-control-ci.yml`` workflow runs the same gate "
+            "on every PR and inspects the prerendered HTML to "
+            "confirm every page carries the ``Simulation-only`` "
+            "banner and never contains a ``bag-backed: yes`` claim."
+        ),
+        architecture_refs=(
+            "docs/RAILWAY_DEPLOYMENT_GUIDE.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/railway.json",
+            "apps/mission-control/.env.example",
+            ".github/workflows/mission-control-ci.yml",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/deployment.test.ts::railway.json > runs typecheck + test + build",
+            "apps/mission-control/tests/deployment.test.ts::railway.json > sets a healthcheck path",
+            "apps/mission-control/tests/deployment.test.ts::.env.example > documents only port and telemetry vars",
+            "apps/mission-control/tests/deployment.test.ts::mission-control-ci.yml > runs the full honesty gate",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MVIS-008",
+        kind=RequirementKind.MISSION_VISUALIZATION,
+        title="Why-Rejected drilldown links rejection reasons to requirements",
+        description=(
+            "The ``WhyRejectedDrilldown`` panel maps a failure "
+            "reason to an English explainer and a list of "
+            "``REQ-*`` ids so a reviewer can trace the rejection "
+            "to the deterministic rule that fired. The component "
+            "never invents a reason; if the audit's failure_reason "
+            "is unknown, the panel falls back to a generic note."
+        ),
+        architecture_refs=(
+            "docs/OPERATOR_EXPERIENCE_GUIDELINES.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/WhyRejectedDrilldown.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/components.test.tsx::WhyRejectedDrilldown > shows the verbatim rejection reason",
+            "apps/mission-control/tests/components.test.tsx::WhyRejectedDrilldown > renders nothing on accepted missions",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MVIS-009",
+        kind=RequirementKind.MISSION_VISUALIZATION,
+        title="Replay scrubber is sequence-based and deterministic",
+        description=(
+            "The ``ReplayScrubber`` advances through the ordered "
+            "event stream by index; ``event_time_ns`` is derived "
+            "from the same sequence in the backend. The scrubber "
+            "never invents timestamps and the visual position is "
+            "always reproducible against the audit JSON."
+        ),
+        architecture_refs=(
+            "docs/MISSION_REPLAY_MAPS.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/ReplayScrubber.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/components.test.tsx::ReplayScrubber > renders one slider per event",
+            "apps/mission-control/tests/components.test.tsx::ReplayScrubber > handles empty event lists honestly",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-MVIS-010",
+        kind=RequirementKind.MISSION_VISUALIZATION,
+        title="Operator surfaces communicate spatial-data unavailability honestly",
+        description=(
+            "When a plan or runtime is absent, every spatial panel "
+            "(``MissionMap``, ``MissionPlaybackPanel``, "
+            "``RouteProgressIndicator``, ``WaypointOverlay``, "
+            "``ZoneBoundaryOverlay``) renders an explicit "
+            "placeholder string instead of an empty visual. The "
+            "operator can therefore distinguish ``no data`` from "
+            "``data present but quiet``."
+        ),
+        architecture_refs=(
+            "docs/OPERATOR_EXPERIENCE_GUIDELINES.md",
+            "docs/SPATIAL_REPLAY_ARCHITECTURE.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/MissionMap.tsx",
+            "apps/mission-control/src/components/RouteProgressIndicator.tsx",
+            "apps/mission-control/src/components/WaypointOverlay.tsx",
+            "apps/mission-control/src/components/ZoneBoundaryOverlay.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/components.test.tsx::MissionMap > unavailable route renders an explicit placeholder",
+            "apps/mission-control/tests/components.test.tsx::WaypointOverlay > prompts when no waypoint is selected",
+            "apps/mission-control/tests/components.test.tsx::RouteProgressIndicator > shows placeholder for empty waypoints",
         ),
     ),
 )

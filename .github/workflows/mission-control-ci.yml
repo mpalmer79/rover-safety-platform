@@ -1,0 +1,100 @@
+# Mission Control frontend CI (Phase 17B).
+#
+# Validates the apps/mission-control workspace on every PR that
+# touches the frontend, the verification traceability artefact, or
+# the rehearsal / skill audit bundles the UI consumes. Honesty rules
+# from Phase 17A/17B are enforced here: a PR that introduces a
+# cloud SDK import, a forbidden /cmd_vel publication, or a fake
+# bag-backed claim fails this gate.
+#
+# DO NOT run real LLM models, real network calls, or live ROS
+# components from this workflow.
+
+name: mission-control-ci
+
+on:
+  pull_request:
+    paths:
+      - "apps/mission-control/**"
+      - "verification/traceability.json"
+      - "mission-rehearsals/**"
+      - "skill-library/**"
+      - ".github/workflows/mission-control-ci.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/mission-control/**"
+      - "verification/traceability.json"
+      - "mission-rehearsals/**"
+      - "skill-library/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mission-control-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Static export + honesty gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: apps/mission-control
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: apps/mission-control/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript strict typecheck
+        run: npm run typecheck
+
+      - name: Vitest (adapters + components + honesty + spatial + deploy)
+        run: npm run test
+
+      - name: Next.js static export build
+        run: npm run build
+
+      - name: Verify SafetyBoundaryBanner renders on every page
+        run: |
+          # The build prerenders every route into .next/server/app/.
+          # The footer of every page must contain the verbatim
+          # "Simulation-only" disclaimer; the safety banner is in
+          # the root layout, so every prerendered HTML carries it.
+          set -euo pipefail
+          missing=0
+          for file in $(find .next/server/app -name "*.html"); do
+            if ! grep -q "Simulation-only" "$file"; then
+              echo "::error file=$file::missing Simulation-only banner"
+              missing=$((missing + 1))
+            fi
+          done
+          if [ "$missing" -gt 0 ]; then
+            exit 1
+          fi
+
+      - name: Verify no bag-backed claim sneaks into the static export
+        run: |
+          # The Phase 13 honesty rule: bag-backed = false unless real
+          # bag artefacts exist. Every committed rehearsal audit is
+          # simulation-only, so the prerendered HTML must NEVER
+          # contain ``bag-backed: yes``.
+          set -euo pipefail
+          if grep -RIn "bag-backed: yes" .next/server/app; then
+            echo "::error::static export contains a bag-backed=yes claim"
+            exit 1
+          fi

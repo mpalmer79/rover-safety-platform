@@ -9,6 +9,7 @@ import { GovernanceHealthPanel } from "@/components/GovernanceHealthPanel";
 import { MissionCard } from "@/components/MissionCard";
 import { Panel } from "@/components/Panel";
 import { RequirementBadge } from "@/components/RequirementBadge";
+import { WarehouseLaneMap } from "@/components/WarehouseLaneMap";
 import { formatTimestamp } from "@/lib/utils";
 
 export const dynamic = "force-static";
@@ -46,6 +47,18 @@ export default async function DashboardPage() {
       </header>
 
       <GovernanceHealthPanel audits={sortedAudits} traceability={traceability} />
+
+      <Panel
+        eyebrow="Operations surface"
+        title="Tactical layout"
+        trailing={
+          <span className="text-[11px] text-base-500">
+            illustrative · no real coordinates
+          </span>
+        }
+      >
+        <WarehouseLaneMap />
+      </Panel>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Panel
