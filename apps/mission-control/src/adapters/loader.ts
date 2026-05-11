@@ -9,6 +9,10 @@ import type {
   ReplayBundle,
   RequirementRow,
   SkillCardSummary,
+  SpatialReplayArtifact,
+  SpatialReplayEventAlignment,
+  SpatialReplayPoseSample,
+  SpatialReplaySegment,
   TraceabilitySummary,
   ValidationDiagnostic,
 } from "./types";
@@ -302,4 +306,136 @@ export function summariseDiagnostics(
 
 export function replayIsBagBacked(replay: ReplayBundle | null): boolean {
   return Boolean(replay && replay.bag_backed);
+}
+
+// ---------------------------------------------------------------------
+// Phase 17C — spatial-replay artefact loader
+// ---------------------------------------------------------------------
+
+interface SpatialReplayRaw {
+  run_id?: string;
+  scenario_id?: string;
+  mission_id?: string;
+  evidence_origin?: string;
+  bag_status?: string;
+  derivation_source?: string;
+  trajectory_status?: string;
+  validation_status?: string;
+  sample_count?: number;
+  segment_count?: number;
+  topic_sources?: string[];
+  missing_topics?: string[];
+  known_limitations?: string[];
+  generated_at_utc?: string;
+  note?: string;
+  samples?: Array<Record<string, unknown>>;
+  segments?: Array<Record<string, unknown>>;
+  event_alignments?: Array<Record<string, unknown>>;
+}
+
+function coerceSample(raw: Record<string, unknown>): SpatialReplayPoseSample {
+  const refsRaw = raw.event_refs;
+  const refs = Array.isArray(refsRaw) ? refsRaw.map(String) : [];
+  return {
+    sample_id: String(raw.sample_id ?? ""),
+    time_ns: Number(raw.time_ns ?? 0),
+    x_m: Number(raw.x_m ?? 0),
+    y_m: Number(raw.y_m ?? 0),
+    theta_rad: Number(raw.theta_rad ?? 0),
+    source_topic: String(raw.source_topic ?? ""),
+    confidence: String(raw.confidence ?? "unknown"),
+    event_refs: refs,
+  };
+}
+
+function coerceSegment(raw: Record<string, unknown>): SpatialReplaySegment {
+  return {
+    from_sample_id: String(raw.from_sample_id ?? ""),
+    to_sample_id: String(raw.to_sample_id ?? ""),
+    distance_m: Number(raw.distance_m ?? 0),
+    duration_ns: Number(raw.duration_ns ?? 0),
+  };
+}
+
+function coerceAlignment(
+  raw: Record<string, unknown>,
+): SpatialReplayEventAlignment {
+  const pos = raw.spatial_position;
+  let spatial: readonly [number, number] | null = null;
+  if (Array.isArray(pos) && pos.length === 2) {
+    spatial = [Number(pos[0]), Number(pos[1])];
+  }
+  return {
+    event_id: String(raw.event_id ?? ""),
+    deterministic_hash: String(raw.deterministic_hash ?? ""),
+    matched_sample_id: String(raw.matched_sample_id ?? ""),
+    spatial_position: spatial,
+    delta_time_ns: Number(raw.delta_time_ns ?? 0),
+    confidence: String(raw.confidence ?? "unknown"),
+  };
+}
+
+function coerceSpatialReplayArtifact(
+  raw: SpatialReplayRaw,
+): SpatialReplayArtifact | null {
+  if (!raw.run_id || !raw.derivation_source) return null;
+  // Honesty: never accept an unknown derivation_source.
+  const allowed = new Set([
+    "bag_backed",
+    "fixture",
+    "bounded_inputs",
+    "topology_only",
+    "unavailable",
+  ]);
+  if (!allowed.has(raw.derivation_source)) return null;
+  const samples = (raw.samples ?? []).map(coerceSample);
+  const segments = (raw.segments ?? []).map(coerceSegment);
+  const alignments = (raw.event_alignments ?? []).map(coerceAlignment);
+  return {
+    run_id: String(raw.run_id),
+    scenario_id: String(raw.scenario_id ?? ""),
+    mission_id: String(raw.mission_id ?? ""),
+    evidence_origin: String(raw.evidence_origin ?? ""),
+    bag_status: String(raw.bag_status ?? "missing_manifest"),
+    derivation_source: raw.derivation_source as SpatialReplayArtifact[
+      "derivation_source"
+    ],
+    trajectory_status: String(raw.trajectory_status ?? "missing"),
+    validation_status: String(raw.validation_status ?? "not_executed"),
+    sample_count: Number(raw.sample_count ?? samples.length),
+    segment_count: Number(raw.segment_count ?? segments.length),
+    topic_sources: raw.topic_sources ?? [],
+    missing_topics: raw.missing_topics ?? [],
+    known_limitations: raw.known_limitations ?? [],
+    generated_at_utc: String(raw.generated_at_utc ?? ""),
+    note: String(raw.note ?? ""),
+    samples,
+    segments,
+    event_alignments: alignments,
+  };
+}
+
+/**
+ * Read the spatial-replay artefact for ``runId`` from disk.
+ *
+ * Returns ``null`` when the artefact is missing or malformed. The
+ * caller decides what to do with the fallback (typically the
+ * bounded-inputs adapter).
+ */
+export async function loadSpatialReplay(
+  runId: string,
+): Promise<SpatialReplayArtifact | null> {
+  const paths = repoPaths();
+  const raw = await readJson<SpatialReplayRaw>(paths.spatialReplayRunPath(runId));
+  if (!raw) return null;
+  return coerceSpatialReplayArtifact(raw);
+}
+
+/**
+ * Return the list of available spatial-replay run ids (the
+ * subdirectories of ``spatial-replay/runs``).
+ */
+export async function listSpatialReplayRunIds(): Promise<readonly string[]> {
+  const paths = repoPaths();
+  return listSubdirs(paths.spatialReplayRunsDir);
 }

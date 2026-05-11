@@ -24,6 +24,8 @@ import type {
   MissionPlan,
   MissionWaypoint,
   RehearsalEvent,
+  SpatialDerivationSource,
+  SpatialReplayArtifact,
 } from "./types";
 
 export interface SpatialPoint {
@@ -40,7 +42,11 @@ export interface SpatialWaypoint {
   // The deterministic derivation source. Always populated; never
   // omitted, so an audit reading the UI's output can confirm the
   // map's provenance.
-  source: "bounded_distance_angle" | "topology_only";
+  source:
+    | "bounded_distance_angle"
+    | "topology_only"
+    | "bag_backed"
+    | "fixture";
   bounded_distance_m: number;
   bounded_angle_deg: number;
   bounded_speed_mps: number;
@@ -59,8 +65,14 @@ export interface MissionRoute {
     max: SpatialPoint;
   };
   has_motion: boolean;
-  derivation_source: "bounded_inputs" | "topology_only" | "unavailable";
+  derivation_source: SpatialDerivationSource;
   note: string;
+  /**
+   * When the route is derived from a real spatial-replay artefact,
+   * this is the originating artefact. ``null`` for bounded-inputs /
+   * topology-only / unavailable routes.
+   */
+  artifact?: SpatialReplayArtifact | null;
 }
 
 export interface SpatialEventMarker {
@@ -299,4 +311,192 @@ export function fitViewBox(
     y: height - (point.y * scale + offsetY),
   });
   return { viewBox: `0 0 ${width} ${height}`, transform };
+}
+
+// ---------------------------------------------------------------------
+// Phase 17C — artefact-backed mission route
+// ---------------------------------------------------------------------
+
+/**
+ * Return ``true`` iff the artefact honestly claims bag-backed status.
+ *
+ * The check mirrors the backend ``is_honestly_bag_backed`` helper.
+ * Any drift here causes the frontend to fall back to the
+ * bounded-inputs adapter — never a fake bag-backed badge.
+ */
+export function artifactIsBagBacked(
+  artifact: SpatialReplayArtifact | null,
+): boolean {
+  if (!artifact) return false;
+  if (artifact.derivation_source !== "bag_backed") return false;
+  if (artifact.bag_status !== "bag_backed") return false;
+  if (!artifact.samples || artifact.samples.length === 0) return false;
+  return true;
+}
+
+/**
+ * Map a spatial-replay artefact's derivation_source string onto the
+ * verbatim caption the UI must render.
+ *
+ * The mapping is the single source of truth for the badge text.
+ */
+export function describeDerivationSource(
+  source: SpatialDerivationSource,
+): string {
+  switch (source) {
+    case "bag_backed":
+      return "Spatial source: bag-backed runtime evidence.";
+    case "fixture":
+      return "Spatial source: fixture-derived spatial replay. Not bag-backed evidence.";
+    case "bounded_inputs":
+      return "Spatial source: bounded simulation inputs.";
+    case "topology_only":
+      return "Spatial source: topology only.";
+    case "unavailable":
+    default:
+      return "Spatial source: unavailable.";
+  }
+}
+
+function pseudoStageForSample(index: number, total: number): string {
+  if (index === 0) return "move";
+  if (index === total - 1) return "dock";
+  return "move";
+}
+
+/**
+ * Derive a :class:`MissionRoute` directly from a spatial-replay
+ * artefact's pose samples. Used when the artefact's derivation
+ * source is ``bag_backed`` or ``fixture``.
+ *
+ * The waypoint list is the artefact's pose-sample list (one entry
+ * per sample); the segment list connects consecutive samples. The
+ * bounded-distance/angle fields are zero — they only have meaning
+ * for the bounded-inputs derivation.
+ */
+export function buildMissionRouteFromArtifact(
+  artifact: SpatialReplayArtifact,
+): MissionRoute {
+  const samples = artifact.samples ?? [];
+  if (!samples || samples.length === 0) {
+    return {
+      waypoints: [],
+      segments: [],
+      bounds: { min: { x: 0, y: 0 }, max: { x: 0, y: 0 } },
+      has_motion: false,
+      derivation_source: "unavailable",
+      note:
+        "Spatial replay artefact carried no pose samples; falling back " +
+        "to unavailable.",
+      artifact,
+    };
+  }
+  const sourceLabel: "bag_backed" | "fixture" =
+    artifact.derivation_source === "bag_backed" ? "bag_backed" : "fixture";
+
+  const waypoints: SpatialWaypoint[] = samples.map((s, idx) => ({
+    waypoint_id: s.sample_id,
+    label: s.sample_id,
+    stage_kind: pseudoStageForSample(idx, samples.length),
+    position: { x: s.x_m, y: s.y_m },
+    heading_deg: (s.theta_rad * 180) / Math.PI,
+    source: sourceLabel,
+    bounded_distance_m: 0,
+    bounded_angle_deg: 0,
+    bounded_speed_mps: 0,
+  }));
+
+  const segments: Array<MissionRoute["segments"][number]> = [];
+  for (let i = 1; i < waypoints.length; i += 1) {
+    segments.push({
+      from: waypoints[i - 1].position,
+      to: waypoints[i].position,
+      waypoint_id: waypoints[i].waypoint_id,
+      stage_kind: waypoints[i].stage_kind,
+    });
+  }
+  const xs = waypoints.map((w) => w.position.x);
+  const ys = waypoints.map((w) => w.position.y);
+  const bounds = {
+    min: { x: Math.min(...xs) - 0.5, y: Math.min(...ys) - 0.5 },
+    max: { x: Math.max(...xs) + 0.5, y: Math.max(...ys) + 0.5 },
+  };
+
+  const note =
+    sourceLabel === "bag_backed"
+      ? "Derived from bag-backed runtime pose samples. " +
+        "Coordinates are real telemetry; trajectory aligned to event stream."
+      : "Derived from committed fixture pose samples. " +
+        "Not bag-backed evidence; coordinates are fixture-supplied.";
+
+  return {
+    waypoints,
+    segments,
+    bounds,
+    has_motion: segments.length > 0,
+    derivation_source: sourceLabel,
+    note,
+    artifact,
+  };
+}
+
+/**
+ * Project an event onto an artefact-backed route via the artefact's
+ * own event_alignments. Falls back to the payload-based projection
+ * used by the bounded-inputs route when no alignment is present.
+ */
+export function projectArtifactEvent(
+  event: RehearsalEvent,
+  route: MissionRoute,
+): SpatialEventMarker {
+  const artifact = route.artifact;
+  if (artifact) {
+    const alignment = artifact.event_alignments.find(
+      (a) =>
+        a.event_id === event.event_id ||
+        a.deterministic_hash === event.deterministic_hash,
+    );
+    if (alignment && alignment.spatial_position) {
+      return {
+        event_id: event.event_id,
+        position: {
+          x: alignment.spatial_position[0],
+          y: alignment.spatial_position[1],
+        },
+        severity: event.severity,
+        event_subtype: event.event_subtype,
+        description: event.description,
+        deterministic_hash: event.deterministic_hash,
+      };
+    }
+    if (alignment && !alignment.spatial_position) {
+      return {
+        event_id: event.event_id,
+        position: null,
+        severity: event.severity,
+        event_subtype: event.event_subtype,
+        description: event.description,
+        deterministic_hash: event.deterministic_hash,
+      };
+    }
+  }
+  return projectEvent(event, route);
+}
+
+/**
+ * Choose the most honest route: prefer an artefact-backed route when
+ * the artefact validates, otherwise fall back to the bounded-inputs
+ * adapter from Phase 17B.
+ */
+export function selectMissionRoute(
+  plan: MissionPlan | null,
+  artifact: SpatialReplayArtifact | null,
+): MissionRoute {
+  if (artifact && (artifact.derivation_source === "bag_backed" || artifact.derivation_source === "fixture")) {
+    // Trust the artefact only when it has at least one sample.
+    if (artifact.samples && artifact.samples.length > 0) {
+      return buildMissionRouteFromArtifact(artifact);
+    }
+  }
+  return buildMissionRoute(plan);
 }

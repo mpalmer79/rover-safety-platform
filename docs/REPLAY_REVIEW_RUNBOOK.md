@@ -9,6 +9,13 @@ evidence and rosbag2 artefacts**. It inspects, indexes, and produces
 metadata. It does **not** open bag files itself; that work is left
 to Foxglove.
 
+**Phase 17C addition.** Mission-level replay reviews may now
+reference a committed `spatial-replay/runs/<run_id>/` directory.
+When the artefact's `derivation_source` is `bag_backed`, the
+Mission Control UI overlays the trajectory on the mission map.
+The runbook is otherwise unchanged: bag parsing remains an
+operator activity, never an automated platform behaviour.
+
 ## 1. Prerequisites
 
 The full live path requires:

@@ -4,6 +4,15 @@ Phase 13 introduces the live ROS 2 / Gazebo runtime evidence pipeline.
 The platform is **not safety-certified**; this document describes
 engineering qualification infrastructure, not a regulatory artefact.
 
+**Phase 17C downstream.** When a Phase 13 self-hosted runner
+produces a `bag-manifest.json` with `bag_status = bag_backed`, an
+operator may post-process the bag into
+`evidence/runtime/<run_id>/pose-samples.jsonl` and run
+`tools/generate_spatial_replay.py` to emit a
+`spatial-replay/runs/<run_id>/` directory the Mission Control UI
+can render. See `docs/BAG_BACKED_SPATIAL_REPLAY.md` and
+`docs/BAG_TO_TRAJECTORY_PIPELINE.md`.
+
 ## 1. Goal
 
 Move from `static-only / fixture-backed` evidence to live ROS 2 /

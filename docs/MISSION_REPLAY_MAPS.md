@@ -1,10 +1,20 @@
-# Mission Replay Maps (Phase 17B)
+# Mission Replay Maps (Phase 17B → 17C)
 
 The platform is **not safety-certified.** Phase 17B layers a
 deterministic 2D mission map onto the existing mission detail page.
 Operators can now scrub through the audit event stream and see
 which waypoint the deterministic state machine reached at each
 sequence index. No real telemetry is implied.
+
+**Phase 17C** extends the same page so that, when a committed
+spatial-replay artefact exists at
+`spatial-replay/runs/<id>/spatial-replay.json`, the playback panel
+renders the artefact's trajectory instead of (or in addition to)
+the bounded-inputs derivation. The artefact's derivation source
+(`bag_backed`, `fixture`, etc.) is rendered verbatim on the map
+caption and the playback panel badge. See
+`docs/BAG_BACKED_SPATIAL_REPLAY.md` and
+`docs/SPATIAL_REPLAY_HONESTY_RULES.md`.
 
 ## 1. The detail page composition
 

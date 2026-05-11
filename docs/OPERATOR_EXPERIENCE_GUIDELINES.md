@@ -1,10 +1,24 @@
-# Operator Experience Guidelines (Phase 17B)
+# Operator Experience Guidelines (Phase 17B → 17C)
 
 The platform is **not safety-certified.** This page records the
 small set of UX rules the mission-control UI follows. The intent
 is to make the operator console feel intentional, premium, and
 systems-engineered without ever overstating the platform's
 capability.
+
+**Phase 17C** adds two additional UX rules:
+
+* **Derivation source visible at all times.** The mission map
+  caption and the playback panel badge always render the verbatim
+  string returned by
+  `apps/mission-control/src/adapters/spatial.ts::describeDerivationSource`
+  (one of `bag-backed runtime evidence`,
+  `fixture-derived spatial replay`, `bounded simulation inputs`,
+  `topology only`, or `unavailable`).
+* **Fixture maps explicitly disclaim bag-backed evidence.** When
+  the derivation source is `fixture`, an additional pending-coloured
+  banner reads "Fixture-derived spatial replay. Not bag-backed
+  evidence."
 
 ## 1. Tone
 

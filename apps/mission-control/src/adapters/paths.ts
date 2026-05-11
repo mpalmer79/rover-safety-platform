@@ -26,6 +26,8 @@ export interface RepoPaths {
   traceabilityJson: string;
   verificationReportJson: string;
   liveRuntimeMaturity: string;
+  spatialReplayRunsDir: string;
+  spatialReplayRunPath: (runId: string) => string;
 }
 
 export function repoPaths(root: string = repoRoot()): RepoPaths {
@@ -41,5 +43,8 @@ export function repoPaths(root: string = repoRoot()): RepoPaths {
     traceabilityJson: path.join(root, "verification", "traceability.json"),
     verificationReportJson: path.join(root, "verification", "verification_report.json"),
     liveRuntimeMaturity: path.join(root, "live-runtime", "live-runtime-maturity.json"),
+    spatialReplayRunsDir: path.join(root, "spatial-replay", "runs"),
+    spatialReplayRunPath: (runId: string) =>
+      path.join(root, "spatial-replay", "runs", runId, "spatial-replay.json"),
   };
 }

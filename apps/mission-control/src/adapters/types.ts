@@ -236,3 +236,78 @@ export interface NotFoundArtefact {
   path: string;
   reason: string;
 }
+
+// ---------------------------------------------------------------------
+// Phase 17C — spatial-replay artefact
+// ---------------------------------------------------------------------
+
+export type SpatialDerivationSource =
+  | "bag_backed"
+  | "fixture"
+  | "bounded_inputs"
+  | "topology_only"
+  | "unavailable";
+
+export type SpatialBagStatus =
+  | "bag_backed"
+  | "missing_bag"
+  | "partial"
+  | "not_executed"
+  | "invalid"
+  | "missing_manifest";
+
+export type SpatialValidationStatus =
+  | "passed"
+  | "partial"
+  | "failed"
+  | "not_executed";
+
+export type SpatialTrajectoryStatus = "complete" | "partial" | "missing";
+
+export interface SpatialReplayPoseSample {
+  sample_id: string;
+  time_ns: number;
+  x_m: number;
+  y_m: number;
+  theta_rad: number;
+  source_topic: string;
+  confidence: string;
+  event_refs: readonly string[];
+}
+
+export interface SpatialReplaySegment {
+  from_sample_id: string;
+  to_sample_id: string;
+  distance_m: number;
+  duration_ns: number;
+}
+
+export interface SpatialReplayEventAlignment {
+  event_id: string;
+  deterministic_hash: string;
+  matched_sample_id: string;
+  spatial_position: readonly [number, number] | null;
+  delta_time_ns: number;
+  confidence: string;
+}
+
+export interface SpatialReplayArtifact {
+  run_id: string;
+  scenario_id: string;
+  mission_id: string;
+  evidence_origin: string;
+  bag_status: SpatialBagStatus | string;
+  derivation_source: SpatialDerivationSource;
+  trajectory_status: SpatialTrajectoryStatus | string;
+  validation_status: SpatialValidationStatus | string;
+  sample_count: number;
+  segment_count: number;
+  topic_sources: readonly string[];
+  missing_topics: readonly string[];
+  known_limitations: readonly string[];
+  generated_at_utc: string;
+  note: string;
+  samples: readonly SpatialReplayPoseSample[];
+  segments: readonly SpatialReplaySegment[];
+  event_alignments: readonly SpatialReplayEventAlignment[];
+}

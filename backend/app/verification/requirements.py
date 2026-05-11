@@ -43,6 +43,7 @@ class RequirementKind(str, Enum):
     REHEARSAL = "rehearsal"
     MISSION_CONTROL = "mission_control"
     MISSION_VISUALIZATION = "mission_visualization"
+    SPATIAL_REPLAY = "spatial_replay"
 
 
 @dataclass(frozen=True)
@@ -2993,6 +2994,251 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "apps/mission-control/tests/components.test.tsx::MissionMap > unavailable route renders an explicit placeholder",
             "apps/mission-control/tests/components.test.tsx::WaypointOverlay > prompts when no waypoint is selected",
             "apps/mission-control/tests/components.test.tsx::RouteProgressIndicator > shows placeholder for empty waypoints",
+        ),
+    ),
+    # -----------------------------------------------------------------
+    # Phase 17C — bag-backed spatial replay upgrade.
+    # -----------------------------------------------------------------
+    Requirement(
+        req_id="REQ-SREPLAY-001",
+        kind=RequirementKind.SPATIAL_REPLAY,
+        title="A run is bag-backed only when the bag manifest validates",
+        description=(
+            "The :func:`evaluate_bag_eligibility` helper refuses to "
+            "label a run ``bag_backed`` unless its bag manifest is "
+            "present, its bag paths exist on disk, its metadata yaml "
+            "exists, its validation_status is passed or partial, and "
+            "runtime pose samples were extracted. Any missing input "
+            "demotes the run to ``fixture``, ``bounded_inputs``, "
+            "``topology_only``, or ``unavailable``."
+        ),
+        architecture_refs=(
+            "docs/BAG_BACKED_SPATIAL_REPLAY.md",
+            "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
+        ),
+        implementation_refs=(
+            "backend/app/spatial_replay/manifest_loader.py",
+            "backend/app/spatial_replay/builder.py",
+        ),
+        test_refs=(
+            "backend/tests/test_spatial_replay.py::test_missing_manifest_blocks_bag_backed",
+            "backend/tests/test_spatial_replay.py::test_partial_manifest_blocks_bag_backed",
+            "backend/tests/test_spatial_replay.py::test_missing_pose_samples_blocks_bag_backed",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SREPLAY-002",
+        kind=RequirementKind.SPATIAL_REPLAY,
+        title="Fixture-derived spatial samples are never bag-backed",
+        description=(
+            "Pose samples loaded from "
+            "``spatial-replay/fixtures/<run_id>/pose-samples.jsonl`` "
+            "always produce a ``derivation_source=fixture`` artefact. "
+            "The validator additionally surfaces this as a known "
+            "limitation in the artefact's JSON output."
+        ),
+        architecture_refs=(
+            "docs/BAG_BACKED_SPATIAL_REPLAY.md",
+            "docs/SPATIAL_REPLAY_ARTIFACT_FORMAT.md",
+        ),
+        implementation_refs=(
+            "backend/app/spatial_replay/pose_extractor.py",
+            "backend/app/spatial_replay/builder.py",
+            "spatial-replay/fixtures/canonical-fixture/pose-samples.jsonl",
+        ),
+        test_refs=(
+            "backend/tests/test_spatial_replay.py::test_fixture_samples_are_not_bag_backed",
+            "backend/tests/test_spatial_replay.py::test_canonical_fixture_emits_fixture_derivation",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SREPLAY-003",
+        kind=RequirementKind.SPATIAL_REPLAY,
+        title="Derivation source is preserved through every artefact",
+        description=(
+            "The string emitted by the backend builder appears verbatim "
+            "in ``spatial-replay.json``, in the markdown report, and in "
+            "the frontend caption. The validator additionally rejects "
+            "internally inconsistent artefacts (for example a "
+            "``bag_backed`` artefact with zero samples)."
+        ),
+        architecture_refs=(
+            "docs/SPATIAL_REPLAY_ARTIFACT_FORMAT.md",
+            "docs/SPATIAL_REPLAY_ARCHITECTURE.md",
+        ),
+        implementation_refs=(
+            "backend/app/spatial_replay/reporter.py",
+            "backend/app/spatial_replay/validator.py",
+            "apps/mission-control/src/adapters/spatial.ts",
+        ),
+        test_refs=(
+            "backend/tests/test_spatial_replay.py::test_derivation_source_round_trips_through_json",
+            "backend/tests/test_spatial_replay.py::test_validator_rejects_bag_backed_without_samples",
+            "apps/mission-control/tests/spatial-replay.test.ts::loadSpatialReplay > preserves derivation_source from artefact",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SREPLAY-004",
+        kind=RequirementKind.SPATIAL_REPLAY,
+        title="Trajectory builder is deterministic for ordered samples",
+        description=(
+            "Given an identical pose-samples input the segment list, "
+            "trajectory status, and topic source tuple are byte-stable. "
+            "The builder never resamples, never smooths, and never "
+            "interpolates across distinct source topics."
+        ),
+        architecture_refs=(
+            "docs/BAG_TO_TRAJECTORY_PIPELINE.md",
+        ),
+        implementation_refs=(
+            "backend/app/spatial_replay/trajectory_builder.py",
+        ),
+        test_refs=(
+            "backend/tests/test_spatial_replay.py::test_segments_are_deterministic",
+            "backend/tests/test_spatial_replay.py::test_classify_trajectory_complete_partial_missing",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SREPLAY-005",
+        kind=RequirementKind.SPATIAL_REPLAY,
+        title="Event alignment falls back to off-map when out of tolerance",
+        description=(
+            "An event whose ``event_time_ns`` is farther than the "
+            "alignment tolerance from every pose sample produces an "
+            "alignment with ``matched_sample_id`` empty and "
+            "``spatial_position`` null. The UI then renders the event "
+            "in the timeline only — it is never placed on the map."
+        ),
+        architecture_refs=(
+            "docs/BAG_TO_TRAJECTORY_PIPELINE.md",
+            "docs/MISSION_REPLAY_MAPS.md",
+        ),
+        implementation_refs=(
+            "backend/app/spatial_replay/event_aligner.py",
+        ),
+        test_refs=(
+            "backend/tests/test_spatial_replay.py::test_event_alignment_off_map_when_out_of_tolerance",
+            "backend/tests/test_spatial_replay.py::test_event_alignment_matches_nearest_sample",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SREPLAY-006",
+        kind=RequirementKind.SPATIAL_REPLAY,
+        title="Missing pose topics surface as warnings, never fabricated samples",
+        description=(
+            "When the expected pose topics include /tf but the bag's "
+            "topic inventory does not, the trajectory is downgraded to "
+            "``partial`` and the missing topic appears in "
+            "``missing_topics``. No /tf sample is invented."
+        ),
+        architecture_refs=(
+            "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
+            "docs/BAG_BACKED_SPATIAL_REPLAY.md",
+        ),
+        implementation_refs=(
+            "backend/app/spatial_replay/trajectory_builder.py",
+            "backend/app/spatial_replay/validator.py",
+        ),
+        test_refs=(
+            "backend/tests/test_spatial_replay.py::test_missing_topic_produces_warning_not_fabrication",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SREPLAY-007",
+        kind=RequirementKind.SPATIAL_REPLAY,
+        title="Frontend prefers a spatial-replay artefact when present and valid",
+        description=(
+            "``loadSpatialReplay`` reads "
+            "``spatial-replay/runs/<run_id>/spatial-replay.json`` and "
+            "returns it verbatim when ``derivation_source`` is "
+            "``bag_backed`` or ``fixture`` and the artefact validates. "
+            "Otherwise the frontend falls back to the bounded-inputs "
+            "adapter from Phase 17B."
+        ),
+        architecture_refs=(
+            "docs/SPATIAL_REPLAY_ARCHITECTURE.md",
+            "docs/MISSION_REPLAY_MAPS.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/adapters/spatial.ts",
+            "apps/mission-control/src/adapters/loader.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/spatial-replay.test.ts::loadSpatialReplay > returns fixture artefact for canonical-fixture",
+            "apps/mission-control/tests/spatial-replay.test.ts::buildMissionRouteFromArtifact > prefers artefact over plan",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SREPLAY-008",
+        kind=RequirementKind.SPATIAL_REPLAY,
+        title="Mission Control surfaces the derivation source visibly",
+        description=(
+            "Every mission-map caption renders one of: \"Spatial source: "
+            "bag-backed runtime evidence\", \"... bounded simulation "
+            "inputs\", \"... topology only\", \"... fixture-derived "
+            "spatial replay\", or \"... unavailable\". The reviewer can "
+            "tell at a glance where the geometry came from."
+        ),
+        architecture_refs=(
+            "docs/OPERATOR_EXPERIENCE_GUIDELINES.md",
+            "docs/MISSION_REPLAY_MAPS.md",
+        ),
+        implementation_refs=(
+            "apps/mission-control/src/components/MissionMap.tsx",
+            "apps/mission-control/src/components/MissionPlaybackPanel.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/spatial-honesty.test.tsx::MissionMap > caption names the derivation source",
+            "apps/mission-control/tests/spatial-honesty.test.tsx::MissionPlaybackPanel > badge surfaces bag-backed vs fixture",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SREPLAY-009",
+        kind=RequirementKind.SPATIAL_REPLAY,
+        title="No static export renders bag-backed without a manifest backing it",
+        description=(
+            "The Mission Control CI workflow greps the static export for "
+            "any ``bag-backed: yes`` or \"bag-backed runtime evidence\" "
+            "claim that lacks a corresponding spatial-replay artefact "
+            "with ``derivation_source=bag_backed``. The workflow fails "
+            "if a fake bag-backed badge sneaks in."
+        ),
+        architecture_refs=(
+            "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
+            "docs/RAILWAY_DEPLOYMENT_GUIDE.md",
+        ),
+        implementation_refs=(
+            ".github/workflows/mission-control-ci.yml",
+            "apps/mission-control/src/components/EvidenceStatusChip.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/spatial-honesty.test.tsx::CI honesty grep > no fake bag-backed claim in prerendered HTML",
+            "apps/mission-control/tests/deployment.test.ts::mission-control-ci.yml > runs the full honesty gate",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-SREPLAY-010",
+        kind=RequirementKind.SPATIAL_REPLAY,
+        title="Spatial-replay validator is the single bag-backed gatekeeper",
+        description=(
+            "Any caller (CLI, frontend, downstream report) that wants "
+            "to render a bag-backed badge must first call "
+            "``is_honestly_bag_backed(replay)``; that helper is the "
+            "single source of truth for the bag-backed claim. The "
+            "validator rejects internally inconsistent artefacts (for "
+            "example a ``derivation_source=fixture`` artefact with "
+            "``bag_status=bag_backed``)."
+        ),
+        architecture_refs=(
+            "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
+            "docs/BAG_BACKED_SPATIAL_REPLAY.md",
+        ),
+        implementation_refs=(
+            "backend/app/spatial_replay/validator.py",
+        ),
+        test_refs=(
+            "backend/tests/test_spatial_replay.py::test_is_honestly_bag_backed_requires_samples",
+            "backend/tests/test_spatial_replay.py::test_is_honestly_bag_backed_rejects_fixture",
         ),
     ),
 )
