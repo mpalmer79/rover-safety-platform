@@ -126,6 +126,7 @@ TABLE_FIELDS: dict[str, tuple[str, ...]] = {
     TABLE_REQUIREMENT_COVERAGE: (
         "requirement_id",
         "requirement_kind",
+        "category_tier",
         "title",
         "status",
         "mapped_tests",

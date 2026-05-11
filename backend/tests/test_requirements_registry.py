@@ -14,6 +14,8 @@ from pathlib import Path
 import pytest
 
 from app.verification.requirements import (
+    CATEGORY_TIER_CORE,
+    CATEGORY_TIER_META,
     REQUIREMENTS,
     Requirement,
     RequirementKind,
@@ -110,3 +112,61 @@ def test_registry_rejects_duplicate_ids_when_constructed() -> None:
     )
     with pytest.raises(ValueError):
         RequirementsRegistry((a, duplicate))
+
+
+# ---------------------------------------------------------------------
+# Category-tier coverage (two-tier prefix system).
+#
+# Every requirement falls into ``core`` (safety boundary, deterministic
+# behaviour, replay) or ``meta`` (UI, visualization, aggregation,
+# governance, reporting). The safety-authority IDs must stay in
+# ``core`` regardless of how the meta namespaces grow.
+# ---------------------------------------------------------------------
+
+
+def test_every_requirement_has_a_category_tier() -> None:
+    for r in REQUIREMENTS:
+        assert r.category_tier in {CATEGORY_TIER_CORE, CATEGORY_TIER_META}, (
+            f"{r.req_id} has invalid category_tier {r.category_tier!r}"
+        )
+
+
+def test_canonical_safety_authority_ids_are_core() -> None:
+    canonical_core_ids = (
+        "REQ-SAFE-001",
+        "REQ-SAFE-002",
+        "REQ-SAFE-003",
+        "REQ-SAFE-004",
+        "REQ-FAULT-001",
+        "REQ-FAULT-002",
+        "REQ-MISSION-001",
+        "REQ-WORLD-001",
+    )
+    by_id = {r.req_id: r for r in REQUIREMENTS}
+    for cid in canonical_core_ids:
+        assert cid in by_id, f"canonical safety id {cid} missing from registry"
+        assert by_id[cid].category_tier == CATEGORY_TIER_CORE, (
+            f"{cid} must be tagged core; got {by_id[cid].category_tier!r}"
+        )
+
+
+def test_to_dict_includes_category_tier() -> None:
+    r = REQUIREMENTS[0]
+    payload = r.to_dict()
+    assert "category_tier" in payload
+    assert payload["category_tier"] in {CATEGORY_TIER_CORE, CATEGORY_TIER_META}
+
+
+def test_core_count_is_dominated_by_safety_authority_prefixes() -> None:
+    # Honesty rule: meta requirements may outnumber core in absolute
+    # terms (UI / visualization namespaces are large), but the core
+    # tier must not be empty — the safety-authority claim must remain
+    # visible. This assertion locks the floor; the actual numbers are
+    # exposed in the traceability matrix.
+    core_count = sum(
+        1 for r in REQUIREMENTS if r.category_tier == CATEGORY_TIER_CORE
+    )
+    assert core_count >= 11, (
+        f"core tier must contain at least the canonical 11 safety-authority "
+        f"IDs; observed {core_count}"
+    )

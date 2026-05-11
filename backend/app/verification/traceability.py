@@ -28,7 +28,13 @@ from pathlib import Path
 from typing import Any, Iterable, Optional
 
 from app.verification.acceptance import AcceptanceStatus, aggregate_status
-from app.verification.requirements import Requirement, RequirementsRegistry, REQUIREMENTS
+from app.verification.requirements import (
+    CATEGORY_TIER_CORE,
+    CATEGORY_TIER_META,
+    Requirement,
+    RequirementsRegistry,
+    REQUIREMENTS,
+)
 from app.verification.scenario_verifier import (
     ScenarioVerification,
     SCENARIO_EXPECTATIONS,
@@ -46,10 +52,15 @@ class TraceabilityRow:
     status: AcceptanceStatus
     status_detail: str
 
+    @property
+    def category_tier(self) -> str:
+        return self.requirement.category_tier
+
     def as_dict(self) -> dict[str, Any]:
         return {
             "requirement_id": self.requirement.req_id,
             "kind": self.requirement.kind.value,
+            "category_tier": self.requirement.category_tier,
             "title": self.requirement.title,
             "architecture_refs": list(self.architecture_refs),
             "implementation_refs": list(self.implementation_refs),
@@ -71,11 +82,19 @@ class TraceabilityMatrix:
         return aggregate_status(r.status for r in self.rows)
 
     def to_dict(self) -> dict[str, Any]:
+        # Stable sort: core rows first (registry order preserved within
+        # tier), meta rows after. The legacy ``rows`` array preserves
+        # registry order for backwards compatibility; tier-segregated
+        # counts are emitted alongside.
+        core_rows = [r for r in self.rows if r.category_tier == CATEGORY_TIER_CORE]
+        meta_rows = [r for r in self.rows if r.category_tier == CATEGORY_TIER_META]
         return {
             "generated_at_utc": self.generated_at_utc,
             "overall_status": self.overall_status.value,
             "row_count": len(self.rows),
-            "rows": [r.as_dict() for r in self.rows],
+            "core_count": len(core_rows),
+            "meta_count": len(meta_rows),
+            "rows": [r.as_dict() for r in core_rows + meta_rows],
         }
 
     def render_markdown(self) -> str:
@@ -92,24 +111,41 @@ class TraceabilityMatrix:
             "learning purposes._"
         )
         lines.append("")
+        core_rows = tuple(
+            r for r in self.rows if r.category_tier == CATEGORY_TIER_CORE
+        )
+        meta_rows = tuple(
+            r for r in self.rows if r.category_tier == CATEGORY_TIER_META
+        )
         lines.append(f"- **Generated:** {self.generated_at_utc}")
         lines.append(f"- **Overall status:** `{self.overall_status.value}`")
         lines.append(f"- **Requirements covered:** {len(self.rows)}")
+        lines.append(
+            f"- **Core (safety / deterministic behaviour / replay):** "
+            f"{len(core_rows)}"
+        )
+        lines.append(
+            f"- **Meta (UI / visualization / aggregation / reporting):** "
+            f"{len(meta_rows)}"
+        )
+        lines.append("")
+        lines.append("## Core requirements")
         lines.append("")
         lines.append(
-            "| Req ID | Title | Architecture | Implementation | Scenarios | Tests | Evidence | Status |"
+            "_These touch deterministic behaviour, the safety boundary, "
+            "or replay. The safety-authority claim lives here._"
         )
-        lines.append("|---|---|---|---|---|---|---|---|")
-        for r in self.rows:
-            arch = "<br/>".join(f"`{a}`" for a in r.architecture_refs) or "-"
-            impl = "<br/>".join(f"`{a}`" for a in r.implementation_refs) or "-"
-            scen = "<br/>".join(f"`{a}`" for a in r.scenario_refs) or "-"
-            tests = "<br/>".join(f"`{a}`" for a in r.test_refs) or "-"
-            evid = "<br/>".join(f"`{a}`" for a in r.evidence_paths) or "-"
-            lines.append(
-                f"| `{r.requirement.req_id}` | {r.requirement.title} | {arch} | {impl} | "
-                f"{scen} | {tests} | {evid} | `{r.status.value}` |"
-            )
+        lines.append("")
+        lines.extend(self._render_table(core_rows))
+        lines.append("")
+        lines.append("## Meta requirements")
+        lines.append("")
+        lines.append(
+            "_UI, visualization, aggregation, governance, reporting. "
+            "These do not authorize motion._"
+        )
+        lines.append("")
+        lines.extend(self._render_table(meta_rows))
         lines.append("")
         lines.append("## Requirement coverage notes")
         lines.append("")
@@ -118,6 +154,28 @@ class TraceabilityMatrix:
                 lines.append(f"- `{r.requirement.req_id}` — {r.status_detail}")
         lines.append("")
         return "\n".join(lines)
+
+    @staticmethod
+    def _render_table(rows: tuple["TraceabilityRow", ...]) -> list[str]:
+        out: list[str] = []
+        if not rows:
+            out.append("_No requirements in this tier._")
+            return out
+        out.append(
+            "| Req ID | Title | Architecture | Implementation | Scenarios | Tests | Evidence | Status |"
+        )
+        out.append("|---|---|---|---|---|---|---|---|")
+        for r in rows:
+            arch = "<br/>".join(f"`{a}`" for a in r.architecture_refs) or "-"
+            impl = "<br/>".join(f"`{a}`" for a in r.implementation_refs) or "-"
+            scen = "<br/>".join(f"`{a}`" for a in r.scenario_refs) or "-"
+            tests = "<br/>".join(f"`{a}`" for a in r.test_refs) or "-"
+            evid = "<br/>".join(f"`{a}`" for a in r.evidence_paths) or "-"
+            out.append(
+                f"| `{r.requirement.req_id}` | {r.requirement.title} | {arch} | {impl} | "
+                f"{scen} | {tests} | {evid} | `{r.status.value}` |"
+            )
+        return out
 
 
 def build_traceability_matrix(

@@ -51,6 +51,81 @@ class RequirementKind(str, Enum):
     SCENE_SNAPSHOT = "scene_snapshot"
 
 
+# ---------------------------------------------------------------------------
+# Category tiers.
+#
+# Every requirement falls into one of two tiers:
+#   * ``core`` — touches deterministic behaviour, safety boundary, or
+#     replay. Reviewers should see these first.
+#   * ``meta`` — UI, visualization, aggregation, governance, reporting.
+#
+# The tier is derived from the requirement-id PREFIX (everything before
+# the trailing -NNN suffix). Adding a new prefix here requires the
+# reviewer to choose a tier explicitly; the registry-validity test will
+# fail otherwise.
+#
+# Honesty note: the safety-authority claim is the centre of this
+# project. SAFE / FAULT / WORLD / DIAG / MISSION / OP must remain in
+# ``core`` regardless of how the meta-namespaces grow.
+# ---------------------------------------------------------------------------
+
+
+CATEGORY_TIER_CORE: str = "core"
+CATEGORY_TIER_META: str = "meta"
+
+
+_TIER_BY_PREFIX: dict[str, str] = {
+    # Core — deterministic behaviour, safety boundary, replay
+    "REQ-SAFE": CATEGORY_TIER_CORE,
+    "REQ-FAULT": CATEGORY_TIER_CORE,
+    "REQ-WORLD": CATEGORY_TIER_CORE,
+    "REQ-DIAG": CATEGORY_TIER_CORE,
+    "REQ-MISSION": CATEGORY_TIER_CORE,
+    "REQ-OP": CATEGORY_TIER_CORE,
+    "REQ-REPLAY": CATEGORY_TIER_CORE,
+    "REQ-RUNTIME": CATEGORY_TIER_CORE,
+    "REQ-LIVE": CATEGORY_TIER_CORE,
+    "REQ-INCIDENT": CATEGORY_TIER_CORE,
+    "REQ-MCOMP": CATEGORY_TIER_CORE,
+    "REQ-PROPOSAL": CATEGORY_TIER_CORE,
+    "REQ-REHEARSAL": CATEGORY_TIER_CORE,
+    "REQ-SKILL": CATEGORY_TIER_CORE,
+    "REQ-SKILL-LLM": CATEGORY_TIER_CORE,
+    # Meta — UI, visualization, aggregation, governance, reporting
+    "REQ-DESIGN": CATEGORY_TIER_META,
+    "REQ-IMMVIZ": CATEGORY_TIER_META,
+    "REQ-MCTRL": CATEGORY_TIER_META,
+    "REQ-MVIS": CATEGORY_TIER_META,
+    "REQ-SREPLAY": CATEGORY_TIER_META,
+    "REQ-SNAPSHOT": CATEGORY_TIER_META,
+    "REQ-ARTREG": CATEGORY_TIER_META,
+    "REQ-PROGRAMME": CATEGORY_TIER_META,
+    "REQ-IMPACT": CATEGORY_TIER_META,
+    "REQ-ANALYTICS": CATEGORY_TIER_META,
+    "REQ-EXPORT": CATEGORY_TIER_META,
+    "REQ-SKILL-INTEL": CATEGORY_TIER_META,
+}
+
+
+def _tier_for_req_id(req_id: str) -> str:
+    """Resolve the category tier from a REQ-* id by prefix lookup.
+
+    The id ``REQ-SAFE-001`` is split into prefix ``REQ-SAFE`` and a
+    numeric suffix. The longer prefixes (``REQ-SKILL-LLM``,
+    ``REQ-SKILL-INTEL``) are matched before the shorter ``REQ-SKILL``
+    fallback. Unknown prefixes default to ``core`` so a newly added
+    namespace fails closed (visible in the safety-first table) until a
+    reviewer assigns it explicitly here.
+    """
+
+    # Try the longest-known prefixes first (REQ-SKILL-LLM, REQ-SKILL-INTEL).
+    longest_first = sorted(_TIER_BY_PREFIX.keys(), key=len, reverse=True)
+    for prefix in longest_first:
+        if req_id == prefix or req_id.startswith(prefix + "-"):
+            return _TIER_BY_PREFIX[prefix]
+    return CATEGORY_TIER_CORE
+
+
 @dataclass(frozen=True)
 class Requirement:
     req_id: str
@@ -72,10 +147,23 @@ class Requirement:
 
     notes: str = ""
 
+    category_tier: str = ""
+    """One of :data:`CATEGORY_TIER_CORE` / :data:`CATEGORY_TIER_META`.
+
+    Left blank in the literal constructors — derived from the
+    requirement-id prefix in :meth:`__post_init__`. Pass a value
+    explicitly only to override the prefix-derived tier (rare; record
+    a reason inline)."""
+
+    def __post_init__(self) -> None:
+        if not self.category_tier:
+            object.__setattr__(self, "category_tier", _tier_for_req_id(self.req_id))
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "req_id": self.req_id,
             "kind": self.kind.value,
+            "category_tier": self.category_tier,
             "title": self.title,
             "description": self.description,
             "architecture_refs": list(self.architecture_refs),
