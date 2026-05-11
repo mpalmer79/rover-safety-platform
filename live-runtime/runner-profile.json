@@ -1,0 +1,18 @@
+{
+  "colcon_version": "",
+  "gazebo_version": "",
+  "host_os": "",
+  "known_limitations": [
+    "Template profile; no self-hosted Jazzy + Gazebo runner has been provisioned yet.",
+    "Until a real runner populates this file, live execution will honestly abort with status not_executed."
+  ],
+  "last_qualified_at": "",
+  "qualification_status": "unknown",
+  "ros_distro": "",
+  "runner_id": "template-no-runner",
+  "runner_labels": [],
+  "supports_foxglove_optional": false,
+  "supports_gazebo": false,
+  "supports_rosbag2": false,
+  "workspace_path": ""
+}

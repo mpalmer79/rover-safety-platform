@@ -400,3 +400,21 @@ The incident summary now includes a Mission lifecycle section listing
 every transition with its reason code, a Waypoints section with
 completed and timed-out lists, and a Recovery engagements section
 listing each behavioural change.
+
+## 17. Phase 13 Live Runtime Bag Capture
+
+Phase 13 adds the live-runtime evidence pipeline. When a Jazzy host
+runs `rover_ws/tools/live_bag_capture.py`, the resulting
+`evidence/runtime/<run_id>/bag-manifest.json` records:
+
+* `bag_status` (`bag_backed`, `missing_bag`, `partial`,
+  `not_executed`, `invalid`),
+* the bag paths, metadata YAML, topic inventory, and message counts,
+* `not_executed_reason` when applicable.
+
+The honesty rules: `bag_backed` requires real artefacts on disk;
+`not_executed` requires a structured reason; `static_only` and
+`missing_bag` flags propagate verbatim into replay review,
+analytics, programme review, and reviewer export. See
+[docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md](LIVE_RUNTIME_EVIDENCE_PIPELINE.md)
+and [docs/LIVE_BAG_CAPTURE_RUNBOOK.md](LIVE_BAG_CAPTURE_RUNBOOK.md).

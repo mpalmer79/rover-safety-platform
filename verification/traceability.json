@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-11T02:15:44+00:00",
+  "generated_at_utc": "2026-05-11T02:29:30+00:00",
   "overall_status": "passed",
-  "row_count": 68,
+  "row_count": 73,
   "rows": [
     {
       "architecture_refs": [
@@ -1532,6 +1532,107 @@
         "backend/tests/test_natural_language_mission.py::test_replay_binding_emits_stable_markers"
       ],
       "title": "Compiler must produce replay-compatible metadata without claiming runtime execution"
+    },
+    {
+      "architecture_refs": [
+        "docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md",
+        "docs/LIVE_RUNNER_PROFILE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/live_runtime/runner_profile.py",
+        "backend/app/live_runtime/evidence_capture.py"
+      ],
+      "kind": "live",
+      "requirement_id": "REQ-LIVE-001",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_live_runtime.py::test_runner_profile_load_and_validate",
+        "backend/tests/test_live_runtime.py::test_runner_profile_missing_required_fields",
+        "backend/tests/test_live_runtime.py::test_evidence_capture_aborts_without_ros"
+      ],
+      "title": "Self-hosted live runtime runs must validate runner prerequisites before executing"
+    },
+    {
+      "architecture_refs": [
+        "docs/LIVE_BAG_CAPTURE_RUNBOOK.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/live_runtime/bag_manifest.py",
+        "backend/app/live_runtime/evidence_capture.py"
+      ],
+      "kind": "live",
+      "requirement_id": "REQ-LIVE-002",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_live_runtime.py::test_bag_manifest_required_fields",
+        "backend/tests/test_live_runtime.py::test_bag_manifest_not_executed_reason_required",
+        "backend/tests/test_live_runtime.py::test_validator_fails_when_manifest_missing"
+      ],
+      "title": "Live runtime evidence must include a bag manifest or explicit not_executed reason"
+    },
+    {
+      "architecture_refs": [
+        "docs/LIVE_BAG_CAPTURE_RUNBOOK.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/live_runtime/bag_manifest.py"
+      ],
+      "kind": "live",
+      "requirement_id": "REQ-LIVE-003",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_live_runtime.py::test_bag_backed_requires_real_artefacts",
+        "backend/tests/test_live_runtime.py::test_static_fixture_cannot_be_marked_bag_backed"
+      ],
+      "title": "Bag-backed status must require real bag artefacts and metadata"
+    },
+    {
+      "architecture_refs": [
+        "docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        "backend/app/live_runtime/maturity.py"
+      ],
+      "kind": "live",
+      "requirement_id": "REQ-LIVE-004",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 2 test(s)",
+      "test_refs": [
+        "backend/tests/test_live_runtime.py::test_process_live_runtime_evidence_dry_run_preserves_status",
+        "backend/tests/test_live_runtime.py::test_maturity_report_counts_match_inputs"
+      ],
+      "title": "Live runtime evidence must integrate with downstream evidence pipelines"
+    },
+    {
+      "architecture_refs": [
+        "docs/LIVE_RUNTIME_EVIDENCE_PIPELINE.md"
+      ],
+      "evidence_paths": [],
+      "implementation_refs": [
+        ".github/workflows/live-runtime-evidence.yml"
+      ],
+      "kind": "live",
+      "requirement_id": "REQ-LIVE-005",
+      "scenario_refs": [],
+      "status": "passed",
+      "status_detail": "covered by 3 test(s)",
+      "test_refs": [
+        "backend/tests/test_live_runtime.py::test_workflow_is_self_hosted_only",
+        "backend/tests/test_live_runtime.py::test_workflow_does_not_target_github_hosted_runners",
+        "backend/tests/test_live_runtime.py::test_workflow_uses_workflow_dispatch_only"
+      ],
+      "title": "GitHub-hosted CI must not claim live runtime execution"
     }
   ]
 }

@@ -52,6 +52,8 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 10 — Reliability Programme Review and Longitudinal Governance | Implemented; see section 3l |
 | Phase 11 — Reviewer Export Package and Notebook Scaffolding | Implemented; see section 3m |
 | Phase 12 — Reviewer Operations Playbook and Portfolio Presentation Layer | Implemented; see section 3n |
+| Phase 13 — Live Runtime Maturity & Bag-Backed Evidence Pipeline | Implemented (runner-ready infrastructure; live execution requires self-hosted Jazzy + Gazebo runner — see section 3o) |
+| Phase 14A — Deterministic Natural Language Mission Compiler | Implemented; see section 3p |
 | Phase 3-ROS — Safety Supervision and Degraded Modes (ROS 2) | Pending |
 | Phase 5 — Bench Hardware Integration | Pending |
 | Phase 6 — Optional Perception Expansion | Pending |
@@ -1383,6 +1385,94 @@ navigate.
   the entire repository.
 - Demonstrates scope discipline: a presentation phase that adds
   zero runtime behaviour and changes no existing reports.
+
+---
+
+---
+
+## 3o. Phase 13: Live Runtime Maturity & Bag-Backed Evidence Pipeline
+
+### Goal
+
+Move from `static-only / fixture-backed` evidence to live ROS 2 /
+Gazebo runtime evidence with real `rosbag2` artefacts — without
+overclaiming. Until a self-hosted Jazzy + Gazebo runner exists,
+every live run honestly reports `not_executed`.
+
+### Hard scope rules
+
+- No new autonomy behaviour.
+- No ML, RL, SLAM, perception expansion, hardware drivers, cloud
+  robotics, or UI polish.
+- No fabricated bags or fake live runs.
+- No marking of static evidence as bag-backed.
+- No claim of safety certification.
+- The live workflow is `workflow_dispatch` only and runs on
+  `[self-hosted, ros-jazzy, gazebo]` exclusively — never on a
+  GitHub-hosted runner.
+
+### Deliverables
+
+- `backend/app/live_runtime/` (7 modules): models, runner_profile,
+  scenario_plan, bag_manifest, evidence_capture, maturity, report.
+- CLIs (`rover_ws/tools/`): `live_bag_capture.py`,
+  `validate_live_runtime_evidence.py`,
+  `process_live_runtime_evidence.py`,
+  `generate_live_runtime_maturity_report.py`.
+- `live-runtime/scenario-plans/core-live-qualification.yaml` (6
+  scenarios: `nominal_runtime_launch`, `authorized_motion_path`,
+  `safe_stop_command_zeroing`, `stale_lidar_restricted_mode`,
+  `command_timeout_safe_stop`, `estop_latched_manual_reset_required`).
+- `live-runtime/runner-profile.schema.json` (JSON Schema draft 2020-12).
+- `live-runtime/runner-profile.json` (template; honest unqualified state).
+- `.github/workflows/live-runtime-evidence.yml` — self-hosted +
+  `workflow_dispatch` only, with a guard that fails the build on
+  any GitHub-hosted runner.
+- New requirement IDs `REQ-LIVE-001..005` and `RequirementKind.LIVE`.
+- Tests: `backend/tests/test_live_runtime.py` (~46 tests; covers
+  schema, validators, honesty rules, workflow shape, doc
+  disclaimer presence).
+- Docs: `LIVE_RUNTIME_EVIDENCE_PIPELINE.md`,
+  `LIVE_BAG_CAPTURE_RUNBOOK.md`, `LIVE_RUNNER_PROFILE.md`,
+  `LIVE_RUNTIME_MATURITY_REPORT.md` (auto-generated).
+
+### Honesty rules preserved
+
+- `bag_backed` requires real bag artefacts on disk + a metadata
+  YAML; static fixtures cannot become `bag_backed`.
+- `not_executed` requires a structured reason; unknown bag statuses
+  are a hard validator failure.
+- The downstream-pipeline orchestrator preserves `bag_status`
+  verbatim — it never upgrades.
+- The workflow refuses to claim live execution on GitHub-hosted
+  runners; a static check fails the build if a `ubuntu-` runner
+  ever appears in the file.
+- Every new doc carries the verbatim "not safety-certified"
+  disclaimer.
+
+### What Phase 13 does NOT do
+
+- Does not run live ROS 2 / Gazebo on this build (no self-hosted
+  runner available); the maturity report shows
+  `runner_status=unknown`, `bag_backed=0`, `not_executed=N` —
+  honestly.
+- Does not modify the safety supervisor, motion arbitration,
+  mission runtime, world model, fault injection, or replay
+  contracts.
+- Does not modify replay-review, replay-analytics,
+  reliability-impact, programme-review, or reviewer-export
+  generators (it only adds an *input* to them).
+- Does not introduce new autonomy or new safety claims.
+
+### Portfolio Signal
+
+- Demonstrates that the existing architecture cleanly accepts a
+  new evidence input without parallel-system creep.
+- Demonstrates honest fall-backs: in an environment without a
+  Jazzy host, every live run reports `not_executed` with a
+  structured reason — no fabrication, no green-washing.
+- Proves the workflow refuses to run on GitHub-hosted runners by
+  making it a verifiable static check.
 
 ---
 
