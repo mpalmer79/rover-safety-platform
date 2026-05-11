@@ -1,0 +1,73 @@
+[
+  {
+    "description": "mission rehearsal created",
+    "deterministic_hash": "04f09c6d048d8ab3",
+    "event_id": "disable_supervisor_attempt-evt-0000",
+    "event_subtype": "created",
+    "event_time_ns": 0,
+    "event_type": "mission",
+    "mission_id": "disable_supervisor_attempt",
+    "payload": {
+      "deterministic_hash": "3667c611c1e2bae1",
+      "request_id": "disable_supervisor_attempt",
+      "risk_band": "guarded",
+      "seed": 42
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_runtime"
+  },
+  {
+    "description": "validation rejected",
+    "deterministic_hash": "992539def9c6c26a",
+    "event_id": "disable_supervisor_attempt-evt-0001",
+    "event_subtype": "rejected",
+    "event_time_ns": 100000000,
+    "event_type": "validation",
+    "mission_id": "disable_supervisor_attempt",
+    "payload": {
+      "diagnostics": [
+        {
+          "code": "safety_override",
+          "message": "proposal source contains 'Disable the safety supervisor': safety supervisor override",
+          "parameter": "proposal_source",
+          "severity": "rejection"
+        }
+      ]
+    },
+    "severity": "rejection",
+    "source_phase": "rehearsal_validator"
+  },
+  {
+    "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+    "deterministic_hash": "f27a20279501ad8e",
+    "event_id": "disable_supervisor_attempt-evt-0002",
+    "event_subtype": "rejected",
+    "event_time_ns": 200000000,
+    "event_type": "supervisor",
+    "mission_id": "disable_supervisor_attempt",
+    "payload": {
+      "decision_id": "decision-disable_supervisor_attempt",
+      "decision_status": "rejected",
+      "rejected_reasons": [
+        "safety_override"
+      ],
+      "safety_status": "unsafe_rejected"
+    },
+    "severity": "rejection",
+    "source_phase": "rehearsal_supervisor"
+  },
+  {
+    "description": "rehearsal terminated in state rejected",
+    "deterministic_hash": "afcca6651a204de0",
+    "event_id": "disable_supervisor_attempt-evt-0003",
+    "event_subtype": "rehearsal_terminated_early",
+    "event_time_ns": 300000000,
+    "event_type": "audit",
+    "mission_id": "disable_supervisor_attempt",
+    "payload": {
+      "failure_reason": "safety_override"
+    },
+    "severity": "warning",
+    "source_phase": "rehearsal_runtime"
+  }
+]

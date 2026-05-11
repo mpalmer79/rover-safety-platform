@@ -1,0 +1,31 @@
+{
+  "bag_backed": false,
+  "deterministic_hash": "15c8e3f8e5bf4c28",
+  "evidence_status": "simulated",
+  "mission_id": "infinite_patrol_loop",
+  "notes": [
+    "Rehearsal evidence is simulation-only; no rosbag exists.",
+    "Plan deterministic hash: b6a86727fa956d53",
+    "Runtime deterministic hash: 0d085680f4bc2572"
+  ],
+  "rendered_markdown": "# Rehearsal replay review: infinite_patrol_loop\n\n_Simulation-only. No bag artefacts exist for this rehearsal._\n\n- **Mission id:** `infinite_patrol_loop`\n- **Plan hash:** `b6a86727fa956d53`\n- **Runtime hash:** `0d085680f4bc2572`\n- **Evidence status:** `simulated`\n- **Bag-backed:** False\n- **Final status:** `rejected`\n- **Review status:** `rejected`\n- **Markers recorded:** 2\n\n## Notes\n- Rehearsal evidence is simulation-only; no rosbag exists.\n- Plan deterministic hash: b6a86727fa956d53\n- Runtime deterministic hash: 0d085680f4bc2572\n\n## Authority statement\n\nThis replay review is generated from a simulation-only rehearsal. No live bag exists. The runtime safety supervisor remains authoritative for any future real run.\n",
+  "replay_markers": [
+    {
+      "description": "mission rehearsal created",
+      "deterministic_hash": "97ce232dd265a492",
+      "marker_id": "infinite_patrol_loop-evt-0000",
+      "subtype": "created",
+      "time_ns": 0,
+      "type": "mission"
+    },
+    {
+      "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+      "deterministic_hash": "0aa4771622d6ed39",
+      "marker_id": "infinite_patrol_loop-evt-0002",
+      "subtype": "rejected",
+      "time_ns": 200000000,
+      "type": "supervisor"
+    }
+  ],
+  "review_status": "rejected"
+}

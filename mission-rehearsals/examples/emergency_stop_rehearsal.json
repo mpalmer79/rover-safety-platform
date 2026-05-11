@@ -1,0 +1,26 @@
+{
+  "description": "Stop the rover immediately",
+  "example_id": "emergency_stop_rehearsal",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "kind": "accepted",
+  "mission_id": "emergency_stop_rehearsal",
+  "operator": "test-operator",
+  "proposal_source": "Stop the robot immediately.",
+  "request_id": "emergency_stop_rehearsal",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "safety_constraints": [
+    "stop only"
+  ],
+  "seed": 42,
+  "waypoints": [
+    {
+      "label": "Stop",
+      "stage_kind": "stop",
+      "waypoint_id": "stop"
+    }
+  ]
+}

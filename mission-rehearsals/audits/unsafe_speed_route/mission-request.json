@@ -1,0 +1,11 @@
+{
+  "description": "Unsafe speed route (rejected)",
+  "mission_id": "unsafe_speed_route",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "operator": "test-operator",
+  "proposal_source": "Move forward as fast as possible.",
+  "request_id": "unsafe_speed_route",
+  "requested_at_utc": "2026-05-13T00:00:00+00:00",
+  "seed": 42
+}

@@ -1,0 +1,34 @@
+{
+  "deterministic_hash": "3a4e433c88847882",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "mission_id": "restricted_zone_entry",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "proposal_source": "Drive to restricted_corridor_one.",
+  "request_id": "restricted_zone_entry",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "risk_band": "guarded",
+  "safety_constraints": [],
+  "waypoints": [
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 2.0,
+      "bounded_speed_mps": 0.25,
+      "label": "Restricted corridor",
+      "stage_kind": "move",
+      "waypoint_id": "wp1"
+    },
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 0.0,
+      "bounded_speed_mps": 0.0,
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "dock"
+    }
+  ]
+}

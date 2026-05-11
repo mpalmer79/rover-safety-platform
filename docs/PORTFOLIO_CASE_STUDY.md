@@ -71,6 +71,7 @@ produces nothing a reliability engineer can defend.
 | 14B | Pluggable LLM mission proposal layer (offline / mock-only) | `backend/app/mission_proposal/`, `mission-proposals/` |
 | 15A | Deterministic robotics skill authoring workbench (offline / template-only) | `backend/app/skill_authoring/`, `skill-library/` |
 | 15B | Local LLM skill candidate provider (disabled by default; no cloud APIs) | `backend/app/skill_llm_provider/`, `skill-llm-candidates/` |
+| 16 | Governed mission-to-rehearsal pipeline (simulation-only) | `backend/app/mission_rehearsal/`, `mission-rehearsals/` |
 
 Each phase had hard-out-of-scope rules: no SLAM, no perception ML,
 no RL, no cloud robotics, no hardware drivers, no UI polish, no

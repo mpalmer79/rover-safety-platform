@@ -1,0 +1,233 @@
+{
+  "analytics": {
+    "aborted_count": 0,
+    "approved_count": 0,
+    "completed_count": 0,
+    "deterministic_replay_stable": true,
+    "mission_id": "unsafe_speed_route",
+    "notes": [
+      "Counts reflect this single rehearsal; aggregate analytics roll up across many rehearsals in programme review.",
+      "Supervisor rejection short-circuited the rehearsal.",
+      "Validator rejection short-circuited the rehearsal."
+    ],
+    "rehearsal_count": 1,
+    "rejected_count": 1,
+    "supervisor_rejection_count": 1,
+    "validator_rejection_count": 1
+  },
+  "decision": {
+    "allowed_topics": [
+      "/cmd_vel_requested"
+    ],
+    "decided_at_utc": "2026-05-13T00:00:00+00:00",
+    "decision_id": "decision-unsafe_speed_route",
+    "decision_status": "rejected",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "rationale": [
+      "Supervisor authority is preserved; no motion runs without this approval.",
+      "Validator rejected the plan; supervisor cannot approve."
+    ],
+    "rejected_reasons": [
+      "unsafe_speed"
+    ],
+    "requires_human_review": true,
+    "safety_status": "unsafe_rejected"
+  },
+  "disclaimer": "This rehearsal pipeline is simulation-only and does not authorize live robot execution or safety certification.",
+  "final_failure_reason": "unsafe_speed",
+  "final_status": "rejected",
+  "generated_at_utc": "2026-05-13T00:00:00+00:00",
+  "mission_rehearsal_version": "phase16-1",
+  "plan": {
+    "deterministic_hash": "719a2b8db453b823",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "mission_id": "unsafe_speed_route",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "proposal_source": "Move forward as fast as possible.",
+    "request_id": "unsafe_speed_route",
+    "requested_topics": [
+      "/cmd_vel_requested"
+    ],
+    "risk_band": "guarded",
+    "safety_constraints": [],
+    "waypoints": [
+      {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 2.0,
+        "bounded_speed_mps": 2.0,
+        "label": "Forward",
+        "stage_kind": "move",
+        "waypoint_id": "wp1"
+      },
+      {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 0.0,
+        "bounded_speed_mps": 0.0,
+        "label": "Dock",
+        "stage_kind": "dock",
+        "waypoint_id": "dock"
+      }
+    ]
+  },
+  "replay": {
+    "bag_backed": false,
+    "deterministic_hash": "9d10f17934582de0",
+    "evidence_status": "simulated",
+    "mission_id": "unsafe_speed_route",
+    "notes": [
+      "Rehearsal evidence is simulation-only; no rosbag exists.",
+      "Plan deterministic hash: 719a2b8db453b823",
+      "Runtime deterministic hash: 5b1e29ef32ac29e7"
+    ],
+    "rendered_markdown": "# Rehearsal replay review: unsafe_speed_route\n\n_Simulation-only. No bag artefacts exist for this rehearsal._\n\n- **Mission id:** `unsafe_speed_route`\n- **Plan hash:** `719a2b8db453b823`\n- **Runtime hash:** `5b1e29ef32ac29e7`\n- **Evidence status:** `simulated`\n- **Bag-backed:** False\n- **Final status:** `rejected`\n- **Review status:** `rejected`\n- **Markers recorded:** 2\n\n## Notes\n- Rehearsal evidence is simulation-only; no rosbag exists.\n- Plan deterministic hash: 719a2b8db453b823\n- Runtime deterministic hash: 5b1e29ef32ac29e7\n\n## Authority statement\n\nThis replay review is generated from a simulation-only rehearsal. No live bag exists. The runtime safety supervisor remains authoritative for any future real run.\n",
+    "replay_markers": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "11e97187f00b0afe",
+        "marker_id": "unsafe_speed_route-evt-0000",
+        "subtype": "created",
+        "time_ns": 0,
+        "type": "mission"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+        "deterministic_hash": "8d57edf40f01b839",
+        "marker_id": "unsafe_speed_route-evt-0002",
+        "subtype": "rejected",
+        "time_ns": 200000000,
+        "type": "supervisor"
+      }
+    ],
+    "review_status": "rejected"
+  },
+  "request": {
+    "description": "Unsafe speed route (rejected)",
+    "mission_id": "unsafe_speed_route",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "operator": "test-operator",
+    "proposal_source": "Move forward as fast as possible.",
+    "request_id": "unsafe_speed_route",
+    "requested_at_utc": "2026-05-13T00:00:00+00:00",
+    "seed": 42
+  },
+  "runtime": {
+    "deterministic_hash": "5b1e29ef32ac29e7",
+    "events": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "11e97187f00b0afe",
+        "event_id": "unsafe_speed_route-evt-0000",
+        "event_subtype": "created",
+        "event_time_ns": 0,
+        "event_type": "mission",
+        "mission_id": "unsafe_speed_route",
+        "payload": {
+          "deterministic_hash": "719a2b8db453b823",
+          "request_id": "unsafe_speed_route",
+          "risk_band": "guarded",
+          "seed": 42
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "validation rejected",
+        "deterministic_hash": "1ae61434db2b9bca",
+        "event_id": "unsafe_speed_route-evt-0001",
+        "event_subtype": "rejected",
+        "event_time_ns": 100000000,
+        "event_type": "validation",
+        "mission_id": "unsafe_speed_route",
+        "payload": {
+          "diagnostics": [
+            {
+              "code": "unsafe_speed",
+              "message": "waypoint wp1 speed 2.0 exceeds limit 0.5",
+              "parameter": "bounded_speed_mps",
+              "severity": "rejection"
+            },
+            {
+              "code": "unsafe_speed",
+              "message": "proposal source contains 'as fast as possible': unbounded speed request",
+              "parameter": "proposal_source",
+              "severity": "rejection"
+            }
+          ]
+        },
+        "severity": "rejection",
+        "source_phase": "rehearsal_validator"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+        "deterministic_hash": "8d57edf40f01b839",
+        "event_id": "unsafe_speed_route-evt-0002",
+        "event_subtype": "rejected",
+        "event_time_ns": 200000000,
+        "event_type": "supervisor",
+        "mission_id": "unsafe_speed_route",
+        "payload": {
+          "decision_id": "decision-unsafe_speed_route",
+          "decision_status": "rejected",
+          "rejected_reasons": [
+            "unsafe_speed"
+          ],
+          "safety_status": "unsafe_rejected"
+        },
+        "severity": "rejection",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "rehearsal terminated in state rejected",
+        "deterministic_hash": "03dec44cbc1d0620",
+        "event_id": "unsafe_speed_route-evt-0003",
+        "event_subtype": "rehearsal_terminated_early",
+        "event_time_ns": 300000000,
+        "event_type": "audit",
+        "mission_id": "unsafe_speed_route",
+        "payload": {
+          "failure_reason": "unsafe_speed"
+        },
+        "severity": "warning",
+        "source_phase": "rehearsal_runtime"
+      }
+    ],
+    "final_failure_reason": "unsafe_speed",
+    "final_status": "rejected",
+    "finished_at_utc": "2026-05-11T13:49:57+00:00",
+    "mission_id": "unsafe_speed_route",
+    "safety_status": "unsafe_rejected",
+    "started_at_utc": "2026-05-13T00:00:00+00:00",
+    "timeline": {
+      "rendered_markdown": "# Mission rehearsal timeline: unsafe_speed_route\n\n## State transitions\n\n- `created` \u2192 `rejected` \u2014 _validator_rejected_\n\n## Event stream\n\n- 0.0s [mission/created] (info) `unsafe_speed_route-evt-0000` \u2014 mission rehearsal created\n- 0.1s [validation/rejected] (rejection) `unsafe_speed_route-evt-0001` \u2014 validation rejected\n- 0.2s [supervisor/rejected] (rejection) `unsafe_speed_route-evt-0002` \u2014 Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.\n- 0.3s [audit/rehearsal_terminated_early] (warning) `unsafe_speed_route-evt-0003` \u2014 rehearsal terminated in state rejected\n",
+      "rendered_mermaid": "flowchart TD\n    created([created])\n    rejected([rejected])\n    created -->|validator_rejected| rejected",
+      "transitions": [
+        [
+          "created",
+          "rejected",
+          "validator_rejected"
+        ]
+      ]
+    }
+  },
+  "safety_status": "unsafe_rejected",
+  "validation_diagnostics": [
+    {
+      "code": "unsafe_speed",
+      "message": "waypoint wp1 speed 2.0 exceeds limit 0.5",
+      "parameter": "bounded_speed_mps",
+      "severity": "rejection"
+    },
+    {
+      "code": "unsafe_speed",
+      "message": "proposal source contains 'as fast as possible': unbounded speed request",
+      "parameter": "proposal_source",
+      "severity": "rejection"
+    }
+  ]
+}

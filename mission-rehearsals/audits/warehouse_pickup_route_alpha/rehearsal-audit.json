@@ -1,0 +1,537 @@
+{
+  "analytics": {
+    "aborted_count": 0,
+    "approved_count": 1,
+    "completed_count": 1,
+    "deterministic_replay_stable": true,
+    "mission_id": "warehouse_pickup_route_alpha",
+    "notes": [
+      "Counts reflect this single rehearsal; aggregate analytics roll up across many rehearsals in programme review."
+    ],
+    "rehearsal_count": 1,
+    "rejected_count": 0,
+    "supervisor_rejection_count": 0,
+    "validator_rejection_count": 0
+  },
+  "decision": {
+    "allowed_topics": [
+      "/cmd_vel_requested"
+    ],
+    "decided_at_utc": "2026-05-13T00:00:00+00:00",
+    "decision_id": "decision-warehouse_pickup_route_alpha",
+    "decision_status": "approved",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "rationale": [
+      "Supervisor authority is preserved; no motion runs without this approval.",
+      "Bounded motion, allowed topics, and stop condition verified."
+    ],
+    "rejected_reasons": [],
+    "requires_human_review": false,
+    "safety_status": "guarded"
+  },
+  "disclaimer": "This rehearsal pipeline is simulation-only and does not authorize live robot execution or safety certification.",
+  "final_failure_reason": "",
+  "final_status": "completed",
+  "generated_at_utc": "2026-05-13T00:00:00+00:00",
+  "mission_rehearsal_version": "phase16-1",
+  "plan": {
+    "deterministic_hash": "f81c659dedd1b715",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "mission_id": "warehouse_pickup_route_alpha",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "proposal_source": "Drive to aisle A, inspect pickup zone alpha, return to dock. Never publish to /cmd_vel directly; the safety supervisor remains authoritative.",
+    "request_id": "warehouse_pickup_route_alpha",
+    "requested_topics": [
+      "/cmd_vel_requested"
+    ],
+    "risk_band": "guarded",
+    "safety_constraints": [
+      "bounded speed",
+      "final dock"
+    ],
+    "waypoints": [
+      {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 2.5,
+        "bounded_speed_mps": 0.25,
+        "label": "Aisle A",
+        "stage_kind": "move",
+        "waypoint_id": "wp1"
+      },
+      {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 0.5,
+        "bounded_speed_mps": 0.15,
+        "label": "Pickup zone alpha",
+        "stage_kind": "inspect",
+        "waypoint_id": "wp2"
+      },
+      {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 0.0,
+        "bounded_speed_mps": 0.0,
+        "label": "Dock",
+        "stage_kind": "dock",
+        "waypoint_id": "wp3"
+      }
+    ]
+  },
+  "replay": {
+    "bag_backed": false,
+    "deterministic_hash": "5d9714e7a057de44",
+    "evidence_status": "simulated",
+    "mission_id": "warehouse_pickup_route_alpha",
+    "notes": [
+      "Rehearsal evidence is simulation-only; no rosbag exists.",
+      "Plan deterministic hash: f81c659dedd1b715",
+      "Runtime deterministic hash: 4dd1ccf2ab96d6fb"
+    ],
+    "rendered_markdown": "# Rehearsal replay review: warehouse_pickup_route_alpha\n\n_Simulation-only. No bag artefacts exist for this rehearsal._\n\n- **Mission id:** `warehouse_pickup_route_alpha`\n- **Plan hash:** `f81c659dedd1b715`\n- **Runtime hash:** `4dd1ccf2ab96d6fb`\n- **Evidence status:** `simulated`\n- **Bag-backed:** False\n- **Final status:** `completed`\n- **Review status:** `passed`\n- **Markers recorded:** 15\n\n## Notes\n- Rehearsal evidence is simulation-only; no rosbag exists.\n- Plan deterministic hash: f81c659dedd1b715\n- Runtime deterministic hash: 4dd1ccf2ab96d6fb\n\n## Authority statement\n\nThis replay review is generated from a simulation-only rehearsal. No live bag exists. The runtime safety supervisor remains authoritative for any future real run.\n",
+    "replay_markers": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "5b153462d9b56dc4",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0000",
+        "subtype": "created",
+        "time_ns": 0,
+        "type": "mission"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+        "deterministic_hash": "358c96e4b423733d",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0002",
+        "subtype": "approved",
+        "time_ns": 200000000,
+        "type": "supervisor"
+      },
+      {
+        "description": "mission rehearsal started",
+        "deterministic_hash": "9328582ee7107740",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0003",
+        "subtype": "rehearsal_started",
+        "time_ns": 300000000,
+        "type": "mission"
+      },
+      {
+        "description": "waypoint wp1 requested",
+        "deterministic_hash": "bf6e5f7ba7fe84d8",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0004",
+        "subtype": "waypoint_requested",
+        "time_ns": 400000000,
+        "type": "motion"
+      },
+      {
+        "description": "safety check passed for wp1",
+        "deterministic_hash": "49fd87ce1f77db70",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0005",
+        "subtype": "safety_check_passed",
+        "time_ns": 500000000,
+        "type": "safety"
+      },
+      {
+        "description": "simulated motion request for wp1",
+        "deterministic_hash": "27191f6e11c87387",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0006",
+        "subtype": "motion_request_simulated",
+        "time_ns": 600000000,
+        "type": "motion"
+      },
+      {
+        "description": "waypoint wp1 reached (simulated)",
+        "deterministic_hash": "5e22da5bbe3c622f",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0007",
+        "subtype": "waypoint_reached",
+        "time_ns": 700000000,
+        "type": "motion"
+      },
+      {
+        "description": "waypoint wp2 requested",
+        "deterministic_hash": "33fa177ae0601000",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0008",
+        "subtype": "waypoint_requested",
+        "time_ns": 800000000,
+        "type": "motion"
+      },
+      {
+        "description": "safety check passed for wp2",
+        "deterministic_hash": "064ae2e4140a0cd6",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0009",
+        "subtype": "safety_check_passed",
+        "time_ns": 900000000,
+        "type": "safety"
+      },
+      {
+        "description": "simulated motion request for wp2",
+        "deterministic_hash": "daedafd9e9d13619",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0010",
+        "subtype": "motion_request_simulated",
+        "time_ns": 1000000000,
+        "type": "motion"
+      },
+      {
+        "description": "waypoint wp2 reached (simulated)",
+        "deterministic_hash": "23a9eec348ccb40f",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0011",
+        "subtype": "waypoint_reached",
+        "time_ns": 1100000000,
+        "type": "motion"
+      },
+      {
+        "description": "waypoint wp3 requested",
+        "deterministic_hash": "96fc305f69f859ca",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0012",
+        "subtype": "waypoint_requested",
+        "time_ns": 1200000000,
+        "type": "motion"
+      },
+      {
+        "description": "safety check passed for wp3",
+        "deterministic_hash": "c9bacc0afdd50571",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0013",
+        "subtype": "safety_check_passed",
+        "time_ns": 1300000000,
+        "type": "safety"
+      },
+      {
+        "description": "simulated motion request for wp3",
+        "deterministic_hash": "510f2c5ac7f502cc",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0014",
+        "subtype": "motion_request_simulated",
+        "time_ns": 1400000000,
+        "type": "motion"
+      },
+      {
+        "description": "mission rehearsal completed (simulated)",
+        "deterministic_hash": "d9fbe81a5aa143d5",
+        "marker_id": "warehouse_pickup_route_alpha-evt-0015",
+        "subtype": "completed",
+        "time_ns": 1500000000,
+        "type": "mission"
+      }
+    ],
+    "review_status": "passed"
+  },
+  "request": {
+    "description": "Warehouse pickup route alpha (simulation-only)",
+    "mission_id": "warehouse_pickup_route_alpha",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "operator": "test-operator",
+    "proposal_source": "Drive to aisle A, inspect pickup zone alpha, return to dock. Never publish to /cmd_vel directly; the safety supervisor remains authoritative.",
+    "request_id": "warehouse_pickup_route_alpha",
+    "requested_at_utc": "2026-05-13T00:00:00+00:00",
+    "seed": 42
+  },
+  "runtime": {
+    "deterministic_hash": "4dd1ccf2ab96d6fb",
+    "events": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "5b153462d9b56dc4",
+        "event_id": "warehouse_pickup_route_alpha-evt-0000",
+        "event_subtype": "created",
+        "event_time_ns": 0,
+        "event_type": "mission",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "deterministic_hash": "f81c659dedd1b715",
+          "request_id": "warehouse_pickup_route_alpha",
+          "risk_band": "guarded",
+          "seed": 42
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "validation passed",
+        "deterministic_hash": "8a874e6875a8bccd",
+        "event_id": "warehouse_pickup_route_alpha-evt-0001",
+        "event_subtype": "passed",
+        "event_time_ns": 100000000,
+        "event_type": "validation",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "diagnostics": []
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_validator"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+        "deterministic_hash": "358c96e4b423733d",
+        "event_id": "warehouse_pickup_route_alpha-evt-0002",
+        "event_subtype": "approved",
+        "event_time_ns": 200000000,
+        "event_type": "supervisor",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "decision_id": "decision-warehouse_pickup_route_alpha",
+          "decision_status": "approved",
+          "rejected_reasons": [],
+          "safety_status": "guarded"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "mission rehearsal started",
+        "deterministic_hash": "9328582ee7107740",
+        "event_id": "warehouse_pickup_route_alpha-evt-0003",
+        "event_subtype": "rehearsal_started",
+        "event_time_ns": 300000000,
+        "event_type": "mission",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "seed": 42
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "waypoint wp1 requested",
+        "deterministic_hash": "bf6e5f7ba7fe84d8",
+        "event_id": "warehouse_pickup_route_alpha-evt-0004",
+        "event_subtype": "waypoint_requested",
+        "event_time_ns": 400000000,
+        "event_type": "motion",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 2.5,
+          "bounded_speed_mps": 0.25,
+          "label": "Aisle A",
+          "stage_kind": "move",
+          "waypoint_id": "wp1"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "safety check passed for wp1",
+        "deterministic_hash": "49fd87ce1f77db70",
+        "event_id": "warehouse_pickup_route_alpha-evt-0005",
+        "event_subtype": "safety_check_passed",
+        "event_time_ns": 500000000,
+        "event_type": "safety",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "waypoint_id": "wp1"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "simulated motion request for wp1",
+        "deterministic_hash": "27191f6e11c87387",
+        "event_id": "warehouse_pickup_route_alpha-evt-0006",
+        "event_subtype": "motion_request_simulated",
+        "event_time_ns": 600000000,
+        "event_type": "motion",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 2.5,
+          "bounded_speed_mps": 0.25,
+          "label": "Aisle A",
+          "stage_kind": "move",
+          "waypoint_id": "wp1"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "waypoint wp1 reached (simulated)",
+        "deterministic_hash": "5e22da5bbe3c622f",
+        "event_id": "warehouse_pickup_route_alpha-evt-0007",
+        "event_subtype": "waypoint_reached",
+        "event_time_ns": 700000000,
+        "event_type": "motion",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 2.5,
+          "bounded_speed_mps": 0.25,
+          "label": "Aisle A",
+          "stage_kind": "move",
+          "waypoint_id": "wp1"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "waypoint wp2 requested",
+        "deterministic_hash": "33fa177ae0601000",
+        "event_id": "warehouse_pickup_route_alpha-evt-0008",
+        "event_subtype": "waypoint_requested",
+        "event_time_ns": 800000000,
+        "event_type": "motion",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 0.5,
+          "bounded_speed_mps": 0.15,
+          "label": "Pickup zone alpha",
+          "stage_kind": "inspect",
+          "waypoint_id": "wp2"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "safety check passed for wp2",
+        "deterministic_hash": "064ae2e4140a0cd6",
+        "event_id": "warehouse_pickup_route_alpha-evt-0009",
+        "event_subtype": "safety_check_passed",
+        "event_time_ns": 900000000,
+        "event_type": "safety",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "waypoint_id": "wp2"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "simulated motion request for wp2",
+        "deterministic_hash": "daedafd9e9d13619",
+        "event_id": "warehouse_pickup_route_alpha-evt-0010",
+        "event_subtype": "motion_request_simulated",
+        "event_time_ns": 1000000000,
+        "event_type": "motion",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 0.5,
+          "bounded_speed_mps": 0.15,
+          "label": "Pickup zone alpha",
+          "stage_kind": "inspect",
+          "waypoint_id": "wp2"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "waypoint wp2 reached (simulated)",
+        "deterministic_hash": "23a9eec348ccb40f",
+        "event_id": "warehouse_pickup_route_alpha-evt-0011",
+        "event_subtype": "waypoint_reached",
+        "event_time_ns": 1100000000,
+        "event_type": "motion",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 0.5,
+          "bounded_speed_mps": 0.15,
+          "label": "Pickup zone alpha",
+          "stage_kind": "inspect",
+          "waypoint_id": "wp2"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "waypoint wp3 requested",
+        "deterministic_hash": "96fc305f69f859ca",
+        "event_id": "warehouse_pickup_route_alpha-evt-0012",
+        "event_subtype": "waypoint_requested",
+        "event_time_ns": 1200000000,
+        "event_type": "motion",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 0.0,
+          "bounded_speed_mps": 0.0,
+          "label": "Dock",
+          "stage_kind": "dock",
+          "waypoint_id": "wp3"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "safety check passed for wp3",
+        "deterministic_hash": "c9bacc0afdd50571",
+        "event_id": "warehouse_pickup_route_alpha-evt-0013",
+        "event_subtype": "safety_check_passed",
+        "event_time_ns": 1300000000,
+        "event_type": "safety",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "waypoint_id": "wp3"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "simulated motion request for wp3",
+        "deterministic_hash": "510f2c5ac7f502cc",
+        "event_id": "warehouse_pickup_route_alpha-evt-0014",
+        "event_subtype": "motion_request_simulated",
+        "event_time_ns": 1400000000,
+        "event_type": "motion",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 0.0,
+          "bounded_speed_mps": 0.0,
+          "label": "Dock",
+          "stage_kind": "dock",
+          "waypoint_id": "wp3"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "mission rehearsal completed (simulated)",
+        "deterministic_hash": "d9fbe81a5aa143d5",
+        "event_id": "warehouse_pickup_route_alpha-evt-0015",
+        "event_subtype": "completed",
+        "event_time_ns": 1500000000,
+        "event_type": "mission",
+        "mission_id": "warehouse_pickup_route_alpha",
+        "payload": {},
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      }
+    ],
+    "final_failure_reason": "",
+    "final_status": "completed",
+    "finished_at_utc": "2026-05-11T13:49:57+00:00",
+    "mission_id": "warehouse_pickup_route_alpha",
+    "safety_status": "guarded",
+    "started_at_utc": "2026-05-13T00:00:00+00:00",
+    "timeline": {
+      "rendered_markdown": "# Mission rehearsal timeline: warehouse_pickup_route_alpha\n\n## State transitions\n\n- `created` \u2192 `validated` \u2014 _validation_passed_\n- `validated` \u2192 `approved` \u2014 _supervisor_approved_\n- `approved` \u2192 `rehearsing` \u2014 _runtime_started_\n- `rehearsing` \u2192 `completed` \u2014 _mission_completed_\n\n## Event stream\n\n- 0.0s [mission/created] (info) `warehouse_pickup_route_alpha-evt-0000` \u2014 mission rehearsal created\n- 0.1s [validation/passed] (info) `warehouse_pickup_route_alpha-evt-0001` \u2014 validation passed\n- 0.2s [supervisor/approved] (info) `warehouse_pickup_route_alpha-evt-0002` \u2014 Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.\n- 0.3s [mission/rehearsal_started] (info) `warehouse_pickup_route_alpha-evt-0003` \u2014 mission rehearsal started\n- 0.4s [motion/waypoint_requested] (info) `warehouse_pickup_route_alpha-evt-0004` \u2014 waypoint wp1 requested\n- 0.5s [safety/safety_check_passed] (info) `warehouse_pickup_route_alpha-evt-0005` \u2014 safety check passed for wp1\n- 0.6s [motion/motion_request_simulated] (info) `warehouse_pickup_route_alpha-evt-0006` \u2014 simulated motion request for wp1\n- 0.7s [motion/waypoint_reached] (info) `warehouse_pickup_route_alpha-evt-0007` \u2014 waypoint wp1 reached (simulated)\n- 0.8s [motion/waypoint_requested] (info) `warehouse_pickup_route_alpha-evt-0008` \u2014 waypoint wp2 requested\n- 0.9s [safety/safety_check_passed] (info) `warehouse_pickup_route_alpha-evt-0009` \u2014 safety check passed for wp2\n- 1.0s [motion/motion_request_simulated] (info) `warehouse_pickup_route_alpha-evt-0010` \u2014 simulated motion request for wp2\n- 1.1s [motion/waypoint_reached] (info) `warehouse_pickup_route_alpha-evt-0011` \u2014 waypoint wp2 reached (simulated)\n- 1.2s [motion/waypoint_requested] (info) `warehouse_pickup_route_alpha-evt-0012` \u2014 waypoint wp3 requested\n- 1.3s [safety/safety_check_passed] (info) `warehouse_pickup_route_alpha-evt-0013` \u2014 safety check passed for wp3\n- 1.4s [motion/motion_request_simulated] (info) `warehouse_pickup_route_alpha-evt-0014` \u2014 simulated motion request for wp3\n- 1.5s [mission/completed] (info) `warehouse_pickup_route_alpha-evt-0015` \u2014 mission rehearsal completed (simulated)\n",
+      "rendered_mermaid": "flowchart TD\n    created([created])\n    validated([validated])\n    approved([approved])\n    rehearsing([rehearsing])\n    completed([completed])\n    created -->|validation_passed| validated\n    validated -->|supervisor_approved| approved\n    approved -->|runtime_started| rehearsing\n    rehearsing -->|mission_completed| completed",
+      "transitions": [
+        [
+          "created",
+          "validated",
+          "validation_passed"
+        ],
+        [
+          "validated",
+          "approved",
+          "supervisor_approved"
+        ],
+        [
+          "approved",
+          "rehearsing",
+          "runtime_started"
+        ],
+        [
+          "rehearsing",
+          "completed",
+          "mission_completed"
+        ]
+      ]
+    }
+  },
+  "safety_status": "guarded",
+  "validation_diagnostics": []
+}

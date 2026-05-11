@@ -1,0 +1,45 @@
+{
+  "deterministic_hash": "f81c659dedd1b715",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "mission_id": "warehouse_pickup_route_alpha",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "proposal_source": "Drive to aisle A, inspect pickup zone alpha, return to dock. Never publish to /cmd_vel directly; the safety supervisor remains authoritative.",
+  "request_id": "warehouse_pickup_route_alpha",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "risk_band": "guarded",
+  "safety_constraints": [
+    "bounded speed",
+    "final dock"
+  ],
+  "waypoints": [
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 2.5,
+      "bounded_speed_mps": 0.25,
+      "label": "Aisle A",
+      "stage_kind": "move",
+      "waypoint_id": "wp1"
+    },
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 0.5,
+      "bounded_speed_mps": 0.15,
+      "label": "Pickup zone alpha",
+      "stage_kind": "inspect",
+      "waypoint_id": "wp2"
+    },
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 0.0,
+      "bounded_speed_mps": 0.0,
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "wp3"
+    }
+  ]
+}

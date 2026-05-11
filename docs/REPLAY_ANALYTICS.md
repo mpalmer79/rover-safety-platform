@@ -180,3 +180,16 @@ upgraded. See
 - [docs/CI_RELIABILITY_GATE.md](CI_RELIABILITY_GATE.md)
 - [docs/VERIFICATION_STRATEGY.md](VERIFICATION_STRATEGY.md)
 - [docs/REPLAY_ANALYTICS_INDEX.md](REPLAY_ANALYTICS_INDEX.md) — generated index.
+
+## Phase 16 rehearsal analytics
+
+The Phase 16 mission rehearsal pipeline produces a per-rehearsal
+analytics artefact under `mission-rehearsals/audits/<id>/analytics.json`.
+The artefact records `approved_count`, `rejected_count`, `aborted_count`,
+`completed_count`, `supervisor_rejection_count`,
+`validator_rejection_count`, and `deterministic_replay_stable`. The
+artefacts are simulation-only — `bag_backed=False` is hardcoded for
+every rehearsal replay bundle. See
+`docs/REHEARSAL_REPLAY_INTEGRATION.md` for the schema and the
+origin-labelling rule that keeps simulated counts from silently
+mixing with bag-backed counts.

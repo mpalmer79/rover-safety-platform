@@ -1,0 +1,18 @@
+{
+  "allowed_topics": [
+    "/cmd_vel_requested"
+  ],
+  "decided_at_utc": "2026-05-13T00:00:00+00:00",
+  "decision_id": "decision-warehouse_pickup_route_alpha",
+  "decision_status": "approved",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "rationale": [
+    "Supervisor authority is preserved; no motion runs without this approval.",
+    "Bounded motion, allowed topics, and stop condition verified."
+  ],
+  "rejected_reasons": [],
+  "requires_human_review": false,
+  "safety_status": "guarded"
+}

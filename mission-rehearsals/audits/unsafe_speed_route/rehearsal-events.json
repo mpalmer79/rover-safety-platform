@@ -1,0 +1,79 @@
+[
+  {
+    "description": "mission rehearsal created",
+    "deterministic_hash": "11e97187f00b0afe",
+    "event_id": "unsafe_speed_route-evt-0000",
+    "event_subtype": "created",
+    "event_time_ns": 0,
+    "event_type": "mission",
+    "mission_id": "unsafe_speed_route",
+    "payload": {
+      "deterministic_hash": "719a2b8db453b823",
+      "request_id": "unsafe_speed_route",
+      "risk_band": "guarded",
+      "seed": 42
+    },
+    "severity": "info",
+    "source_phase": "rehearsal_runtime"
+  },
+  {
+    "description": "validation rejected",
+    "deterministic_hash": "1ae61434db2b9bca",
+    "event_id": "unsafe_speed_route-evt-0001",
+    "event_subtype": "rejected",
+    "event_time_ns": 100000000,
+    "event_type": "validation",
+    "mission_id": "unsafe_speed_route",
+    "payload": {
+      "diagnostics": [
+        {
+          "code": "unsafe_speed",
+          "message": "waypoint wp1 speed 2.0 exceeds limit 0.5",
+          "parameter": "bounded_speed_mps",
+          "severity": "rejection"
+        },
+        {
+          "code": "unsafe_speed",
+          "message": "proposal source contains 'as fast as possible': unbounded speed request",
+          "parameter": "proposal_source",
+          "severity": "rejection"
+        }
+      ]
+    },
+    "severity": "rejection",
+    "source_phase": "rehearsal_validator"
+  },
+  {
+    "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+    "deterministic_hash": "8d57edf40f01b839",
+    "event_id": "unsafe_speed_route-evt-0002",
+    "event_subtype": "rejected",
+    "event_time_ns": 200000000,
+    "event_type": "supervisor",
+    "mission_id": "unsafe_speed_route",
+    "payload": {
+      "decision_id": "decision-unsafe_speed_route",
+      "decision_status": "rejected",
+      "rejected_reasons": [
+        "unsafe_speed"
+      ],
+      "safety_status": "unsafe_rejected"
+    },
+    "severity": "rejection",
+    "source_phase": "rehearsal_supervisor"
+  },
+  {
+    "description": "rehearsal terminated in state rejected",
+    "deterministic_hash": "03dec44cbc1d0620",
+    "event_id": "unsafe_speed_route-evt-0003",
+    "event_subtype": "rehearsal_terminated_early",
+    "event_time_ns": 300000000,
+    "event_type": "audit",
+    "mission_id": "unsafe_speed_route",
+    "payload": {
+      "failure_reason": "unsafe_speed"
+    },
+    "severity": "warning",
+    "source_phase": "rehearsal_runtime"
+  }
+]

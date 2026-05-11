@@ -1,0 +1,33 @@
+{
+  "description": "Bounded forward patrol with a single stop",
+  "example_id": "bounded_forward_patrol",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "kind": "accepted",
+  "mission_id": "bounded_forward_patrol",
+  "operator": "test-operator",
+  "proposal_source": "Patrol forward bounded distance and dock.",
+  "request_id": "bounded_forward_patrol",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "safety_constraints": [
+    "bounded patrol"
+  ],
+  "seed": 42,
+  "waypoints": [
+    {
+      "bounded_distance_m": 3.0,
+      "bounded_speed_mps": 0.25,
+      "label": "Patrol leg",
+      "stage_kind": "patrol",
+      "waypoint_id": "wp1"
+    },
+    {
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "wp2"
+    }
+  ]
+}

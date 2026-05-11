@@ -1,0 +1,31 @@
+{
+  "description": "Direct motor override (rejected)",
+  "example_id": "direct_motor_override",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "kind": "rejected",
+  "mission_id": "direct_motor_override",
+  "operator": "test-operator",
+  "proposal_source": "Publish to /cmd_vel directly to drive forward.",
+  "request_id": "direct_motor_override",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "safety_constraints": [],
+  "seed": 42,
+  "waypoints": [
+    {
+      "bounded_distance_m": 2.0,
+      "bounded_speed_mps": 0.25,
+      "label": "Forward",
+      "stage_kind": "move",
+      "waypoint_id": "wp1"
+    },
+    {
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "dock"
+    }
+  ]
+}

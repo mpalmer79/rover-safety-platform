@@ -1,0 +1,426 @@
+{
+  "analytics": {
+    "aborted_count": 0,
+    "approved_count": 1,
+    "completed_count": 1,
+    "deterministic_replay_stable": true,
+    "mission_id": "inspection_lane_beta",
+    "notes": [
+      "Counts reflect this single rehearsal; aggregate analytics roll up across many rehearsals in programme review."
+    ],
+    "rehearsal_count": 1,
+    "rejected_count": 0,
+    "supervisor_rejection_count": 0,
+    "validator_rejection_count": 0
+  },
+  "decision": {
+    "allowed_topics": [
+      "/cmd_vel_requested"
+    ],
+    "decided_at_utc": "2026-05-13T00:00:00+00:00",
+    "decision_id": "decision-inspection_lane_beta",
+    "decision_status": "approved",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "rationale": [
+      "Supervisor authority is preserved; no motion runs without this approval.",
+      "Bounded motion, allowed topics, and stop condition verified."
+    ],
+    "rejected_reasons": [],
+    "requires_human_review": false,
+    "safety_status": "guarded"
+  },
+  "disclaimer": "This rehearsal pipeline is simulation-only and does not authorize live robot execution or safety certification.",
+  "final_failure_reason": "",
+  "final_status": "completed",
+  "generated_at_utc": "2026-05-13T00:00:00+00:00",
+  "mission_rehearsal_version": "phase16-1",
+  "plan": {
+    "deterministic_hash": "175532b90b9f7a7b",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "mission_id": "inspection_lane_beta",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "proposal_source": "Inspect lane beta sensors, then dock.",
+    "request_id": "inspection_lane_beta",
+    "requested_topics": [
+      "/cmd_vel_requested"
+    ],
+    "risk_band": "guarded",
+    "safety_constraints": [
+      "sensor inspection",
+      "bounded speed"
+    ],
+    "waypoints": [
+      {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 1.5,
+        "bounded_speed_mps": 0.2,
+        "label": "Lane beta",
+        "stage_kind": "inspect",
+        "waypoint_id": "beta"
+      },
+      {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 0.0,
+        "bounded_speed_mps": 0.0,
+        "label": "Dock",
+        "stage_kind": "dock",
+        "waypoint_id": "dock"
+      }
+    ]
+  },
+  "replay": {
+    "bag_backed": false,
+    "deterministic_hash": "9bd3b9c46cf95fc4",
+    "evidence_status": "simulated",
+    "mission_id": "inspection_lane_beta",
+    "notes": [
+      "Rehearsal evidence is simulation-only; no rosbag exists.",
+      "Plan deterministic hash: 175532b90b9f7a7b",
+      "Runtime deterministic hash: 099a5e38572dbf43"
+    ],
+    "rendered_markdown": "# Rehearsal replay review: inspection_lane_beta\n\n_Simulation-only. No bag artefacts exist for this rehearsal._\n\n- **Mission id:** `inspection_lane_beta`\n- **Plan hash:** `175532b90b9f7a7b`\n- **Runtime hash:** `099a5e38572dbf43`\n- **Evidence status:** `simulated`\n- **Bag-backed:** False\n- **Final status:** `completed`\n- **Review status:** `passed`\n- **Markers recorded:** 11\n\n## Notes\n- Rehearsal evidence is simulation-only; no rosbag exists.\n- Plan deterministic hash: 175532b90b9f7a7b\n- Runtime deterministic hash: 099a5e38572dbf43\n\n## Authority statement\n\nThis replay review is generated from a simulation-only rehearsal. No live bag exists. The runtime safety supervisor remains authoritative for any future real run.\n",
+    "replay_markers": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "0da894304b29f003",
+        "marker_id": "inspection_lane_beta-evt-0000",
+        "subtype": "created",
+        "time_ns": 0,
+        "type": "mission"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+        "deterministic_hash": "712022c27baf9554",
+        "marker_id": "inspection_lane_beta-evt-0002",
+        "subtype": "approved",
+        "time_ns": 200000000,
+        "type": "supervisor"
+      },
+      {
+        "description": "mission rehearsal started",
+        "deterministic_hash": "ab1555b7f35530b9",
+        "marker_id": "inspection_lane_beta-evt-0003",
+        "subtype": "rehearsal_started",
+        "time_ns": 300000000,
+        "type": "mission"
+      },
+      {
+        "description": "waypoint beta requested",
+        "deterministic_hash": "7657635c54265235",
+        "marker_id": "inspection_lane_beta-evt-0004",
+        "subtype": "waypoint_requested",
+        "time_ns": 400000000,
+        "type": "motion"
+      },
+      {
+        "description": "safety check passed for beta",
+        "deterministic_hash": "0c3cfe9a54e701a7",
+        "marker_id": "inspection_lane_beta-evt-0005",
+        "subtype": "safety_check_passed",
+        "time_ns": 500000000,
+        "type": "safety"
+      },
+      {
+        "description": "simulated motion request for beta",
+        "deterministic_hash": "fa2635b53194f7e5",
+        "marker_id": "inspection_lane_beta-evt-0006",
+        "subtype": "motion_request_simulated",
+        "time_ns": 600000000,
+        "type": "motion"
+      },
+      {
+        "description": "waypoint beta reached (simulated)",
+        "deterministic_hash": "24776cd335adeb78",
+        "marker_id": "inspection_lane_beta-evt-0007",
+        "subtype": "waypoint_reached",
+        "time_ns": 700000000,
+        "type": "motion"
+      },
+      {
+        "description": "waypoint dock requested",
+        "deterministic_hash": "9afab448ee25f161",
+        "marker_id": "inspection_lane_beta-evt-0008",
+        "subtype": "waypoint_requested",
+        "time_ns": 800000000,
+        "type": "motion"
+      },
+      {
+        "description": "safety check passed for dock",
+        "deterministic_hash": "e6792ad65d43d059",
+        "marker_id": "inspection_lane_beta-evt-0009",
+        "subtype": "safety_check_passed",
+        "time_ns": 900000000,
+        "type": "safety"
+      },
+      {
+        "description": "simulated motion request for dock",
+        "deterministic_hash": "a3cc18ba257fb1d5",
+        "marker_id": "inspection_lane_beta-evt-0010",
+        "subtype": "motion_request_simulated",
+        "time_ns": 1000000000,
+        "type": "motion"
+      },
+      {
+        "description": "mission rehearsal completed (simulated)",
+        "deterministic_hash": "a2c389c8f2db59d6",
+        "marker_id": "inspection_lane_beta-evt-0011",
+        "subtype": "completed",
+        "time_ns": 1100000000,
+        "type": "mission"
+      }
+    ],
+    "review_status": "passed"
+  },
+  "request": {
+    "description": "Inspect lane beta and dock",
+    "mission_id": "inspection_lane_beta",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "operator": "test-operator",
+    "proposal_source": "Inspect lane beta sensors, then dock.",
+    "request_id": "inspection_lane_beta",
+    "requested_at_utc": "2026-05-13T00:00:00+00:00",
+    "seed": 42
+  },
+  "runtime": {
+    "deterministic_hash": "099a5e38572dbf43",
+    "events": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "0da894304b29f003",
+        "event_id": "inspection_lane_beta-evt-0000",
+        "event_subtype": "created",
+        "event_time_ns": 0,
+        "event_type": "mission",
+        "mission_id": "inspection_lane_beta",
+        "payload": {
+          "deterministic_hash": "175532b90b9f7a7b",
+          "request_id": "inspection_lane_beta",
+          "risk_band": "guarded",
+          "seed": 42
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "validation passed",
+        "deterministic_hash": "5c04ef232ee4ccd8",
+        "event_id": "inspection_lane_beta-evt-0001",
+        "event_subtype": "passed",
+        "event_time_ns": 100000000,
+        "event_type": "validation",
+        "mission_id": "inspection_lane_beta",
+        "payload": {
+          "diagnostics": []
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_validator"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+        "deterministic_hash": "712022c27baf9554",
+        "event_id": "inspection_lane_beta-evt-0002",
+        "event_subtype": "approved",
+        "event_time_ns": 200000000,
+        "event_type": "supervisor",
+        "mission_id": "inspection_lane_beta",
+        "payload": {
+          "decision_id": "decision-inspection_lane_beta",
+          "decision_status": "approved",
+          "rejected_reasons": [],
+          "safety_status": "guarded"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "mission rehearsal started",
+        "deterministic_hash": "ab1555b7f35530b9",
+        "event_id": "inspection_lane_beta-evt-0003",
+        "event_subtype": "rehearsal_started",
+        "event_time_ns": 300000000,
+        "event_type": "mission",
+        "mission_id": "inspection_lane_beta",
+        "payload": {
+          "seed": 42
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "waypoint beta requested",
+        "deterministic_hash": "7657635c54265235",
+        "event_id": "inspection_lane_beta-evt-0004",
+        "event_subtype": "waypoint_requested",
+        "event_time_ns": 400000000,
+        "event_type": "motion",
+        "mission_id": "inspection_lane_beta",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 1.5,
+          "bounded_speed_mps": 0.2,
+          "label": "Lane beta",
+          "stage_kind": "inspect",
+          "waypoint_id": "beta"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "safety check passed for beta",
+        "deterministic_hash": "0c3cfe9a54e701a7",
+        "event_id": "inspection_lane_beta-evt-0005",
+        "event_subtype": "safety_check_passed",
+        "event_time_ns": 500000000,
+        "event_type": "safety",
+        "mission_id": "inspection_lane_beta",
+        "payload": {
+          "waypoint_id": "beta"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "simulated motion request for beta",
+        "deterministic_hash": "fa2635b53194f7e5",
+        "event_id": "inspection_lane_beta-evt-0006",
+        "event_subtype": "motion_request_simulated",
+        "event_time_ns": 600000000,
+        "event_type": "motion",
+        "mission_id": "inspection_lane_beta",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 1.5,
+          "bounded_speed_mps": 0.2,
+          "label": "Lane beta",
+          "stage_kind": "inspect",
+          "waypoint_id": "beta"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "waypoint beta reached (simulated)",
+        "deterministic_hash": "24776cd335adeb78",
+        "event_id": "inspection_lane_beta-evt-0007",
+        "event_subtype": "waypoint_reached",
+        "event_time_ns": 700000000,
+        "event_type": "motion",
+        "mission_id": "inspection_lane_beta",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 1.5,
+          "bounded_speed_mps": 0.2,
+          "label": "Lane beta",
+          "stage_kind": "inspect",
+          "waypoint_id": "beta"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "waypoint dock requested",
+        "deterministic_hash": "9afab448ee25f161",
+        "event_id": "inspection_lane_beta-evt-0008",
+        "event_subtype": "waypoint_requested",
+        "event_time_ns": 800000000,
+        "event_type": "motion",
+        "mission_id": "inspection_lane_beta",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 0.0,
+          "bounded_speed_mps": 0.0,
+          "label": "Dock",
+          "stage_kind": "dock",
+          "waypoint_id": "dock"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "safety check passed for dock",
+        "deterministic_hash": "e6792ad65d43d059",
+        "event_id": "inspection_lane_beta-evt-0009",
+        "event_subtype": "safety_check_passed",
+        "event_time_ns": 900000000,
+        "event_type": "safety",
+        "mission_id": "inspection_lane_beta",
+        "payload": {
+          "waypoint_id": "dock"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "simulated motion request for dock",
+        "deterministic_hash": "a3cc18ba257fb1d5",
+        "event_id": "inspection_lane_beta-evt-0010",
+        "event_subtype": "motion_request_simulated",
+        "event_time_ns": 1000000000,
+        "event_type": "motion",
+        "mission_id": "inspection_lane_beta",
+        "payload": {
+          "bounded_angle_deg": 0.0,
+          "bounded_distance_m": 0.0,
+          "bounded_speed_mps": 0.0,
+          "label": "Dock",
+          "stage_kind": "dock",
+          "waypoint_id": "dock"
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "mission rehearsal completed (simulated)",
+        "deterministic_hash": "a2c389c8f2db59d6",
+        "event_id": "inspection_lane_beta-evt-0011",
+        "event_subtype": "completed",
+        "event_time_ns": 1100000000,
+        "event_type": "mission",
+        "mission_id": "inspection_lane_beta",
+        "payload": {},
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      }
+    ],
+    "final_failure_reason": "",
+    "final_status": "completed",
+    "finished_at_utc": "2026-05-11T13:49:57+00:00",
+    "mission_id": "inspection_lane_beta",
+    "safety_status": "guarded",
+    "started_at_utc": "2026-05-13T00:00:00+00:00",
+    "timeline": {
+      "rendered_markdown": "# Mission rehearsal timeline: inspection_lane_beta\n\n## State transitions\n\n- `created` \u2192 `validated` \u2014 _validation_passed_\n- `validated` \u2192 `approved` \u2014 _supervisor_approved_\n- `approved` \u2192 `rehearsing` \u2014 _runtime_started_\n- `rehearsing` \u2192 `completed` \u2014 _mission_completed_\n\n## Event stream\n\n- 0.0s [mission/created] (info) `inspection_lane_beta-evt-0000` \u2014 mission rehearsal created\n- 0.1s [validation/passed] (info) `inspection_lane_beta-evt-0001` \u2014 validation passed\n- 0.2s [supervisor/approved] (info) `inspection_lane_beta-evt-0002` \u2014 Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.\n- 0.3s [mission/rehearsal_started] (info) `inspection_lane_beta-evt-0003` \u2014 mission rehearsal started\n- 0.4s [motion/waypoint_requested] (info) `inspection_lane_beta-evt-0004` \u2014 waypoint beta requested\n- 0.5s [safety/safety_check_passed] (info) `inspection_lane_beta-evt-0005` \u2014 safety check passed for beta\n- 0.6s [motion/motion_request_simulated] (info) `inspection_lane_beta-evt-0006` \u2014 simulated motion request for beta\n- 0.7s [motion/waypoint_reached] (info) `inspection_lane_beta-evt-0007` \u2014 waypoint beta reached (simulated)\n- 0.8s [motion/waypoint_requested] (info) `inspection_lane_beta-evt-0008` \u2014 waypoint dock requested\n- 0.9s [safety/safety_check_passed] (info) `inspection_lane_beta-evt-0009` \u2014 safety check passed for dock\n- 1.0s [motion/motion_request_simulated] (info) `inspection_lane_beta-evt-0010` \u2014 simulated motion request for dock\n- 1.1s [mission/completed] (info) `inspection_lane_beta-evt-0011` \u2014 mission rehearsal completed (simulated)\n",
+      "rendered_mermaid": "flowchart TD\n    created([created])\n    validated([validated])\n    approved([approved])\n    rehearsing([rehearsing])\n    completed([completed])\n    created -->|validation_passed| validated\n    validated -->|supervisor_approved| approved\n    approved -->|runtime_started| rehearsing\n    rehearsing -->|mission_completed| completed",
+      "transitions": [
+        [
+          "created",
+          "validated",
+          "validation_passed"
+        ],
+        [
+          "validated",
+          "approved",
+          "supervisor_approved"
+        ],
+        [
+          "approved",
+          "rehearsing",
+          "runtime_started"
+        ],
+        [
+          "rehearsing",
+          "completed",
+          "mission_completed"
+        ]
+      ]
+    }
+  },
+  "safety_status": "guarded",
+  "validation_diagnostics": []
+}

@@ -1,0 +1,223 @@
+{
+  "events": [
+    {
+      "description": "mission rehearsal created",
+      "deterministic_hash": "9798e8fa1615a939",
+      "event_id": "bounded_forward_patrol-evt-0000",
+      "event_subtype": "created",
+      "event_time_ns": 0,
+      "event_type": "mission",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {
+        "deterministic_hash": "7c7a9fb2b6cb5e2f",
+        "request_id": "bounded_forward_patrol",
+        "risk_band": "low",
+        "seed": 42
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "validation passed",
+      "deterministic_hash": "d5dba4a7f2fca459",
+      "event_id": "bounded_forward_patrol-evt-0001",
+      "event_subtype": "passed",
+      "event_time_ns": 100000000,
+      "event_type": "validation",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {
+        "diagnostics": []
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_validator"
+    },
+    {
+      "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+      "deterministic_hash": "f0c4ed4b4b99aaac",
+      "event_id": "bounded_forward_patrol-evt-0002",
+      "event_subtype": "approved",
+      "event_time_ns": 200000000,
+      "event_type": "supervisor",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {
+        "decision_id": "decision-bounded_forward_patrol",
+        "decision_status": "approved",
+        "rejected_reasons": [],
+        "safety_status": "safe"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_supervisor"
+    },
+    {
+      "description": "mission rehearsal started",
+      "deterministic_hash": "f485d62551e7204c",
+      "event_id": "bounded_forward_patrol-evt-0003",
+      "event_subtype": "rehearsal_started",
+      "event_time_ns": 300000000,
+      "event_type": "mission",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {
+        "seed": 42
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "waypoint wp1 requested",
+      "deterministic_hash": "898cddb9ae4e089f",
+      "event_id": "bounded_forward_patrol-evt-0004",
+      "event_subtype": "waypoint_requested",
+      "event_time_ns": 400000000,
+      "event_type": "motion",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 3.0,
+        "bounded_speed_mps": 0.25,
+        "label": "Patrol leg",
+        "stage_kind": "patrol",
+        "waypoint_id": "wp1"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "safety check passed for wp1",
+      "deterministic_hash": "c0e6655129076a77",
+      "event_id": "bounded_forward_patrol-evt-0005",
+      "event_subtype": "safety_check_passed",
+      "event_time_ns": 500000000,
+      "event_type": "safety",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {
+        "waypoint_id": "wp1"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_supervisor"
+    },
+    {
+      "description": "simulated motion request for wp1",
+      "deterministic_hash": "41e6bd095fddfbb8",
+      "event_id": "bounded_forward_patrol-evt-0006",
+      "event_subtype": "motion_request_simulated",
+      "event_time_ns": 600000000,
+      "event_type": "motion",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 3.0,
+        "bounded_speed_mps": 0.25,
+        "label": "Patrol leg",
+        "stage_kind": "patrol",
+        "waypoint_id": "wp1"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "waypoint wp1 reached (simulated)",
+      "deterministic_hash": "6979471bbbe78c20",
+      "event_id": "bounded_forward_patrol-evt-0007",
+      "event_subtype": "waypoint_reached",
+      "event_time_ns": 700000000,
+      "event_type": "motion",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 3.0,
+        "bounded_speed_mps": 0.25,
+        "label": "Patrol leg",
+        "stage_kind": "patrol",
+        "waypoint_id": "wp1"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "waypoint wp2 requested",
+      "deterministic_hash": "95b19ef33545b8c3",
+      "event_id": "bounded_forward_patrol-evt-0008",
+      "event_subtype": "waypoint_requested",
+      "event_time_ns": 800000000,
+      "event_type": "motion",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 0.0,
+        "bounded_speed_mps": 0.0,
+        "label": "Dock",
+        "stage_kind": "dock",
+        "waypoint_id": "wp2"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "safety check passed for wp2",
+      "deterministic_hash": "f12a51d32c387766",
+      "event_id": "bounded_forward_patrol-evt-0009",
+      "event_subtype": "safety_check_passed",
+      "event_time_ns": 900000000,
+      "event_type": "safety",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {
+        "waypoint_id": "wp2"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_supervisor"
+    },
+    {
+      "description": "simulated motion request for wp2",
+      "deterministic_hash": "57a9c300de029eb4",
+      "event_id": "bounded_forward_patrol-evt-0010",
+      "event_subtype": "motion_request_simulated",
+      "event_time_ns": 1000000000,
+      "event_type": "motion",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 0.0,
+        "bounded_speed_mps": 0.0,
+        "label": "Dock",
+        "stage_kind": "dock",
+        "waypoint_id": "wp2"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "mission rehearsal completed (simulated)",
+      "deterministic_hash": "f11273789ef28b4d",
+      "event_id": "bounded_forward_patrol-evt-0011",
+      "event_subtype": "completed",
+      "event_time_ns": 1100000000,
+      "event_type": "mission",
+      "mission_id": "bounded_forward_patrol",
+      "payload": {},
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    }
+  ],
+  "transitions": [
+    [
+      "created",
+      "validated",
+      "validation_passed"
+    ],
+    [
+      "validated",
+      "approved",
+      "supervisor_approved"
+    ],
+    [
+      "approved",
+      "rehearsing",
+      "runtime_started"
+    ],
+    [
+      "rehearsing",
+      "completed",
+      "mission_completed"
+    ]
+  ]
+}

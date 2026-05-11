@@ -1,0 +1,10 @@
+flowchart TD
+    created([created])
+    validated([validated])
+    approved([approved])
+    rehearsing([rehearsing])
+    completed([completed])
+    created -->|validation_passed| validated
+    validated -->|supervisor_approved| approved
+    approved -->|runtime_started| rehearsing
+    rehearsing -->|mission_completed| completed

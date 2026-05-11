@@ -1,0 +1,223 @@
+{
+  "events": [
+    {
+      "description": "mission rehearsal created",
+      "deterministic_hash": "9565a5372ff47804",
+      "event_id": "waypoint_delivery_alpha-evt-0000",
+      "event_subtype": "created",
+      "event_time_ns": 0,
+      "event_type": "mission",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {
+        "deterministic_hash": "5706db76d64866ec",
+        "request_id": "waypoint_delivery_alpha",
+        "risk_band": "guarded",
+        "seed": 42
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "validation passed",
+      "deterministic_hash": "3825e64f6b121d95",
+      "event_id": "waypoint_delivery_alpha-evt-0001",
+      "event_subtype": "passed",
+      "event_time_ns": 100000000,
+      "event_type": "validation",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {
+        "diagnostics": []
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_validator"
+    },
+    {
+      "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+      "deterministic_hash": "b7df9bbe0d7b94b7",
+      "event_id": "waypoint_delivery_alpha-evt-0002",
+      "event_subtype": "approved",
+      "event_time_ns": 200000000,
+      "event_type": "supervisor",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {
+        "decision_id": "decision-waypoint_delivery_alpha",
+        "decision_status": "approved",
+        "rejected_reasons": [],
+        "safety_status": "guarded"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_supervisor"
+    },
+    {
+      "description": "mission rehearsal started",
+      "deterministic_hash": "d7b95d69d5b722e1",
+      "event_id": "waypoint_delivery_alpha-evt-0003",
+      "event_subtype": "rehearsal_started",
+      "event_time_ns": 300000000,
+      "event_type": "mission",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {
+        "seed": 42
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "waypoint alpha requested",
+      "deterministic_hash": "7614d6a1aa6fbf92",
+      "event_id": "waypoint_delivery_alpha-evt-0004",
+      "event_subtype": "waypoint_requested",
+      "event_time_ns": 400000000,
+      "event_type": "motion",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 4.0,
+        "bounded_speed_mps": 0.25,
+        "label": "Alpha",
+        "stage_kind": "move",
+        "waypoint_id": "alpha"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "safety check passed for alpha",
+      "deterministic_hash": "e7f0644c11c585cd",
+      "event_id": "waypoint_delivery_alpha-evt-0005",
+      "event_subtype": "safety_check_passed",
+      "event_time_ns": 500000000,
+      "event_type": "safety",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {
+        "waypoint_id": "alpha"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_supervisor"
+    },
+    {
+      "description": "simulated motion request for alpha",
+      "deterministic_hash": "e299a407746ee070",
+      "event_id": "waypoint_delivery_alpha-evt-0006",
+      "event_subtype": "motion_request_simulated",
+      "event_time_ns": 600000000,
+      "event_type": "motion",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 4.0,
+        "bounded_speed_mps": 0.25,
+        "label": "Alpha",
+        "stage_kind": "move",
+        "waypoint_id": "alpha"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "waypoint alpha reached (simulated)",
+      "deterministic_hash": "c4b02d2df2263cef",
+      "event_id": "waypoint_delivery_alpha-evt-0007",
+      "event_subtype": "waypoint_reached",
+      "event_time_ns": 700000000,
+      "event_type": "motion",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 4.0,
+        "bounded_speed_mps": 0.25,
+        "label": "Alpha",
+        "stage_kind": "move",
+        "waypoint_id": "alpha"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "waypoint dock requested",
+      "deterministic_hash": "553e976ae62edfc9",
+      "event_id": "waypoint_delivery_alpha-evt-0008",
+      "event_subtype": "waypoint_requested",
+      "event_time_ns": 800000000,
+      "event_type": "motion",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 0.0,
+        "bounded_speed_mps": 0.0,
+        "label": "Dock",
+        "stage_kind": "dock",
+        "waypoint_id": "dock"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "safety check passed for dock",
+      "deterministic_hash": "0b91eea03e189f57",
+      "event_id": "waypoint_delivery_alpha-evt-0009",
+      "event_subtype": "safety_check_passed",
+      "event_time_ns": 900000000,
+      "event_type": "safety",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {
+        "waypoint_id": "dock"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_supervisor"
+    },
+    {
+      "description": "simulated motion request for dock",
+      "deterministic_hash": "9f07628bd2d89b74",
+      "event_id": "waypoint_delivery_alpha-evt-0010",
+      "event_subtype": "motion_request_simulated",
+      "event_time_ns": 1000000000,
+      "event_type": "motion",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 0.0,
+        "bounded_speed_mps": 0.0,
+        "label": "Dock",
+        "stage_kind": "dock",
+        "waypoint_id": "dock"
+      },
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    },
+    {
+      "description": "mission rehearsal completed (simulated)",
+      "deterministic_hash": "22f7a0004c952ac0",
+      "event_id": "waypoint_delivery_alpha-evt-0011",
+      "event_subtype": "completed",
+      "event_time_ns": 1100000000,
+      "event_type": "mission",
+      "mission_id": "waypoint_delivery_alpha",
+      "payload": {},
+      "severity": "info",
+      "source_phase": "rehearsal_runtime"
+    }
+  ],
+  "transitions": [
+    [
+      "created",
+      "validated",
+      "validation_passed"
+    ],
+    [
+      "validated",
+      "approved",
+      "supervisor_approved"
+    ],
+    [
+      "approved",
+      "rehearsing",
+      "runtime_started"
+    ],
+    [
+      "rehearsing",
+      "completed",
+      "mission_completed"
+    ]
+  ]
+}

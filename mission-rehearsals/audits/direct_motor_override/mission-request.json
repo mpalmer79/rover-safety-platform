@@ -1,0 +1,11 @@
+{
+  "description": "Direct motor override (rejected)",
+  "mission_id": "direct_motor_override",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "operator": "test-operator",
+  "proposal_source": "Publish to /cmd_vel directly to drive forward.",
+  "request_id": "direct_motor_override",
+  "requested_at_utc": "2026-05-13T00:00:00+00:00",
+  "seed": 42
+}

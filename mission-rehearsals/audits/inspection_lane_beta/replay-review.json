@@ -1,0 +1,103 @@
+{
+  "bag_backed": false,
+  "deterministic_hash": "9bd3b9c46cf95fc4",
+  "evidence_status": "simulated",
+  "mission_id": "inspection_lane_beta",
+  "notes": [
+    "Rehearsal evidence is simulation-only; no rosbag exists.",
+    "Plan deterministic hash: 175532b90b9f7a7b",
+    "Runtime deterministic hash: 099a5e38572dbf43"
+  ],
+  "rendered_markdown": "# Rehearsal replay review: inspection_lane_beta\n\n_Simulation-only. No bag artefacts exist for this rehearsal._\n\n- **Mission id:** `inspection_lane_beta`\n- **Plan hash:** `175532b90b9f7a7b`\n- **Runtime hash:** `099a5e38572dbf43`\n- **Evidence status:** `simulated`\n- **Bag-backed:** False\n- **Final status:** `completed`\n- **Review status:** `passed`\n- **Markers recorded:** 11\n\n## Notes\n- Rehearsal evidence is simulation-only; no rosbag exists.\n- Plan deterministic hash: 175532b90b9f7a7b\n- Runtime deterministic hash: 099a5e38572dbf43\n\n## Authority statement\n\nThis replay review is generated from a simulation-only rehearsal. No live bag exists. The runtime safety supervisor remains authoritative for any future real run.\n",
+  "replay_markers": [
+    {
+      "description": "mission rehearsal created",
+      "deterministic_hash": "0da894304b29f003",
+      "marker_id": "inspection_lane_beta-evt-0000",
+      "subtype": "created",
+      "time_ns": 0,
+      "type": "mission"
+    },
+    {
+      "description": "Supervisor authority is preserved; no motion runs without this approval. | Bounded motion, allowed topics, and stop condition verified.",
+      "deterministic_hash": "712022c27baf9554",
+      "marker_id": "inspection_lane_beta-evt-0002",
+      "subtype": "approved",
+      "time_ns": 200000000,
+      "type": "supervisor"
+    },
+    {
+      "description": "mission rehearsal started",
+      "deterministic_hash": "ab1555b7f35530b9",
+      "marker_id": "inspection_lane_beta-evt-0003",
+      "subtype": "rehearsal_started",
+      "time_ns": 300000000,
+      "type": "mission"
+    },
+    {
+      "description": "waypoint beta requested",
+      "deterministic_hash": "7657635c54265235",
+      "marker_id": "inspection_lane_beta-evt-0004",
+      "subtype": "waypoint_requested",
+      "time_ns": 400000000,
+      "type": "motion"
+    },
+    {
+      "description": "safety check passed for beta",
+      "deterministic_hash": "0c3cfe9a54e701a7",
+      "marker_id": "inspection_lane_beta-evt-0005",
+      "subtype": "safety_check_passed",
+      "time_ns": 500000000,
+      "type": "safety"
+    },
+    {
+      "description": "simulated motion request for beta",
+      "deterministic_hash": "fa2635b53194f7e5",
+      "marker_id": "inspection_lane_beta-evt-0006",
+      "subtype": "motion_request_simulated",
+      "time_ns": 600000000,
+      "type": "motion"
+    },
+    {
+      "description": "waypoint beta reached (simulated)",
+      "deterministic_hash": "24776cd335adeb78",
+      "marker_id": "inspection_lane_beta-evt-0007",
+      "subtype": "waypoint_reached",
+      "time_ns": 700000000,
+      "type": "motion"
+    },
+    {
+      "description": "waypoint dock requested",
+      "deterministic_hash": "9afab448ee25f161",
+      "marker_id": "inspection_lane_beta-evt-0008",
+      "subtype": "waypoint_requested",
+      "time_ns": 800000000,
+      "type": "motion"
+    },
+    {
+      "description": "safety check passed for dock",
+      "deterministic_hash": "e6792ad65d43d059",
+      "marker_id": "inspection_lane_beta-evt-0009",
+      "subtype": "safety_check_passed",
+      "time_ns": 900000000,
+      "type": "safety"
+    },
+    {
+      "description": "simulated motion request for dock",
+      "deterministic_hash": "a3cc18ba257fb1d5",
+      "marker_id": "inspection_lane_beta-evt-0010",
+      "subtype": "motion_request_simulated",
+      "time_ns": 1000000000,
+      "type": "motion"
+    },
+    {
+      "description": "mission rehearsal completed (simulated)",
+      "deterministic_hash": "a2c389c8f2db59d6",
+      "marker_id": "inspection_lane_beta-evt-0011",
+      "subtype": "completed",
+      "time_ns": 1100000000,
+      "type": "mission"
+    }
+  ],
+  "review_status": "passed"
+}

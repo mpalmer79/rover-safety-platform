@@ -1,0 +1,227 @@
+{
+  "analytics": {
+    "aborted_count": 0,
+    "approved_count": 0,
+    "completed_count": 0,
+    "deterministic_replay_stable": true,
+    "mission_id": "infinite_patrol_loop",
+    "notes": [
+      "Counts reflect this single rehearsal; aggregate analytics roll up across many rehearsals in programme review.",
+      "Supervisor rejection short-circuited the rehearsal.",
+      "Validator rejection short-circuited the rehearsal."
+    ],
+    "rehearsal_count": 1,
+    "rejected_count": 1,
+    "supervisor_rejection_count": 1,
+    "validator_rejection_count": 1
+  },
+  "decision": {
+    "allowed_topics": [
+      "/cmd_vel_requested"
+    ],
+    "decided_at_utc": "2026-05-13T00:00:00+00:00",
+    "decision_id": "decision-infinite_patrol_loop",
+    "decision_status": "rejected",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "rationale": [
+      "Supervisor authority is preserved; no motion runs without this approval.",
+      "Validator rejected the plan; supervisor cannot approve."
+    ],
+    "rejected_reasons": [
+      "missing_stop_condition",
+      "unbounded_loop"
+    ],
+    "requires_human_review": true,
+    "safety_status": "unsafe_rejected"
+  },
+  "disclaimer": "This rehearsal pipeline is simulation-only and does not authorize live robot execution or safety certification.",
+  "final_failure_reason": "missing_stop_condition",
+  "final_status": "rejected",
+  "generated_at_utc": "2026-05-13T00:00:00+00:00",
+  "mission_rehearsal_version": "phase16-1",
+  "plan": {
+    "deterministic_hash": "b6a86727fa956d53",
+    "forbidden_topics": [
+      "/cmd_vel"
+    ],
+    "mission_id": "infinite_patrol_loop",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "proposal_source": "while True: patrol forever.",
+    "request_id": "infinite_patrol_loop",
+    "requested_topics": [
+      "/cmd_vel_requested"
+    ],
+    "risk_band": "low",
+    "safety_constraints": [],
+    "waypoints": [
+      {
+        "bounded_angle_deg": 0.0,
+        "bounded_distance_m": 2.0,
+        "bounded_speed_mps": 0.25,
+        "label": "Forever",
+        "stage_kind": "patrol",
+        "waypoint_id": "wp1"
+      }
+    ]
+  },
+  "replay": {
+    "bag_backed": false,
+    "deterministic_hash": "15c8e3f8e5bf4c28",
+    "evidence_status": "simulated",
+    "mission_id": "infinite_patrol_loop",
+    "notes": [
+      "Rehearsal evidence is simulation-only; no rosbag exists.",
+      "Plan deterministic hash: b6a86727fa956d53",
+      "Runtime deterministic hash: 0d085680f4bc2572"
+    ],
+    "rendered_markdown": "# Rehearsal replay review: infinite_patrol_loop\n\n_Simulation-only. No bag artefacts exist for this rehearsal._\n\n- **Mission id:** `infinite_patrol_loop`\n- **Plan hash:** `b6a86727fa956d53`\n- **Runtime hash:** `0d085680f4bc2572`\n- **Evidence status:** `simulated`\n- **Bag-backed:** False\n- **Final status:** `rejected`\n- **Review status:** `rejected`\n- **Markers recorded:** 2\n\n## Notes\n- Rehearsal evidence is simulation-only; no rosbag exists.\n- Plan deterministic hash: b6a86727fa956d53\n- Runtime deterministic hash: 0d085680f4bc2572\n\n## Authority statement\n\nThis replay review is generated from a simulation-only rehearsal. No live bag exists. The runtime safety supervisor remains authoritative for any future real run.\n",
+    "replay_markers": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "97ce232dd265a492",
+        "marker_id": "infinite_patrol_loop-evt-0000",
+        "subtype": "created",
+        "time_ns": 0,
+        "type": "mission"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+        "deterministic_hash": "0aa4771622d6ed39",
+        "marker_id": "infinite_patrol_loop-evt-0002",
+        "subtype": "rejected",
+        "time_ns": 200000000,
+        "type": "supervisor"
+      }
+    ],
+    "review_status": "rejected"
+  },
+  "request": {
+    "description": "Infinite patrol loop attempt (rejected)",
+    "mission_id": "infinite_patrol_loop",
+    "notes": [],
+    "odd_profile_id": "default-warehouse",
+    "operator": "test-operator",
+    "proposal_source": "while True: patrol forever.",
+    "request_id": "infinite_patrol_loop",
+    "requested_at_utc": "2026-05-13T00:00:00+00:00",
+    "seed": 42
+  },
+  "runtime": {
+    "deterministic_hash": "0d085680f4bc2572",
+    "events": [
+      {
+        "description": "mission rehearsal created",
+        "deterministic_hash": "97ce232dd265a492",
+        "event_id": "infinite_patrol_loop-evt-0000",
+        "event_subtype": "created",
+        "event_time_ns": 0,
+        "event_type": "mission",
+        "mission_id": "infinite_patrol_loop",
+        "payload": {
+          "deterministic_hash": "b6a86727fa956d53",
+          "request_id": "infinite_patrol_loop",
+          "risk_band": "low",
+          "seed": 42
+        },
+        "severity": "info",
+        "source_phase": "rehearsal_runtime"
+      },
+      {
+        "description": "validation rejected",
+        "deterministic_hash": "75f8e731513d6a09",
+        "event_id": "infinite_patrol_loop-evt-0001",
+        "event_subtype": "rejected",
+        "event_time_ns": 100000000,
+        "event_type": "validation",
+        "mission_id": "infinite_patrol_loop",
+        "payload": {
+          "diagnostics": [
+            {
+              "code": "missing_stop_condition",
+              "message": "plan with motion waypoints must include a stop or dock waypoint",
+              "parameter": "",
+              "severity": "rejection"
+            },
+            {
+              "code": "unbounded_loop",
+              "message": "proposal source contains 'while True:': unbounded while True loop",
+              "parameter": "proposal_source",
+              "severity": "rejection"
+            }
+          ]
+        },
+        "severity": "rejection",
+        "source_phase": "rehearsal_validator"
+      },
+      {
+        "description": "Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.",
+        "deterministic_hash": "0aa4771622d6ed39",
+        "event_id": "infinite_patrol_loop-evt-0002",
+        "event_subtype": "rejected",
+        "event_time_ns": 200000000,
+        "event_type": "supervisor",
+        "mission_id": "infinite_patrol_loop",
+        "payload": {
+          "decision_id": "decision-infinite_patrol_loop",
+          "decision_status": "rejected",
+          "rejected_reasons": [
+            "missing_stop_condition",
+            "unbounded_loop"
+          ],
+          "safety_status": "unsafe_rejected"
+        },
+        "severity": "rejection",
+        "source_phase": "rehearsal_supervisor"
+      },
+      {
+        "description": "rehearsal terminated in state rejected",
+        "deterministic_hash": "84644216317ca524",
+        "event_id": "infinite_patrol_loop-evt-0003",
+        "event_subtype": "rehearsal_terminated_early",
+        "event_time_ns": 300000000,
+        "event_type": "audit",
+        "mission_id": "infinite_patrol_loop",
+        "payload": {
+          "failure_reason": "missing_stop_condition"
+        },
+        "severity": "warning",
+        "source_phase": "rehearsal_runtime"
+      }
+    ],
+    "final_failure_reason": "missing_stop_condition",
+    "final_status": "rejected",
+    "finished_at_utc": "2026-05-11T13:49:57+00:00",
+    "mission_id": "infinite_patrol_loop",
+    "safety_status": "unsafe_rejected",
+    "started_at_utc": "2026-05-13T00:00:00+00:00",
+    "timeline": {
+      "rendered_markdown": "# Mission rehearsal timeline: infinite_patrol_loop\n\n## State transitions\n\n- `created` \u2192 `rejected` \u2014 _validator_rejected_\n\n## Event stream\n\n- 0.0s [mission/created] (info) `infinite_patrol_loop-evt-0000` \u2014 mission rehearsal created\n- 0.1s [validation/rejected] (rejection) `infinite_patrol_loop-evt-0001` \u2014 validation rejected\n- 0.2s [supervisor/rejected] (rejection) `infinite_patrol_loop-evt-0002` \u2014 Supervisor authority is preserved; no motion runs without this approval. | Validator rejected the plan; supervisor cannot approve.\n- 0.3s [audit/rehearsal_terminated_early] (warning) `infinite_patrol_loop-evt-0003` \u2014 rehearsal terminated in state rejected\n",
+      "rendered_mermaid": "flowchart TD\n    created([created])\n    rejected([rejected])\n    created -->|validator_rejected| rejected",
+      "transitions": [
+        [
+          "created",
+          "rejected",
+          "validator_rejected"
+        ]
+      ]
+    }
+  },
+  "safety_status": "unsafe_rejected",
+  "validation_diagnostics": [
+    {
+      "code": "missing_stop_condition",
+      "message": "plan with motion waypoints must include a stop or dock waypoint",
+      "parameter": "",
+      "severity": "rejection"
+    },
+    {
+      "code": "unbounded_loop",
+      "message": "proposal source contains 'while True:': unbounded while True loop",
+      "parameter": "proposal_source",
+      "severity": "rejection"
+    }
+  ]
+}

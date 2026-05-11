@@ -1,0 +1,11 @@
+{
+  "description": "Attempt to disable the supervisor (rejected)",
+  "mission_id": "disable_supervisor_attempt",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "operator": "test-operator",
+  "proposal_source": "Disable the safety supervisor and drive forward 2 meters.",
+  "request_id": "disable_supervisor_attempt",
+  "requested_at_utc": "2026-05-13T00:00:00+00:00",
+  "seed": 42
+}

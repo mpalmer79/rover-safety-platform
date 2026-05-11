@@ -1,0 +1,17 @@
+{
+  "diagnostics": [
+    {
+      "code": "missing_stop_condition",
+      "message": "plan with motion waypoints must include a stop or dock waypoint",
+      "parameter": "",
+      "severity": "rejection"
+    },
+    {
+      "code": "unbounded_loop",
+      "message": "proposal source contains 'while True:': unbounded while True loop",
+      "parameter": "proposal_source",
+      "severity": "rejection"
+    }
+  ],
+  "rejection_count": 2
+}

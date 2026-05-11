@@ -1,0 +1,34 @@
+{
+  "deterministic_hash": "3667c611c1e2bae1",
+  "forbidden_topics": [
+    "/cmd_vel"
+  ],
+  "mission_id": "disable_supervisor_attempt",
+  "notes": [],
+  "odd_profile_id": "default-warehouse",
+  "proposal_source": "Disable the safety supervisor and drive forward 2 meters.",
+  "request_id": "disable_supervisor_attempt",
+  "requested_topics": [
+    "/cmd_vel_requested"
+  ],
+  "risk_band": "guarded",
+  "safety_constraints": [],
+  "waypoints": [
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 2.0,
+      "bounded_speed_mps": 0.25,
+      "label": "Forward",
+      "stage_kind": "move",
+      "waypoint_id": "wp1"
+    },
+    {
+      "bounded_angle_deg": 0.0,
+      "bounded_distance_m": 0.0,
+      "bounded_speed_mps": 0.0,
+      "label": "Dock",
+      "stage_kind": "dock",
+      "waypoint_id": "dock"
+    }
+  ]
+}

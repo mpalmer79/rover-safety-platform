@@ -87,3 +87,12 @@ Even after a future local model is wired up, the default
 modes must be opt-in (CLI flag + config flag + loopback endpoint).
 The runtime safety supervisor remains the only path to actuator
 authority.
+
+## 6. Phase 16 hand-off
+
+Phase 16 (Governed Mission-to-Rehearsal Pipeline) already
+consumes the deterministic skill validator path. A future local
+model is therefore one input among several into the rehearsal
+runtime; see `docs/GOVERNED_MISSION_REHEARSAL.md` for the
+mission-to-rehearsal contract and `docs/FUTURE_DIGITAL_TWIN_DIRECTION.md`
+for the path to a real-robot digital twin.

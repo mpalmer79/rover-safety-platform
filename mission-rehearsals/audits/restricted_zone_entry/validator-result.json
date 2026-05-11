@@ -1,0 +1,11 @@
+{
+  "diagnostics": [
+    {
+      "code": "restricted_zone",
+      "message": "proposal source contains 'restricted_corridor': restricted corridor entry attempt",
+      "parameter": "proposal_source",
+      "severity": "rejection"
+    }
+  ],
+  "rejection_count": 1
+}
