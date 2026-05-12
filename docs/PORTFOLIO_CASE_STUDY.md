@@ -164,3 +164,20 @@ For a per-audience reading path, see
 - [`REVIEWER_PLAYBOOK.md`](REVIEWER_PLAYBOOK.md)
 - [`LIVE_RUNTIME_STATUS.md`](LIVE_RUNTIME_STATUS.md)
 - [`ROADMAP.md`](ROADMAP.md)
+- [`OPERATOR_WORKSPACE_SYSTEM.md`](OPERATOR_WORKSPACE_SYSTEM.md)
+- [`REVIEWER_WALKTHROUGH_MODE.md`](REVIEWER_WALKTHROUGH_MODE.md)
+- [`ENTERPRISE_OPERATOR_UX.md`](ENTERPRISE_OPERATOR_UX.md)
+- [`TELEMETRY_DENSITY_GUIDELINES.md`](TELEMETRY_DENSITY_GUIDELINES.md)
+- [`FLEET_REVIEW_ARCHITECTURE.md`](FLEET_REVIEW_ARCHITECTURE.md)
+- [`DESIGN_SYSTEM_STANDARD.md`](DESIGN_SYSTEM_STANDARD.md)
+- [`RESPONSIVE_MISSION_CONTROL.md`](RESPONSIVE_MISSION_CONTROL.md)
+
+### Phase 20 — Operator workspace system
+
+The frontend now ships six deterministic workspace presets, twelve
+telemetry-density panels, a ten-step reviewer walkthrough, and a
+shared design-system module. Every panel reads strictly from
+committed JSON artefacts. Honesty CI gates explicitly forbid
+websockets, EventSource, `bag_backed: true` literals, and the use
+of marketing words like "live", "streaming", or "realtime" in
+telemetry panels.

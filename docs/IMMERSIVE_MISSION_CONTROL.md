@@ -87,3 +87,17 @@ change — there is no tween.
 - `docs/3D_VISUALIZATION_BOUNDARY.md`
 - `docs/OPERATOR_REVIEW_EXPERIENCE.md`
 - `docs/SPATIAL_REPLAY_HONESTY_RULES.md`
+- `docs/OPERATOR_WORKSPACE_SYSTEM.md`
+- `docs/REVIEWER_WALKTHROUGH_MODE.md`
+- `docs/TELEMETRY_DENSITY_GUIDELINES.md`
+- `docs/RESPONSIVE_MISSION_CONTROL.md`
+
+## 7. Phase 20 — Operator workspace + walkthrough
+
+Phase 20 layered an operator workspace system on top of the
+immersive scene. The `reviewer-walkthrough` workspace renders the
+3D scene inside the walkthrough overlay so a first-time reviewer
+can step through the deterministic pipeline while the canonical
+mission plays back. Workspace presets remain deterministic JSON;
+the scene + scrubber + camera modes are still controlled by the
+artefact bundles, not by user state.
