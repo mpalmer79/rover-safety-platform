@@ -88,3 +88,10 @@ Workspaces ALWAYS:
 The static route generator under
 `apps/mission-control/src/app/workspaces/[preset]/page.tsx` will
 automatically render the new preset.
+
+## Phase 20B addendum — workspace snapshots
+
+The workspace state is now exportable as a deterministic JSON
+snapshot. See [`WORKSPACE_SNAPSHOT_EXPORTS.md`](WORKSPACE_SNAPSHOT_EXPORTS.md)
+and the `/workspaces/snapshot` route. Snapshots NEVER persist on
+the server; they are offline reviewer handoff artefacts.

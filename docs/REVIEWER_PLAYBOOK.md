@@ -492,3 +492,15 @@ The walkthrough script is defined in
 are defined in `apps/mission-control/src/workspaces/presets.ts`.
 See [`OPERATOR_WORKSPACE_SYSTEM.md`](OPERATOR_WORKSPACE_SYSTEM.md)
 for the architectural overview.
+
+## Phase 20B addendum — hand off your exact view
+
+`/workspaces/snapshot` exports a deterministic JSON snapshot of
+the current preset, mission, camera mode, evidence focus, theme,
+and density. Copy the JSON and hand it to a second reviewer to
+say *"open this exact view"*. No server, no database, no
+network. See [`WORKSPACE_SNAPSHOT_EXPORTS.md`](WORKSPACE_SNAPSHOT_EXPORTS.md).
+
+The walkthrough is now mission-contextual — each step binds to
+the focused mission's evidence and surfaces a next-required-proof
+step. See [`CONTEXTUAL_REVIEWER_WALKTHROUGH.md`](CONTEXTUAL_REVIEWER_WALKTHROUGH.md).

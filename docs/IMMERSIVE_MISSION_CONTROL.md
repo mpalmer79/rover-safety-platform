@@ -101,3 +101,12 @@ can step through the deterministic pipeline while the canonical
 mission plays back. Workspace presets remain deterministic JSON;
 the scene + scrubber + camera modes are still controlled by the
 artefact bundles, not by user state.
+
+## 8. Phase 20B — deterministic scene cues
+
+The scene now participates in the workflow through deterministic
+scene cues. Each walkthrough step maps to exactly one cue kind
+(`overview`, `operator_request`, `mission_validation`, `supervisor_decision`,
+`trajectory_follow`, `safety_intervention`, `replay_evidence`,
+`limitation_focus`, `completion_summary`). See
+[`SCENE_ORCHESTRATION_MODEL.md`](SCENE_ORCHESTRATION_MODEL.md).

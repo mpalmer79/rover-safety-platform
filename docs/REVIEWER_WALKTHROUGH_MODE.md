@@ -65,3 +65,11 @@ The walkthrough must ALWAYS:
 * leave the reviewer with the limitations list visible,
 * render the safety banner at the page root,
 * preserve the step order from `WALKTHROUGH_STEPS`.
+
+## Phase 20B — contextual upgrade
+
+The walkthrough is no longer purely informational. Each step now
+binds to the currently-selected mission's evidence and shows a
+`nextProof` callout. See
+[`CONTEXTUAL_REVIEWER_WALKTHROUGH.md`](CONTEXTUAL_REVIEWER_WALKTHROUGH.md)
+for the binding model and component composition.

@@ -104,3 +104,25 @@ The frontend will surface the new run automatically.
 - `docs/ARTIFACT_GOVERNANCE_MODEL.md`
 - `docs/SPATIAL_REPLAY_HONESTY_RULES.md`
 - `docs/BAG_TO_TRAJECTORY_PIPELINE.md`
+- `docs/ARTIFACT_STABILIZATION_PASS.md`
+
+## 7. Phase 20B — `--check-only` is a true no-op
+
+The CLI flag `--check-only` was previously implemented as
+"skip the registry timestamp rewrite". It still wrote
+spatial-replay output bytes and rewrote report files, leaving a
+dirty working tree.
+
+Phase 20B changes the contract:
+
+* `tools/hydrate_replay_artifacts.py --check-only` is read-only.
+  It computes hashes for the committed bytes, compares them to the
+  registry, and exits non-zero on drift. Nothing is written.
+* `--write-reports` is a separate opt-in flag that re-enables
+  report generation alongside `--check-only` (rare).
+* The default (no `--check-only`) rebuilds artefacts AND writes
+  the registry + reports, as before.
+
+`backend/tests/test_hydration_noop.py` enforces the no-op rule by
+hashing the registry + canonical-fixture files before and after a
+`--check-only` invocation.

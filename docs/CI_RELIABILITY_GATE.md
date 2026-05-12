@@ -119,3 +119,25 @@ change that caused the drift.
 - [docs/RELIABILITY_IMPACT_ANALYSIS.md](RELIABILITY_IMPACT_ANALYSIS.md)
 - [docs/SOURCE_TO_EVIDENCE_TRACEABILITY.md](SOURCE_TO_EVIDENCE_TRACEABILITY.md)
 - [docs/REPLAY_ANALYTICS.md](REPLAY_ANALYTICS.md)
+- [docs/ARTIFACT_STABILIZATION_PASS.md](ARTIFACT_STABILIZATION_PASS.md)
+- [docs/TESTING_STRATEGY.md §16](TESTING_STRATEGY.md)
+
+## 8. Phase 20B — CI job ordering + read-only check
+
+The reliability gate now expects CI jobs to run in this order:
+
+1. checkout
+2. backend pytest with random order + coverage gate
+3. rover_ws static pytest suite
+4. frontend typecheck
+5. frontend tests
+6. frontend build
+7. honesty greps (no websocket, no EventSource, no `bag_backed: true`)
+8. traceability verification
+
+The hydration `--check-only` invocation is now read-only — it must
+not be a CI step that introduces a dirty working tree. The
+canonical-fixture artefacts are committed to disk and verified by
+`backend/tests/test_artifact_registry.py::test_canonical_registry_paths_match_disk`
+plus the Phase 20B
+`backend/tests/test_artifact_fixture_commitment.py`.

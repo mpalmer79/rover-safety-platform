@@ -15,3 +15,11 @@ dist/
 
 # Run artefacts (deterministic engine + ROS scenario suites write here)
 runs/
+
+# Canonical replay fixtures are committed — they are the deterministic
+# baseline that pytest + frontend tests + hydration --check-only verify.
+# Phase 20B: a fresh clone must carry these bytes so backend pytest does
+# not depend on running the hydration tool first.
+!spatial-replay/runs/
+!spatial-replay/runs/canonical-fixture/
+!spatial-replay/runs/canonical-fixture/**

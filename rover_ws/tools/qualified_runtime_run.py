@@ -315,6 +315,16 @@ def main(argv: list[str] | None = None) -> int:
             "docs/LIVE_RUNTIME_STATUS.md"
         ),
     )
+    parser.add_argument(
+        "--evidence-index-md",
+        type=Path,
+        default=None,
+        help=(
+            "override the path for the evidence-index Markdown "
+            "output. Tests must pass a temp path so the committed "
+            "docs/EVIDENCE_INDEX.md is never modified during pytest."
+        ),
+    )
     args = parser.parse_args(argv)
     if args.scenarios_dir is None:
         args.scenarios_dir = args.workspace_root / "qualification" / "scenarios"
@@ -493,10 +503,13 @@ def main(argv: list[str] | None = None) -> int:
 
     # 8. Update the evidence index.
     index = build_evidence_index(evidence_root=args.evidence_root)
+    evidence_index_md = args.evidence_index_md or (
+        args.workspace_root / "docs" / "EVIDENCE_INDEX.md"
+    )
     write_evidence_index(
         index,
         json_path=args.evidence_root / "index.json",
-        markdown_path=args.workspace_root / "docs" / "EVIDENCE_INDEX.md",
+        markdown_path=evidence_index_md,
     )
 
     if args.canonical_report:

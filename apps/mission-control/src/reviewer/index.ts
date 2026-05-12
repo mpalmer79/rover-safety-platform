@@ -1,8 +1,16 @@
 export * from "./steps";
+export * from "./contextualWalkthrough";
+export * from "./walkthroughSelectors";
 export { ReviewerWalkthroughOverlay } from "./components/ReviewerWalkthroughOverlay";
+export { ContextualWalkthroughOverlay } from "./components/ContextualWalkthroughOverlay";
 export { WalkthroughProgress } from "./components/WalkthroughProgress";
 export { WalkthroughStepCard } from "./components/WalkthroughStepCard";
 export { WalkthroughNarrativePanel } from "./components/WalkthroughNarrativePanel";
 export { WalkthroughEvidencePanel } from "./components/WalkthroughEvidencePanel";
 export { WalkthroughSafetyPanel } from "./components/WalkthroughSafetyPanel";
 export { WalkthroughOutcomePanel } from "./components/WalkthroughOutcomePanel";
+export { WalkthroughMissionFocus } from "./components/WalkthroughMissionFocus";
+export { WalkthroughEvidenceFocus } from "./components/WalkthroughEvidenceFocus";
+export { WalkthroughLimitationCard } from "./components/WalkthroughLimitationCard";
+export { WalkthroughProofStep } from "./components/WalkthroughProofStep";
+export { WalkthroughSceneCue } from "./components/WalkthroughSceneCue";

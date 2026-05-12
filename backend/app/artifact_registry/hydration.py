@@ -115,11 +115,24 @@ def hydrate_registry(
     output_root: Path | None = None,
     rehearsal_root: Path | None = None,
     write_back: bool = True,
+    check_only: bool = False,
 ) -> HydrationReport:
     """Rebuild every spatial-replay record in the registry.
 
     The function never raises; integrity drift surfaces in the
     returned :class:`HydrationReport` and is the CI failure signal.
+
+    Phase 20B contract:
+
+    * ``check_only=True`` is a true no-op. The function reads the
+      committed bytes on disk, computes their hashes, and compares
+      them against the registry's expected hashes. It does NOT
+      rebuild artefacts, does NOT write spatial-replay outputs, and
+      does NOT rewrite the registry's ``generated_at_utc``.
+    * ``check_only=False`` rebuilds every spatial-replay artefact
+      and writes the bytes to ``output_root``. The registry is
+      refreshed only when ``write_back=True`` and integrity is
+      ``passed``.
     """
 
     repo_root = Path(repo_root)
@@ -143,13 +156,16 @@ def hydrate_registry(
     for record in registry.records:
         if record.kind != ARTIFACT_KIND_SPATIAL_REPLAY:
             continue
-        outcome = _hydrate_spatial_replay_record(
-            record,
-            repo_root=repo_root,
-            fixtures_root=fixtures_root,
-            output_root=output_root,
-            rehearsal_root=rehearsal_root,
-        )
+        if check_only:
+            outcome = _verify_spatial_replay_record(record, repo_root=repo_root)
+        else:
+            outcome = _hydrate_spatial_replay_record(
+                record,
+                repo_root=repo_root,
+                fixtures_root=fixtures_root,
+                output_root=output_root,
+                rehearsal_root=rehearsal_root,
+            )
         outcomes.append(outcome)
 
     overall = aggregate_integrity(o.integrity for o in outcomes)
@@ -161,7 +177,7 @@ def hydrate_registry(
         overall_integrity=overall,
     )
 
-    if write_back and overall == INTEGRITY_PASSED:
+    if write_back and not check_only and overall == INTEGRITY_PASSED:
         # Refresh the registry's ``generated_at_utc`` only when
         # hydration passes cleanly. A failing hydration must NOT
         # rewrite the registry — the committed registry remains the
@@ -176,6 +192,48 @@ def hydrate_registry(
         write_registry(registry, reg_path)
 
     return report
+
+
+def _verify_spatial_replay_record(
+    record: ArtifactRecord,
+    *,
+    repo_root: Path,
+) -> HydrationOutcome:
+    """Read-only verification of a committed spatial-replay record.
+
+    Computes the hash of each committed file and compares it against
+    the registry's expected hash. Never rebuilds, never writes.
+    """
+
+    expected_hashes: dict[str, str] = {
+        f.relative_path: f.expected_hash for f in record.files
+    }
+    computed_hashes: dict[str, str] = {}
+    drift: list[str] = []
+    for f in record.files:
+        path = repo_root / f.relative_path
+        computed = hash_file(path)
+        computed_hashes[f.relative_path] = computed
+        if not computed:
+            drift.append(f"missing committed file: {f.relative_path}")
+            continue
+        if f.expected_hash and computed.lower() != f.expected_hash.lower():
+            drift.append(
+                f"hash drift: {f.relative_path} "
+                f"expected={f.expected_hash[:12]} computed={computed[:12]}"
+            )
+
+    integrity, _, verify_drift = verify_artifact(record, artefact_root=repo_root)
+    drift.extend(verify_drift)
+
+    return HydrationOutcome(
+        run_id=record.run_id,
+        rebuilt=False,
+        integrity=integrity,
+        expected_hashes=expected_hashes,
+        computed_hashes=computed_hashes,
+        drift=tuple(drift),
+    )
 
 
 def hydration_report_to_dict(report: HydrationReport) -> dict:
