@@ -2,7 +2,7 @@
 
 **A deterministic autonomy validation and safety orchestration platform for unmanned ground vehicles.**
 
-**Live demo:** https://project-boundary-mpalmer79.vercel.app
+**Live demo:** https://projectboundary.vercel.app/
 
 Project Boundary is a simulation-first robotics platform that demonstrates how to design an autonomous rover whose safety behaviour is *architecturally enforceable, deterministic, and replayable* — and how to generate the engineering evidence to prove it.
 
