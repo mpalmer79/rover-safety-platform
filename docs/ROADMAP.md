@@ -59,7 +59,7 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 15B — Local LLM Skill Candidate Provider (disabled by default) | Implemented; cloud APIs forbidden; no network call in this phase; see section 3s |
 | Phase 16 — Governed Mission-to-Rehearsal Pipeline | Implemented; simulation-only; deterministic; validator-authoritative; see section 3t |
 | Phase 17A — Mission Control Experience & Autonomy Visualization Layer | Implemented; static-export Next.js workspace; reads committed artefacts only; see section 3u |
-| Phase 17B — Railway Deployment, Frontend CI, and Mission Spatial Visualization Foundation | Implemented; deterministic 2D maps from bounded inputs; Railway + frontend CI; see section 3v |
+| Phase 17B — Frontend Deployment, Frontend CI, and Mission Spatial Visualization Foundation | Implemented; deterministic 2D maps from bounded inputs; Vercel + frontend CI; see section 3v |
 | Phase 17C — Bag-Backed Spatial Replay Upgrade | Implemented; bag_backed + fixture artefact pathway; never fabricates telemetry; see section 3w |
 | Phase 18 — Immersive Mission Control UX + Artefact Governance Hardening | Implemented; canonical artefact registry, deterministic hydration CLI, immersive 3D mission scene, mission narrative + evidence lineage; see section 3x |
 | Phase 19 — Mission Control Design System, Responsive UX, Local LLM Intelligence, Scene Snapshot Readiness | Implemented; theme system + light/dark toggle, responsive layout shell, candidate ranking + repair + critique, reviewer scene snapshot metadata; see section 3y |
@@ -1984,12 +1984,12 @@ and add an ADR.
 
 ---
 
-## 3v. Phase 17B: Railway Deployment, Frontend CI, and Mission Spatial Visualization Foundation
+## 3v. Phase 17B: Frontend Deployment, Frontend CI, and Mission Spatial Visualization Foundation
 
 ### Status
 
 Implemented. Deterministic 2D mission maps derived from bounded
-waypoint inputs; Railway deployment configuration; GitHub Actions
+waypoint inputs; Vercel deployment configuration; GitHub Actions
 frontend CI gate.
 
 ### Objectives
@@ -2012,14 +2012,14 @@ There is no real-world coordinate anywhere in this layer.
   `MissionSpatialTimeline`, `SupervisorInterventionOverlay`,
   `WarehouseLaneMap`, plus `WhyRejectedDrilldown` for the
   workbench / mission detail.
-- `apps/mission-control/railway.json`, `.env.example`,
-  `README.md` for Railway deployment.
+- `apps/mission-control/vercel.json`,
+  `README.md` for Vercel deployment.
 - `.github/workflows/mission-control-ci.yml` — typecheck + vitest
   + build + static-HTML honesty grep.
 - 10 new requirements (`REQ-MVIS-001..010`) under
   `RequirementKind.MISSION_VISUALIZATION`.
-- 5 new docs: `MISSION_SPATIAL_VISUALIZATION`,
-  `RAILWAY_DEPLOYMENT_GUIDE`, `MISSION_REPLAY_MAPS`,
+- 4 new docs: `MISSION_SPATIAL_VISUALIZATION`,
+  `MISSION_REPLAY_MAPS`,
   `OPERATOR_EXPERIENCE_GUIDELINES`, `SPATIAL_REPLAY_ARCHITECTURE`.
 
 ### Acceptance Criteria
@@ -2033,15 +2033,15 @@ There is no real-world coordinate anywhere in this layer.
 - the frontend CI workflow asserts the prerendered HTML contains
   the `Simulation-only` banner and never the string
   `bag-backed: yes`;
-- the Railway build runs typecheck + vitest + build before the
-  start command;
+- the Vercel build runs `npm ci && next build` to produce the
+  static export before the deploy is served;
 - the package still imports no cloud SDK, no `child_process`,
   no `net`, no `dgram`.
 
 ### What Phase 17B does NOT do
 
-- it does not run on Railway alongside ROS / Gazebo / live bag
-  capture — the Railway deploy is the UI only;
+- it does not run on Vercel alongside ROS / Gazebo / live bag
+  capture — the Vercel deploy is the UI only;
 - it does not invent coordinates — the adapter derives them
   deterministically from bounded inputs;
 - it does not stream telemetry — there is none;
@@ -2052,6 +2052,8 @@ A follow-up phase that wires the spatial layer to bag-backed runs
 must update `docs/MISSION_SPATIAL_VISUALIZATION.md`,
 `docs/SPATIAL_REPLAY_ARCHITECTURE.md`, and add an ADR. (Phase 17C
 below is that follow-up phase.)
+
+See ADR-009 for the deploy target migration history.
 
 ---
 
