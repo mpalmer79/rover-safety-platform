@@ -22,14 +22,15 @@ npm run dev         # http://localhost:3000
 
 ```
 railway link
-railway up         # uses apps/mission-control/railway.json
+railway up         # uses the repo-root railway.json (NIXPACKS monorepo plan)
 ```
 
-`railway.json` declares:
+The monorepo-level `railway.json` (at the repo root) declares:
 
-* `buildCommand`: `npm ci && npm run typecheck && npm run test && npm run build`;
-* `startCommand`: `npm run start -- --hostname 0.0.0.0 --port $PORT`;
-* `healthcheckPath`: `/`.
+* `build.builder`: `NIXPACKS`;
+* `build.nixpacksPlan.phases.build.cmds`: `cd apps/mission-control && npm run build`;
+* `deploy.startCommand`: `cd apps/mission-control && npm run start -- --hostname 0.0.0.0 --port $PORT`;
+* `deploy.healthcheckPath`: `/`.
 
 See [`docs/RAILWAY_DEPLOYMENT_GUIDE.md`](../../docs/RAILWAY_DEPLOYMENT_GUIDE.md)
 for the operator runbook, including the honesty rules every Railway

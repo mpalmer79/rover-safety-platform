@@ -1,0 +1,10 @@
+{"confidence": "high", "event_refs": ["warehouse_pickup_route_alpha-evt-0002"], "sample_id": "s00000", "source_topic": "/odom", "theta_rad": 0.0, "time_ns": 0, "x_m": 0.0, "y_m": 0.0}
+{"confidence": "high", "event_refs": ["warehouse_pickup_route_alpha-evt-0003"], "sample_id": "s00001", "source_topic": "/odom", "theta_rad": 0.0, "time_ns": 1000000000, "x_m": 0.625, "y_m": 0.0}
+{"confidence": "high", "event_refs": ["warehouse_pickup_route_alpha-evt-0004"], "sample_id": "s00002", "source_topic": "/odom", "theta_rad": 0.0, "time_ns": 2000000000, "x_m": 1.25, "y_m": 0.0}
+{"confidence": "high", "event_refs": ["warehouse_pickup_route_alpha-evt-0005"], "sample_id": "s00003", "source_topic": "/odom", "theta_rad": 0.0, "time_ns": 3000000000, "x_m": 1.875, "y_m": 0.0}
+{"confidence": "high", "event_refs": ["warehouse_pickup_route_alpha-evt-0006"], "sample_id": "s00004", "source_topic": "/odom", "theta_rad": 0.0, "time_ns": 4000000000, "x_m": 2.5, "y_m": 0.0}
+{"confidence": "high", "event_refs": ["warehouse_pickup_route_alpha-evt-0008"], "sample_id": "s00005", "source_topic": "/odom", "theta_rad": 0.0, "time_ns": 5000000000, "x_m": 3.0, "y_m": 0.0}
+{"confidence": "high", "event_refs": ["warehouse_pickup_route_alpha-evt-0012"], "sample_id": "s00006", "source_topic": "/odom", "theta_rad": 3.141592653589793, "time_ns": 6000000000, "x_m": 2.25, "y_m": 0.0}
+{"confidence": "high", "event_refs": ["warehouse_pickup_route_alpha-evt-0013"], "sample_id": "s00007", "source_topic": "/odom", "theta_rad": 3.141592653589793, "time_ns": 7000000000, "x_m": 1.5, "y_m": 0.0}
+{"confidence": "high", "event_refs": ["warehouse_pickup_route_alpha-evt-0014"], "sample_id": "s00008", "source_topic": "/odom", "theta_rad": 3.141592653589793, "time_ns": 8000000000, "x_m": 0.75, "y_m": 0.0}
+{"confidence": "high", "event_refs": ["warehouse_pickup_route_alpha-evt-0015"], "sample_id": "s00009", "source_topic": "/odom", "theta_rad": 3.141592653589793, "time_ns": 9000000000, "x_m": 0.0, "y_m": 0.0}

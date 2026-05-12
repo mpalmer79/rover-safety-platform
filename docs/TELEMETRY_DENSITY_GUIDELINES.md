@@ -59,3 +59,11 @@ parent workspace preset.
 empty-state behaviour. `tests/phase20-honesty.test.ts` enforces the
 "no live", "no streaming", "no realtime" rule on every file in
 `components/telemetry/`.
+
+## Phase 20B — recipe-driven derivation
+
+Panels can now consume a declarative recipe from
+`apps/mission-control/src/telemetry-recipes/`. See
+[`TELEMETRY_RECIPE_SYSTEM.md`](TELEMETRY_RECIPE_SYSTEM.md) for the
+recipe model. Each recipe returns explicit `unavailable` results
+when required inputs are missing; recipes never fabricate.

@@ -628,6 +628,11 @@ def test_qualified_runtime_run_writes_full_evidence_dir(tmp_path: Path) -> None:
             "--workspace-root",
             str(_REPO_ROOT),
             "--static-only",
+            # Phase 20B: redirect the evidence-index Markdown to a
+            # temp path so pytest never modifies the committed
+            # docs/EVIDENCE_INDEX.md.
+            "--evidence-index-md",
+            str(tmp_path / "EVIDENCE_INDEX.md"),
         ]
     )
     run_dir = tmp_path / "evidence" / "runtime" / "test-run"
@@ -677,6 +682,8 @@ def test_qualified_runtime_run_includes_scenario_outcomes(tmp_path: Path) -> Non
             "--workspace-root",
             str(_REPO_ROOT),
             "--static-only",
+            "--evidence-index-md",
+            str(tmp_path / "EVIDENCE_INDEX.md"),
         ]
     )
     run_dir = tmp_path / "evidence" / "runtime" / "scenarios"

@@ -49,6 +49,9 @@ class RequirementKind(str, Enum):
     DESIGN_SYSTEM = "design_system"
     SKILL_LLM_INTELLIGENCE = "skill_llm_intelligence"
     SCENE_SNAPSHOT = "scene_snapshot"
+    WORKSPACE_SNAPSHOT = "workspace_snapshot"
+    TELEMETRY_RECIPE = "telemetry_recipe"
+    WALKTHROUGH_CONTEXT = "walkthrough_context"
 
 
 # ---------------------------------------------------------------------------
@@ -104,6 +107,9 @@ _TIER_BY_PREFIX: dict[str, str] = {
     "REQ-ANALYTICS": CATEGORY_TIER_META,
     "REQ-EXPORT": CATEGORY_TIER_META,
     "REQ-SKILL-INTEL": CATEGORY_TIER_META,
+    "REQ-WSNAP": CATEGORY_TIER_META,
+    "REQ-TRECIPE": CATEGORY_TIER_META,
+    "REQ-WALKCTX": CATEGORY_TIER_META,
 }
 
 
@@ -4351,6 +4357,287 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         test_refs=(
             "backend/tests/test_scene_snapshot.py::test_write_snapshot_artefacts_creates_files",
             "backend/tests/test_scene_snapshot.py::test_committed_canonical_fixture_lists_no_bag_backed_inputs",
+        ),
+    ),
+    # -----------------------------------------------------------------
+    # Phase 20B — workspace snapshot exports
+    # -----------------------------------------------------------------
+    Requirement(
+        req_id="REQ-WSNAP-001",
+        kind=RequirementKind.WORKSPACE_SNAPSHOT,
+        title="Workspace snapshots serialise review state deterministically",
+        description=(
+            "A workspace snapshot is a deterministic JSON capture. "
+            "The same input produces byte-identical output. The hash "
+            "field is computed over the canonical form and excludes "
+            "any wall-clock timestamp."
+        ),
+        architecture_refs=("docs/WORKSPACE_SNAPSHOT_EXPORTS.md",),
+        implementation_refs=(
+            "apps/mission-control/src/workspaces/snapshot/snapshotHash.ts",
+            "apps/mission-control/src/workspaces/snapshot/serializeWorkspaceSnapshot.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/workspace-snapshot.test.ts::workspace snapshot > serializes deterministically",
+            "apps/mission-control/tests/workspace-snapshot.test.ts::workspace snapshot > capturedAtUtc never affects the hash",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-WSNAP-002",
+        kind=RequirementKind.WORKSPACE_SNAPSHOT,
+        title="Workspace snapshots capture mission, preset, event, camera, and evidence focus",
+        description=(
+            "Every snapshot carries the workspace preset id, mission "
+            "id, replay run id, selected event, selected panel ids, "
+            "walkthrough step, camera mode, evidence focus, theme, "
+            "and density."
+        ),
+        architecture_refs=("docs/WORKSPACE_SNAPSHOT_EXPORTS.md",),
+        implementation_refs=(
+            "apps/mission-control/src/workspaces/snapshot/models.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/workspace-snapshot.test.ts::workspace snapshot > hash changes when a meaningful field changes",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-WSNAP-003",
+        kind=RequirementKind.WORKSPACE_SNAPSHOT,
+        title="Workspace snapshots require no server writes or network access",
+        description=(
+            "The snapshot route and components operate entirely "
+            "client-side. No backend mutation, no network call, no "
+            "database. Reviewer handoff is offline-only."
+        ),
+        architecture_refs=("docs/WORKSPACE_SNAPSHOT_EXPORTS.md",),
+        implementation_refs=(
+            "apps/mission-control/src/app/workspaces/snapshot/page.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/snapshot-route.test.tsx::WorkspaceSnapshotImportCard > validates a valid pasted JSON",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-WSNAP-004",
+        kind=RequirementKind.WORKSPACE_SNAPSHOT,
+        title="Workspace snapshots detect hash drift on import",
+        description=(
+            "The validator computes the canonical hash of the "
+            "imported snapshot and reports a hash-mismatch issue "
+            "when the supplied hash does not match. Tampered "
+            "snapshots fail import."
+        ),
+        architecture_refs=("docs/WORKSPACE_SNAPSHOT_EXPORTS.md",),
+        implementation_refs=(
+            "apps/mission-control/src/workspaces/snapshot/validateWorkspaceSnapshot.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/workspace-snapshot.test.ts::workspace snapshot > detects hash drift after tampering",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-WSNAP-005",
+        kind=RequirementKind.WORKSPACE_SNAPSHOT,
+        title="Workspace snapshot route renders without network access",
+        description=(
+            "The /workspaces/snapshot route is statically rendered. "
+            "No runtime fetch, no websocket, no EventSource. The "
+            "snapshot library renders the committed canonical "
+            "fixtures verbatim."
+        ),
+        architecture_refs=("docs/WORKSPACE_SNAPSHOT_EXPORTS.md",),
+        implementation_refs=(
+            "apps/mission-control/src/app/workspaces/snapshot/page.tsx",
+            "apps/mission-control/src/workspaces/snapshot/snapshotFixtures.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/snapshot-route.test.tsx::WorkspaceSnapshotSummary > renders the canonical mission-review fixture",
+        ),
+    ),
+    # -----------------------------------------------------------------
+    # Phase 20B — telemetry recipe system
+    # -----------------------------------------------------------------
+    Requirement(
+        req_id="REQ-TRECIPE-001",
+        kind=RequirementKind.TELEMETRY_RECIPE,
+        title="Telemetry panels derive values from declared artefact recipes",
+        description=(
+            "Each telemetry recipe declares its required and "
+            "optional artefact kinds. The panel chrome consumes the "
+            "recipe output rather than reading raw artefact fields "
+            "directly."
+        ),
+        architecture_refs=("docs/TELEMETRY_RECIPE_SYSTEM.md",),
+        implementation_refs=(
+            "apps/mission-control/src/telemetry-recipes/recipeRegistry.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/telemetry-recipes.test.ts::telemetry recipe registry > exposes nine canonical recipes",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-TRECIPE-002",
+        kind=RequirementKind.TELEMETRY_RECIPE,
+        title="Telemetry recipes return explicit unavailable states when inputs are missing",
+        description=(
+            "When a required artefact is missing, the recipe returns "
+            "status='unavailable' with a verbatim limitation note. "
+            "Recipes NEVER fabricate values."
+        ),
+        architecture_refs=("docs/TELEMETRY_RECIPE_SYSTEM.md",),
+        implementation_refs=(
+            "apps/mission-control/src/telemetry-recipes/models.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/telemetry-recipes.test.ts::recipe unavailable behaviour > mission-health is unavailable with no audits",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-TRECIPE-003",
+        kind=RequirementKind.TELEMETRY_RECIPE,
+        title="Telemetry recipes preserve derivation_source and bag_backed verbatim",
+        description=(
+            "The topic-availability and evidence-integrity recipes "
+            "carry derivation_source and bag_backed values forward "
+            "without recoding. A fixture replay never becomes a "
+            "bag-backed claim."
+        ),
+        architecture_refs=("docs/TELEMETRY_RECIPE_SYSTEM.md",),
+        implementation_refs=(
+            "apps/mission-control/src/telemetry-recipes/topicAvailabilityRecipe.ts",
+            "apps/mission-control/src/telemetry-recipes/evidenceIntegrityRecipe.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/telemetry-recipes.test.ts::recipe ok behaviour > topic-availability preserves derivation_source verbatim",
+            "apps/mission-control/tests/telemetry-recipes.test.ts::recipe ok behaviour > evidence-integrity preserves bag_backed counts verbatim",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-TRECIPE-004",
+        kind=RequirementKind.TELEMETRY_RECIPE,
+        title="Telemetry recipes never throw on empty input",
+        description=(
+            "Every recipe handles a fully empty input dictionary "
+            "without raising. Missing artefacts become the "
+            "unavailable status; the recipe layer never propagates "
+            "an exception to the React render path."
+        ),
+        architecture_refs=("docs/TELEMETRY_RECIPE_SYSTEM.md",),
+        implementation_refs=(
+            "apps/mission-control/src/telemetry-recipes/recipeRegistry.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/telemetry-recipes.test.ts::recipes never throw > every recipe handles an empty input",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-TRECIPE-005",
+        kind=RequirementKind.TELEMETRY_RECIPE,
+        title="velocity-command recipe always names /cmd_vel as forbidden",
+        description=(
+            "The velocity-command recipe carries the platform safety "
+            "boundary: /cmd_vel is always forbidden and "
+            "/cmd_vel_requested is the only allowed publisher. "
+            "Even the unavailable branch surfaces this pair."
+        ),
+        architecture_refs=("docs/SAFETY_MODEL.md", "docs/TELEMETRY_RECIPE_SYSTEM.md"),
+        implementation_refs=(
+            "apps/mission-control/src/telemetry-recipes/velocityCommandRecipe.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/telemetry-recipes.test.ts::recipe unavailable behaviour > velocity-command is unavailable with no plan",
+        ),
+    ),
+    # -----------------------------------------------------------------
+    # Phase 20B — contextual reviewer walkthrough
+    # -----------------------------------------------------------------
+    Requirement(
+        req_id="REQ-WALKCTX-001",
+        kind=RequirementKind.WALKTHROUGH_CONTEXT,
+        title="Reviewer walkthrough steps bind to selected mission evidence",
+        description=(
+            "Each walkthrough step renders evidence from the "
+            "currently-selected mission audit. The binding is a "
+            "pure function — no runtime fetch, no fabrication."
+        ),
+        architecture_refs=("docs/CONTEXTUAL_REVIEWER_WALKTHROUGH.md",),
+        implementation_refs=(
+            "apps/mission-control/src/reviewer/contextualWalkthrough.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/contextual-walkthrough.test.tsx::buildStepBindings > operator-request status is ok when an audit is supplied",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-WALKCTX-002",
+        kind=RequirementKind.WALKTHROUGH_CONTEXT,
+        title="Walkthrough steps preserve derivation distinctions",
+        description=(
+            "Steps distinguish simulated, fixture, topology_only, "
+            "bounded_inputs, unavailable, and bag_backed values. "
+            "A fixture replay never produces a bag_backed flavor."
+        ),
+        architecture_refs=("docs/CONTEXTUAL_REVIEWER_WALKTHROUGH.md",),
+        implementation_refs=(
+            "apps/mission-control/src/reviewer/contextualWalkthrough.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/contextual-walkthrough.test.tsx::buildStepBindings > preserves derivation_source verbatim on the analytics step",
+            "apps/mission-control/tests/contextual-walkthrough.test.tsx::buildStepBindings > the limitations step never claims bag_backed for a fixture artefact",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-WALKCTX-003",
+        kind=RequirementKind.WALKTHROUGH_CONTEXT,
+        title="Rejected missions remain visibly rejected in the walkthrough",
+        description=(
+            "When the sanitizer rejects, the compiler emits no plan, "
+            "or the supervisor rejects, the corresponding step "
+            "renders status='rejected' verbatim. The walkthrough "
+            "never hides a rejected outcome."
+        ),
+        architecture_refs=("docs/CONTEXTUAL_REVIEWER_WALKTHROUGH.md",),
+        implementation_refs=(
+            "apps/mission-control/src/reviewer/contextualWalkthrough.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/contextual-walkthrough.test.tsx::buildStepBindings > rejected audit makes the sanitizer step rejected",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-WALKCTX-004",
+        kind=RequirementKind.WALKTHROUGH_CONTEXT,
+        title="Walkthrough surfaces a next-required-proof step at every binding",
+        description=(
+            "Every step carries a 'nextProof' field that tells the "
+            "reviewer what to do next — open the proposal, inspect "
+            "diagnostics, compare bag_backed against the registry."
+        ),
+        architecture_refs=("docs/CONTEXTUAL_REVIEWER_WALKTHROUGH.md",),
+        implementation_refs=(
+            "apps/mission-control/src/reviewer/components/WalkthroughProofStep.tsx",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/contextual-walkthrough.test.tsx::buildStepBindings > returns one binding per step",
+        ),
+    ),
+    Requirement(
+        req_id="REQ-WALKCTX-005",
+        kind=RequirementKind.WALKTHROUGH_CONTEXT,
+        title="Scene cues for walkthrough steps are deterministic",
+        description=(
+            "Each walkthrough step id maps to exactly one scene cue "
+            "kind via STEP_TO_CUE. The mapping is exhaustive — every "
+            "step has a cue, no randomness, no wall-clock timing."
+        ),
+        architecture_refs=("docs/SCENE_ORCHESTRATION_MODEL.md",),
+        implementation_refs=(
+            "apps/mission-control/src/3d/orchestration/cameraCuePlanner.ts",
+            "apps/mission-control/src/3d/orchestration/buildSceneCues.ts",
+        ),
+        test_refs=(
+            "apps/mission-control/tests/scene-orchestration.test.ts::scene cues > STEP_TO_CUE covers every walkthrough step",
+            "apps/mission-control/tests/scene-orchestration.test.ts::scene cues > buildSceneCues is deterministic under repeat calls",
         ),
     ),
 )

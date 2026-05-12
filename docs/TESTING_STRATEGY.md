@@ -571,3 +571,77 @@ is added.
   and the honesty rules above are unchanged.
 - `xfail` was not used to make the suite green. No test was
   weakened.
+
+## 16. Phase 20B — reproducibility + coverage triage
+
+### Reproducing randomized-order failures
+
+The backend suite runs in randomised order on every CI invocation
+via `pytest-randomly`. The plugin prints the chosen seed in the CI
+log. To reproduce locally:
+
+```
+cd backend
+python -m pytest tests/ -q -p randomly --randomly-seed=<SEED>
+```
+
+The seed is deterministic — two runs with the same seed produce
+the same order. This makes CI flakes reproducible.
+
+### Coverage failure triage
+
+* The global gate is `--cov-fail-under=81` enforced by
+  `pyproject.toml`.
+* Per-file safety-module floors run as a second pass after the
+  global gate:
+  - `app/safety/supervisor.py` ≥ 88 (observed 89, pinned at observed−1)
+  - `app/safety/arbitration.py` ≥ 88 (observed 89, pinned at observed−1)
+  - `app/safety/transitions.py` ≥ 95 (observed 100)
+* Coverage artefacts (`backend/coverage.xml` + `backend/htmlcov/`)
+  are uploaded by CI under the `backend-coverage` artefact name.
+
+### Why safety modules have stricter floors
+
+Safety-supervisor and motion-arbitration code carry the project's
+safety-authority claim. A coverage drop on those modules is a
+higher-risk regression than a drop on UI helpers; the per-file
+floor catches it earlier than the global floor would. Pinning at
+`observed − 1` for safety modules (vs. `observed − 2` globally)
+keeps the gap visible while remediation work brings both modules
+toward the 95% target.
+
+### When to raise the floor
+
+Raise a coverage floor when:
+
+* the observed value has been ≥ floor+2 across at least two
+  consecutive merges to `main`, AND
+* the modules covered by the new tests are stable (no pending
+  refactors).
+
+NEVER raise the floor in the same PR that introduces the
+covering tests — let the suite prove the new code is durable before
+locking it in.
+
+### Environmental failure vs. true regression
+
+Distinguish:
+
+* **Environmental** — disk space, Python version drift, missing
+  optional dependency. Captured as `not_executed` reasons; not
+  silenced via floor changes.
+* **True regression** — assertion failure, hash mismatch, exit-code
+  non-zero, coverage drop, frontend honesty grep hit. Always treat
+  as the safety-first signal.
+
+### Test side-effect cleanup (Phase 20B)
+
+Tests MUST write to `tmp_path` rather than the committed working
+tree. The Phase 20B change to
+`rover_ws/tools/qualified_runtime_run.py` adds an
+`--evidence-index-md <path>` flag so tests can redirect the
+evidence-index Markdown to a temp path. A test run no longer
+modifies `docs/EVIDENCE_INDEX.md`.
+
+A `git diff --quiet` after `python -m pytest` should always exit
+zero on a clean clone.

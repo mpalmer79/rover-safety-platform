@@ -74,8 +74,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--check-only",
         action="store_true",
-        help="Verify hashes only; do not rewrite the registry's "
-        "generated_at_utc on success.",
+        help="Verify committed hashes only. Read-only: writes no "
+        "files, modifies no reports, leaves no dirty working tree.",
+    )
+    parser.add_argument(
+        "--write-reports",
+        action="store_true",
+        help="When set alongside --check-only, write the hydration "
+        "report + registry summary in addition to verification. By "
+        "default --check-only writes nothing.",
     )
     args = parser.parse_args(argv)
 
@@ -83,22 +90,29 @@ def main(argv: list[str] | None = None) -> int:
     report = hydrate_registry(
         repo_root=repo_root,
         write_back=not args.check_only,
+        check_only=args.check_only,
     )
 
     md_path = (repo_root / args.report_md).resolve() if not args.report_md.is_absolute() else args.report_md
     json_path = (repo_root / args.report_json).resolve() if not args.report_json.is_absolute() else args.report_json
     reg_md_path = (repo_root / args.registry_md).resolve() if not args.registry_md.is_absolute() else args.registry_md
 
-    md_path.parent.mkdir(parents=True, exist_ok=True)
-    md_path.write_text(render_hydration_markdown(report) + "\n", encoding="utf-8")
-    json_path.write_text(
-        json.dumps(hydration_report_to_dict(report), indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    # Phase 20B: --check-only is a true no-op unless --write-reports
+    # is explicitly passed. The default behaviour is read-only.
+    should_write_reports = (not args.check_only) or args.write_reports
+    if should_write_reports:
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.write_text(render_hydration_markdown(report) + "\n", encoding="utf-8")
+        json_path.write_text(
+            json.dumps(hydration_report_to_dict(report), indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
 
-    registry = load_registry(default_registry_path(repo_root))
-    if registry is not None:
-        reg_md_path.write_text(render_registry_markdown(registry) + "\n", encoding="utf-8")
+        registry = load_registry(default_registry_path(repo_root))
+        if registry is not None:
+            reg_md_path.write_text(render_registry_markdown(registry) + "\n", encoding="utf-8")
+    else:
+        registry = load_registry(default_registry_path(repo_root))
 
     print(f"overall_integrity={report.overall_integrity}")
     print(f"hydration_report={md_path}")
