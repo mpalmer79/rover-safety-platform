@@ -18,22 +18,33 @@ npm run build       # Next.js static export
 npm run dev         # http://localhost:3000
 ```
 
-## Railway deployment
+## Vercel deployment
 
+The mission-control workspace deploys as a Next.js static
+export on Vercel. Vercel auto-detects the framework via Root
+Directory set to `apps/mission-control` in the project
+settings; `vercel.json` pins the build pipeline in version
+control:
+
+```json
+{
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "installCommand": "npm ci",
+  "outputDirectory": ".next"
+}
 ```
-railway link
-railway up         # uses apps/mission-control/railway.json
-```
 
-`railway.json` declares:
+Every push to `main` that touches `apps/mission-control/**` or
+the evidence directories read by the adapter triggers a Vercel
+production deploy. Preview deploys run on every branch push.
 
-* `buildCommand`: `npm ci && npm run typecheck && npm run test && npm run build`;
-* `startCommand`: `npm run start -- --hostname 0.0.0.0 --port $PORT`;
-* `healthcheckPath`: `/`.
+The deployed container serves prerendered HTML; the adapter's
+disk reads happen at build time, so the running site never
+touches the evidence files at runtime.
 
-See [`docs/RAILWAY_DEPLOYMENT_GUIDE.md`](../../docs/RAILWAY_DEPLOYMENT_GUIDE.md)
-for the operator runbook, including the honesty rules every Railway
-deploy preserves.
+See `docs/adr/ADR-009-vercel-deploy-target.md` for the
+migration history.
 
 ## Honesty rules
 
@@ -196,6 +207,5 @@ artefact only when invoked with `ANALYZE=true`.
 * [`docs/MISSION_CONTROL_UI.md`](../../docs/MISSION_CONTROL_UI.md)
 * [`docs/MISSION_SPATIAL_VISUALIZATION.md`](../../docs/MISSION_SPATIAL_VISUALIZATION.md)
 * [`docs/MISSION_REPLAY_MAPS.md`](../../docs/MISSION_REPLAY_MAPS.md)
-* [`docs/RAILWAY_DEPLOYMENT_GUIDE.md`](../../docs/RAILWAY_DEPLOYMENT_GUIDE.md)
 * [`docs/SPATIAL_REPLAY_ARCHITECTURE.md`](../../docs/SPATIAL_REPLAY_ARCHITECTURE.md)
 * [`docs/OPERATOR_EXPERIENCE_GUIDELINES.md`](../../docs/OPERATOR_EXPERIENCE_GUIDELINES.md)

@@ -5,52 +5,21 @@ import * as path from "node:path";
 const REPO_ROOT = path.resolve(__dirname, "../../..");
 const WORKSPACE = path.resolve(__dirname, "..");
 
-describe("railway.json", () => {
-  it("declares the static-export builder", async () => {
+describe("vercel.json", () => {
+  it("declares the Next.js framework", async () => {
     const data = JSON.parse(
-      await fs.readFile(path.join(WORKSPACE, "railway.json"), "utf-8"),
+      await fs.readFile(path.join(WORKSPACE, "vercel.json"), "utf-8"),
     );
-    expect(data.build.builder).toBe("NIXPACKS");
+    expect(data.framework).toBe("nextjs");
+    expect(data.outputDirectory).toBe(".next");
   });
 
-  it("runs typecheck + test + build", async () => {
+  it("uses the standard build pipeline", async () => {
     const data = JSON.parse(
-      await fs.readFile(path.join(WORKSPACE, "railway.json"), "utf-8"),
+      await fs.readFile(path.join(WORKSPACE, "vercel.json"), "utf-8"),
     );
-    expect(data.build.buildCommand).toContain("npm run typecheck");
-    expect(data.build.buildCommand).toContain("npm run test");
-    expect(data.build.buildCommand).toContain("npm run build");
-  });
-
-  it("sets a healthcheck path", async () => {
-    const data = JSON.parse(
-      await fs.readFile(path.join(WORKSPACE, "railway.json"), "utf-8"),
-    );
-    expect(data.deploy.healthcheckPath).toBe("/");
-    expect(typeof data.deploy.healthcheckTimeout).toBe("number");
-  });
-
-  it("uses next start with a host + port", async () => {
-    const data = JSON.parse(
-      await fs.readFile(path.join(WORKSPACE, "railway.json"), "utf-8"),
-    );
-    expect(data.deploy.startCommand).toContain("npm run start");
-    expect(data.deploy.startCommand).toContain("$PORT");
-  });
-});
-
-describe(".env.example", () => {
-  it("documents only port and telemetry vars", async () => {
-    const env = await fs.readFile(path.join(WORKSPACE, ".env.example"), "utf-8");
-    // Allowed:
-    expect(env).toContain("PORT=");
-    expect(env).toContain("HOSTNAME=");
-    expect(env).toContain("NEXT_TELEMETRY_DISABLED=1");
-    // Forbidden (must appear in the prohibited section only, not as
-    // actual assignments).
-    expect(env).not.toMatch(/^OPENAI_API_KEY\s*=/m);
-    expect(env).not.toMatch(/^ANTHROPIC_API_KEY\s*=/m);
-    expect(env).not.toMatch(/^COHERE_API_KEY\s*=/m);
+    expect(data.buildCommand).toBe("next build");
+    expect(data.installCommand).toContain("npm ci");
   });
 });
 
@@ -78,9 +47,9 @@ describe("mission-control-ci.yml", () => {
 });
 
 describe("README + docs", () => {
-  it("workspace README mentions Railway + honesty rules", async () => {
+  it("workspace README mentions Vercel + honesty rules", async () => {
     const readme = await fs.readFile(path.join(WORKSPACE, "README.md"), "utf-8");
-    expect(readme).toContain("railway.json");
+    expect(readme).toContain("vercel.json");
     expect(readme).toContain("SafetyBoundaryBanner");
     expect(readme).toContain("EvidenceStatusChip");
   });
@@ -88,7 +57,6 @@ describe("README + docs", () => {
   it("phase 17B docs are present and carry the disclaimer", async () => {
     const docs = [
       "MISSION_SPATIAL_VISUALIZATION.md",
-      "RAILWAY_DEPLOYMENT_GUIDE.md",
       "MISSION_REPLAY_MAPS.md",
       "OPERATOR_EXPERIENCE_GUIDELINES.md",
       "SPATIAL_REPLAY_ARCHITECTURE.md",
