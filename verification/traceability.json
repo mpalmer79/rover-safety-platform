@@ -1,6 +1,6 @@
 {
   "core_count": 68,
-  "generated_at_utc": "2026-05-11T21:41:02+00:00",
+  "generated_at_utc": "2026-05-12T01:49:14+00:00",
   "meta_count": 100,
   "overall_status": "passed",
   "row_count": 168,
@@ -2554,24 +2554,22 @@
     },
     {
       "architecture_refs": [
-        "docs/RAILWAY_DEPLOYMENT_GUIDE.md"
+        "docs/adr/ADR-009-vercel-deploy-target.md"
       ],
       "category_tier": "meta",
       "evidence_paths": [],
       "implementation_refs": [
-        "apps/mission-control/railway.json",
-        "apps/mission-control/.env.example",
+        "apps/mission-control/vercel.json",
         ".github/workflows/mission-control-ci.yml"
       ],
       "kind": "mission_visualization",
       "requirement_id": "REQ-MVIS-007",
       "scenario_refs": [],
       "status": "passed",
-      "status_detail": "covered by 4 test(s)",
+      "status_detail": "covered by 3 test(s)",
       "test_refs": [
-        "apps/mission-control/tests/deployment.test.ts::railway.json > runs typecheck + test + build",
-        "apps/mission-control/tests/deployment.test.ts::railway.json > sets a healthcheck path",
-        "apps/mission-control/tests/deployment.test.ts::.env.example > documents only port and telemetry vars",
+        "apps/mission-control/tests/deployment.test.ts::vercel.json > declares the Next.js framework",
+        "apps/mission-control/tests/deployment.test.ts::vercel.json > uses the standard build pipeline",
         "apps/mission-control/tests/deployment.test.ts::mission-control-ci.yml > runs the full honesty gate"
       ],
       "title": "Frontend deployment preserves honesty-boundary rendering"
@@ -2820,7 +2818,7 @@
     {
       "architecture_refs": [
         "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
-        "docs/RAILWAY_DEPLOYMENT_GUIDE.md"
+        "docs/adr/ADR-009-vercel-deploy-target.md"
       ],
       "category_tier": "meta",
       "evidence_paths": [],
@@ -3055,7 +3053,7 @@
     {
       "architecture_refs": [
         "docs/DETERMINISTIC_REPLAY_HYDRATION.md",
-        "docs/RAILWAY_DEPLOYMENT_GUIDE.md"
+        "docs/adr/ADR-009-vercel-deploy-target.md"
       ],
       "category_tier": "meta",
       "evidence_paths": [],
