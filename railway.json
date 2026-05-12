@@ -2,7 +2,19 @@
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "cd apps/mission-control && npm ci && npm run build",
+    "nixpacksPlan": {
+      "phases": {
+        "setup": {
+          "nixPkgs": ["nodejs_20", "npm-9_x"]
+        },
+        "install": {
+          "cmds": ["cd apps/mission-control && npm ci"]
+        },
+        "build": {
+          "cmds": ["cd apps/mission-control && npm run build"]
+        }
+      }
+    },
     "watchPatterns": [
       "apps/mission-control/**",
       "mission-rehearsals/**",
