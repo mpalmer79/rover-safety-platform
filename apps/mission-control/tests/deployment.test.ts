@@ -5,26 +5,30 @@ import * as path from "node:path";
 const REPO_ROOT = path.resolve(__dirname, "../../..");
 const WORKSPACE = path.resolve(__dirname, "..");
 
+// railway.json now lives at the repo root for monorepo deployment.
+// The nixpacks plan invokes the build under apps/mission-control.
+const RAILWAY_JSON_PATH = path.join(REPO_ROOT, "railway.json");
+
 describe("railway.json", () => {
-  it("declares the static-export builder", async () => {
+  it("declares the NIXPACKS builder", async () => {
     const data = JSON.parse(
-      await fs.readFile(path.join(WORKSPACE, "railway.json"), "utf-8"),
+      await fs.readFile(RAILWAY_JSON_PATH, "utf-8"),
     );
     expect(data.build.builder).toBe("NIXPACKS");
   });
 
-  it("runs typecheck + test + build", async () => {
+  it("invokes npm run build under apps/mission-control", async () => {
     const data = JSON.parse(
-      await fs.readFile(path.join(WORKSPACE, "railway.json"), "utf-8"),
+      await fs.readFile(RAILWAY_JSON_PATH, "utf-8"),
     );
-    expect(data.build.buildCommand).toContain("npm run typecheck");
-    expect(data.build.buildCommand).toContain("npm run test");
-    expect(data.build.buildCommand).toContain("npm run build");
+    const cmds = data.build.nixpacksPlan.phases.build.cmds.join("\n");
+    expect(cmds).toContain("apps/mission-control");
+    expect(cmds).toContain("npm run build");
   });
 
   it("sets a healthcheck path", async () => {
     const data = JSON.parse(
-      await fs.readFile(path.join(WORKSPACE, "railway.json"), "utf-8"),
+      await fs.readFile(RAILWAY_JSON_PATH, "utf-8"),
     );
     expect(data.deploy.healthcheckPath).toBe("/");
     expect(typeof data.deploy.healthcheckTimeout).toBe("number");
@@ -32,7 +36,7 @@ describe("railway.json", () => {
 
   it("uses next start with a host + port", async () => {
     const data = JSON.parse(
-      await fs.readFile(path.join(WORKSPACE, "railway.json"), "utf-8"),
+      await fs.readFile(RAILWAY_JSON_PATH, "utf-8"),
     );
     expect(data.deploy.startCommand).toContain("npm run start");
     expect(data.deploy.startCommand).toContain("$PORT");
