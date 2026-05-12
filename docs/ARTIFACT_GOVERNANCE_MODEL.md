@@ -119,3 +119,12 @@ spatial-replay/registry/
 
 The frontend reads the registry via
 `apps/mission-control/src/adapters/loader.ts::loadArtifactRegistry`.
+
+## Phase 20B addendum — canonical fixture commitment
+
+The canonical-fixture run artefacts are now committed under
+`spatial-replay/runs/canonical-fixture/`. The `.gitignore` carries a
+specific exception (`!spatial-replay/runs/canonical-fixture/**`) so
+a fresh clone carries the bytes. Backend pytest no longer depends
+on running `tools/hydrate_replay_artifacts.py` first. See
+[`ARTIFACT_STABILIZATION_PASS.md`](ARTIFACT_STABILIZATION_PASS.md).

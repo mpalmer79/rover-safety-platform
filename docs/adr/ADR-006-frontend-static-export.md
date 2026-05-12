@@ -24,7 +24,7 @@ the rest of the platform deliberately rejects:
   `apps/mission-control/playwright.config.ts` would have to mock
   the backend, defeating the point of rendering the real surface.
 
-Railway hosts the UI today and would not host a Python runtime
+Vercel hosts the UI today and would not host a Python runtime
 without enlarging the trust + deploy surface.
 
 ## Decision
@@ -43,8 +43,8 @@ from Next.js 14 App Router:
 - client components exist only where interactivity is required
   (theme toggle, scrubber, 3-D scene, error.tsx); none of them
   call the backend;
-- the Railway service runs `next start` against the prerendered
-  output, not against a live Node runtime that talks to a backend.
+- Vercel serves the prerendered output as static HTML, not
+  against a live Node runtime that talks to a backend.
 
 The adapter is the **only** I/O surface; everything else reads
 the adapter's typed return values.
@@ -71,7 +71,7 @@ the adapter's typed return values.
 ### Negative
 
 - Data changes require a rebuild. A reviewer who lands a new
-  audit cannot see it on the deployed Railway URL until the next
+  audit cannot see it on the deployed Vercel URL until the next
   build runs.
 - The adapter must handle every missing-file case explicitly (see
   ADR-008). A naive `await fs.readFile` would crash the build.
@@ -82,9 +82,10 @@ the adapter's typed return values.
 
 ### Operational
 
-- Railway's `buildCommand` includes `npm run typecheck`,
-  `npm run test`, and `npm run build`. A failing build never
-  reaches production.
+- Vercel's `buildCommand` runs `next build` after `npm ci`; the
+  CI workflow at `.github/workflows/mission-control-ci.yml` runs
+  `npm run typecheck` and `npm run test` on every PR, so a
+  failing build never reaches production.
 - The Mission Control CI workflow verifies the prerendered HTML
   contains the `Simulation-only` banner on every page and never
   contains `bag-backed: yes` for fixture runs.
@@ -92,7 +93,7 @@ the adapter's typed return values.
 ## References
 
 - `apps/mission-control/next.config.mjs`
-- `apps/mission-control/railway.json`
+- `apps/mission-control/vercel.json`
 - `apps/mission-control/src/adapters/loader.ts`
 - `apps/mission-control/src/app/missions/[id]/page.tsx` (canonical
   use of `generateStaticParams`)

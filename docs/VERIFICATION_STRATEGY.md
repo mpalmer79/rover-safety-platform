@@ -233,3 +233,32 @@ The pre-existing honesty rules in `tests/honesty.test.ts` and
 `tests/design-tokens.test.ts` continue to forbid pure-black /
 pure-white usage, cloud-LLM imports, `child_process` imports, and
 ensure every component carries a fixture + axe gate.
+
+## Phase 20B verification additions
+
+Phase 20B adds five frontend test suites and two backend test
+modules:
+
+* `apps/mission-control/tests/workspace-snapshot.test.ts`
+* `apps/mission-control/tests/telemetry-recipes.test.ts`
+* `apps/mission-control/tests/contextual-walkthrough.test.tsx`
+* `apps/mission-control/tests/scene-orchestration.test.ts`
+* `apps/mission-control/tests/snapshot-route.test.tsx`
+* `backend/tests/test_hydration_noop.py`
+* `backend/tests/test_artifact_fixture_commitment.py`
+
+These suites collectively verify:
+
+* deterministic workspace snapshot serialization + hash drift detection;
+* recipe-driven telemetry with explicit `unavailable` behaviour;
+* contextual walkthrough binding to mission audits, preserving
+  derivation distinctions verbatim;
+* deterministic scene cues (no randomness, no wall-clock);
+* hydration `--check-only` is a true no-op;
+* canonical-fixture artefacts are committed and hashes match the
+  registry.
+
+Fifteen new requirements (`REQ-WSNAP-001..005`,
+`REQ-TRECIPE-001..005`, `REQ-WALKCTX-001..005`) are registered in
+`backend/app/verification/requirements.py` and surface in
+`verification/traceability.json` + `docs/TRACEABILITY_MATRIX.md`.

@@ -1,0 +1,10 @@
+{
+  "bag_validation_warnings": [],
+  "missing_topics": [],
+  "sample_count": 10,
+  "status": "passed",
+  "topic_sources": [
+    "/odom"
+  ],
+  "warnings": []
+}

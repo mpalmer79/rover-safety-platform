@@ -1,0 +1,157 @@
+{
+  "alignments": [
+    {
+      "confidence": "high",
+      "delta_time_ns": 0,
+      "deterministic_hash": "5b153462d9b56dc4",
+      "event_id": "warehouse_pickup_route_alpha-evt-0000",
+      "matched_sample_id": "s00000",
+      "spatial_position": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "confidence": "high",
+      "delta_time_ns": 100000000,
+      "deterministic_hash": "8a874e6875a8bccd",
+      "event_id": "warehouse_pickup_route_alpha-evt-0001",
+      "matched_sample_id": "s00000",
+      "spatial_position": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "confidence": "high",
+      "delta_time_ns": 200000000,
+      "deterministic_hash": "358c96e4b423733d",
+      "event_id": "warehouse_pickup_route_alpha-evt-0002",
+      "matched_sample_id": "s00000",
+      "spatial_position": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "confidence": "unaligned",
+      "delta_time_ns": 300000000,
+      "deterministic_hash": "9328582ee7107740",
+      "event_id": "warehouse_pickup_route_alpha-evt-0003",
+      "matched_sample_id": "",
+      "spatial_position": null
+    },
+    {
+      "confidence": "unaligned",
+      "delta_time_ns": 400000000,
+      "deterministic_hash": "bf6e5f7ba7fe84d8",
+      "event_id": "warehouse_pickup_route_alpha-evt-0004",
+      "matched_sample_id": "",
+      "spatial_position": null
+    },
+    {
+      "confidence": "unaligned",
+      "delta_time_ns": 500000000,
+      "deterministic_hash": "49fd87ce1f77db70",
+      "event_id": "warehouse_pickup_route_alpha-evt-0005",
+      "matched_sample_id": "",
+      "spatial_position": null
+    },
+    {
+      "confidence": "unaligned",
+      "delta_time_ns": 400000000,
+      "deterministic_hash": "27191f6e11c87387",
+      "event_id": "warehouse_pickup_route_alpha-evt-0006",
+      "matched_sample_id": "",
+      "spatial_position": null
+    },
+    {
+      "confidence": "unaligned",
+      "delta_time_ns": 300000000,
+      "deterministic_hash": "5e22da5bbe3c622f",
+      "event_id": "warehouse_pickup_route_alpha-evt-0007",
+      "matched_sample_id": "",
+      "spatial_position": null
+    },
+    {
+      "confidence": "high",
+      "delta_time_ns": 200000000,
+      "deterministic_hash": "33fa177ae0601000",
+      "event_id": "warehouse_pickup_route_alpha-evt-0008",
+      "matched_sample_id": "s00001",
+      "spatial_position": [
+        0.625,
+        0.0
+      ]
+    },
+    {
+      "confidence": "high",
+      "delta_time_ns": 100000000,
+      "deterministic_hash": "064ae2e4140a0cd6",
+      "event_id": "warehouse_pickup_route_alpha-evt-0009",
+      "matched_sample_id": "s00001",
+      "spatial_position": [
+        0.625,
+        0.0
+      ]
+    },
+    {
+      "confidence": "high",
+      "delta_time_ns": 0,
+      "deterministic_hash": "daedafd9e9d13619",
+      "event_id": "warehouse_pickup_route_alpha-evt-0010",
+      "matched_sample_id": "s00001",
+      "spatial_position": [
+        0.625,
+        0.0
+      ]
+    },
+    {
+      "confidence": "high",
+      "delta_time_ns": 100000000,
+      "deterministic_hash": "23a9eec348ccb40f",
+      "event_id": "warehouse_pickup_route_alpha-evt-0011",
+      "matched_sample_id": "s00001",
+      "spatial_position": [
+        0.625,
+        0.0
+      ]
+    },
+    {
+      "confidence": "high",
+      "delta_time_ns": 200000000,
+      "deterministic_hash": "96fc305f69f859ca",
+      "event_id": "warehouse_pickup_route_alpha-evt-0012",
+      "matched_sample_id": "s00001",
+      "spatial_position": [
+        0.625,
+        0.0
+      ]
+    },
+    {
+      "confidence": "unaligned",
+      "delta_time_ns": 300000000,
+      "deterministic_hash": "c9bacc0afdd50571",
+      "event_id": "warehouse_pickup_route_alpha-evt-0013",
+      "matched_sample_id": "",
+      "spatial_position": null
+    },
+    {
+      "confidence": "unaligned",
+      "delta_time_ns": 400000000,
+      "deterministic_hash": "510f2c5ac7f502cc",
+      "event_id": "warehouse_pickup_route_alpha-evt-0014",
+      "matched_sample_id": "",
+      "spatial_position": null
+    },
+    {
+      "confidence": "unaligned",
+      "delta_time_ns": 500000000,
+      "deterministic_hash": "d9fbe81a5aa143d5",
+      "event_id": "warehouse_pickup_route_alpha-evt-0015",
+      "matched_sample_id": "",
+      "spatial_position": null
+    }
+  ],
+  "run_id": "canonical-fixture"
+}

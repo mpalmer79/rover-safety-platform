@@ -181,3 +181,14 @@ committed JSON artefacts. Honesty CI gates explicitly forbid
 websockets, EventSource, `bag_backed: true` literals, and the use
 of marketing words like "live", "streaming", or "realtime" in
 telemetry panels.
+
+### Phase 20B/20C — workspace snapshots + contextual walkthrough + CI stabilization
+
+The frontend now exports deterministic workspace snapshots
+(`/workspaces/snapshot`), the reviewer walkthrough binds to the
+focused mission's evidence, the 3D scene participates through
+deterministic scene cues, and telemetry panels can consume
+declarative recipes. The canonical replay fixture is committed
+to disk, hydration `--check-only` is a true no-op, and pytest no
+longer dirties the working tree. Fifteen new requirements bind
+the new surfaces back to the traceability matrix.
