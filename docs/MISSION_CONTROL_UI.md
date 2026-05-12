@@ -145,7 +145,7 @@ of the deterministic backend pipelines.
 ## 8. Phase 17B additions
 
 Phase 17B layers a deterministic 2D spatial visualisation on top
-of this architecture, plus a Railway deployment lane and a
+of this architecture, plus a Vercel deployment and a
 frontend CI workflow:
 
 * `docs/MISSION_SPATIAL_VISUALIZATION.md` — derivation algorithm
@@ -153,11 +153,12 @@ frontend CI workflow:
 * `docs/MISSION_REPLAY_MAPS.md` — per-mission detail composition.
 * `docs/SPATIAL_REPLAY_ARCHITECTURE.md` — data flow + determinism
   guarantees.
-* `docs/RAILWAY_DEPLOYMENT_GUIDE.md` — Railway lane + CI gate.
+* `docs/adr/ADR-009-vercel-deploy-target.md` — deploy target
+  rationale.
 * `docs/OPERATOR_EXPERIENCE_GUIDELINES.md` — UX rules.
 * `.github/workflows/mission-control-ci.yml` — typecheck +
   vitest + build + prerendered-HTML honesty grep.
-* `apps/mission-control/railway.json` + `.env.example`.
+* `apps/mission-control/vercel.json`.
 
 The spatial layer never changes a Phase 17A rule; it adds new
 rendering surfaces (`MissionMap`, `MissionPlaybackPanel`,

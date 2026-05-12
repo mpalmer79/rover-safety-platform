@@ -2998,26 +2998,25 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         kind=RequirementKind.MISSION_VISUALIZATION,
         title="Frontend deployment preserves honesty-boundary rendering",
         description=(
-            "Railway deploys via ``railway.json``; the build step "
-            "runs ``npm run typecheck && npm run test && npm run "
-            "build`` before any artefact is served. The "
-            "``mission-control-ci.yml`` workflow runs the same gate "
-            "on every PR and inspects the prerendered HTML to "
-            "confirm every page carries the ``Simulation-only`` "
-            "banner and never contains a ``bag-backed: yes`` claim."
+            "Vercel deploys via ``vercel.json``; the Next.js "
+            "framework preset runs ``npm ci && next build`` to "
+            "produce a static export. The ``mission-control-ci.yml`` "
+            "workflow runs the full honesty gate (``npm run "
+            "typecheck && npm run test && npm run build``) on every "
+            "PR and inspects the prerendered HTML to confirm every "
+            "page carries the ``Simulation-only`` banner and never "
+            "contains a ``bag-backed: yes`` claim."
         ),
         architecture_refs=(
-            "docs/RAILWAY_DEPLOYMENT_GUIDE.md",
+            "docs/adr/ADR-009-vercel-deploy-target.md",
         ),
         implementation_refs=(
-            "apps/mission-control/railway.json",
-            "apps/mission-control/.env.example",
+            "apps/mission-control/vercel.json",
             ".github/workflows/mission-control-ci.yml",
         ),
         test_refs=(
-            "apps/mission-control/tests/deployment.test.ts::railway.json > runs typecheck + test + build",
-            "apps/mission-control/tests/deployment.test.ts::railway.json > sets a healthcheck path",
-            "apps/mission-control/tests/deployment.test.ts::.env.example > documents only port and telemetry vars",
+            "apps/mission-control/tests/deployment.test.ts::vercel.json > declares the Next.js framework",
+            "apps/mission-control/tests/deployment.test.ts::vercel.json > uses the standard build pipeline",
             "apps/mission-control/tests/deployment.test.ts::mission-control-ci.yml > runs the full honesty gate",
         ),
     ),
@@ -3304,7 +3303,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         ),
         architecture_refs=(
             "docs/SPATIAL_REPLAY_HONESTY_RULES.md",
-            "docs/RAILWAY_DEPLOYMENT_GUIDE.md",
+            "docs/adr/ADR-009-vercel-deploy-target.md",
         ),
         implementation_refs=(
             ".github/workflows/mission-control-ci.yml",
@@ -3556,7 +3555,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         ),
         architecture_refs=(
             "docs/DETERMINISTIC_REPLAY_HYDRATION.md",
-            "docs/RAILWAY_DEPLOYMENT_GUIDE.md",
+            "docs/adr/ADR-009-vercel-deploy-target.md",
         ),
         implementation_refs=(
             ".github/workflows/replay-hydration.yml",

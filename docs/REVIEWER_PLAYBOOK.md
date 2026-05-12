@@ -432,7 +432,7 @@ arbitration remain authoritative.
 
 ---
 
-## Phase 17B (Railway + spatial visualisation) entry points
+## Phase 17B (deploy + spatial visualisation) entry points
 
 If you are reviewing the Phase 17B work specifically:
 
@@ -443,8 +443,9 @@ If you are reviewing the Phase 17B work specifically:
 3. Read [`SPATIAL_REPLAY_ARCHITECTURE.md`](SPATIAL_REPLAY_ARCHITECTURE.md)
    for the data-flow diagram and the dock-close-of-route
    convention.
-4. Read [`RAILWAY_DEPLOYMENT_GUIDE.md`](RAILWAY_DEPLOYMENT_GUIDE.md)
-   for the Railway lane and the CI gate.
+4. Read [`adr/ADR-009-vercel-deploy-target.md`](adr/ADR-009-vercel-deploy-target.md)
+   for the deploy target rationale; the live URL is in the
+   workspace README.
 5. Read [`OPERATOR_EXPERIENCE_GUIDELINES.md`](OPERATOR_EXPERIENCE_GUIDELINES.md)
    for the UX rules every new panel follows.
 6. Skim `apps/mission-control/tests/spatial.test.ts`,

@@ -40,7 +40,7 @@ bounded-inputs derivation remains the default fallback.
                   prerendered HTML (Next.js static export)
                           |
                           v
-                  Railway / static host
+                  Vercel (static host)
 ```
 
 Every node in the data flow is a pure function. The build step
