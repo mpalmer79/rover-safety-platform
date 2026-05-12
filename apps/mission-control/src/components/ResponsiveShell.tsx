@@ -5,7 +5,9 @@ import { usePathname } from "next/navigation";
 import {
   Activity,
   Component as ComponentIcon,
+  Eye,
   Folder,
+  Grid3x3,
   Layers,
   Menu,
   PlayCircle,
@@ -18,6 +20,8 @@ import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { href: "/", label: "Dashboard", icon: Activity },
+  { href: "/workspaces", label: "Workspaces", icon: Grid3x3 },
+  { href: "/walkthrough", label: "Reviewer Walkthrough", icon: Eye },
   { href: "/workbench", label: "Proposal Workbench", icon: Layers },
   { href: "/replay", label: "Replay Viewer", icon: PlayCircle },
   { href: "/safety", label: "Safety Authority", icon: ShieldCheck },

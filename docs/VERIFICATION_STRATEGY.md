@@ -206,3 +206,30 @@ When verification fails:
   cause in `not_executed` reasons and re-run.
 * Never silence a failure by widening the expectation tolerance
   unless an architecture-doc change accompanies the widening.
+
+## Phase 20 frontend honesty gates
+
+Phase 20 adds dedicated honesty tests for the operator-workspace
+surface in `apps/mission-control/tests/`:
+
+* `phase20-honesty.test.ts` — forbids websocket / EventSource /
+  socket.io imports, `new WebSocket(`, `new EventSource(`,
+  hard-coded `bag_backed: true` literals, and the marketing words
+  "live", "streaming", "realtime" inside telemetry panels.
+* `design-system.test.ts` — pins typography / spacing / motion /
+  surface tokens and asserts WCAG AA contrast on the canonical
+  token set.
+* `workspace.test.tsx` — pins the six-preset deterministic set,
+  validates panel layouts, and exercises the topbar / sidebar /
+  status strip / breadcrumbs / preset switcher / panel grid.
+* `telemetry.test.tsx` — covers all twelve telemetry-density
+  panels including honest empty-state behaviour.
+* `walkthrough.test.tsx` — pins the ten-step reviewer walkthrough
+  count, ordering, and verbatim copy.
+* `fleet.test.tsx` — verifies readiness derivation never recodes
+  the input.
+
+The pre-existing honesty rules in `tests/honesty.test.ts` and
+`tests/design-tokens.test.ts` continue to forbid pure-black /
+pure-white usage, cloud-LLM imports, `child_process` imports, and
+ensure every component carries a fixture + axe gate.

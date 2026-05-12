@@ -470,3 +470,25 @@ map labels its derivation source.
   generated indexes; this playbook routes you to the *first*
   things to read.
 - It does not make safety-certification claims.
+
+## Phase 20 addendum — operator workspace shortcuts
+
+For reviewers visiting Mission Control for the first time, the
+fastest path through the platform is the **reviewer walkthrough**
+overlay. The walkthrough is a deterministic ten-step explainer.
+
+- `/walkthrough` — full-page walkthrough (3-5 minutes).
+- `/workspaces/reviewer-walkthrough` — walkthrough inside the
+  workspace shell with sidebar navigation.
+- `/workspaces/mission-review` — telemetry-density mission review
+  for a single mission.
+- `/workspaces/safety-review` — supervisor authority + validation
+  outcomes + topic availability.
+- `/workspaces/evidence-audit` — artefact registry integrity
+  rollup.
+
+The walkthrough script is defined in
+`apps/mission-control/src/reviewer/steps.ts`. Workspace presets
+are defined in `apps/mission-control/src/workspaces/presets.ts`.
+See [`OPERATOR_WORKSPACE_SYSTEM.md`](OPERATOR_WORKSPACE_SYSTEM.md)
+for the architectural overview.
