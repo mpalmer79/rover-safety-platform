@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Activity,
+  Compass,
   Component as ComponentIcon,
   Eye,
   Folder,
@@ -11,6 +12,7 @@ import {
   Layers,
   Menu,
   PlayCircle,
+  Rocket,
   ShieldCheck,
   X,
 } from "lucide-react";
@@ -19,14 +21,16 @@ import { useEffect, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Dashboard", icon: Activity },
-  { href: "/workspaces", label: "Workspaces", icon: Grid3x3 },
-  { href: "/walkthrough", label: "Reviewer Walkthrough", icon: Eye },
-  { href: "/workbench", label: "Proposal Workbench", icon: Layers },
-  { href: "/replay", label: "Replay Viewer", icon: PlayCircle },
+  { href: "/start", label: "Start Here", icon: Compass },
+  { href: "/demo/warehouse-replay", label: "Mission Replay Demo", icon: Rocket },
   { href: "/safety", label: "Safety Authority", icon: ShieldCheck },
+  { href: "/walkthrough", label: "Reviewer Walkthrough", icon: Eye },
   { href: "/evidence", label: "Evidence & Audit", icon: Folder },
-  { href: "/catalog", label: "Components", icon: ComponentIcon },
+  { href: "/", label: "Mission Control", icon: Activity },
+  { href: "/replay", label: "Replay Viewer", icon: PlayCircle },
+  { href: "/workspaces", label: "Workspaces", icon: Grid3x3 },
+  { href: "/workbench", label: "Proposal Workbench", icon: Layers },
+  { href: "/catalog", label: "Component Catalog", icon: ComponentIcon },
 ] as const;
 
 interface ResponsiveShellProps {
@@ -101,12 +105,12 @@ function MobileTopBar({
         "bg-[linear-gradient(120deg,var(--mc-panel-grad-0)_0%,var(--mc-panel-grad-1)_100%)]",
       )}
     >
-      <Link href="/" className="flex flex-col leading-tight">
+      <Link href="/start" className="flex flex-col leading-tight">
         <span className="text-[10px] uppercase tracking-[0.2em] text-muted">
-          Mission Control
+          ProjectBoundary
         </span>
         <span className="text-sm font-semibold text-[color:var(--mc-text)]">
-          Phase 19
+          Mission Control
         </span>
       </Link>
       <button
@@ -146,12 +150,12 @@ function Sidebar({
         className,
       )}
     >
-      <Link href="/" className="block">
+      <Link href="/start" className="block">
         <p className="text-[10px] uppercase tracking-[0.2em] text-muted">
-          Mission Control
+          ProjectBoundary
         </p>
         <p className="font-semibold leading-tight text-[color:var(--mc-text)]">
-          Phase 19
+          Mission Control
         </p>
       </Link>
       <ul className="space-y-1 text-sm">
@@ -179,8 +183,10 @@ function Sidebar({
         })}
       </ul>
       <div className="mt-4 rounded-md border border-[color:var(--mc-border)] bg-[color:var(--mc-surface-overlay)] px-3 py-3 text-[11px] leading-snug text-muted">
-        <p className="mb-1 text-[10px] uppercase tracking-[0.18em]">Honesty</p>
-        Simulation-only. Not safety-certified. Bag-backed evidence count remains 0.
+        <p className="mb-1 text-[10px] uppercase tracking-[0.18em]">Scope</p>
+        Simulation-only platform. Demonstrates deterministic mission
+        validation, supervisor authority, replay evidence, and audit
+        traceability. No real hardware control. Not safety-certified.
       </div>
     </nav>
   );

@@ -27,13 +27,21 @@ export default async function WorkbenchPage() {
         <p className="label">Mission proposal workbench</p>
         <h1 className="display-1">Compose a deterministic mission</h1>
         <p className="text-base-700">
-          Pick a canonical request to see how the deterministic
-          pipeline routes it. The workbench surfaces the sanitizer
-          decision, validator outcome, supervisor authority, and the
-          generated copyable code — every value is taken verbatim
+          The workbench shows how ProjectBoundary handles proposed
+          missions and generated skill candidates. Accepted intents
+          can proceed through validation. Rejected intents are blocked
+          before they can affect motion. Every value comes verbatim
           from the committed audit bundles.
         </p>
       </header>
+
+      <Panel eyebrow="What this proves" title="Reviewer summary">
+        <ul className="space-y-1.5 text-sm text-base-700">
+          <li>• Accepted intents flow through validator and supervisor checks before any simulated motion.</li>
+          <li>• Rejected intents are blocked by the sanitizer or validator — they never reach motion authority.</li>
+          <li>• Generated skill candidates are surfaced as data; they are never executed by this UI.</li>
+        </ul>
+      </Panel>
 
       <div className="grid gap-4 lg:grid-cols-[1.2fr_1fr]">
         <Panel
@@ -94,9 +102,8 @@ export default async function WorkbenchPage() {
         <h2 className="display-2">Generated code candidates</h2>
         <p className="text-base-700">
           Each card preserves the verbatim bytes the deterministic
-          Phase 15A workbench emitted. No autoformat, no re-flow —
-          the deterministic hash in the audit depends on this exact
-          text.
+          skill workbench emitted. No autoformat, no re-flow — the
+          deterministic hash in the audit depends on this exact text.
         </p>
       </header>
 
