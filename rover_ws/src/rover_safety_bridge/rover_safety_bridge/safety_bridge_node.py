@@ -141,6 +141,13 @@ class SafetyBridgeNode(Node):
         self._imu_seq = 0
         self._odom_seq = 0
         self._contact_seq = 0
+        # Last-emit time (ms, receive-clock) per sensor for the stamp
+        # skew diagnostic (#15). Rate-limited to one event per second
+        # per sensor so a flapping publisher cannot spam the log.
+        self._last_skew_emit_ms: dict[str, int] = {}
+        # Last-emit time per topic for the invalid-input diagnostic
+        # (#16). Same rate-limit policy.
+        self._last_invalid_emit_ms: dict[str, int] = {}
 
         # Emit boot event immediately so observers have a marker.
         self._publish_event(self._core.emit_boot_event())
@@ -184,14 +191,20 @@ class SafetyBridgeNode(Node):
             max_range = float(msg.range_max)
             mean_range = 0.0
             point_count = 0
+        # #15: freshness uses receive-time at the subscriber. The
+        # sender's header.stamp is retained for diagnostics only.
+        now_ms = self._now_ms()
+        sender_ms = _stamp_to_ms(msg.header.stamp)
+        self._check_stamp_skew("scan", now_ms=now_ms, sender_ms=sender_ms)
         self._core.cache_scan(
             IncomingScan(
-                timestamp_ms=_stamp_to_ms(msg.header.stamp),
+                timestamp_ms=now_ms,
                 sequence_number=self._scan_seq,
                 min_range_m=min_range,
                 max_range_m=max_range,
                 mean_range_m=mean_range,
                 point_count=point_count,
+                sender_stamp_ms=sender_ms,
             )
         )
 
@@ -202,14 +215,18 @@ class SafetyBridgeNode(Node):
         siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
         cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
         yaw = math.atan2(siny_cosp, cosy_cosp)
+        now_ms = self._now_ms()
+        sender_ms = _stamp_to_ms(msg.header.stamp)
+        self._check_stamp_skew("imu", now_ms=now_ms, sender_ms=sender_ms)
         self._core.cache_imu(
             IncomingImu(
-                timestamp_ms=_stamp_to_ms(msg.header.stamp),
+                timestamp_ms=now_ms,
                 sequence_number=self._imu_seq,
                 angular_velocity_z=msg.angular_velocity.z,
                 linear_accel_x=msg.linear_acceleration.x,
                 linear_accel_y=msg.linear_acceleration.y,
                 orientation_rad=yaw,
+                sender_stamp_ms=sender_ms,
             )
         )
 
@@ -219,20 +236,26 @@ class SafetyBridgeNode(Node):
         siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
         cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
         yaw = math.atan2(siny_cosp, cosy_cosp)
+        now_ms = self._now_ms()
+        sender_ms = _stamp_to_ms(msg.header.stamp)
+        self._check_stamp_skew("odom", now_ms=now_ms, sender_ms=sender_ms)
         self._core.cache_odom(
             IncomingOdom(
-                timestamp_ms=_stamp_to_ms(msg.header.stamp),
+                timestamp_ms=now_ms,
                 sequence_number=self._odom_seq,
                 derived_linear_velocity=msg.twist.twist.linear.x,
                 derived_angular_velocity=msg.twist.twist.angular.z,
                 pose_x=msg.pose.pose.position.x,
                 pose_y=msg.pose.pose.position.y,
                 heading_rad=yaw,
+                sender_stamp_ms=sender_ms,
             )
         )
 
     def _on_contact(self, msg: Bool) -> None:
         self._contact_seq += 1
+        # /rover/sensors/contact/asserted carries no header; receive
+        # time is the only timestamp available.
         self._core.cache_contact(
             IncomingContact(
                 timestamp_ms=self._now_ms(),
@@ -320,6 +343,60 @@ class SafetyBridgeNode(Node):
 
     def _now_ms(self) -> int:
         return self._now_ns() // 1_000_000
+
+    def _check_stamp_skew(self, sensor: str, *, now_ms: int, sender_ms: int) -> None:
+        """Emit a rate-limited diagnostic when sender-stamp skew exceeds 1s.
+
+        Never rejects the message — receive-time is the authoritative
+        clock for freshness (#15). The diagnostic only flags
+        misconfigured publishers.
+        """
+
+        if sender_ms == 0:
+            return  # no stamp present
+        skew_ms = abs(now_ms - sender_ms)
+        if skew_ms <= 1000:
+            return
+        last = self._last_skew_emit_ms.get(sensor, -10_000)
+        if now_ms - last < 1000:
+            return
+        self._last_skew_emit_ms[sensor] = now_ms
+        self.get_logger().warn(
+            "sensor.stamp_skew_excessive sensor=%s skew_ms=%d "
+            "(receive-time used for freshness; sender stamp is diagnostic)"
+            % (sensor, skew_ms)
+        )
+
+    def _emit_invalid_input_event(
+        self, *, topic: str, field: str, error: str
+    ) -> None:
+        """Rate-limited safety.invalid_input event (#16).
+
+        Publishes a structured String event on ``/safety/events`` so the
+        replay layer captures the rejection. Rate-limited to 10/sec per
+        topic to avoid log floods from a stuck publisher.
+        """
+
+        now_ms = self._now_ms()
+        last = self._last_invalid_emit_ms.get(topic, -10_000)
+        if now_ms - last < 100:
+            return
+        self._last_invalid_emit_ms[topic] = now_ms
+        payload = {
+            "event_type": "safety.invalid_input",
+            "severity": "WARNING",
+            "topic": topic,
+            "field": field,
+            "error": error,
+            "now_ms": now_ms,
+        }
+        msg = String()
+        msg.data = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+        self._events_pub.publish(msg)
+        self.get_logger().warn(
+            "safety.invalid_input topic=%s field=%s error=%s"
+            % (topic, field, error)
+        )
 
 
 def _stamp_to_ms(stamp: RosTime) -> int:
