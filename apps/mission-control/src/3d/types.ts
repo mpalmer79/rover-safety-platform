@@ -5,7 +5,7 @@
  *   - the scene NEVER opens a network socket;
  *   - playback is sequence-driven, not wall-clock-driven;
  *   - the camera rig and waypoint geometry are deterministic;
- *   - the scene reads from the spatial-replay artefact verbatim.
+ *   - the scene reads from the spatial-replay artifact verbatim.
  */
 
 import type {

@@ -14,7 +14,7 @@ export function TopicAvailabilityPanel({ artifact }: TopicAvailabilityPanelProps
   return (
     <TelemetryPanelFrame
       kicker="Topic availability"
-      title={artifact ? `${artifact.topic_sources.length} present` : "no artefact"}
+      title={artifact ? `${artifact.topic_sources.length} present` : "no artifact"}
       derivation={artifact ? "spatial_replay.topic_sources" : "—"}
       integrity={
         artifact && artifact.missing_topics.length === 0 ? "passed" : "partial"
@@ -27,7 +27,7 @@ export function TopicAvailabilityPanel({ artifact }: TopicAvailabilityPanelProps
         </div>
       ) : (
         <p className={typography("bodyDense")}>
-          Topic availability requires a spatial-replay artefact.
+          Topic availability requires a spatial-replay artifact.
         </p>
       )}
     </TelemetryPanelFrame>

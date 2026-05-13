@@ -31,7 +31,7 @@ typed diagnostics rather than throwing exceptions.
 | Route feasibility | `no_objectives` diagnostics |
 | Recovery-path validation | `missing_recovery_path` warnings |
 | Risk classification | risk band + score + drivers |
-| Audit + explainability emission | reviewer-facing artefacts |
+| Audit + explainability emission | reviewer-facing artifacts |
 
 A rejection at any stage forces `compile_rejected`.
 
@@ -47,7 +47,7 @@ A reviewer should expect:
   `rover_ws/tools/validate_mission_plan.py`);
 * an explainability chain showing how user input became the final
   plan;
-* an audit artefact (`mission-audit.json` + `mission-audit.md`)
+* an audit artifact (`mission-audit.json` + `mission-audit.md`)
   with the verbatim non-certification disclaimer.
 
 ## 4. Honest fall-backs

@@ -23,7 +23,7 @@ function rungIndex(lifecycle: string): number {
 }
 
 /**
- * Visual ladder of the artefact lifecycle. Every committed artefact
+ * Visual ladder of the artifact lifecycle. Every committed artifact
  * advances through ``generated → hydrated → committed → verified →
  * canonical``. The current lifecycle and integrity are surfaced
  * verbatim from the registry; the panel never invents a higher
@@ -34,7 +34,7 @@ export function ReplayLifecyclePanel({ record }: ReplayLifecyclePanelProps) {
     return (
       <Panel eyebrow="Replay lifecycle" title="Not registered">
         <p className="body-mono text-base-500">
-          No artefact registered for this run. The frontend will
+          No artifact registered for this run. The frontend will
           fall back to the bounded-inputs derivation.
         </p>
       </Panel>

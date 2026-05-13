@@ -8,7 +8,7 @@
 
 Three pre-existing weaknesses blocked clean CI:
 
-1. The canonical fixture artefacts (`spatial-replay/runs/canonical-fixture/*`)
+1. The canonical fixture artifacts (`spatial-replay/runs/canonical-fixture/*`)
    were gitignored under the global `runs/` rule. A fresh clone did
    not carry the bytes, so `test_canonical_registry_paths_match_disk`
    failed unless hydration was run locally first.
@@ -42,7 +42,7 @@ Three pre-existing weaknesses blocked clean CI:
 * `backend/app/artifact_registry/hydration.py::hydrate_registry`
   accepts a new `check_only: bool` parameter.
   In `check_only=True` mode the function:
-  - does NOT rebuild artefacts;
+  - does NOT rebuild artifacts;
   - does NOT write spatial-replay outputs;
   - does NOT rewrite the registry's `generated_at_utc`;
   - reads committed bytes and compares against expected hashes.

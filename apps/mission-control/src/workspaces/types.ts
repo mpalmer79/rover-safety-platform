@@ -7,7 +7,7 @@
  *
  * Honesty rules:
  *   * a preset never claims live telemetry — it points at panels
- *     that consume committed artefacts only;
+ *     that consume committed artifacts only;
  *   * a preset never persists drag/drop state — the JSON shape is
  *     the single source of truth.
  */

@@ -41,7 +41,7 @@ JavaScript.
 | Validator-rejected plans never reach the supervisor                  | REQ-REHEARSAL-003                      |
 | Sanitizer rejection skips the compiler                               | REQ-PROPOSAL-003, REQ-SKILL-LLM-003    |
 | Local LLM providers are disabled by default                          | REQ-SKILL-LLM-001                      |
-| Bag-backed evidence requires real bag artefacts                      | REQ-LIVE-001..005, REQ-REHEARSAL-004   |
+| Bag-backed evidence requires real bag artifacts                      | REQ-LIVE-001..005, REQ-REHEARSAL-004   |
 | Mission-control UI does not open a network socket                    | REQ-MCTRL-001, REQ-MCTRL-010           |
 
 ## 3. Hard boundaries

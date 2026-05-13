@@ -40,9 +40,9 @@ export interface StepBinding {
   status: StepBindingStatus;
   /** Human-readable headline. */
   headline: string;
-  /** Optional artefact path referenced by the step. */
+  /** Optional artifact path referenced by the step. */
   artifactRef: string | null;
-  /** Verbatim status string from the artefact when available. */
+  /** Verbatim status string from the artifact when available. */
   artifactStatus: string | null;
   /** Derivation flavor — preserves spatial-replay distinctions. */
   derivation: DerivationFlavor;
@@ -319,7 +319,7 @@ function bindUnresolvedLimitations(input: ContextualInputs): StepBinding {
   const limitations: string[] = [];
   if (!audit.replay) limitations.push("No replay bundle attached.");
   if (!audit.runtime) limitations.push("No rehearsal runtime attached.");
-  if (!spatial) limitations.push("No spatial-replay artefact for this run.");
+  if (!spatial) limitations.push("No spatial-replay artifact for this run.");
   else if (spatial.derivation_source !== "bag_backed") {
     limitations.push(
       `derivation_source · ${spatial.derivation_source} — never claim bag-backed.`,

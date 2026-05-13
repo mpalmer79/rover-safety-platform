@@ -30,9 +30,9 @@ interface MissionPlaybackPanelProps {
  * with the event scrubber so an operator can advance through the
  * ordered event stream and watch the active waypoint highlight.
  *
- * Phase 17C: when a spatial-replay artefact is provided AND it
+ * Phase 17C: when a spatial-replay artifact is provided AND it
  * declares a ``bag_backed`` or ``fixture`` derivation source AND
- * carries pose samples, the panel renders the artefact's
+ * carries pose samples, the panel renders the artifact's
  * trajectory. Otherwise the panel falls back to the bounded-inputs
  * derivation from Phase 17B. The map caption always names the
  * derivation source verbatim.
@@ -66,8 +66,8 @@ export function MissionPlaybackPanel({
     [events, route],
   );
 
-  // Used by the bounded-inputs adapter when no artefact is present.
-  // Avoid ever rendering markers that fail the artefact alignment.
+  // Used by the bounded-inputs adapter when no artifact is present.
+  // Avoid ever rendering markers that fail the artifact alignment.
   void projectEvents; // type retained for adapter symmetry
 
   const [activeIndex, setActiveIndex] = useState(
@@ -77,7 +77,7 @@ export function MissionPlaybackPanel({
   const activeWaypointId = useMemo(() => {
     for (let i = activeIndex; i >= 0; i -= 1) {
       const ev = events[i];
-      // Prefer the artefact alignment when available.
+      // Prefer the artifact alignment when available.
       if (route.artifact) {
         const aligned = route.artifact.event_alignments.find(
           (a) =>

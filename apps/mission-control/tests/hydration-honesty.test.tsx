@@ -112,7 +112,7 @@ describe("Phase 18 honesty rules", () => {
     }>) {
       if (record.derivation_source === "bag_backed") {
         expect(record.bag_status).toBe("bag_backed");
-        // Resolve the artefact's spatial-replay.json and confirm
+        // Resolve the artifact's spatial-replay.json and confirm
         // sample_count > 0. This mirrors the CI honesty grep.
         const replayFile = record.files.find((f) =>
           f.relative_path.endsWith("spatial-replay.json"),

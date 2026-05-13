@@ -7,7 +7,7 @@ reliability material.
 
 ## 1. Disciplines
 
-| Category | What it measures | Source artefacts |
+| Category | What it measures | Source artifacts |
 | --- | --- | --- |
 | `evidence` | Replay-review evidence ingestion + static-vs-bag-backed mix. | replay-review-report.json |
 | `replay` | Replay quality + drift severity. | analytics-report.json, drift-report.json |
@@ -26,7 +26,7 @@ Each discipline returns one of:
 | `acceptable` | Some warnings / some static-only / a single qualification miss. |
 | `weak` | Recurring warnings, declining coverage, or a single critical input. |
 | `concerning` | Repeat failures, contradictions, or replay honesty violations. |
-| `unknown` | No artefacts in this discipline yet. |
+| `unknown` | No artifacts in this discipline yet. |
 
 ## 3. Overall programme health
 
@@ -46,7 +46,7 @@ falls back to `weak` (a fresh repo is not automatically `strong`).
 * The model never reports `strong` when every discipline is
   `unknown`.
 * The model records the **reasons** behind each rating and the
-  triggering artefacts (paths or labels).
+  triggering artifacts (paths or labels).
 * Drift severity drives the `replay` discipline rating; static
   drift (no history) is `unknown`, not `weak`.
 

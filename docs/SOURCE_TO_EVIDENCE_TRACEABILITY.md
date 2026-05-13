@@ -3,12 +3,12 @@
 This document is the operator-facing companion to
 [docs/RELIABILITY_IMPACT_ANALYSIS.md](RELIABILITY_IMPACT_ANALYSIS.md).
 It documents the chain that maps a source change to the evidence
-artefacts a reviewer must inspect or regenerate.
+artifacts a reviewer must inspect or regenerate.
 
 ## 1. Chain
 
 ```
-source file -> subsystem -> requirement IDs -> recommended tools -> recommended artefacts
+source file -> subsystem -> requirement IDs -> recommended tools -> recommended artifacts
 ```
 
 Every step is deterministic. The classifier is a fixed prefix
@@ -56,12 +56,12 @@ the evidence map is hand-curated and cited per subsystem.
 | `ci` | REQ-RUNTIME-*, REQ-IMPACT-* |
 | `docs`, `tests`, `unknown` | (no direct REQ-* mapping) |
 
-## 4. Subsystem -> recommended tools / artefacts
+## 4. Subsystem -> recommended tools / artifacts
 
 The full table lives in `backend/app/reliability_impact/evidence_mapper.py`.
 Representative entries:
 
-| Subsystem | Recommended tools | Recommended artefacts |
+| Subsystem | Recommended tools | Recommended artifacts |
 | --- | --- | --- |
 | `safety` | `tools/audit_command_path.py`, `tools/audit_safety_transitions.py`, `tools/generate_evidence.py`, `tools/generate_traceability.py` | `evidence/scenarios/`, `incidents/`, `verification/traceability.json` |
 | `incident_analysis` | `rover_ws/tools/reconstruct_incident.py`, `index_incidents.py`, `compare_incidents.py` | `incidents/`, `docs/INCIDENT_INDEX.md` |
@@ -76,7 +76,7 @@ Representative entries:
 
 - The classifier is deterministic and total: every path maps to one
   bucket; unknown paths are surfaced explicitly.
-- Tools / artefacts in the recipe list are not promises — they are
+- Tools / artifacts in the recipe list are not promises — they are
   *recommendations*. The actual regeneration is the reviewer's
   responsibility.
 - The chain never claims source-level causality. If a safety file

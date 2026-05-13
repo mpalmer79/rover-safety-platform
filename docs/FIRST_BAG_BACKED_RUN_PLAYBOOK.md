@@ -2,7 +2,7 @@
 
 The platform is **not safety-certified.** This playbook is the
 exact operator workflow for producing the FIRST real bag-backed
-spatial-replay artefact + reviewer scene snapshot.
+spatial-replay artifact + reviewer scene snapshot.
 
 The platform is intentionally honest about what it ships today:
 **no real bag-backed run exists yet.** Every committed
@@ -15,7 +15,7 @@ on-ramp for the first real run obvious.
 - A qualified self-hosted Jazzy + Gazebo runner (Phase 13).
 - A committed runner profile under `live-runtime/`.
 - A scenario plan entry that references the run.
-- The Phase 18 artefact-registry / hydration CLI installed.
+- The Phase 18 artifact-registry / hydration CLI installed.
 
 ## 2. Record the bag
 
@@ -42,7 +42,7 @@ samples — see `docs/SPATIAL_REPLAY_ARTIFACT_FORMAT.md`.
 Commit the resulting file to
 `evidence/runtime/<run_id>/pose-samples.jsonl`.
 
-## 4. Generate the spatial-replay artefact
+## 4. Generate the spatial-replay artifact
 
 ```bash
 python tools/generate_spatial_replay.py \
@@ -58,7 +58,7 @@ python tools/generate_spatial_replay.py \
 ```
 
 The CLI emits the five files under
-`spatial-replay/runs/<run_id>/`. The artefact's
+`spatial-replay/runs/<run_id>/`. The artifact's
 `derivation_source` will be `bag_backed` if the bag manifest
 validates and pose samples are present.
 
@@ -105,7 +105,7 @@ working-tree drift.
 python tools/generate_reviewer_scene_snapshot.py --run-id <run_id>
 ```
 
-When the artefact is honestly bag-backed, the CLI prints
+When the artifact is honestly bag-backed, the CLI prints
 `status=bag_backed` and `reviewer_export_ready=True`, and writes
 `spatial-replay/snapshots/<run_id>.scene-snapshot.{json,md}`.
 
@@ -122,7 +122,7 @@ trajectory in the immersive scene, mark the lifecycle ladder as
 - The registry update is a manual operator step; nothing in CI
   auto-promotes a run to `canonical`.
 - The reviewer scene-snapshot panel never claims a snapshot
-  exists unless the artefact registry + spatial-replay +
+  exists unless the artifact registry + spatial-replay +
   bag-status all align.
 - This playbook is a *plan* — the platform does NOT yet contain
   a real bag-backed run.

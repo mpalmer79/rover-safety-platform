@@ -31,7 +31,7 @@ evidence that supports that claim.
 | Deterministic Python autonomy core | `backend/app/` | Safety supervisor, mission runtime, world model, fault injection, replay, verification, programme review, reviewer export |
 | ROS 2 / Gazebo workspace | `rover_ws/` | Parallel implementation honouring the same contracts; static-only fall-back when no Jazzy host |
 | Engineering tools | `tools/`, `rover_ws/tools/` | Audits, validators, evidence generators, scenario runners, programme-review CLIs, reviewer-export CLI |
-| Evidence | `evidence/`, `incidents/`, `programme-review/`, `reliability-impact/`, `reviewer-export/` | Per-scenario artefacts, incident reconstructions, longitudinal governance, reviewer-friendly bundle |
+| Evidence | `evidence/`, `incidents/`, `programme-review/`, `reliability-impact/`, `reviewer-export/` | Per-scenario artifacts, incident reconstructions, longitudinal governance, reviewer-friendly bundle |
 | Docs | `docs/`, `ARCHITECTURE.md`, ADRs | Architecture, contracts, strategy, traceability, reports, playbook |
 
 ## Phase status (high level)
@@ -60,7 +60,7 @@ See [`ROADMAP.md`](ROADMAP.md) for the full breakdown.
 | Surface | Today's reality |
 | --- | --- |
 | Deterministic Python core scenarios | **Live** — 14/14 passing in CI |
-| Per-scenario evidence artefacts | **Live** — regenerated every run |
+| Per-scenario evidence artifacts | **Live** — regenerated every run |
 | Traceability matrix | **Live** — generated from registry + verification |
 | ROS 2 / Gazebo runtime | **Static-only** by default; live execution requires a Jazzy host and is honestly labelled |
 | Incident reconstructions | **Canonical fixtures**; same generator runs against real bags when available |

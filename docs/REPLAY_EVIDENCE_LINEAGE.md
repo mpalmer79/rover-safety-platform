@@ -2,7 +2,7 @@
 
 The platform is **not safety-certified.** This document describes
 how the operator can read the lineage of every spatial-replay
-artefact that the UI renders.
+artifact that the UI renders.
 
 ## 1. The lineage chain
 
@@ -17,7 +17,7 @@ pose-samples.jsonl (operator post-processed for bag-backed; fixture for fixture)
    ↓
 spatial-replay.json
    ↓
-canonical artefact registry
+canonical artifact registry
    ↓
 render: caption + badge + 3D scene
 ```
@@ -70,8 +70,8 @@ hydration CLI honestly.
 ## 5. Honesty rules
 
 - The lineage chain never invents an upstream source. A fixture
-  artefact's chain explicitly says `committed fixture`; a bag-
-  backed artefact's chain explicitly says
+  artifact's chain explicitly says `committed fixture`; a bag-
+  backed artifact's chain explicitly says
   `evidence/runtime/<id>/bag-manifest.json`.
 - The confidence band never upgrades the underlying derivation.
 - The lifecycle ladder reflects the registry verbatim; the helper

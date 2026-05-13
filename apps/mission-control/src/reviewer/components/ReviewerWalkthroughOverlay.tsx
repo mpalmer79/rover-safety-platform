@@ -56,7 +56,7 @@ export function ReviewerWalkthroughOverlay({
             Understand the platform in 10 deterministic steps
           </h1>
           <p className={cn(typography("caption"), "mt-1 max-w-prose")}>
-            Each step explains a stage of the pipeline, the artefacts it
+            Each step explains a stage of the pipeline, the artifacts it
             produces, the safety boundary it enforces, and its outcome — all
             from committed JSON.
           </p>

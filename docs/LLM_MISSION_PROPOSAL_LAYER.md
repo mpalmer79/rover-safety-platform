@@ -30,7 +30,7 @@ natural-language request
    compile_intent (Phase 14A)       <-- deterministic, offline
        │
        ▼
-   ProposalAudit                    <-- read-only artefact bundle
+   ProposalAudit                    <-- read-only artifact bundle
 ```
 
 The proposal layer is bounded above (a sanitizer that rejects unsafe

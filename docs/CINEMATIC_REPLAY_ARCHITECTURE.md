@@ -9,7 +9,7 @@ the design of the deterministic cinematic playback layer.
   console, not a game.
 - Every camera position must be reproducible from
   `(mode, focus, sceneCenter, sceneRadius)`.
-- The scene must read exclusively from committed replay artefacts.
+- The scene must read exclusively from committed replay artifacts.
 - The scrubber must drive every visible state change — no implicit
   animation loop.
 
@@ -65,7 +65,7 @@ The `SceneOverlay` renders the verbatim derivation source caption
 `MissionTimelineBridge.tsx` probes for WebGL on mount. When no
 WebGL context can be acquired, the bridge renders the Phase 17C
 `MissionPlaybackPanel` instead. The fallback never fabricates
-data — both paths consume the same artefact + bounded-input route.
+data — both paths consume the same artifact + bounded-input route.
 
 ## 6. What this does NOT do
 

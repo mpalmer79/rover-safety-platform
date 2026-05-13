@@ -109,7 +109,7 @@ describe("not-found fallback", () => {
   it("does not expose internal artifact pipeline language", () => {
     render(<NotFound />);
     const text = document.body.textContent ?? "";
-    expect(text).not.toMatch(/No artefact at this path/i);
+    expect(text).not.toMatch(/No artifact at this path/i);
     expect(text).not.toMatch(/static export resolves every route/i);
   });
 

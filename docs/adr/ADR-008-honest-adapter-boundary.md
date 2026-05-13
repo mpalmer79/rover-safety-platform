@@ -6,10 +6,10 @@ Accepted
 
 ## Context
 
-The Mission Control UI reads every artefact from committed JSON
+The Mission Control UI reads every artifact from committed JSON
 on disk via `apps/mission-control/src/adapters/loader.ts`. Many
-artefacts are optional: a rehearsal might not yet have a replay
-review, a mission might not yet have a spatial-replay artefact,
+artifacts are optional: a rehearsal might not yet have a replay
+review, a mission might not yet have a spatial-replay artifact,
 the canonical registry might not yet list a run, the live-runtime
 maturity report might be absent. A naive implementation would
 either:
@@ -28,7 +28,7 @@ The adapter follows a deliberate three-rule contract:
 1. **Return `null` on ENOENT.** Every `readJson`-style function
    catches `ENOENT` / `ENOTDIR` and returns `null`. The caller is
    responsible for rendering an honest placeholder
-   (`<p>No artefact found for this run.</p>`).
+   (`<p>No artifact found for this run.</p>`).
 2. **Throw on other errors.** A `JSON.parse` failure, a permission
    error, or any other `fs.readFile` failure propagates as a
    thrown error. Item 2 wired route-level `error.tsx` files to
@@ -56,7 +56,7 @@ async function readJson<T>(filePath: string): Promise<T | null> {
 
 Every consumer (server component) handles the `null` branch
 explicitly: the mission detail page renders "No spatial replay
-artefact for this run" rather than an empty map; the dashboard
+artifact for this run" rather than an empty map; the dashboard
 renders "No rehearsal audits found" with a regen command rather
 than a fake placeholder card.
 
@@ -90,7 +90,7 @@ than a fake placeholder card.
 ### Operational
 
 - The adapter's exception surface is part of the build contract.
-  Adding a new artefact type requires a matching loader function,
+  Adding a new artifact type requires a matching loader function,
   a `null` return on missing, and a route-level renderer that
   handles the `null` branch.
 - The Phase-18 hydration CLI

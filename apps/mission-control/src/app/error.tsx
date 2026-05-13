@@ -39,7 +39,7 @@ export default function DashboardError({ error, reset }: RouteErrorProps) {
       >
         <header className="space-y-1">
           <p className="label">Operator console</p>
-          <h1 className="display-1">Artefact failed to load</h1>
+          <h1 className="display-1">Artifact failed to load</h1>
           <p className="text-muted text-sm sm:text-base">
             The dashboard adapter raised a non-ENOENT error while
             reading committed JSON. The static export and

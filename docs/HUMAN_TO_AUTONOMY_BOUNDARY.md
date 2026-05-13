@@ -48,7 +48,7 @@ operator (natural-language intent)
   constraints **using the bounded grammar**.
 - Validate against the active ODD profile.
 - Classify deterministic risk.
-- Emit explainability + audit artefacts.
+- Emit explainability + audit artifacts.
 - Emit replay-binding metadata for *future* runs.
 
 ## 3. What the compiler is NOT allowed to do

@@ -58,10 +58,10 @@ Skipping a phase, partially completing a phase, or working ahead of a phase requ
 | Phase 15A — Deterministic Robotics Skill Authoring Workbench | Implemented; offline / template-only; see section 3r |
 | Phase 15B — Local LLM Skill Candidate Provider (disabled by default) | Implemented; cloud APIs forbidden; no network call in this phase; see section 3s |
 | Phase 16 — Governed Mission-to-Rehearsal Pipeline | Implemented; simulation-only; deterministic; validator-authoritative; see section 3t |
-| Phase 17A — Mission Control Experience & Autonomy Visualization Layer | Implemented; static-export Next.js workspace; reads committed artefacts only; see section 3u |
+| Phase 17A — Mission Control Experience & Autonomy Visualization Layer | Implemented; static-export Next.js workspace; reads committed artifacts only; see section 3u |
 | Phase 17B — Frontend Deployment, Frontend CI, and Mission Spatial Visualization Foundation | Implemented; deterministic 2D maps from bounded inputs; Vercel + frontend CI; see section 3v |
-| Phase 17C — Bag-Backed Spatial Replay Upgrade | Implemented; bag_backed + fixture artefact pathway; never fabricates telemetry; see section 3w |
-| Phase 18 — Immersive Mission Control UX + Artefact Governance Hardening | Implemented; canonical artefact registry, deterministic hydration CLI, immersive 3D mission scene, mission narrative + evidence lineage; see section 3x |
+| Phase 17C — Bag-Backed Spatial Replay Upgrade | Implemented; bag_backed + fixture artifact pathway; never fabricates telemetry; see section 3w |
+| Phase 18 — Immersive Mission Control UX + Artifact Governance Hardening | Implemented; canonical artifact registry, deterministic hydration CLI, immersive 3D mission scene, mission narrative + evidence lineage; see section 3x |
 | Phase 19 — Mission Control Design System, Responsive UX, Local LLM Intelligence, Scene Snapshot Readiness | Implemented; theme system + light/dark toggle, responsive layout shell, candidate ranking + repair + critique, reviewer scene snapshot metadata; see section 3y |
 | Phase 20 — Operator Workspace System + High-Density Mission Review UX | Implemented; six deterministic workspace presets, twelve telemetry-density panels, ten-step reviewer walkthrough, fleet-readiness models, shared design-system tokens; simulation-only; see `OPERATOR_WORKSPACE_SYSTEM.md`, `REVIEWER_WALKTHROUGH_MODE.md`, `TELEMETRY_DENSITY_GUIDELINES.md`, `RESPONSIVE_MISSION_CONTROL.md`, `FLEET_REVIEW_ARCHITECTURE.md`, `DESIGN_SYSTEM_STANDARD.md`, `ENTERPRISE_OPERATOR_UX.md` |
 | Phase 20B/20C — Workspace Snapshot Exports + Contextual Walkthrough + CI Stabilization | Implemented; deterministic workspace snapshots, mission-bound walkthrough, scene cue orchestration, recipe-driven telemetry, canonical fixture commitment, read-only hydration check; see `WORKSPACE_SNAPSHOT_EXPORTS.md`, `CONTEXTUAL_REVIEWER_WALKTHROUGH.md`, `TELEMETRY_RECIPE_SYSTEM.md`, `SCENE_ORCHESTRATION_MODEL.md`, `ARTIFACT_STABILIZATION_PASS.md` |
@@ -518,7 +518,7 @@ packages (`rover_mission_runtime`, `rover_world_model`,
   the scenario suite).
 - Recovery executes for timeout, keepout, and operator paths; budget
   exhaustion forces MISSION_ABORT.
-- Mission replay artefacts are present in every run directory and
+- Mission replay artifacts are present in every run directory and
   validated by `tools/validate_mission_run.py`.
 - World model integrates keepout / restricted / boundary zones and
   emits `world_model.*` events.
@@ -588,13 +588,13 @@ Implemented. See `backend/app/verification/`,
 - Convert the platform from "implemented systems" into "engineering
   evidence". Every safety-critical guarantee is bound to a stable
   `REQ-*` ID, an architecture reference, an implementation, a test,
-  a scenario, and an evidence artefact.
+  a scenario, and an evidence artifact.
 - Reuse — not replace — the Phase 1C / Phase 2 validators
   (`replay_validator`, `mission_validator`, `safety_pipeline_validator`,
   scenario suite). Phase 3 composes them into a verification surface
   that distinguishes ``passed``, ``failed``, ``partial``, ``skipped``,
   and ``not_executed``.
-- Produce reproducible artefacts (JSON + Markdown) that a reviewer
+- Produce reproducible artifacts (JSON + Markdown) that a reviewer
   can scrub through to understand what was checked, where the
   evidence is, and what is intentionally out of scope.
 
@@ -613,7 +613,7 @@ Implemented. See `backend/app/verification/`,
   - `replay_integrity.py` (Phase 3 wrapper around the Phase 1C +
     Phase 2 validators),
   - `scenario_verifier.py` (per-scenario expectations + verifier),
-  - `evidence.py` (per-scenario artefact directory + Markdown
+  - `evidence.py` (per-scenario artifact directory + Markdown
     summary + events timeline),
   - `traceability.py` (registry-driven matrix to JSON + Markdown),
   - `report_generator.py` (`docs/SCENARIO_VERIFICATION_REPORT.md`).
@@ -625,7 +625,7 @@ Implemented. See `backend/app/verification/`,
   - `generate_traceability.py`,
   - `generate_verification_report.py`.
 - `verification/traceability.json`, `verification/verification_report.json`,
-  `evidence/scenarios/<id>/...` — artefacts checked into the repo on
+  `evidence/scenarios/<id>/...` — artifacts checked into the repo on
   the latest deterministic-engine run.
 - `docs/VERIFICATION_STRATEGY.md`, `docs/TRACEABILITY_MATRIX.md`,
   `docs/SCENARIO_VERIFICATION_REPORT.md`.
@@ -643,7 +643,7 @@ Implemented. See `backend/app/verification/`,
 - Scenario verifier runs every Phase 1C / Phase 2 scenario and
   produces a `ScenarioVerification` with at least 8 checks each.
 - Evidence directories are written per scenario with the documented
-  artefact set.
+  artifact set.
 - Command-path audit, safety-transition audit, and replay-integrity
   verifier all run as standalone tools and from inside the
   scenario verifier.
@@ -658,7 +658,7 @@ Implemented. See `backend/app/verification/`,
 ### Risks
 
 - The verification layer reads only the deterministic engine's
-  artefacts. ROS 2 / Gazebo runs on a Jazzy host produce
+  artifacts. ROS 2 / Gazebo runs on a Jazzy host produce
   interchangeable run directories that pass the same verifiers, but
   this Phase 3 implementation does not invoke those runs in CI; the
   Jazzy procedure stays in `rover_ws/tests/manual.md`.
@@ -676,13 +676,13 @@ Implemented. See `backend/app/verification/`,
 - Foxglove-driven evidence: video / topic captures attached to
   evidence directories.
 - Long-running soak scenarios.
-- Cross-build artefact comparison (Phase 4 candidate).
+- Cross-build artifact comparison (Phase 4 candidate).
 
 ### Portfolio Signal
 
 - Demonstrates verification discipline appropriate for a
   safety-oriented robotics codebase: every guarantee has an ID, a
-  test, a scenario, and an evidence artefact.
+  test, a scenario, and an evidence artifact.
 - Demonstrates honest reporting: skipped and not-executed checks
   are surfaced; the report explicitly disclaims certification.
 
@@ -739,12 +739,12 @@ requires a Jazzy host with Gazebo Harmonic.
   `rover_ws/tests/test_runtime_validation_tooling.py` exercise the
   static-only path end-to-end without requiring ROS.
 - The traceability matrix lists `REQ-RUNTIME-001..005`, each bound to
-  at least one test and one evidence artefact.
+  at least one test and one evidence artifact.
 
 ### Risks
 
 - Drift between the expected runtime contract and the actual launch /
-  bridge / URDF artefacts. Mitigated by the static validator running
+  bridge / URDF artifacts. Mitigated by the static validator running
   in CI.
 - Live probes false-failing during the launch settle period.
   Mitigated by configurable `--settle-seconds`.
@@ -850,7 +850,7 @@ requires a self-hosted Jazzy + Gazebo Harmonic runner.
   qualification, scenario packs, baseline comparison, regression
   classification, and a CI workflow that does not fake live success.
 - Demonstrates honest reporting: static and live evidence are
-  distinguished in every artefact.
+  distinguished in every artifact.
 
 ---
 
@@ -859,7 +859,7 @@ requires a self-hosted Jazzy + Gazebo Harmonic runner.
 ### Status
 
 Implemented in this branch. The package is read-only with respect
-to runtime evidence and produces engineering analysis artefacts.
+to runtime evidence and produces engineering analysis artifacts.
 
 ### Objectives
 
@@ -935,11 +935,11 @@ to runtime evidence and produces engineering analysis artefacts.
 ### Status
 
 Implemented in this branch. Read-only with respect to runtime
-evidence and rosbag2 artefacts; produces metadata only.
+evidence and rosbag2 artifacts; produces metadata only.
 
 ### Objectives
 
-- Inspect rosbag2 / MCAP artefacts in the documented bag locations
+- Inspect rosbag2 / MCAP artifacts in the documented bag locations
   without opening them.
 - Generate per-incident replay manifests (expected topics, available
   topics, missing topics, bag status, layout pointer, marker count).
@@ -949,7 +949,7 @@ evidence and rosbag2 artefacts; produces metadata only.
   `rover-replay-review/1` schema) plus per-incident replay review
   reports.
 - Provide a self-hosted GitHub workflow that runs the full live
-  pipeline on a Jazzy + Gazebo runner and uploads the artefacts.
+  pipeline on a Jazzy + Gazebo runner and uploads the artifacts.
 
 ### Deliverables
 
@@ -1016,17 +1016,17 @@ evidence and rosbag2 artefacts; produces metadata only.
 ### Status
 
 Implemented in this branch. Read-only with respect to incident
-bundles + replay-review bundles + rosbag2 artefacts. Produces
+bundles + replay-review bundles + rosbag2 artifacts. Produces
 deterministic analytics; no fabricated coverage.
 
 ### Objectives
 
 - Derive deterministic coverage metrics from Phase-6 / Phase-7
-  artefacts (six metrics per incident).
+  artifacts (six metrics per incident).
 - Score replay quality on a 0..100 scale with explicit band caps
   (static-only ≤ 39, missing-bag ≤ 59, contradictions ≤ 39).
 - Detect gaps + emit deterministic recommendations citing the
-  underlying artefacts.
+  underlying artifacts.
 - Audit operator review completion via explicit acknowledgement
   only (never inferred).
 - Aggregate trends + cross-incident comparisons + a filterable
@@ -1082,7 +1082,7 @@ deterministic analytics; no fabricated coverage.
   contradictions cap the score, review completion requires explicit
   acknowledgement, every report is deterministic.
 - Demonstrates evidence-grounded recommendations that cite the
-  artefacts they refer to.
+  artifacts they refer to.
 
 ---
 
@@ -1091,7 +1091,7 @@ deterministic analytics; no fabricated coverage.
 ### Status
 
 Implemented in this branch. Read-only with respect to source code,
-evidence artefacts, and replay analytics. Produces deterministic
+evidence artifacts, and replay analytics. Produces deterministic
 impact bundles; CI gate honours the missing-live-evidence exception.
 
 ### Objectives
@@ -1099,7 +1099,7 @@ impact bundles; CI gate honours the missing-live-evidence exception.
 - Inspect git diffs / changed file lists and classify each path
   by subsystem (deterministic prefix table).
 - Map subsystems to existing REQ-* ids (via the live registry) and
-  recommend the tools / artefacts to regenerate.
+  recommend the tools / artifacts to regenerate.
 - Compare current replay analytics against a pinned baseline under
   `reliability-baselines/`; classify deltas as
   improvement / neutral / warning / regression / critical_regression.
@@ -1171,12 +1171,12 @@ impact bundles; CI gate honours the missing-live-evidence exception.
 ### Status
 
 Implemented in this branch. Read-only longitudinal layer over
-Phase 3..9 artefacts. Deterministic, evidence-backed, conservative.
+Phase 3..9 artifacts. Deterministic, evidence-backed, conservative.
 
 ### Objectives
 
 - Aggregate reliability-impact, replay analytics, runtime
-  qualification, replay review, and incident artefacts across runs.
+  qualification, replay review, and incident artifacts across runs.
 - Compute deterministic trends, drift, governance health,
   subsystem-risk aggregates, coverage evolution, gate history, and
   evidence freshness.
@@ -1216,7 +1216,7 @@ Phase 3..9 artefacts. Deterministic, evidence-backed, conservative.
 
 ### Risks
 
-- Drift between the loader's expectations and upstream artefact
+- Drift between the loader's expectations and upstream artifact
   shapes. Mitigated by the loader's structured warnings.
 - Trend windows misleading when histories are short. Mitigated by
   the `insufficient_history` label.
@@ -1246,7 +1246,7 @@ review).
 ### Objectives
 
 - Export the existing engineering evidence into reviewer-friendly
-  CSV + JSONL + JSON Schema artefacts.
+  CSV + JSONL + JSON Schema artifacts.
 - Ship a single-source-of-truth manifest with per-table row counts.
 - Provide a reviewer notebook scaffold that loads the CSVs without
   ROS / Gazebo / Foxglove / network dependencies.
@@ -1308,7 +1308,7 @@ review).
 
 Make Project Boundary understandable to a technical reviewer in 5,
 15, or 45 minutes — without changing any runtime behaviour. Phase
-12 is a packaging / presentation layer over the artefacts Phases
+12 is a packaging / presentation layer over the artifacts Phases
 0..11 already produce. The platform is **not safety-certified**;
 this phase makes the engineering evidence and disciplines easier to
 navigate.
@@ -1343,7 +1343,7 @@ navigate.
   traceability, fall-backs, no-causality, programme review, exports,
   test strategy, scope discipline, disclaimers).
 - `docs/PORTFOLIO_CASE_STUDY.md` — the narrative arc by phase, what
-  the artefacts say about the engineer, what would close the live-
+  the artifacts say about the engineer, what would close the live-
   runtime gap.
 - `docs/diagrams/` — four Mermaid diagrams rendered inline in
   markdown:
@@ -1406,7 +1406,7 @@ navigate.
 ### Goal
 
 Move from `static-only / fixture-backed` evidence to live ROS 2 /
-Gazebo runtime evidence with real `rosbag2` artefacts — without
+Gazebo runtime evidence with real `rosbag2` artifacts — without
 overclaiming. Until a self-hosted Jazzy + Gazebo runner exists,
 every live run honestly reports `not_executed`.
 
@@ -1449,7 +1449,7 @@ every live run honestly reports `not_executed`.
 
 ### Honesty rules preserved
 
-- `bag_backed` requires real bag artefacts on disk + a metadata
+- `bag_backed` requires real bag artifacts on disk + a metadata
   YAML; static fixtures cannot become `bag_backed`.
 - `not_executed` requires a structured reason; unknown bag statuses
   are a hard validator failure.
@@ -1553,9 +1553,9 @@ never authorises motion and never executes user intent.
 - The compiler never imports an LLM SDK or contacts a remote
   endpoint (test asserts).
 - `runtime_executed=false` is pinned in every replay-binding
-  artefact (test asserts).
+  artifact (test asserts).
 - The verbatim "not safety-certified" disclaimer appears in every
-  artefact (test asserts).
+  artifact (test asserts).
 
 ### What Phase 14A does NOT do
 
@@ -1646,7 +1646,7 @@ could propose a mission *candidate*, but where:
 - every audit bundle includes the verbatim safety-boundary
   disclaimer and the provider mode;
 - repeated runs against the same `--generated-at` produce
-  byte-identical audit artefacts.
+  byte-identical audit artifacts.
 
 ### What Phase 14B does NOT do
 
@@ -1724,7 +1724,7 @@ every motion template uses ``/cmd_vel_requested`` only.
 - every accepted skill carries a ``CodeCard`` payload and an audit
   bundle with the verbatim disclaimer;
 - repeated runs against the same ``--generated-at`` produce
-  byte-identical audit artefacts;
+  byte-identical audit artifacts;
 - nothing in the package imports an LLM SDK, a network library, or
   ``rclpy``.
 
@@ -1855,7 +1855,7 @@ LLM proposal → sanitizer → compiler → validator → supervisor
 
 The pipeline never runs on real hardware, never publishes to ROS,
 never opens a network socket, and never executes user code. Every
-artefact records `bag_backed=False`; the safety supervisor and
+artifact records `bag_backed=False`; the safety supervisor and
 motion arbitration remain the only path to actuator authority.
 
 ### Deliverables
@@ -1916,7 +1916,7 @@ robot must follow `docs/FUTURE_DIGITAL_TWIN_DIRECTION.md`.
 ### Status
 
 Implemented as a static-export Next.js 14 workspace at
-`apps/mission-control/`. Renders committed JSON artefacts only.
+`apps/mission-control/`. Renders committed JSON artifacts only.
 No API routes; no live data fetching; no network surface.
 
 ### Objectives
@@ -1924,7 +1924,7 @@ No API routes; no live data fetching; no network surface.
 Phase 17A turns the deterministic backend into a believable
 mission-control console. Five primary screens read directly from
 the audit bundles produced by Phases 13–16 plus the verification +
-traceability artefacts, so every value the operator sees is sourced
+traceability artifacts, so every value the operator sees is sourced
 from disk.
 
 ### Deliverables
@@ -1941,7 +1941,7 @@ from disk.
   pages (one per committed rehearsal audit).
 - Deterministic TypeScript adapters that read JSON via
   `fs.readFile` and return typed value objects (or `null` when an
-  artefact is missing).
+  artifact is missing).
 - 26 frontend tests across `adapter.test.ts`, `components.test.tsx`,
   and `honesty.test.ts`.
 - Ten new requirements (`REQ-MCTRL-001..010`) under
@@ -1964,7 +1964,7 @@ from disk.
   claim;
 - rejected missions remain visible across the dashboard, replay
   viewer, and mission detail page;
-- adapters return `null` on missing artefacts and the UI shows an
+- adapters return `null` on missing artifacts and the UI shows an
   honest placeholder;
 - the build is statically prerenderable (18 routes including the
   10 per-mission detail pages).
@@ -2084,7 +2084,7 @@ spatial data unavailable
   `reporter.py`, `builder.py`);
 - `tools/generate_spatial_replay.py` CLI;
 - `spatial-replay/fixtures/canonical-fixture/pose-samples.jsonl`
-  fixture and `spatial-replay/runs/canonical-fixture/` artefacts;
+  fixture and `spatial-replay/runs/canonical-fixture/` artifacts;
 - `apps/mission-control/src/adapters/spatial.ts` extended with
   `buildMissionRouteFromArtifact`, `selectMissionRoute`,
   `describeDerivationSource`, `artifactIsBagBacked`;
@@ -2106,7 +2106,7 @@ spatial data unavailable
 - the trajectory builder never invents pose samples;
 - the event aligner falls back to off-map when out of tolerance;
 - the CI workflow rejects any prerendered HTML that claims
-  `bag-backed runtime evidence` without a backing artefact.
+  `bag-backed runtime evidence` without a backing artifact.
 
 ### What Phase 17C does NOT do
 
@@ -2125,18 +2125,18 @@ one scenario from the Phase 13 qualification plan, produce a real
 bag on the qualified self-hosted runner, generate the operator
 post-processed `pose-samples.jsonl`, and commit the resulting
 `spatial-replay/runs/<run_id>/` directory. The frontend will
-auto-detect the artefact and render the bag-backed badge.
+auto-detect the artifact and render the bag-backed badge.
 
 ---
 
-## 3x. Phase 18: Immersive Mission Control UX + Artefact Governance Hardening
+## 3x. Phase 18: Immersive Mission Control UX + Artifact Governance Hardening
 
 The platform remains **not safety-certified.** Phase 18 has TWO
-goals: (a) eliminate the artefact lifecycle instability that
+goals: (a) eliminate the artifact lifecycle instability that
 broke Phase 17C CI, and (b) lift the operator console into a
 visually elite, deterministic 3D mission scene.
 
-### Deliverables — artefact governance
+### Deliverables — artifact governance
 
 - `backend/app/artifact_registry/` package
   (`models.py`, `manifest.py`, `registry.py`, `validation.py`,
@@ -2172,7 +2172,7 @@ visually elite, deterministic 3D mission scene.
 - A failing hydration NEVER rewrites the canonical registry.
 - The frontend reads the registry first; deprecated records are
   hidden.
-- The 3D scene reads exclusively from committed artefacts — no
+- The 3D scene reads exclusively from committed artifacts — no
   websocket, no streaming client, no `setInterval`, no
   fabricated coordinates.
 - The 2D fallback runs whenever WebGL is unavailable; data path

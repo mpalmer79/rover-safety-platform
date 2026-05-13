@@ -2,7 +2,7 @@
  * Phase 20B telemetry recipe tests.
  *
  * Asserts that every recipe:
- *   * declares its required + optional artefact kinds;
+ *   * declares its required + optional artifact kinds;
  *   * returns ``unavailable`` when required inputs are missing;
  *   * never fabricates values;
  *   * preserves derivation_source / bag_backed verbatim.
@@ -66,7 +66,7 @@ describe("recipe unavailable behaviour", () => {
     expect(out.fields.forbidden_topic).toBe("/cmd_vel");
   });
 
-  it("topic-availability is unavailable with no spatial artefact", () => {
+  it("topic-availability is unavailable with no spatial artifact", () => {
     const out = RECIPE_REGISTRY["topic-availability"].derive({ spatial: null });
     expect(out.status).toBe("unavailable");
   });

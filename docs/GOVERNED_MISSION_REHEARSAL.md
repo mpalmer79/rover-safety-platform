@@ -37,7 +37,7 @@ single *simulation-only* rehearsal pipeline.
    mission_rehearsal.run_rehearsal   (deterministic state machine)
                 │
                 ▼
-   replay bridge + analytics bridge  (read-only artefacts)
+   replay bridge + analytics bridge  (read-only artifacts)
                 │
                 ▼
    audit bundle (simulation-only)

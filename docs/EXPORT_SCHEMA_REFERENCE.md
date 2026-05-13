@@ -28,7 +28,7 @@ this reference is engineering review material.
 | `discipline` | enum | One of the six discipline categories (`evidence`, `replay`, `ci`, `traceability`, `runtime_qualification`, `review_completion`) or `unknown`. |
 | `discipline_rating` | enum | One of `strong`, `acceptable`, `weak`, `concerning`, `unknown`. |
 | `reason` | string | The reason recorded by the discipline check. |
-| `triggering_artifact` | nullable string | Path to the artefact that triggered the rating, if any. |
+| `triggering_artifact` | nullable string | Path to the artifact that triggered the rating, if any. |
 | `evidence_origin` | nullable string | Carried through from the source where applicable. |
 | `known_limitation` | nullable string | First entry from the upstream known-limitations list. |
 
@@ -70,7 +70,7 @@ this reference is engineering review material.
 | `warning_count` | integer | `moderate` severity count. |
 | `failure_count` | integer | `high` severity count. |
 | `critical_count` | integer | `critical` severity count. |
-| `representative_artifacts` | string | Up to three artefact paths (`;`-joined). |
+| `representative_artifacts` | string | Up to three artifact paths (`;`-joined). |
 | `causality_claimed` | boolean (`false` only) | **Honesty constant**: the export never claims causality. |
 
 ### `gate_history`
@@ -123,7 +123,7 @@ this reference is engineering review material.
 | `title` | nullable string | Human-readable title. |
 | `status` | nullable string | `passed` / `partial` / `not_executed`. |
 | `mapped_tests` | integer | Number of test refs declared on the requirement. |
-| `mapped_artifacts` | integer | Number of evidence artefacts the matrix recorded. |
+| `mapped_artifacts` | integer | Number of evidence artifacts the matrix recorded. |
 | `coverage_status` | enum | `covered` / `tests_only` / `evidence_only` / `unmapped`. |
 
 ## Honesty rules surfaced via the schemas

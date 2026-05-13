@@ -3,7 +3,7 @@
 The platform is **not safety-certified.** This page documents how
 the Phase 17A mission-control workspace at `apps/mission-control/`
 is wired together. The architecture is intentionally narrow: a
-static-export Next.js app that reads JSON artefacts from disk and
+static-export Next.js app that reads JSON artifacts from disk and
 renders them.
 
 ## 1. Data flow
@@ -12,7 +12,7 @@ renders them.
    deterministic backend pipelines (Phase 13..16)
                        │
                        ▼
-   committed JSON artefacts on disk
+   committed JSON artifacts on disk
        mission-rehearsals/audits/<id>/rehearsal-audit.json
        mission-rehearsals/examples/<id>.json
        skill-library/audits/<id>/generated-skill.json
@@ -41,7 +41,7 @@ runtime fetch.
 ## 2. Why static export
 
 * **Reproducibility.** Building the workspace twice against the
-  same backend artefacts produces identical HTML — the audit's
+  same backend artifacts produces identical HTML — the audit's
   deterministic hashes appear in the page source.
 * **No network surface.** The compiled bundle never opens a socket;
   removing the entire dev/server runtime from the deployment
@@ -52,7 +52,7 @@ runtime fetch.
 
 ## 3. Adapter contract
 
-All artefact reads go through three exports:
+All artifact reads go through three exports:
 
 | Function                          | Returns                                  |
 |-----------------------------------|------------------------------------------|
@@ -66,7 +66,7 @@ All artefact reads go through three exports:
 
 Adapters never invent data:
 
-* A missing artefact returns `null` or an empty array.
+* A missing artifact returns `null` or an empty array.
 * Required JSON fields with bad types are coerced defensively.
 * Fields the UI never displays (e.g. arbitrary `payload` blobs)
   are passed through opaquely so a downstream component cannot
@@ -96,7 +96,7 @@ Three vitest suites under `apps/mission-control/tests/`:
 
 | Suite                  | Asserts                                                    |
 |------------------------|------------------------------------------------------------|
-| `adapter.test.ts`      | adapters read the committed artefacts verbatim             |
+| `adapter.test.ts`      | adapters read the committed artifacts verbatim             |
 | `components.test.tsx`  | individual components render the labels they receive       |
 | `honesty.test.ts`      | no source file imports a cloud SDK / network module / etc. |
 

@@ -364,7 +364,7 @@ A feature is **not complete** in Phase 1C unless:
 - `tools/run_scenario_suite.py` exits 0,
 - `tools/validate_safety_pipeline.py` exits 0,
 - the appropriate static validator (bridge / TF / events / replay) is
-  in CI and exits 0 against the workspace artefacts.
+  in CI and exits 0 against the workspace artifacts.
 
 ## 17. Phase 2 Mission Runtime Coverage
 
@@ -378,7 +378,7 @@ Phase 2 adds the following test categories on top of Phase 1C:
 | `backend/tests/test_recovery_policy.py` | `unit` | Recovery selection: timeout escalation, attempt budget, MISSION_ABORT terminality, keepout escalation, safety-state escalation, sensor-degraded wait, operator-recovery STOP_AND_REEVALUATE. |
 | `backend/tests/test_world_model.py` | `unit` | Zone evaluation, keepout pending vs. violation, restricted speed clamp, boundary classification, hazard emission. |
 | `backend/tests/test_orchestrator.py` | `integration` | Orchestrator drives the mission through the legal state graph; never constructs `AuthorizedMotionCommand`; operator commands propagate. |
-| `backend/tests/test_mission_replay.py` | `replay` | Run directories carry the four Phase 2 JSONL artefacts; the mission validator rejects out-of-vocabulary state values; recovery events list the expected behaviours. |
+| `backend/tests/test_mission_replay.py` | `replay` | Run directories carry the four Phase 2 JSONL artifacts; the mission validator rejects out-of-vocabulary state values; recovery events list the expected behaviours. |
 | `backend/tests/test_scenario_suite.py` (extended) | `simulation` + `fault_injection` + `replay` | All 14 (Phase 1C + Phase 2) scenarios run end-to-end and pass mission-aware expectations. |
 | `rover_ws/tests/test_mission_runtime_packages.py` | `contract` | Mission node never publishes `/cmd_vel` or `/cmd_vel_authorized`; Nav2 clamp never references `/cmd_vel_authorized` (in code, with comments stripped); world model imports `app.world_model.WorldModel`; setup.py declares the expected console scripts. |
 
@@ -407,7 +407,7 @@ evidence rather than additional behavioural tests.
 | `backend/tests/test_command_audit.py` | `replay` | Command-path audit detects unauthorised sources, non-zero motion in SAFE_STOP, missing files. |
 | `backend/tests/test_safety_audit.py` | `replay` | Safety transition audit detects forbidden transitions, missing reason codes. |
 | `backend/tests/test_scenario_verifier.py` | `simulation` + `replay` | Every Phase 1C / Phase 2 scenario passes verification end-to-end. |
-| `backend/tests/test_evidence_and_traceability.py` | `replay` | Evidence directories contain the documented artefact set; traceability matrix covers every requirement; report renders summary + failed checks + known limitations. |
+| `backend/tests/test_evidence_and_traceability.py` | `replay` | Evidence directories contain the documented artifact set; traceability matrix covers every requirement; report renders summary + failed checks + known limitations. |
 
 The Phase 1C / Phase 2 definition of done extends with two
 Phase 3-specific gates:
@@ -597,8 +597,8 @@ the same order. This makes CI flakes reproducible.
   - `app/safety/supervisor.py` ≥ 88 (observed 89, pinned at observed−1)
   - `app/safety/arbitration.py` ≥ 88 (observed 89, pinned at observed−1)
   - `app/safety/transitions.py` ≥ 95 (observed 100)
-* Coverage artefacts (`backend/coverage.xml` + `backend/htmlcov/`)
-  are uploaded by CI under the `backend-coverage` artefact name.
+* Coverage artifacts (`backend/coverage.xml` + `backend/htmlcov/`)
+  are uploaded by CI under the `backend-coverage` artifact name.
 
 ### Why safety modules have stricter floors
 

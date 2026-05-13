@@ -109,7 +109,7 @@ export default async function WorkbenchPage() {
 
       <div className="grid gap-4 xl:grid-cols-2">
         {skills.length === 0 ? (
-          <Panel eyebrow="Skill library" title="No artefacts">
+          <Panel eyebrow="Skill library" title="No artifacts">
             <p className="body-mono">
               Regenerate with{" "}
               <code>rover_ws/tools/generate_skill_examples.py</code>.

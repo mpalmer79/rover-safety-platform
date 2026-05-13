@@ -7,10 +7,10 @@ which waypoint the deterministic state machine reached at each
 sequence index. No real telemetry is implied.
 
 **Phase 17C** extends the same page so that, when a committed
-spatial-replay artefact exists at
+spatial-replay artifact exists at
 `spatial-replay/runs/<id>/spatial-replay.json`, the playback panel
-renders the artefact's trajectory instead of (or in addition to)
-the bounded-inputs derivation. The artefact's derivation source
+renders the artifact's trajectory instead of (or in addition to)
+the bounded-inputs derivation. The artifact's derivation source
 (`bag_backed`, `fixture`, etc.) is rendered verbatim on the map
 caption and the playback panel badge. See
 `docs/BAG_BACKED_SPATIAL_REPLAY.md` and

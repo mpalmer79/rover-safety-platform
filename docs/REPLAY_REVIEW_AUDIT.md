@@ -8,7 +8,7 @@ analytics material.
 ## 1. Principle: never infer completion
 
 The audit module recognises completion **only** via an explicit
-`review-audit.json` artefact under `incidents/<incident_id>/`. If
+`review-audit.json` artifact under `incidents/<incident_id>/`. If
 the file is absent the audit reports `not_started`; the analytics
 layer never promotes a missing acknowledgement to `completed`.
 

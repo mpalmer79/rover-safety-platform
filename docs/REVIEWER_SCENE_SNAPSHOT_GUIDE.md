@@ -38,7 +38,7 @@ A run is eligible for a bag-backed snapshot when **all** of:
 - `spatial-replay/runs/<run_id>/spatial-replay.json` exists,
 - its `derivation_source = "bag_backed"`,
 - its `bag_status = "bag_backed"`,
-- the artefact registry record exists,
+- the artifact registry record exists,
 - `verify_artifact(record, artefact_root=repo_root)` recomputes
   `integrity = "passed"` against the bytes on disk.
 
@@ -70,7 +70,7 @@ surfaces the snapshot metadata in the per-mission detail page:
   `unavailable`),
 - a `reviewer_export_ready` flag,
 - the missing-inputs list (when status != `bag_backed`),
-- the artefact hash chain (from the registry record).
+- the artifact hash chain (from the registry record).
 
 The panel never invents data. The frontend mirror of the backend
 pipeline is `apps/mission-control/src/adapters/sceneSnapshot.ts`.
@@ -78,7 +78,7 @@ pipeline is `apps/mission-control/src/adapters/sceneSnapshot.ts`.
 ## 5. Honesty rules
 
 - A fixture-derived run can never become a bag-backed snapshot.
-- A bag-backed artefact with `integrity != passed` cannot become a
+- A bag-backed artifact with `integrity != passed` cannot become a
   bag-backed snapshot.
 - The disclaimer is included in every JSON / MD output.
 - The CLI exit code is informational only; CI never auto-promotes
@@ -89,7 +89,7 @@ pipeline is `apps/mission-control/src/adapters/sceneSnapshot.ts`.
 See `docs/FIRST_BAG_BACKED_RUN_PLAYBOOK.md`. Producing a real
 snapshot requires:
 
-1. A real bag-backed spatial-replay artefact.
+1. A real bag-backed spatial-replay artifact.
 2. A browser-render harness (out of scope for Phase 19).
 3. The harness must record a deterministic camera snapshot for a
    specific `playback_mode` + scrubber index.

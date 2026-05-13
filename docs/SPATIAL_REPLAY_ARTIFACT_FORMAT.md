@@ -1,4 +1,4 @@
-# Spatial replay artefact format (Phase 17C)
+# Spatial replay artifact format (Phase 17C)
 
 The platform is **not safety-certified.** This document defines the
 on-disk schema that the backend builder emits and the frontend
@@ -124,12 +124,12 @@ When an event falls outside the alignment tolerance the
 ## 6. `spatial-replay-report.md`
 
 A human-readable report. The report's "Next step" section is
-hard-wired to the derivation source — a `fixture` artefact always
+hard-wired to the derivation source — a `fixture` artifact always
 recommends producing a real bag-backed run.
 
 ## 7. Honesty invariants
 
-The validator rejects any artefact that violates:
+The validator rejects any artifact that violates:
 
 * `derivation_source=bag_backed` ⇒ `bag_status=bag_backed` AND
   `sample_count > 0`.

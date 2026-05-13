@@ -33,7 +33,7 @@ A :class:`ReplayQualityScore` with:
 | --- | --- |
 | 90-100 | bag-backed; markers exact; complete evidence; validated replay; no contradictions |
 | 70-89  | partial replay gaps; some missing inventory; acceptable evidence quality |
-| 40-69  | sparse replay artefacts; missing markers; partial reports |
+| 40-69  | sparse replay artifacts; missing markers; partial reports |
 | 0-39   | static-only; missing bags; incomplete reports; contradictions |
 
 ## 4. Algorithm
@@ -84,7 +84,7 @@ The same inputs always yield the same score. The
 `test_scoring_is_deterministic` and
 `test_coverage_metrics_are_deterministic` tests pin this contract.
 Any change to the scoring algorithm forces a re-roll of the
-canonical analytics artefacts in `incidents/analytics/`.
+canonical analytics artifacts in `incidents/analytics/`.
 
 ## 6. Honesty rules
 

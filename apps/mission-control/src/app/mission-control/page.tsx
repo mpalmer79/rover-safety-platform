@@ -132,7 +132,7 @@ export default async function MissionControlDashboardPage() {
                 </div>
               </dl>
             ) : (
-              <p className="body-mono">No live runtime maturity artefact.</p>
+              <p className="body-mono">No live runtime maturity artifact.</p>
             )}
           </Panel>
 

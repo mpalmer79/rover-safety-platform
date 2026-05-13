@@ -84,7 +84,7 @@ Outputs:
   Markdown report.
 * `evidence/runtime/<run_id>/known-limitations.md` — stand-alone
   known-limitations callout.
-* `evidence/runtime/<run_id>/<per-probe>.json` — per-probe artefacts
+* `evidence/runtime/<run_id>/<per-probe>.json` — per-probe artifacts
   (see below).
 * `docs/RUNTIME_VALIDATION_REPORT.md` — only when
   `--canonical-report` is supplied; mirrors the run's Markdown report.

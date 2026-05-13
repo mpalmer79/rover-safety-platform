@@ -49,9 +49,9 @@ const AUTHORITY_RULES = [
       "REQ-SKILL-LLM-001: cloud endpoints are forbidden; local providers require an explicit operator opt-in flag AND an enabled provider config.",
   },
   {
-    label: "Bag-backed evidence requires real bag artefacts",
+    label: "Bag-backed evidence requires real bag artifacts",
     detail:
-      "REQ-LIVE-001..005 / REQ-REHEARSAL-004: rehearsal replay artefacts always report `bag_backed=False`. The committed live runtime maturity remains `not_established`.",
+      "REQ-LIVE-001..005 / REQ-REHEARSAL-004: rehearsal replay artifacts always report `bag_backed=False`. The committed live runtime maturity remains `not_established`.",
   },
 ];
 

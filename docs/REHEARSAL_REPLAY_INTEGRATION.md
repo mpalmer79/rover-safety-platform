@@ -84,7 +84,7 @@ markers.
   runtime; downstream tooling treats it as a binary signal, not a
   confidence score.
 * Programme review consumes Phase 16 analytics through the same
-  filesystem layout as Phase 8 analytics, but the artefacts are
+  filesystem layout as Phase 8 analytics, but the artifacts are
   labelled `simulated` so trends do not silently mix bag-backed
   data with rehearsal data.
 

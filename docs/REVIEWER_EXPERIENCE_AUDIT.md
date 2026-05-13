@@ -35,7 +35,7 @@ The goals of this pass were:
 | 1 | Sidebar chrome announced "Phase 19" / "Phase 17A" as the platform identity | `src/components/ResponsiveShell.tsx`, `src/components/SiteNav.tsx` |
 | 2 | Safety Authority diagram referenced the internal "Phase 14A compiler" | `src/app/safety/page.tsx` |
 | 3 | Workbench narrative referenced the internal "Phase 15A workbench" | `src/app/workbench/page.tsx` |
-| 4 | Not-found page led with "No artefact at this path" / pipeline language | `src/app/not-found.tsx` |
+| 4 | Not-found page led with "No artifact at this path" / pipeline language | `src/app/not-found.tsx` |
 | 5 | No public Start Here on-ramp; reviewers landed on a dense dashboard | (new route) |
 | 6 | No canonical 3D demo route; the existing 3D scene was buried inside per-mission pages | (new route) |
 | 7 | Major pages led with technical detail, not value | dashboard, replay, safety, walkthrough, workbench, evidence, workspaces |
@@ -94,7 +94,7 @@ this pass (up from 31 / 351 on `main`).
   reviewers, not recruiters.
 - Some engineering-detail components (`EvidenceLineageGraph`,
   `ReplayConfidencePanel`, `PoseTracePanel`) still surface the literal
-  string "No spatial-replay artefact" inside per-mission detail
+  string "No spatial-replay artifact" inside per-mission detail
   panels. These are honest fallbacks and remain pinned by
   `tests/artifact-lineage.test.tsx`. The canonical demo route never
   hits this state because the canonical fixture is registered.

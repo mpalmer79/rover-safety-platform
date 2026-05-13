@@ -55,7 +55,7 @@ in this repo*, not something they have to take on trust.
 
 - [ ] Open `verification/traceability.json` and confirm every REQ-*
       ID lists architecture references, implementation pointers,
-      scenarios, tests, and (where applicable) evidence artefacts.
+      scenarios, tests, and (where applicable) evidence artifacts.
 - [ ] Open `docs/TRACEABILITY_MATRIX.md` and confirm there are no
       silently unmapped requirements (gap rows are visible if any
       exist).

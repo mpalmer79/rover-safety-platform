@@ -1,6 +1,6 @@
 # Evidence Freshness Policy
 
-Phase 10's freshness reporter compares each artefact's
+Phase 10's freshness reporter compares each artifact's
 `generated_at_utc` against a caller-supplied reference time. The
 layer is forbidden from calling `datetime.now()` internally so
 tests are deterministic. The platform is **not safety-certified**;

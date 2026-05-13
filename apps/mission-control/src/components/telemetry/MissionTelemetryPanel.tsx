@@ -13,7 +13,7 @@ interface MissionTelemetryPanelProps {
  * High-level mission telemetry derived from the rehearsal audit.
  *
  * Honesty:
- *   * if no audit is supplied, an explicit "no artefact" line is
+ *   * if no audit is supplied, an explicit "no artifact" line is
  *     shown — never a fake value;
  *   * every metric mirrors a field on disk and never recodes it.
  */
@@ -57,7 +57,7 @@ export function MissionTelemetryPanel({ audit }: MissionTelemetryPanelProps) {
       ) : (
         <p className={typography("bodyDense")}>
           No rehearsal audit selected. Telemetry panels render only from
-          committed artefacts.
+          committed artifacts.
         </p>
       )}
     </TelemetryPanelFrame>

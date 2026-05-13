@@ -89,7 +89,7 @@ reason.
 ## 6. Honesty rules
 
 * Never set `qualification_status: qualified` on a host that has
-  not produced a `passed` live run with real bag artefacts.
+  not produced a `passed` live run with real bag artifacts.
 * Never set `supports_rosbag2: true` on a host without a working
   `ros2 bag` install.
 * Never set `supports_gazebo: true` on a host without Gazebo.

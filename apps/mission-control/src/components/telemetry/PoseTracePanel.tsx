@@ -15,7 +15,7 @@ export function PoseTracePanel({ artifact, limit = 6 }: PoseTracePanelProps) {
   return (
     <TelemetryPanelFrame
       kicker="Pose trace"
-      title={artifact?.scenario_id ?? "no spatial artefact"}
+      title={artifact?.scenario_id ?? "no spatial artifact"}
       derivation={artifact?.derivation_source ?? "—"}
       integrity={
         artifact?.validation_status === "passed"
@@ -59,7 +59,7 @@ export function PoseTracePanel({ artifact, limit = 6 }: PoseTracePanelProps) {
         </div>
       ) : (
         <p className={typography("bodyDense")}>
-          No spatial-replay artefact for this mission.
+          No spatial-replay artifact for this mission.
         </p>
       )}
     </TelemetryPanelFrame>

@@ -19,12 +19,12 @@ const LABEL: Record<string, string> = {
   passed: "integrity passed",
   partial: "integrity partial",
   failed: "integrity failed",
-  missing: "artefact missing",
+  missing: "artifact missing",
   unverified: "integrity unverified",
 };
 
 /**
- * Tiny chip that surfaces a registered artefact's integrity state
+ * Tiny chip that surfaces a registered artifact's integrity state
  * (and optionally the lifecycle rung). Honesty rule: the badge text
  * is the verbatim integrity string; ``failed`` is never re-coded as
  * ``partial``.

@@ -62,7 +62,7 @@ export function MissionScene({
       }
       return route.waypoints[0] ?? null;
     }
-    // Artefact-backed: walk the alignment list.
+    // Artifact-backed: walk the alignment list.
     for (let i = activeIndex; i >= 0; i -= 1) {
       const ev = events[i];
       if (!ev) continue;

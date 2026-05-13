@@ -20,7 +20,7 @@ without any extra tooling.
 - Dashed arrows are evidence / read-only paths.
 - A double border on a node means it is the **authority surface**
   (only the safety supervisor authorises motion).
-- A dotted box means *generated artefact*, not *executable code*.
+- A dotted box means *generated artifact*, not *executable code*.
 
 If GitHub does not render Mermaid for you, copy the fenced block
 into a Mermaid live editor.

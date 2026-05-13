@@ -254,7 +254,7 @@ const ENTRIES: ReadonlyArray<EntryDef> = [
   ),
   entry(
     "ReplayLifecyclePanel",
-    "Lifecycle ladder for the registered artefact.",
+    "Lifecycle ladder for the registered artifact.",
     ReplayLifecyclePanel,
     ReplayLifecyclePanelStates,
   ),
@@ -270,7 +270,7 @@ const ENTRIES: ReadonlyArray<EntryDef> = [
   entry("CodeCard", "Skill candidate code card.", CodeCard, CodeCardStates),
   entry(
     "DeterministicHashChain",
-    "Per-file sha256 chain for a registered artefact.",
+    "Per-file sha256 chain for a registered artifact.",
     DeterministicHashChain,
     DeterministicHashChainStates,
   ),
@@ -282,7 +282,7 @@ const ENTRIES: ReadonlyArray<EntryDef> = [
   ),
   entry(
     "EvidenceLineageGraph",
-    "Source-to-render lineage for a spatial-replay artefact.",
+    "Source-to-render lineage for a spatial-replay artifact.",
     EvidenceLineageGraph,
     EvidenceLineageGraphStates,
   ),
