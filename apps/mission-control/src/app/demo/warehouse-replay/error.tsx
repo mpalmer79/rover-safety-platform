@@ -11,20 +11,15 @@ interface RouteErrorProps {
   reset: () => void;
 }
 
-export default function DashboardError({ error, reset }: RouteErrorProps) {
+export default function RouteError({ error, reset }: RouteErrorProps) {
   useEffect(() => {
-    // Structured log shape; no console.error in production paths.
-    // The shape is JSON-stable so a future log shipper can pick it
-    // up without parsing free-form English.
     if (typeof window !== "undefined") {
       const payload = {
-        route: "/",
+        route: "/demo/warehouse-replay",
         digest: error.digest ?? "",
         message: error.message,
         ts: new Date().toISOString(),
       };
-      // Use console.warn so production builds keep the warning at
-      // the highest non-error level without spamming error logs.
       // eslint-disable-next-line no-console
       console.warn("mc-route-error", JSON.stringify(payload));
     }
@@ -32,28 +27,21 @@ export default function DashboardError({ error, reset }: RouteErrorProps) {
 
   return (
     <PageSurface>
-      <GradientPanel
-        tone="rejected"
-        elevated
-        className="px-4 py-4 sm:px-5 sm:py-5"
-      >
+      <GradientPanel tone="rejected" elevated className="px-4 py-4 sm:px-5 sm:py-5">
         <header className="space-y-1">
-          <p className="label">Operator console</p>
-          <h1 className="display-1">Artifact failed to load</h1>
+          <p className="label">Mission Replay Demo</p>
+          <h1 className="display-1">The mission replay demo could not load</h1>
           <p className="text-muted text-sm sm:text-base">
-            The dashboard adapter raised a non-ENOENT error while
-            reading committed JSON. The static export and
-            safety-supervisor authority are unaffected.
+            The adapter raised a non-ENOENT error while reading
+            committed JSON. The static export and safety-supervisor
+            authority are unaffected.
           </p>
         </header>
       </GradientPanel>
       <Panel eyebrow="Diagnostics" title="Error details" className="mt-6">
-        <dl
-          data-testid="route-error"
-          className="grid gap-2 text-sm sm:grid-cols-[12rem_1fr]"
-        >
+        <dl data-testid="route-error" className="grid gap-2 text-sm sm:grid-cols-[12rem_1fr]">
           <dt className="label">route</dt>
-          <dd className="font-mono">/</dd>
+          <dd className="font-mono">/demo/warehouse-replay</dd>
           <dt className="label">digest</dt>
           <dd
             data-testid="route-error-digest"

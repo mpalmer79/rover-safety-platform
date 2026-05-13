@@ -56,8 +56,8 @@ export default async function MissionPage({ params }: MissionPageProps) {
   const plan = audit.plan;
   const runtime = audit.runtime;
   const replay = audit.replay;
-  // Phase 17C: prefer a spatial-replay artefact (bag_backed or fixture)
-  // when one is present. The artefact's derivation_source is rendered
+  // Phase 17C: prefer a spatial-replay artifact (bag_backed or fixture)
+  // when one is present. The artifact's derivation_source is rendered
   // verbatim in the map caption + playback badge.
   const spatialReplay = await loadSpatialReplay(params.id);
   // Phase 18: read the canonical registry record for the run so the

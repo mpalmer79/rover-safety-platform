@@ -44,7 +44,7 @@ authoritative.
    safety review + code card
                     │
                     ▼
-   audit bundle (read-only artefact)
+   audit bundle (read-only artifact)
                     │
                     ▼
    developer reviews; runtime safety supervisor remains authoritative

@@ -123,10 +123,10 @@ export const WALKTHROUGH_STEPS: readonly WalkthroughStep[] = [
     index: 8,
     title: "Replay evidence",
     narrative:
-      "Replay artefacts attach an evidence_status (simulated, static_only, or not_evaluated) and a bag_backed boolean. The boolean is preserved verbatim.",
+      "Replay artifacts attach an evidence_status (simulated, static_only, or not_evaluated) and a bag_backed boolean. The boolean is preserved verbatim.",
     evidence: [
       "replay_bundle.json",
-      "spatial-replay artefact",
+      "spatial-replay artifact",
       "artifact registry record",
     ],
     safety:

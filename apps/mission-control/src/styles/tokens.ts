@@ -88,15 +88,15 @@ const DARK: ThemeTokenSet = {
  * `#ffffff`.
  */
 const LIGHT: ThemeTokenSet = {
-  background: ["#f6f8fb", "#eef1f7", "#e7ecf3"],
-  surface: "#fbfcfe",
-  surfaceElevated: "#ffffff00",
-  surfaceOverlay: "rgba(255, 255, 255, 0.68)",
-  border: "#d6dbe6",
-  borderStrong: "#b4bccc",
-  text: "#1f2937",
-  textMuted: "#5b6478",
-  textInverse: "#fbfcfe",
+  background: ["#eef1f6", "#e5e9f1", "#dde2eb"],
+  surface: "#f1f4f8",
+  surfaceElevated: "#f5f7fb",
+  surfaceOverlay: "#e8ecf3",
+  border: "#c8cfdb",
+  borderStrong: "#9aa4b5",
+  text: "#1a2230",
+  textMuted: "#4a5468",
+  textInverse: "#f1f4f8",
   accent: "#1d8f86",
   accentSoft: "#d5ede9",
   status: {
@@ -109,9 +109,6 @@ const LIGHT: ThemeTokenSet = {
   panelGradient: ["rgba(251, 252, 254, 0.96)", "rgba(241, 244, 250, 0.96)"],
   heroGradient: ["rgba(247, 250, 255, 0.92)", "rgba(228, 234, 247, 0.92)"],
 };
-
-// Override the dim surfaceElevated for light mode (no opaque white).
-LIGHT.surfaceElevated = "#fdfefe";
 
 export const TOKENS: Record<ThemeName, ThemeTokenSet> = {
   dark: DARK,

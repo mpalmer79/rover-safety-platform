@@ -52,7 +52,7 @@ export default async function EvidencePage() {
             {new Set(traceability.rows.map((r) => r.kind)).size} kinds.
           </p>
         ) : (
-          <p className="body-mono">No traceability artefact on disk.</p>
+          <p className="body-mono">No traceability artifact on disk.</p>
         )}
       </Panel>
 
@@ -109,7 +109,7 @@ export default async function EvidencePage() {
 
       <Panel eyebrow="Honesty rules" title="What this page enforces">
         <ul className="space-y-1.5 text-sm text-base-700">
-          <li>• Every value comes from a committed JSON artefact.</li>
+          <li>• Every value comes from a committed JSON artifact.</li>
           <li>• No requirement is hidden — failed and not-executed
             requirements remain visible.</li>
           <li>• Rejected missions are not silently re-labelled.</li>

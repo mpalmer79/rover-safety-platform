@@ -1,5 +1,5 @@
 /**
- * Shared TypeScript types for backend artefacts the mission-control UI consumes.
+ * Shared TypeScript types for backend artifacts the mission-control UI consumes.
  *
  * Every field name mirrors the JSON shape emitted by the deterministic
  * backend pipelines (Phase 13..16). The UI never invents fields — if a
@@ -10,7 +10,7 @@
  *   * ``bag_backed`` is preserved verbatim from the source JSON;
  *   * rejection / aborted / not-executed statuses are never recoded;
  *   * deterministic hashes are passed through unchanged;
- *   * a missing artefact returns a sentinel — never a synthesised
+ *   * a missing artifact returns a sentinel — never a synthesised
  *     "happy path" value.
  */
 
@@ -231,14 +231,14 @@ export interface LiveRuntimeMaturity {
   known_limitations: readonly string[];
 }
 
-export interface NotFoundArtefact {
+export interface NotFoundArtifact {
   kind: "not_found";
   path: string;
   reason: string;
 }
 
 // ---------------------------------------------------------------------
-// Phase 17C — spatial-replay artefact
+// Phase 17C — spatial-replay artifact
 // ---------------------------------------------------------------------
 
 export type SpatialDerivationSource =
@@ -313,7 +313,7 @@ export interface SpatialReplayArtifact {
 }
 
 // ---------------------------------------------------------------------
-// Phase 18 — artefact registry types
+// Phase 18 — artifact registry types
 // ---------------------------------------------------------------------
 
 export type ArtifactLifecycle =

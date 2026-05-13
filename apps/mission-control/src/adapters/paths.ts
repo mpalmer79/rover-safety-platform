@@ -4,7 +4,7 @@ import * as path from "node:path";
  * Resolve the repository root from anywhere inside ``apps/mission-control``.
  *
  * The mission-control workspace lives at ``<repo>/apps/mission-control``;
- * the adapters read JSON artefacts from sibling directories such as
+ * the adapters read JSON artifacts from sibling directories such as
  * ``<repo>/mission-rehearsals`` and ``<repo>/verification``. Anchoring
  * to the workspace's own location keeps the adapters deterministic
  * regardless of where Next.js was invoked from.

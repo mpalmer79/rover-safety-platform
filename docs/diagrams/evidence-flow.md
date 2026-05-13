@@ -70,8 +70,8 @@ flowchart TB
         exporter --> bundle[(reviewer-export/<br/>CSV + JSONL + schemas + notebook + manifest)]
     end
 
-    classDef artefact fill:#f5f5f5,stroke:#888,stroke-dasharray:3 3;
-    class events,manifest,dir,traceability,matrix,svr,rval,qsum,incident,rrr,rar,ir,programme,bundle artefact;
+    classDef artifact fill:#f5f5f5,stroke:#888,stroke-dasharray:3 3;
+    class events,manifest,dir,traceability,matrix,svr,rval,qsum,incident,rrr,rar,ir,programme,bundle artifact;
 ```
 
 ## Honesty rules visible in this flow

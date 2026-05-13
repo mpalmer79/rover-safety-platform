@@ -49,7 +49,7 @@ produces nothing a reliability engineer can defend.
 
 ## 3. The arc, phase by phase
 
-| Phase | Theme | Pivotal artefact |
+| Phase | Theme | Pivotal artifact |
 | --- | --- | --- |
 | 0 | Architecture authority layer | `ARCHITECTURE.md`, `docs/SAFETY_MODEL.md`, ADR-001..005 |
 | 1A | Deterministic Python autonomy core | `backend/app/safety/`, `backend/app/mission/`, `backend/app/replay/` |
@@ -72,10 +72,10 @@ produces nothing a reliability engineer can defend.
 | 15A | Deterministic robotics skill authoring workbench (offline / template-only) | `backend/app/skill_authoring/`, `skill-library/` |
 | 15B | Local LLM skill candidate provider (disabled by default; no cloud APIs) | `backend/app/skill_llm_provider/`, `skill-llm-candidates/` |
 | 16 | Governed mission-to-rehearsal pipeline (simulation-only) | `backend/app/mission_rehearsal/`, `mission-rehearsals/` |
-| 17A | Mission control UI (static-export Next.js; reads committed artefacts only) | `apps/mission-control/` |
+| 17A | Mission control UI (static-export Next.js; reads committed artifacts only) | `apps/mission-control/` |
 | 17B | Vercel deployment + frontend CI + spatial replay visualisation (deterministic 2D maps from bounded inputs) | `apps/mission-control/src/adapters/spatial.ts`, `apps/mission-control/vercel.json`, `.github/workflows/mission-control-ci.yml` |
-| 17C | Bag-backed spatial replay upgrade (fixture + bag_backed artefact pathway; honesty gatekeeper for the bag_backed label) | `backend/app/spatial_replay/`, `spatial-replay/`, `apps/mission-control/src/components/SpatialReplayBadge.tsx` |
-| 18 | Immersive mission control UX + artefact governance hardening (canonical registry, deterministic hydration, R3F immersive scene, mission narrative, evidence lineage) | `backend/app/artifact_registry/`, `tools/hydrate_replay_artifacts.py`, `spatial-replay/registry/`, `apps/mission-control/src/3d/`, `apps/mission-control/src/components/MissionStoryPanel.tsx`, `apps/mission-control/src/components/EvidenceLineageGraph.tsx` |
+| 17C | Bag-backed spatial replay upgrade (fixture + bag_backed artifact pathway; honesty gatekeeper for the bag_backed label) | `backend/app/spatial_replay/`, `spatial-replay/`, `apps/mission-control/src/components/SpatialReplayBadge.tsx` |
+| 18 | Immersive mission control UX + artifact governance hardening (canonical registry, deterministic hydration, R3F immersive scene, mission narrative, evidence lineage) | `backend/app/artifact_registry/`, `tools/hydrate_replay_artifacts.py`, `spatial-replay/registry/`, `apps/mission-control/src/3d/`, `apps/mission-control/src/components/MissionStoryPanel.tsx`, `apps/mission-control/src/components/EvidenceLineageGraph.tsx` |
 | 19 | Mission control design system + responsive UX + local LLM intelligence + scene snapshot readiness (token system, theme toggle, candidate ranking/repair/critique, reviewer snapshot metadata) | `apps/mission-control/src/styles/`, `apps/mission-control/src/lib/theme-provider.tsx`, `backend/app/skill_llm_provider/candidate_ranker.py`, `backend/app/scene_snapshot/`, `tools/generate_reviewer_scene_snapshot.py` |
 
 Each phase had hard-out-of-scope rules: no SLAM, no perception ML,
@@ -86,7 +86,7 @@ gates are visible as commits and PR titles in `git log`.
 ## 4. What this project says about the engineer
 
 Reviewing the repository, you should be able to conclude the
-following from the artefacts alone:
+following from the artifacts alone:
 
 1. **The engineer designs for verifiability first.** The safety
    authority model, event contract, fault contract, and replay
@@ -177,7 +177,7 @@ For a per-audience reading path, see
 The frontend now ships six deterministic workspace presets, twelve
 telemetry-density panels, a ten-step reviewer walkthrough, and a
 shared design-system module. Every panel reads strictly from
-committed JSON artefacts. Honesty CI gates explicitly forbid
+committed JSON artifacts. Honesty CI gates explicitly forbid
 websockets, EventSource, `bag_backed: true` literals, and the use
 of marketing words like "live", "streaming", or "realtime" in
 telemetry panels.

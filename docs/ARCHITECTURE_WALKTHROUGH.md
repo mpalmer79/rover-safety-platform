@@ -181,7 +181,7 @@ See [`docs/FAULT_INJECTION.md`](FAULT_INJECTION.md).
 - `evidence.py` — emits per-scenario `evidence.json`,
   `events-summary.md`, `replay-integrity.json`,
   `command-audit.json`, `safety-transition-audit.json`.
-- `traceability.py` — links REQ-* → tests → scenarios → artefacts.
+- `traceability.py` — links REQ-* → tests → scenarios → artifacts.
 - `report_generator.py` — emits `docs/SCENARIO_VERIFICATION_REPORT.md`
   with an honest status code per scenario.
 
@@ -251,7 +251,7 @@ See [`docs/PROGRAMME_REVIEW.md`](PROGRAMME_REVIEW.md),
 ## 13. Reviewer export (Phase 11)
 
 `backend/app/reviewer_exports/` packages every prior layer's outputs
-into reviewer-friendly artefacts:
+into reviewer-friendly artifacts:
 
 - 8 CSV tables, 8 JSONL mirrors, 8 JSON Schemas (draft 2020-12),
 - a `manifest.json` with row counts and disclaimer,

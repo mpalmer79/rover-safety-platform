@@ -10,7 +10,7 @@ interface DeterministicHashDisplayProps {
 }
 
 /**
- * Renders a deterministic SHA-256 prefix that ties an artefact to
+ * Renders a deterministic SHA-256 prefix that ties an artifact to
  * its inputs. The full hash is available as a tooltip; the short
  * form keeps console rows readable.
  */

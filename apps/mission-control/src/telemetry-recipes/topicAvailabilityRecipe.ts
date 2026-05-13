@@ -6,7 +6,7 @@ export const TOPIC_AVAILABILITY_RECIPE: TelemetryRecipe = {
   optional: [],
   compatibility: ["TopicAvailabilityPanel"],
   limitationNotes: [
-    "Topic counts come from the spatial-replay artefact only.",
+    "Topic counts come from the spatial-replay artifact only.",
   ],
   derive(input): RecipeOutput {
     const a = input.spatial ?? null;
@@ -14,7 +14,7 @@ export const TOPIC_AVAILABILITY_RECIPE: TelemetryRecipe = {
       return {
         recipeId: "topic-availability",
         status: "unavailable",
-        limitations: ["No spatial-replay artefact for this mission."],
+        limitations: ["No spatial-replay artifact for this mission."],
         sources: ["spatial_replay"],
         fields: {},
       };

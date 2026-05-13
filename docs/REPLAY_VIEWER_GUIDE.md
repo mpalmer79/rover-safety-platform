@@ -57,7 +57,7 @@ ones. No filter silently drops rejected runs.
   `CompilerDecisionCard`, and a `SupervisorAuthorityPanel`. No
   panel is hidden because the mission was rejected.
 * Replay markers and runtime events preserve the original
-  deterministic hashes from the backend artefact.
+  deterministic hashes from the backend artifact.
 
 ## 4. What the replay viewer is not
 

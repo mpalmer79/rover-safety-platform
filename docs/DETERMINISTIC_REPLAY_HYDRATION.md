@@ -36,9 +36,9 @@ inputs produce byte-identical outputs (the canonical fixtures pin
 load registry
 for each record in registry.records:
     extract pose samples
-    build spatial-replay artefact
-    validate the artefact
-    write the artefact bytes
+    build spatial-replay artifact
+    validate the artifact
+    write the artifact bytes
     verify the bytes match the registry's expected_hash
 emit hydration report
 if overall integrity passed:
@@ -120,7 +120,7 @@ Phase 20B changes the contract:
   registry, and exits non-zero on drift. Nothing is written.
 * `--write-reports` is a separate opt-in flag that re-enables
   report generation alongside `--check-only` (rare).
-* The default (no `--check-only`) rebuilds artefacts AND writes
+* The default (no `--check-only`) rebuilds artifacts AND writes
   the registry + reports, as before.
 
 `backend/tests/test_hydration_noop.py` enforces the no-op rule by

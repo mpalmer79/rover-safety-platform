@@ -1,7 +1,7 @@
 # Mission Proposal Audit
 
 The platform is **not safety-certified.** This document describes
-the audit artefacts the Phase 14B mission proposal layer produces.
+the audit artifacts the Phase 14B mission proposal layer produces.
 
 ## 1. Where audits live
 

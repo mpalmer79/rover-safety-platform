@@ -9,7 +9,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# TypeScript build artefacts
+# TypeScript build artifacts
 *.tsbuildinfo
 next-env.d.ts
 
@@ -17,7 +17,7 @@ next-env.d.ts
 coverage/
 .nyc_output/
 
-# Playwright visual regression — per-run artefacts.
+# Playwright visual regression — per-run artifacts.
 # NOTE: visual/__screenshots__/ is INTENTIONALLY tracked. Baselines
 # are committed evidence, not generated files.
 visual/test-results/

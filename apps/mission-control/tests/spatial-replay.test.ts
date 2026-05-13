@@ -43,7 +43,7 @@ function makeArtifact(
 }
 
 describe("loadSpatialReplay", () => {
-  it("returns the canonical fixture artefact", async () => {
+  it("returns the canonical fixture artifact", async () => {
     const artifact = await loadSpatialReplay("canonical-fixture");
     expect(artifact).not.toBeNull();
     // The committed fixture must NEVER be labelled bag_backed.
@@ -52,7 +52,7 @@ describe("loadSpatialReplay", () => {
     expect(artifact!.samples.length).toBeGreaterThan(0);
   });
 
-  it("preserves derivation_source from artefact", async () => {
+  it("preserves derivation_source from artifact", async () => {
     const artifact = await loadSpatialReplay("canonical-fixture");
     expect(artifact!.derivation_source).toBe("fixture");
   });
@@ -69,7 +69,7 @@ describe("loadSpatialReplay", () => {
 });
 
 describe("buildMissionRouteFromArtifact", () => {
-  it("preserves the artefact's derivation_source", () => {
+  it("preserves the artifact's derivation_source", () => {
     const route = buildMissionRouteFromArtifact(
       makeArtifact({
         derivation_source: "bag_backed",
@@ -103,7 +103,7 @@ describe("buildMissionRouteFromArtifact", () => {
     expect(route.segments.length).toBe(1);
   });
 
-  it("falls back to unavailable when artefact has zero samples", () => {
+  it("falls back to unavailable when artifact has zero samples", () => {
     const route = buildMissionRouteFromArtifact(
       makeArtifact({ derivation_source: "fixture", samples: [] }),
     );
@@ -111,8 +111,8 @@ describe("buildMissionRouteFromArtifact", () => {
   });
 });
 
-describe("buildMissionRouteFromArtifact > prefers artefact over plan", () => {
-  it("preserves the artefact's derivation_source", () => {
+describe("buildMissionRouteFromArtifact > prefers artifact over plan", () => {
+  it("preserves the artifact's derivation_source", () => {
     const route = buildMissionRouteFromArtifact(
       makeArtifact({
         derivation_source: "fixture",
@@ -166,7 +166,7 @@ describe("selectMissionRoute", () => {
     notes: [],
   };
 
-  it("buildMissionRouteFromArtifact > prefers artefact over plan", () => {
+  it("buildMissionRouteFromArtifact > prefers artifact over plan", () => {
     const artifact = makeArtifact({
       derivation_source: "fixture",
       samples: [
@@ -197,12 +197,12 @@ describe("selectMissionRoute", () => {
     expect(route.artifact).not.toBeNull();
   });
 
-  it("falls back to bounded_inputs when artefact is null", () => {
+  it("falls back to bounded_inputs when artifact is null", () => {
     const route = selectMissionRoute(plan, null);
     expect(route.derivation_source).toBe("bounded_inputs");
   });
 
-  it("falls back to bounded_inputs when artefact has zero samples", () => {
+  it("falls back to bounded_inputs when artifact has zero samples", () => {
     const artifact = makeArtifact({
       derivation_source: "fixture",
       samples: [],
@@ -211,13 +211,13 @@ describe("selectMissionRoute", () => {
     expect(route.derivation_source).toBe("bounded_inputs");
   });
 
-  it("falls back to bounded_inputs when artefact is unavailable", () => {
+  it("falls back to bounded_inputs when artifact is unavailable", () => {
     const artifact = makeArtifact({ derivation_source: "unavailable" });
     const route = selectMissionRoute(plan, artifact);
     expect(route.derivation_source).toBe("bounded_inputs");
   });
 
-  it("plan-only when no artefact and no plan", () => {
+  it("plan-only when no artifact and no plan", () => {
     const route = selectMissionRoute(null, null);
     expect(route.derivation_source).toBe("unavailable");
   });
@@ -258,7 +258,7 @@ describe("artifactIsBagBacked", () => {
     expect(artifactIsBagBacked(artifact)).toBe(false);
   });
 
-  it("accepts a fully-valid bag-backed artefact", () => {
+  it("accepts a fully-valid bag-backed artifact", () => {
     const artifact = makeArtifact({
       derivation_source: "bag_backed",
       bag_status: "bag_backed",
@@ -278,7 +278,7 @@ describe("artifactIsBagBacked", () => {
     expect(artifactIsBagBacked(artifact)).toBe(true);
   });
 
-  it("rejects a null artefact", () => {
+  it("rejects a null artifact", () => {
     expect(artifactIsBagBacked(null)).toBe(false);
   });
 });

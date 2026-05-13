@@ -107,7 +107,7 @@ describe("WarehouseReplayDemo", () => {
     renderDemo();
     const text = document.body.textContent ?? "";
     expect(text).not.toMatch(/No artifact registered/i);
-    expect(text).not.toMatch(/No spatial artefact/i);
+    expect(text).not.toMatch(/No spatial artifact/i);
     expect(text).not.toMatch(/Reviewer scene snapshot unavailable/i);
   });
 

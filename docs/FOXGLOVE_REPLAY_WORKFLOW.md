@@ -6,7 +6,7 @@ safety-certified; this workflow is engineering review tooling.
 
 ## 1. What ships with the repo
 
-| Artefact | Purpose |
+| Artifact | Purpose |
 | --- | --- |
 | `foxglove/layouts/incident-review-layout.json` | Canonical Foxglove layout for incident review. Five panels: safety state plot, requested-vs-authorised cmd_vel plot, system health diagnostic, safety-events log, mission-events log. |
 | `incidents/<incident_id>/foxglove-replay-hints.json` | Per-incident hint file: recommended topics, timeline markers (first fault / first safety transition / first command intervention / terminal), command + diagnostic + fault topic groups, and a pointer to the layout. |

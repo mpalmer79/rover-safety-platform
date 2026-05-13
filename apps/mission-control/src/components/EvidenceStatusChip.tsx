@@ -17,7 +17,7 @@ interface EvidenceStatusChipProps {
  * Communicates evidence origin honestly.
  *
  * The chip's text always shows the verbatim ``evidence_status`` from
- * the source artefact AND a separate ``bag-backed: yes|no`` label.
+ * the source artifact AND a separate ``bag-backed: yes|no`` label.
  * The UI cannot fabricate a bag-backed claim — the chip would
  * contradict itself.
  */

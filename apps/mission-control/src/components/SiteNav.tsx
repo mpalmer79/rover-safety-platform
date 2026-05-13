@@ -13,7 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/start", label: "Start Here", icon: Activity },
+  { href: "/", label: "Start Here", icon: Activity },
   { href: "/demo/warehouse-replay", label: "Mission Replay Demo", icon: PlayCircle },
   { href: "/safety", label: "Safety Authority", icon: ShieldCheck },
   { href: "/evidence", label: "Evidence & Audit", icon: Folder },
@@ -24,7 +24,7 @@ export function SiteNav() {
   const pathname = usePathname();
   return (
     <nav className="border-r border-base-200 bg-base-50 px-3 py-4">
-      <Link href="/start" className="mb-4 block">
+      <Link href="/" className="mb-4 block">
         <p className="label">ProjectBoundary</p>
         <p className="font-semibold leading-tight text-base-900">Mission Control</p>
       </Link>

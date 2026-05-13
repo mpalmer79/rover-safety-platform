@@ -768,7 +768,7 @@ pytest test under `backend/tests/`. The validators cover:
 - the URDF / TF graph (required frames present, single root, no
   orphans),
 - the canonical event envelope (every line in `events.jsonl`),
-- the run directory layout (every required artefact, per-producer
+- the run directory layout (every required artifact, per-producer
   ordering, linked-event resolution),
 - the safety pipeline itself (six in-process supervisor invariants),
 - the seven Phase 1C scenarios (deterministic engine drives each
@@ -841,7 +841,7 @@ state describes whether the supervisor is willing to authorise motion
 (BOOT, INACTIVE, ACTIVE_NORMAL, …, SAFE_STOP, E_STOP_LATCHED). The two
 state machines react to each other but neither owns the other.
 
-Replay artefacts now include `mission_state_transitions.jsonl`,
+Replay artifacts now include `mission_state_transitions.jsonl`,
 `waypoint_events.jsonl`, `recovery_events.jsonl`, and
 `world_model_snapshots.jsonl`. Incident summaries include a Mission
 lifecycle section with reason codes per transition. The validator

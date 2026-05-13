@@ -2,7 +2,7 @@
 
 This document describes the Phase 8 replay analytics layer. The
 platform is **not safety-certified**; the analytics layer produces
-engineering reliability material derived from existing artefacts.
+engineering reliability material derived from existing artifacts.
 
 ## 1. Architectural principle
 
@@ -17,7 +17,7 @@ each incident and derives:
 * cross-incident trends + comparisons;
 * a filterable analytics index.
 
-The layer is **read-only**. It never mutates source artefacts and
+The layer is **read-only**. It never mutates source artifacts and
 never opens a bag file.
 
 ## 2. Pipeline
@@ -69,7 +69,7 @@ Score bands match `docs/REPLAY_QUALITY_SCORING.md`:
 | --- | --- |
 | 90-100 | bag-backed, aligned markers, complete evidence, validated replay, no contradictions |
 | 70-89 | partial replay gaps, some missing inventory, acceptable evidence |
-| 40-69 | sparse replay artefacts, missing markers, partial reports |
+| 40-69 | sparse replay artifacts, missing markers, partial reports |
 | 0-39 | static-only, missing bags, incomplete reports, contradictions |
 
 The cap floor is enforced explicitly:
@@ -87,8 +87,8 @@ artificially high score.
 ## 5. Review completion audit
 
 Operator review completion is recognised **only** via an explicit
-`review-audit.json` artefact. The audit module never infers
-completion from any other artefact (no "the report exists, therefore
+`review-audit.json` artifact. The audit module never infers
+completion from any other artifact (no "the report exists, therefore
 it was reviewed" shortcut). See
 [docs/REPLAY_REVIEW_AUDIT.md](REPLAY_REVIEW_AUDIT.md) for the
 schema.
@@ -184,11 +184,11 @@ upgraded. See
 ## Phase 16 rehearsal analytics
 
 The Phase 16 mission rehearsal pipeline produces a per-rehearsal
-analytics artefact under `mission-rehearsals/audits/<id>/analytics.json`.
-The artefact records `approved_count`, `rejected_count`, `aborted_count`,
+analytics artifact under `mission-rehearsals/audits/<id>/analytics.json`.
+The artifact records `approved_count`, `rejected_count`, `aborted_count`,
 `completed_count`, `supervisor_rejection_count`,
 `validator_rejection_count`, and `deterministic_replay_stable`. The
-artefacts are simulation-only — `bag_backed=False` is hardcoded for
+artifacts are simulation-only — `bag_backed=False` is hardcoded for
 every rehearsal replay bundle. See
 `docs/REHEARSAL_REPLAY_INTEGRATION.md` for the schema and the
 origin-labelling rule that keeps simulated counts from silently

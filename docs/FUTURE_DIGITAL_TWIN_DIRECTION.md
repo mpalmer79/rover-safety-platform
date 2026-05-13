@@ -16,7 +16,7 @@ runtime is simulation-only and deterministic.
   failure-reason codes;
 * a filesystem schema that mirrors the Phase 7 / Phase 8 replay
   + analytics layout, so downstream programme-review tooling can
-  consume rehearsal artefacts directly.
+  consume rehearsal artifacts directly.
 
 ## 2. What a future phase MUST add
 
@@ -29,7 +29,7 @@ runtime is simulation-only and deterministic.
 2. **Bag-backed replay handoff.** Replace
    `bag_backed=False` with the real classification produced by
    `app.live_runtime.bag_manifest.inspect_bag_directory`. The
-   honesty rule remains: no bag artefact, no bag-backed claim.
+   honesty rule remains: no bag artifact, no bag-backed claim.
 3. **Programme-review aggregation.** Aggregate per-rehearsal
    analytics into the existing programme-review trends with an
    `origin_mix_label` that distinguishes Phase 16 (simulated)
@@ -45,7 +45,7 @@ runtime is simulation-only and deterministic.
 * mutate the safety supervisor state from inside the rehearsal
   layer;
 * call cloud APIs;
-* mark Phase 16 rehearsal artefacts as bag-backed;
+* mark Phase 16 rehearsal artifacts as bag-backed;
 * mix Phase 16 analytics with bag-backed analytics without explicit
   origin labelling.
 

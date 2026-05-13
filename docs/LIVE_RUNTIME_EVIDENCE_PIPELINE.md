@@ -2,7 +2,7 @@
 
 Phase 13 introduces the live ROS 2 / Gazebo runtime evidence pipeline.
 The platform is **not safety-certified**; this document describes
-engineering qualification infrastructure, not a regulatory artefact.
+engineering qualification infrastructure, not a regulatory artifact.
 
 **Phase 17C downstream.** When a Phase 13 self-hosted runner
 produces a `bag-manifest.json` with `bag_status = bag_backed`, an
@@ -16,7 +16,7 @@ can render. See `docs/BAG_BACKED_SPATIAL_REPLAY.md` and
 ## 1. Goal
 
 Move from `static-only / fixture-backed` evidence to live ROS 2 /
-Gazebo runtime evidence with real `rosbag2` artefacts — without
+Gazebo runtime evidence with real `rosbag2` artifacts — without
 faking the transition. Until a self-hosted Jazzy + Gazebo runner
 exists, every live run honestly reports `not_executed`.
 
@@ -63,7 +63,7 @@ evidence/runtime/<run_id>/
   metadata.json              run id, plan id, runner id, times, disclaimer
   runner-profile.json        the host that produced (or attempted) the run
   live-run-summary.json      overall status (passed/failed/partial/skipped/not_executed)
-  bag-manifest.json          bag status + artefact paths + topic inventory
+  bag-manifest.json          bag status + artifact paths + topic inventory
   bags/                      real bag files (mcap or sqlite3) when bag_backed
   logs/                      launch + node logs
   events.jsonl               supervisor events captured during the run
@@ -132,7 +132,7 @@ CLIs (`rover_ws/tools/`):
 * fails fast with an explicit error if `ROS_DISTRO != jazzy`,
 * qualifies the host → builds the workspace → captures bags →
   validates evidence → processes downstream → regenerates the
-  maturity report → uploads artefacts.
+  maturity report → uploads artifacts.
 
 If GitHub-hosted CI ever attempts to claim live execution, the
 guard step exits non-zero — by design.

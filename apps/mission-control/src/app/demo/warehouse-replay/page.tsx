@@ -108,7 +108,7 @@ function FallbackPage({
             <li>
               •{" "}
               <Link
-                href="/start"
+                href="/"
                 className="text-[color:var(--mc-accent)] underline-offset-2 hover:underline"
               >
                 Return to Start Here

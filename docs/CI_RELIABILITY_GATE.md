@@ -137,7 +137,7 @@ The reliability gate now expects CI jobs to run in this order:
 
 The hydration `--check-only` invocation is now read-only — it must
 not be a CI step that introduces a dirty working tree. The
-canonical-fixture artefacts are committed to disk and verified by
+canonical-fixture artifacts are committed to disk and verified by
 `backend/tests/test_artifact_registry.py::test_canonical_registry_paths_match_disk`
 plus the Phase 20B
 `backend/tests/test_artifact_fixture_commitment.py`.

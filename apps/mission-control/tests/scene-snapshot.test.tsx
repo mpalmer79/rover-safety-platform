@@ -68,7 +68,7 @@ describe("computeSceneSnapshot", () => {
     expect(state.missing_inputs.length).toBeGreaterThan(0);
   });
 
-  it("returns fixture status for a fixture-derived artefact", () => {
+  it("returns fixture status for a fixture-derived artifact", () => {
     const state = computeSceneSnapshot("r", makeArtifact(), makeRecord());
     expect(state.status).toBe("fixture");
     expect(state.eligible_for_bag_backed_snapshot).toBe(false);

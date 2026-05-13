@@ -2,13 +2,13 @@
  * Phase 20B telemetry recipe model.
  *
  * A recipe is a deterministic declaration of how a telemetry panel
- * derives its output from committed artefacts. Panels MAY consume
+ * derives its output from committed artifacts. Panels MAY consume
  * recipes directly; new panels SHOULD consume recipes.
  *
  * Honesty rules:
  *   * a recipe NEVER fabricates a value;
  *   * a recipe returns an explicit ``unavailable`` result when a
- *     required artefact is missing;
+ *     required artifact is missing;
  *   * a recipe preserves derivation_source / bag_backed verbatim.
  */
 
@@ -59,9 +59,9 @@ export interface RecipeOutput {
 
 export interface TelemetryRecipe {
   recipeId: string;
-  /** Required artefact kinds. */
+  /** Required artifact kinds. */
   requires: readonly RecipeArtifactKind[];
-  /** Optional artefact kinds whose absence degrades to ``partial``. */
+  /** Optional artifact kinds whose absence degrades to ``partial``. */
   optional: readonly RecipeArtifactKind[];
   /** Panel ids this recipe is compatible with. */
   compatibility: readonly string[];

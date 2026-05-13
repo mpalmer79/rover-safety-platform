@@ -5,13 +5,13 @@ workflow. The platform is **not** safety-certified; this runbook
 describes engineering replay-review discipline only.
 
 The replay review layer is **read-only with respect to runtime
-evidence and rosbag2 artefacts**. It inspects, indexes, and produces
+evidence and rosbag2 artifacts**. It inspects, indexes, and produces
 metadata. It does **not** open bag files itself; that work is left
 to Foxglove.
 
 **Phase 17C addition.** Mission-level replay reviews may now
 reference a committed `spatial-replay/runs/<run_id>/` directory.
-When the artefact's `derivation_source` is `bag_backed`, the
+When the artifact's `derivation_source` is `bag_backed`, the
 Mission Control UI overlays the trajectory on the mission map.
 The runbook is otherwise unchanged: bag parsing remains an
 operator activity, never an automated platform behaviour.
@@ -45,8 +45,8 @@ python3 rover_ws/tools/qualified_runtime_run.py \
 ```
 
 This populates `evidence/runtime/<run_id>/` and (when configured)
-`runs/<run_id>/bags/`. The bag artefacts are gitignored — they live
-on the recording host until they are uploaded as workflow artefacts.
+`runs/<run_id>/bags/`. The bag artifacts are gitignored — they live
+on the recording host until they are uploaded as workflow artifacts.
 
 ## 3. Reconstruct an incident
 
@@ -90,8 +90,8 @@ report's `replay_execution_status` mirrors this — it never claims
 | Status | Meaning |
 | --- | --- |
 | `ready` | Bag chunks + `metadata.yaml` present; reviewer can load directly. |
-| `partial` | Some bag artefacts present (chunks or metadata, not both). |
-| `missing_bag` | No bag artefacts detected for a non-static incident. |
+| `partial` | Some bag artifacts present (chunks or metadata, not both). |
+| `missing_bag` | No bag artifacts detected for a non-static incident. |
 | `static_only` | The underlying incident is static-only; no bag is expected. |
 | `not_executed` | Live replay was skipped (CI / no Jazzy host). |
 | `failed` | A required check failed (e.g. incident-report missing). |
@@ -106,7 +106,7 @@ python3 rover_ws/tools/validate_replay_review.py \
 
 The validator runs the static checks (incident-report present,
 timeline present, markers generated, layout exists, session
-well-formed, bag artefacts present, expected topics present) and
+well-formed, bag artifacts present, expected topics present) and
 prints the aggregate status. A failed check returns a non-zero exit
 code; `not_executed` and `partial` do not fail CI.
 
@@ -220,4 +220,4 @@ and [docs/LIVE_BAG_CAPTURE_RUNBOOK.md](LIVE_BAG_CAPTURE_RUNBOOK.md).
 
 This runbook does not claim safety certification. It documents the
 operations that produce honest, repeatable engineering replay-review
-artefacts for ROS 2 Jazzy + Gazebo Harmonic incidents.
+artifacts for ROS 2 Jazzy + Gazebo Harmonic incidents.

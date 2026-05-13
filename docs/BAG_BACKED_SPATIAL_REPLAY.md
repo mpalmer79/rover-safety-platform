@@ -101,7 +101,7 @@ fabricates a bag manifest.
 * publish to ROS topics;
 * call cloud APIs;
 * execute generated robot code;
-* mark simulated artefacts as bag-backed;
+* mark simulated artifacts as bag-backed;
 * imply real-world deployment or safety certification.
 
 See `docs/SPATIAL_REPLAY_HONESTY_RULES.md` for the complete rule set.

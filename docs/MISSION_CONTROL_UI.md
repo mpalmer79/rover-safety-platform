@@ -3,7 +3,7 @@
 The platform is **not safety-certified.** Phase 17A introduces the
 first operator-facing surface for the deterministic autonomy
 platform: a static-export Next.js 14 workspace that renders the
-backend's deterministic artefacts as a believable mission-control
+backend's deterministic artifacts as a believable mission-control
 console.
 
 ## 1. Where it lives
@@ -25,7 +25,7 @@ apps/mission-control/
       evidence/page.tsx       # Evidence + traceability explorer
     adapters/
       paths.ts
-      loader.ts               # Reads JSON artefacts on disk
+      loader.ts               # Reads JSON artifacts on disk
       types.ts                # Shared TypeScript shapes
     components/
       SafetyBoundaryBanner.tsx
@@ -99,7 +99,7 @@ through `src/adapters/loader.ts`, which reads:
 * `verification/traceability.json`
 * `live-runtime/live-runtime-maturity.json` (when present)
 
-When an artefact is missing, the adapter returns `null` and the
+When an artifact is missing, the adapter returns `null` and the
 panel renders an honest placeholder. No hardcoded fallbacks.
 
 ## 5. Honesty rules

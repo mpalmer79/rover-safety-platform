@@ -75,7 +75,7 @@ verification/
 ```
 
 Open `evidence/scenarios/<id>/evidence.md` for the per-scenario story.
-Every artefact is regeneratable; nothing here is hand-written.
+Every artifact is regeneratable; nothing here is hand-written.
 
 ## 4. Inspect a single scenario
 

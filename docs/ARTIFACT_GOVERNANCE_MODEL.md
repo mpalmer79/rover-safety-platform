@@ -2,19 +2,19 @@
 
 The platform is **not safety-certified.** This document describes
 the governance layer that owns the canonical lifecycle of every
-committed replay artefact.
+committed replay artifact.
 
 ## 1. Why this exists
 
 Phase 17C CI failed when the runner expected committed replay
-artefacts that the workspace had not yet hydrated. The frontend
+artifacts that the workspace had not yet hydrated. The frontend
 read files by convention, the CI built without a hydration gate,
 and the failure surfaced as a generic pytest crash. Phase 18 fixes
 that by introducing an explicit governance layer with three
 responsibilities:
 
 1. **Discovery.** A canonical registry lists every committed
-   artefact the platform is allowed to render.
+   artifact the platform is allowed to render.
 2. **Verification.** Every registered file records a deterministic
    sha256 prefix; bytes on disk must match.
 3. **Hydration.** A dedicated CLI rebuilds canonical fixtures from
@@ -48,7 +48,7 @@ Schema (see `backend/app/artifact_registry/models.py`):
           "relative_path": "spatial-replay/runs/canonical-fixture/spatial-replay.json",
           "expected_hash": "<64-char sha256>",
           "size_bytes": 8956,
-          "description": "frontend-consumable spatial-replay artefact"
+          "description": "frontend-consumable spatial-replay artifact"
         }
       ],
       "notes": ["..."]
@@ -64,8 +64,8 @@ Schema (see `backend/app/artifact_registry/models.py`):
 | `generated`  | Built by a CLI; not committed yet.                        |
 | `hydrated`   | Rebuilt from sources, hash verified locally.              |
 | `committed`  | Lives on `main`; the UI may render it.                    |
-| `verified`   | A reviewer has signed off on the artefact's evidence.     |
-| `canonical`  | Phase-level milestone; the artefact will not be deleted.  |
+| `verified`   | A reviewer has signed off on the artifact's evidence.     |
+| `canonical`  | Phase-level milestone; the artifact will not be deleted.  |
 | `deprecated` | Hidden from the UI; available for archive lookups only.   |
 
 Phase 18 ships every canonical fixture at lifecycle = `canonical`.
@@ -89,9 +89,9 @@ via `lifecycle_for_integrity`.
   filesystem guessing is forbidden.
 - A failing hydration NEVER rewrites the canonical registry.
 - A `derivation_source = bag_backed` record must point at an
-  artefact with `bag_status = bag_backed` and `sample_count > 0`.
+  artifact with `bag_status = bag_backed` and `sample_count > 0`.
 - A `deprecated` record is never rendered.
-- A `partial` / `failed` integrity demotes the artefact's
+- A `partial` / `failed` integrity demotes the artifact's
   rendering confidence in the UI.
 
 ## 6. Where it lives
@@ -122,7 +122,7 @@ The frontend reads the registry via
 
 ## Phase 20B addendum — canonical fixture commitment
 
-The canonical-fixture run artefacts are now committed under
+The canonical-fixture run artifacts are now committed under
 `spatial-replay/runs/canonical-fixture/`. The `.gitignore` carries a
 specific exception (`!spatial-replay/runs/canonical-fixture/**`) so
 a fresh clone carries the bytes. Backend pytest no longer depends

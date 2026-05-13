@@ -74,7 +74,7 @@ python rover_ws/tools/explain_mission_plan.py \
 The chain shows each deterministic stage so a reviewer can verify
 how user input became the final plan.
 
-## 6. Emit the audit artefact
+## 6. Emit the audit artifact
 
 ```bash
 python rover_ws/tools/generate_mission_audit.py \
@@ -95,7 +95,7 @@ The canonical bundle ships four rejected missions under
 - `contradictory_request` — clauses disagree.
 - `unsupported_instruction` — dangerous construct.
 
-Each one has the same artefact set; the difference is the
+Each one has the same artifact set; the difference is the
 `status=compile_rejected` and a populated `diagnostics` array.
 
 ## 8. Honesty checks a reviewer can run

@@ -12,7 +12,7 @@ interface ReplayConfidencePanelProps {
 }
 
 /**
- * Confidence indicator for the active spatial-replay artefact.
+ * Confidence indicator for the active spatial-replay artifact.
  *
  * Confidence is computed from THREE inputs (in this order):
  *
@@ -30,9 +30,9 @@ export function ReplayConfidencePanel({
 }: ReplayConfidencePanelProps) {
   if (!artifact) {
     return (
-      <Panel eyebrow="Replay confidence" title="No artefact">
+      <Panel eyebrow="Replay confidence" title="No artifact">
         <p className="body-mono text-base-500">
-          No spatial-replay artefact for this run; the playback panel
+          No spatial-replay artifact for this run; the playback panel
           falls back to the bounded-inputs derivation.
         </p>
       </Panel>

@@ -62,7 +62,7 @@ aerospace safety team should immediately recognise the discipline.
 1. Open `/walkthrough` and step through the ten-step explainer.
 2. Open `/workspaces/safety-review` to inspect the supervisor
    authority, validation outcomes, and forbidden topics.
-3. Open `/workspaces/evidence-audit` to inspect the artefact
+3. Open `/workspaces/evidence-audit` to inspect the artifact
    registry integrity rollup.
 4. Open `/workspaces/fleet-readiness` to see the multi-site
    architecture (with one robot today).

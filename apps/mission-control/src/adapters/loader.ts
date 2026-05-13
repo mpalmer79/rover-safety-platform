@@ -25,7 +25,7 @@ import { repoPaths } from "./paths";
  * Read a JSON file or return ``null`` when missing.
  *
  * The adapter NEVER fabricates contents on a missing file — callers
- * receive ``null`` so the UI can render an honest "no artefact"
+ * receive ``null`` so the UI can render an honest "no artifact"
  * state. Honesty is preserved at the adapter boundary.
  */
 async function readJson<T>(filePath: string): Promise<T | null> {
@@ -72,7 +72,7 @@ async function listJsonFiles(dir: string): Promise<string[]> {
 }
 
 // ---------------------------------------------------------------------
-// Rehearsal artefacts
+// Rehearsal artifacts
 // ---------------------------------------------------------------------
 
 export async function listRehearsalIds(): Promise<readonly string[]> {
@@ -312,7 +312,7 @@ export function replayIsBagBacked(replay: ReplayBundle | null): boolean {
 }
 
 // ---------------------------------------------------------------------
-// Phase 17C — spatial-replay artefact loader
+// Phase 17C — spatial-replay artifact loader
 // ---------------------------------------------------------------------
 
 interface SpatialReplayRaw {
@@ -419,17 +419,17 @@ function coerceSpatialReplayArtifact(
 }
 
 /**
- * Read the spatial-replay artefact for ``runId`` from disk.
+ * Read the spatial-replay artifact for ``runId`` from disk.
  *
- * Phase 18: the loader consults the canonical artefact registry
+ * Phase 18: the loader consults the canonical artifact registry
  * before reading the file. If the registry exists and lists the
- * run, we trust the file path it points to and verify the artefact
+ * run, we trust the file path it points to and verify the artifact
  * is in an authoritative lifecycle state. If the registry is
  * missing (e.g. CI hasn't hydrated yet) the loader falls back to
  * the legacy filesystem-by-convention path so existing call sites
  * keep working.
  *
- * Returns ``null`` when the artefact is missing or malformed.
+ * Returns ``null`` when the artifact is missing or malformed.
  */
 export async function loadSpatialReplay(
   runId: string,
@@ -447,9 +447,10 @@ export async function loadSpatialReplay(
         f.relative_path.endsWith("spatial-replay.json"),
       );
       if (file) {
-        const root = path.dirname(paths.spatialReplayRunsDir.replace(/\/runs$/, ""));
+        // Anchor: spatialReplayRunsDir is ``<repoRoot>/spatial-replay/runs``.
+        const repoRoot = path.resolve(paths.spatialReplayRunsDir, "..", "..");
         // ``relative_path`` is repo-rooted (e.g. ``spatial-replay/runs/<run>/...``).
-        const absolute = path.resolve(root, "..", file.relative_path);
+        const absolute = path.resolve(repoRoot, file.relative_path);
         const raw = await readJson<SpatialReplayRaw>(absolute);
         if (raw) return coerceSpatialReplayArtifact(raw);
       }
@@ -483,7 +484,7 @@ export async function listSpatialReplayRunIds(): Promise<readonly string[]> {
 }
 
 // ---------------------------------------------------------------------
-// Phase 18 — artefact registry
+// Phase 18 — artifact registry
 // ---------------------------------------------------------------------
 
 interface ArtifactRegistryRaw {
@@ -527,7 +528,7 @@ function coerceRegistryRecord(
 }
 
 /**
- * Read the canonical artefact registry from disk.
+ * Read the canonical artifact registry from disk.
  *
  * Returns ``null`` when missing — Phase 18 frontend code paths
  * gracefully degrade to the legacy filesystem-by-convention path.

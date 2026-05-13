@@ -15,7 +15,7 @@ It does so by walking the chain:
 source code changes
  -> affected subsystem
  -> affected requirement IDs
- -> affected tests + evidence artefacts
+ -> affected tests + evidence artifacts
  -> affected replay analytics (vs baseline)
  -> reliability risk + CI gate decision
 ```
@@ -23,7 +23,7 @@ source code changes
 ## 2. Architectural principle
 
 The layer is **read-only** with respect to source code, evidence
-artefacts, and replay analytics. It inspects, classifies, and
+artifacts, and replay analytics. It inspects, classifies, and
 reports. It never mutates source code, never fabricates git
 history, and never auto-updates baselines.
 
@@ -37,7 +37,7 @@ Under `backend/app/reliability_impact/`:
 | `git_changes.py` | Change inventory: `--changed-files`, `git diff base..head`, working-tree fallback, CI env helper. |
 | `subsystem_classifier.py` | Deterministic path-prefix classifier. Unknown paths map to `unknown` (never dropped). |
 | `requirement_mapper.py` | Subsystem -> live `REQ-*` ids from `app.verification.requirements`. |
-| `evidence_mapper.py` | Subsystem -> recommended tools + artefacts to regenerate. |
+| `evidence_mapper.py` | Subsystem -> recommended tools + artifacts to regenerate. |
 | `analytics_delta.py` | Per-incident + aggregate delta against the pinned baseline. |
 | `risk_assessor.py` | Conservative `RiskLevel` rules. |
 | `baseline.py` | Resolution + intentional baseline write helpers. |
@@ -93,7 +93,7 @@ summary.
 
 | Severity | Meaning |
 | --- | --- |
-| `improvement` | newer artefacts moved in the right direction |
+| `improvement` | newer artifacts moved in the right direction |
 | `neutral` | no material change |
 | `warning` | score drop ≥ 10 within the same band; small coverage drop |
 | `regression` | score drop ≥ 25 or coverage band drop ≥ 2 |

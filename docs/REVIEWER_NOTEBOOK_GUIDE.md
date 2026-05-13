@@ -66,7 +66,7 @@ coverage, trend series, gate history.
   `causality_claimed=false` always; the export never asserts
   causation.
 * **Requirement coverage** — REQ-* ids with mapped tests and
-  artefacts. `coverage_status` ∈ `covered`, `tests_only`,
+  artifacts. `coverage_status` ∈ `covered`, `tests_only`,
   `evidence_only`, `unmapped`.
 * **Trend series** — per-metric trend categories with rolling-3 /
   rolling-5 windows. `insufficient_history` means the underlying

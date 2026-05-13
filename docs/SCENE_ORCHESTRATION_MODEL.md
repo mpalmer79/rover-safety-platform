@@ -8,7 +8,7 @@
 Phase 20 left the 3D scene beside the workflow. Phase 20B introduces
 a deterministic scene-cue model so the scene participates in the
 review flow: a walkthrough step selects a cue, the cue maps to a
-camera mode, and the scene focuses the corresponding artefact.
+camera mode, and the scene focuses the corresponding artifact.
 
 ## Module layout
 
@@ -57,5 +57,5 @@ trajectoryFocusResolver.ts  follow a spatial-replay trajectory
 * `resolveEventFocus` returns `null` for unknown event ids;
 * `resolveSupervisorFocus` surfaces rejected decisions as
   `safety_intervention`;
-* `resolveTrajectoryFocus` returns `null` for missing artefacts;
+* `resolveTrajectoryFocus` returns `null` for missing artifacts;
 * `activeSceneCue` falls back to `overview` when no input applies.

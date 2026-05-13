@@ -47,7 +47,7 @@ The project has strong foundations, but the deployed UI needs a product narrativ
 
 The left navigation includes a **Components** link. When selected, the deployed site displays a missing artifact page instead of a component catalog or design-system view.
 
-Observed message: `No artefact at this path`
+Observed message: `No artifact at this path`
 
 The page states that the platform did not commit a JSON artifact for the route and suggests that the path may be a typo or renamed artifact.
 
@@ -97,8 +97,8 @@ The site references spatial replay, immersive visualization, scene snapshots, an
 
 Observed examples include:
 
-- `No spatial artefact`
-- `No spatial-replay artefact for this mission.`
+- `No spatial artifact`
+- `No spatial-replay artifact for this mission.`
 - `Reviewer scene snapshot unavailable`
 - `No artifact registered for this run.`
 
@@ -486,7 +486,7 @@ The navigation implies that this page should show reusable UI components or a de
 
 ### Current behavior
 
-The page displays: `No artefact at this path`
+The page displays: `No artifact at this path`
 
 ### Severity
 
@@ -637,7 +637,7 @@ Before sharing broadly with recruiters, the project should meet the following ch
 
 - Fix or remove `/catalog`.
 - Remove broken Components link from navigation if catalog is not ready.
-- Replace “No artefact at this path” with a professional 404 or fallback page.
+- Replace “No artifact at this path” with a professional 404 or fallback page.
 
 ### Priority 2: Clarify public narrative
 

@@ -10,7 +10,7 @@ export default function RouteLoading() {
           <p className="label">Mission detail</p>
           <h1 className="display-1">Loading…</h1>
           <p className="text-muted text-sm sm:text-base">
-            Loading committed artefacts…
+            Loading committed artifacts…
           </p>
         </header>
       </GradientPanel>

@@ -13,7 +13,7 @@ variables. Without a typed token system, two failure modes appear:
    Tailwind `bg-black`/`bg-white`/`text-black`/`text-white`
    classes reads as untuned and visually identical to dozens of
    open-source dashboards. This undermines the platform's
-   credibility as a reviewer-facing artefact.
+   credibility as a reviewer-facing artifact.
 2. **WCAG contrast violations.** Pure black + pure white surfaces
    produce overshooting contrast (≈ 21:1) that fatigues a reader
    and clashes with the muted-accent + status-colour palette the

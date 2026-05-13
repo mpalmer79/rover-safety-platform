@@ -6,10 +6,10 @@ reliability governance.
 
 ## 1. Scope
 
-The programme-review layer aggregates artefacts produced by every
+The programme-review layer aggregates artifacts produced by every
 prior phase:
 
-| Phase | Artefact consumed |
+| Phase | Artifact consumed |
 | --- | --- |
 | 3 | `verification/traceability.json`, `docs/TRACEABILITY_MATRIX.md` |
 | 4 | `evidence/runtime/<id>/runtime-validation.json` |
@@ -36,7 +36,7 @@ It produces:
 
 ## 2. Architectural principle
 
-The layer is **read-only** with respect to every upstream artefact.
+The layer is **read-only** with respect to every upstream artifact.
 It inspects, classifies, aggregates, and reports.
 
 * No causal claims.
@@ -115,7 +115,7 @@ labels in the resulting bundle.
 Phase 11 packages the programme-review outputs (plus replay
 analytics, incident index, reliability impact, and traceability)
 into reviewer-friendly CSV / JSONL / JSON Schema / notebook
-artefacts. See [docs/REVIEWER_EXPORTS.md](REVIEWER_EXPORTS.md).
+artifacts. See [docs/REVIEWER_EXPORTS.md](REVIEWER_EXPORTS.md).
 
 ## 9. Phase 13 live runtime input
 
@@ -143,6 +143,6 @@ subsystem-risk outputs, and `not_executed` runs surface as
 - [docs/LIVE_RUNTIME_MATURITY_REPORT.md](LIVE_RUNTIME_MATURITY_REPORT.md)
 - [docs/GOVERNED_MISSION_REHEARSAL.md](GOVERNED_MISSION_REHEARSAL.md) —
   Phase 16 rehearsal analytics feed programme review through the same
-  filesystem layout as Phase 8 analytics, but every artefact is
+  filesystem layout as Phase 8 analytics, but every artifact is
   labelled `simulated` so trends never silently mix simulated with
   bag-backed evidence.

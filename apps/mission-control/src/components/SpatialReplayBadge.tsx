@@ -21,7 +21,7 @@ const TONE: Record<SpatialDerivationSource, string> = {
  * The badge text is the verbatim output of
  * :func:`describeDerivationSource`; the chip's colour communicates
  * the honesty class at a glance. ``bag_backed`` is green ONLY when
- * the artefact validates; the upstream adapter is responsible for
+ * the artifact validates; the upstream adapter is responsible for
  * never passing ``"bag_backed"`` unless the validator gates it.
  */
 export function SpatialReplayBadge({
