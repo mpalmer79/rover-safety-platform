@@ -13,24 +13,26 @@ import {
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Dashboard", icon: Activity },
-  { href: "/workbench", label: "Proposal Workbench", icon: Layers },
-  { href: "/replay", label: "Replay Viewer", icon: PlayCircle },
+  { href: "/start", label: "Start Here", icon: Activity },
+  { href: "/demo/warehouse-replay", label: "Mission Replay Demo", icon: PlayCircle },
   { href: "/safety", label: "Safety Authority", icon: ShieldCheck },
   { href: "/evidence", label: "Evidence & Audit", icon: Folder },
+  { href: "/workbench", label: "Proposal Workbench", icon: Layers },
 ] as const;
 
 export function SiteNav() {
   const pathname = usePathname();
   return (
     <nav className="border-r border-base-200 bg-base-50 px-3 py-4">
-      <Link href="/" className="mb-4 block">
-        <p className="label">Phase 17A</p>
+      <Link href="/start" className="mb-4 block">
+        <p className="label">ProjectBoundary</p>
         <p className="font-semibold leading-tight text-base-900">Mission Control</p>
       </Link>
       <ul className="space-y-1 text-sm">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href || (href !== "/" && pathname.startsWith(href));
+          const active =
+            pathname === href ||
+            (href.length > 1 && pathname.startsWith(href));
           return (
             <li key={href}>
               <Link
@@ -50,8 +52,10 @@ export function SiteNav() {
         })}
       </ul>
       <div className="mt-6 rounded border border-base-200 bg-base-100 px-3 py-3 text-[11px] leading-snug text-base-600">
-        <p className="label mb-1">Honesty</p>
-        Simulation-only. Not safety-certified. Bag-backed evidence count remains 0.
+        <p className="label mb-1">Scope</p>
+        Simulation-only platform. Deterministic mission validation,
+        supervisor authority, replay evidence, and audit traceability.
+        No real hardware control. Not safety-certified.
       </div>
     </nav>
   );

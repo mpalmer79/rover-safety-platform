@@ -35,12 +35,15 @@ export default async function DashboardPage() {
       <GradientPanel elevated className="px-4 py-4 sm:px-5 sm:py-5">
         <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <p className="label">Operator console</p>
-            <h1 className="display-1">Mission Control Dashboard</h1>
+            <p className="label">Mission Control</p>
+            <h1 className="display-1">Operator dashboard</h1>
             <p className="text-muted text-sm sm:text-base">
-              Live deterministic-pipeline snapshot. Every value comes from
-              committed JSON artefacts on disk; nothing here is
-              synthesised at render time.
+              ProjectBoundary validates robot mission requests before
+              simulated execution. It rejects unsafe commands,
+              preserves supervisor authority, and records deterministic
+              evidence for replay and audit. Every value below comes
+              from committed JSON artifacts — nothing is synthesised at
+              render time.
             </p>
           </div>
           <div className="flex flex-col items-start gap-2 sm:items-end">
