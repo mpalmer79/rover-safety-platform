@@ -55,6 +55,15 @@ export function MermaidView({ source, className }: MermaidViewProps) {
   }, [source, id]);
 
   if (svg) {
+    // Trust boundary (#10): the SVG injected here is produced by
+    // Mermaid from `source`. Mermaid escapes node labels, but that is
+    // not a sandbox — rendering attacker-controlled Mermaid source
+    // would still be unsafe (SVG embeds <foreignObject>, <script>,
+    // event handlers, etc.). The ingested Mermaid source MUST come
+    // from checked-in repository files only (audits, traceability
+    // graphs, etc.). Never wire this component to an external feed,
+    // a database column, or a query parameter without sanitising
+    // upstream and routing through a server-side allow-list.
     return (
       <div
         ref={ref}
