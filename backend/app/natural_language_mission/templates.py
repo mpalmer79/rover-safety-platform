@@ -227,9 +227,21 @@ _TEMPLATES: tuple[Template, ...] = (
 )
 
 
-# Substring blocklist of phrases that can never be a legal mission
-# instruction. Hit one and the parser records
-# ``dangerous_unsupported_instruction``.
+# ---------------------------------------------------------------------
+# DANGEROUS_PHRASES is **signaling and deterrence**, not enforcement.
+#
+# The actual enforcement is the *whitelist* of mission templates above:
+# any clause that does not match a template is routed to ``rejected``
+# regardless of whether it contains a "dangerous" phrase. The blocklist
+# below earns its keep by producing a clearer reason code
+# (``dangerous_unsupported_instruction``) when a clause matches a known
+# unsafe shape — useful for operator feedback and for incident triage.
+#
+# Do NOT expand this blocklist as a primary defence. Adding more
+# phrases reinforces the wrong invariant; the right answer when a new
+# unsafe instruction shape appears is to leave it un-matched by any
+# whitelist template, which is already the reject path.
+# ---------------------------------------------------------------------
 DANGEROUS_PHRASES: tuple[str, ...] = (
     "run shell",
     "execute python",
