@@ -447,9 +447,10 @@ export async function loadSpatialReplay(
         f.relative_path.endsWith("spatial-replay.json"),
       );
       if (file) {
-        const root = path.dirname(paths.spatialReplayRunsDir.replace(/\/runs$/, ""));
+        // Anchor: spatialReplayRunsDir is ``<repoRoot>/spatial-replay/runs``.
+        const repoRoot = path.resolve(paths.spatialReplayRunsDir, "..", "..");
         // ``relative_path`` is repo-rooted (e.g. ``spatial-replay/runs/<run>/...``).
-        const absolute = path.resolve(root, "..", file.relative_path);
+        const absolute = path.resolve(repoRoot, file.relative_path);
         const raw = await readJson<SpatialReplayRaw>(absolute);
         if (raw) return coerceSpatialReplayArtifact(raw);
       }
