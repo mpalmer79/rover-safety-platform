@@ -258,6 +258,23 @@ jobs:
     name: Playwright visual regression
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    # Non-blocking until baselines are bootstrapped.
+    #
+    # The job has never produced positive signal in this repo:
+    # ``visual/__screenshots__/`` is empty, so every CI run fails on
+    # "snapshot doesn't exist". A failing required check that engineers
+    # learn to ignore is worse than no check.
+    #
+    # When the project is ready to freeze visuals:
+    #   1. An operator with browser-download access runs
+    #      ``npx playwright test --update-snapshots`` once,
+    #   2. Commits the resulting PNGs under
+    #      ``apps/mission-control/visual/__screenshots__/``,
+    #   3. Removes ``continue-on-error`` here so drift becomes a
+    #      blocking signal again.
+    #
+    # See ``docs/VISUALIZATION_ROADMAP.md`` for the full strategy.
+    continue-on-error: true
     defaults:
       run:
         working-directory: apps/mission-control
