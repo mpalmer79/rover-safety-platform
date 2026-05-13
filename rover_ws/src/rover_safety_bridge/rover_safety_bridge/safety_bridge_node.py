@@ -326,9 +326,28 @@ def _stamp_to_ms(stamp: RosTime) -> int:
     return int(stamp.sec) * 1000 + int(stamp.nanosec) // 1_000_000
 
 
+_SROS2_WARNING = (
+    "running without SROS2; DDS domain is trusted-implicit. "
+    "Set ROS_SECURITY_ENABLE=true for enclave enforcement."
+)
+
+
+def _warn_if_sros2_disabled(node: Node) -> None:
+    """Emit a single WARNING when ROS_SECURITY_ENABLE is unset (#14 + #18).
+
+    Do not refuse to start — portfolio reviewers run without keystores.
+    """
+
+    import os
+
+    if os.environ.get("ROS_SECURITY_ENABLE", "").lower() not in {"true", "1"}:
+        node.get_logger().warn(_SROS2_WARNING)
+
+
 def main() -> None:
     rclpy.init()
     node = SafetyBridgeNode()
+    _warn_if_sros2_disabled(node)
     try:
         rclpy.spin(node)
     finally:

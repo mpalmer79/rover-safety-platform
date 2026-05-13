@@ -67,9 +67,23 @@ class EventRecorderNode(Node):
         return super().destroy_node()
 
 
+_SROS2_WARNING = (
+    "running without SROS2; DDS domain is trusted-implicit. "
+    "Set ROS_SECURITY_ENABLE=true for enclave enforcement."
+)
+
+
+def _warn_if_sros2_disabled(node: Node) -> None:
+    import os
+
+    if os.environ.get("ROS_SECURITY_ENABLE", "").lower() not in {"true", "1"}:
+        node.get_logger().warn(_SROS2_WARNING)
+
+
 def main() -> None:
     rclpy.init()
     node = EventRecorderNode()
+    _warn_if_sros2_disabled(node)
     try:
         rclpy.spin(node)
     finally:

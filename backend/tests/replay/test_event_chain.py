@@ -20,7 +20,7 @@ from app.domain.scenarios import (
     ScenarioInitialState,
 )
 from app.domain.time import ManualClock
-from app.replay.chain import CHAIN_FIELD, GENESIS_HASH, hash_canonical
+from app.telemetry.chain import CHAIN_FIELD, GENESIS_HASH, hash_canonical
 from app.simulation.engine import SimulationEngine
 from app.validation.replay_validator import validate_run_directory
 

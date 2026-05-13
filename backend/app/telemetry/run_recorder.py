@@ -26,7 +26,7 @@ import json
 from pathlib import Path
 from typing import Any, IO, Optional
 
-from app.replay.chain import CHAIN_FIELD, GENESIS_HASH, hash_canonical
+from app.telemetry.chain import CHAIN_FIELD, GENESIS_HASH, hash_canonical
 
 from app.domain.enums import ReplayStatus, SafetyState
 from app.domain.events import Event

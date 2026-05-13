@@ -24,7 +24,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Iterable
 
-from app.replay.chain import (
+from app.telemetry.chain import (
     CHAIN_FIELD,
     GENESIS_HASH,
     chain_match,
