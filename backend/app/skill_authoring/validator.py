@@ -1,9 +1,19 @@
 """Static safety validation for generated snippets.
 
-The validator runs **after** the template builder so it can catch a
-buggy or unsafe template before the snippet reaches the operator's
-clipboard. It is the second chokepoint; the parser already rejected
-forbidden phrases, so this layer focuses on the code text.
+The validator is a **tripwire and deterrence layer**, not a sandboxed
+execution boundary. Generated snippets are reviewed by a human and
+copied to a clipboard; they are never executed by this service. A
+hostile generator can defeat any pure-textual filter (string-builder
+imports, exec-of-string, unicode obfuscation, etc.). What this layer
+does buy us: the **common shapes** of unsafe code are caught, the
+rejection is surfaced with a structured reason, and the snippet does
+not advance silently to the next stage.
+
+The regex-based scan below is the ``_LEGACY_TEXTUAL_FILTER`` —
+retained for non-Python providers and free-text fields. The structural
+Python-AST check lives in
+:func:`app.skill_llm_provider.sanitizer._check_python_ast` and runs
+before this layer in the LLM provider path.
 
 Rules enforced:
 
