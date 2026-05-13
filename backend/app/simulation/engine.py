@@ -374,6 +374,7 @@ class SimulationEngine:
             operator_activate=ops["activate"],
             operator_estop=ops["estop"],
             operator_recovery=ops["recovery"],
+            operator_reset_armed=ops["reset_armed"],
             operator_reset=ops["reset"],
             gateway_heartbeat=not injection.effect.suppress_gateway_heartbeat,
             now_ms=now_ms,
@@ -450,5 +451,6 @@ class SimulationEngine:
             "activate": in_step(init.operator_activate_at_ms),
             "estop": in_step(init.operator_estop_at_ms),
             "recovery": in_step(init.operator_recovery_at_ms),
+            "reset_armed": in_step(init.operator_reset_armed_at_ms),
             "reset": in_step(init.operator_reset_at_ms),
         }

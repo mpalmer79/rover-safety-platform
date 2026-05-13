@@ -22,6 +22,10 @@ class ScenarioInitialState:
     operator_activate_at_ms: int = 200
     operator_estop_at_ms: Optional[int] = None
     operator_recovery_at_ms: Optional[int] = None
+    # Two-step armed reset: the supervisor only honours operator_reset
+    # if the prior tick observed operator_reset_armed. Scenarios that
+    # want to exercise a successful reset must declare both pulses.
+    operator_reset_armed_at_ms: Optional[int] = None
     operator_reset_at_ms: Optional[int] = None
 
     def to_dict(self) -> dict[str, Any]:
@@ -32,6 +36,7 @@ class ScenarioInitialState:
             "operator_activate_at_ms": self.operator_activate_at_ms,
             "operator_estop_at_ms": self.operator_estop_at_ms,
             "operator_recovery_at_ms": self.operator_recovery_at_ms,
+            "operator_reset_armed_at_ms": self.operator_reset_armed_at_ms,
             "operator_reset_at_ms": self.operator_reset_at_ms,
         }
 

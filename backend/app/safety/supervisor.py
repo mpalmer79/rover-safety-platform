@@ -70,6 +70,11 @@ class SupervisorInputs:
     operator_activate: bool = False
     operator_estop: bool = False
     operator_recovery: bool = False
+    # Two-step armed reset: ``operator_reset`` only clears the E-stop
+    # latch if the previous tick saw ``operator_reset_armed`` AND the
+    # reset is not unsafe given current freshness / contact. A bare
+    # reset pulse is refused with reason ``estop_reset_unsafe``.
+    operator_reset_armed: bool = False
     operator_reset: bool = False
     gateway_heartbeat: bool = True
     now_ms: int = 0
@@ -131,8 +136,18 @@ class SafetySupervisor:
         self._arbiter = MotionArbiter(command_lifetime_ms=command_lifetime_ms)
         self._watchdogs = WatchdogRegistry()
         self._estop_latched = False
+        # Latch the prior tick's ``operator_reset_armed`` value so a
+        # single-pulse reset is rejected. Cleared when reset is
+        # accepted or when the latch is dropped.
+        self._reset_armed_prev = False
         self._recovery_warm_ms = recovery_required_warm_ms
         self._recovery_entered_ms: Optional[int] = None
+        # Recovery-validation flag: once RECOVERY passes its
+        # warm-and-fresh check the supervisor steps through SAFE_STOP;
+        # this flag tells SAFE_STOP it may promote back to
+        # ACTIVE_NORMAL on the next eligible tick. Cleared when the
+        # supervisor enters any ACTIVE_* state or re-enters E_STOP.
+        self._recovery_validated = False
         self._gateway_watchdog_name = "gateway_heartbeat"
         self._lidar_watchdog_name = "lidar_freshness"
         self._imu_watchdog_name = "imu_freshness"
@@ -208,6 +223,8 @@ class SafetySupervisor:
 
         events: list[Event] = []
         now_ms = inputs.now_ms
+        # Snapshot prev-armed before any state update; updated at end.
+        prev_armed = self._reset_armed_prev
 
         # 1. Pet the gateway watchdog if heartbeat present.
         if inputs.gateway_heartbeat:
@@ -245,6 +262,8 @@ class SafetySupervisor:
             freshness=freshness,
             confidence=confidence,
             watchdog_report=watchdog_report,
+            prev_reset_armed=prev_armed,
+            refusal_events=events,
         )
 
         # 6. Apply the proposed transition (with validation and event emission).
@@ -376,6 +395,10 @@ class SafetySupervisor:
             watchdog=watchdog_report,
             events=events,
         )
+        # Carry the *current* tick's armed pulse forward for the next
+        # tick to consume. A scenario must drive ``operator_reset_armed``
+        # for at least one tick BEFORE pulsing ``operator_reset``.
+        self._reset_armed_prev = inputs.operator_reset_armed
         return evaluation
 
     # ------------------------------------------------------------------
@@ -388,16 +411,51 @@ class SafetySupervisor:
         freshness: FreshnessReport,
         confidence: ConfidenceReport,
         watchdog_report: WatchdogReport,
+        prev_reset_armed: bool,
+        refusal_events: list[Event],
     ) -> tuple[SafetyState, str, str]:
         # 1. E-stop is highest priority.
         if inputs.operator_estop:
             self._estop_latched = True
+            self._recovery_validated = False
             return (SafetyState.E_STOP_LATCHED, "operator_estop", "E-stop asserted by operator")
 
         if self._estop_latched:
             if inputs.operator_reset:
+                # Two-step armed reset, plus a safety-conditions gate.
+                reset_unsafe = (
+                    freshness.any_safe_stop
+                    or freshness.any_missing_required
+                    or confidence.contact_asserted
+                )
+                if not prev_reset_armed or reset_unsafe:
+                    refusal_events.append(
+                        self._builder.build(
+                            event_type="safety_transition.refused",
+                            severity=EventSeverity.ERROR,
+                            reason_code="estop_reset_unsafe",
+                            message=(
+                                "operator_reset refused: not armed by prior tick"
+                                if not prev_reset_armed
+                                else "operator_reset refused: unsafe conditions"
+                            ),
+                            safety_state=self._state,
+                            attributes={
+                                "prev_reset_armed": prev_reset_armed,
+                                "any_safe_stop": freshness.any_safe_stop,
+                                "any_missing_required": freshness.any_missing_required,
+                                "contact_asserted": confidence.contact_asserted,
+                            },
+                        )
+                    )
+                    return (
+                        SafetyState.E_STOP_LATCHED,
+                        "estop_reset_unsafe",
+                        "operator_reset refused",
+                    )
                 self._estop_latched = False
                 self._recovery_entered_ms = inputs.now_ms
+                self._recovery_validated = False
                 return (SafetyState.RECOVERY, "operator_reset", "operator reset; entering RECOVERY")
             return (SafetyState.E_STOP_LATCHED, "estop_held", "E-stop remains latched")
 
@@ -435,10 +493,36 @@ class SafetySupervisor:
                 and warm_elapsed >= self._recovery_warm_ms
                 and confidence.score >= 0.6
             ):
-                return (SafetyState.ACTIVE_NORMAL, "recovery_validated", "recovery validation passed")
+                # Two-step reactivation: validation step lands in
+                # SAFE_STOP; promotion to ACTIVE_NORMAL happens on the
+                # next tick when ``_recovery_validated`` is observed.
+                self._recovery_validated = True
+                return (
+                    SafetyState.SAFE_STOP,
+                    "recovery_validated",
+                    "recovery validation passed; awaiting promotion",
+                )
             if freshness.any_safe_stop or freshness.any_missing_required:
                 return (SafetyState.SAFE_STOP, "recovery_failed", "recovery validation failed")
             return (SafetyState.RECOVERY, "recovery_in_progress", "recovery in progress")
+
+        # Recovery-validated promotion out of SAFE_STOP. Requires inputs
+        # to still be healthy on this tick — if not, hold SAFE_STOP and
+        # keep the flag (we re-validate next tick).
+        if (
+            self._state == SafetyState.SAFE_STOP
+            and self._recovery_validated
+            and not freshness.any_safe_stop
+            and not freshness.any_missing_required
+            and not freshness.any_warn
+            and not confidence.contact_asserted
+        ):
+            self._recovery_validated = False
+            return (
+                SafetyState.ACTIVE_NORMAL,
+                "recovery_promoted",
+                "promotion from SAFE_STOP after recovery validation",
+            )
 
         # 6. Activation flow.
         if self._state in {SafetyState.BOOT, SafetyState.INACTIVE}:

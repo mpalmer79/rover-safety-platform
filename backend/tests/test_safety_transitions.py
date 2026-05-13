@@ -40,13 +40,25 @@ def test_all_state_values() -> None:
         (SafetyState.ACTIVE_NORMAL, SafetyState.SAFE_STOP),
         (SafetyState.ACTIVE_RESTRICTED, SafetyState.SAFE_STOP),
         (SafetyState.SAFE_STOP, SafetyState.RECOVERY),
-        (SafetyState.RECOVERY, SafetyState.ACTIVE_NORMAL),
-        (SafetyState.RECOVERY, SafetyState.ACTIVE_RESTRICTED),
-        (SafetyState.RECOVERY, SafetyState.ACTIVE_DEGRADED),
+        # Post-#3/#4: RECOVERY exits only to SAFE_STOP. The SAFE_STOP ->
+        # ACTIVE_NORMAL transition is the recovery-validated
+        # reactivation seam, gated by SafetySupervisor._propose_state.
+        (SafetyState.RECOVERY, SafetyState.SAFE_STOP),
+        (SafetyState.SAFE_STOP, SafetyState.ACTIVE_NORMAL),
     ],
 )
 def test_valid_transitions(from_state: SafetyState, to_state: SafetyState) -> None:
     assert is_transition_allowed(from_state, to_state)
+
+
+@pytest.mark.parametrize(
+    "to_state",
+    [SafetyState.ACTIVE_NORMAL, SafetyState.ACTIVE_RESTRICTED, SafetyState.ACTIVE_DEGRADED],
+)
+def test_recovery_cannot_reach_active_directly(to_state: SafetyState) -> None:
+    """Post-E-stop reactivation must pass through SAFE_STOP."""
+
+    assert not is_transition_allowed(SafetyState.RECOVERY, to_state)
 
 
 @pytest.mark.parametrize(
@@ -71,8 +83,12 @@ def test_estop_latched_only_to_recovery() -> None:
         assert not is_transition_allowed(SafetyState.E_STOP_LATCHED, s)
 
 
-def test_safe_stop_does_not_self_clear_to_active() -> None:
-    for s in (SafetyState.ACTIVE_NORMAL, SafetyState.ACTIVE_RESTRICTED, SafetyState.ACTIVE_DEGRADED):
+def test_safe_stop_does_not_self_clear_to_restricted_or_degraded() -> None:
+    # SAFE_STOP -> ACTIVE_NORMAL is the recovery-validated reactivation
+    # seam (post-#3/#4); the supervisor gates it with the
+    # ``_recovery_validated`` flag. SAFE_STOP must never jump directly
+    # to ACTIVE_RESTRICTED or ACTIVE_DEGRADED.
+    for s in (SafetyState.ACTIVE_RESTRICTED, SafetyState.ACTIVE_DEGRADED):
         assert not is_transition_allowed(SafetyState.SAFE_STOP, s)
 
 
@@ -83,7 +99,7 @@ def test_self_transition_allowed() -> None:
 
 def test_validate_transition_rejects_unknown() -> None:
     req = TransitionRequest(
-        from_state=SafetyState.SAFE_STOP,
+        from_state=SafetyState.RECOVERY,
         to_state=SafetyState.ACTIVE_NORMAL,
         reason_code="bogus",
         message="not allowed",
