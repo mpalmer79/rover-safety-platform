@@ -137,4 +137,39 @@ describe("source-level honesty rules", () => {
       expect(stop.toLowerCase()).not.toBe("#ffffff");
     }
   });
+
+  it("no light-mode background or surface token reads as near-white", () => {
+    // Codify the spirit of the no-pure-white rule: HSL lightness
+    // above ~0.974 is visually indistinguishable from white. The
+    // current light-mode token values sit at or below 0.973; the
+    // pre-Item-5 values (#fbfcfe / #fdfefe / #f6f8fb) all sat
+    // above this threshold.
+    const NEAR_WHITE_THRESHOLD = 0.974;
+    const light = tokenSet("light");
+    const surfaceTokens: Array<{ name: string; value: string }> = [
+      { name: "background[0]", value: light.background[0] },
+      { name: "background[1]", value: light.background[1] },
+      { name: "background[2]", value: light.background[2] },
+      { name: "surface", value: light.surface },
+      { name: "surfaceElevated", value: light.surfaceElevated },
+      { name: "surfaceOverlay", value: light.surfaceOverlay },
+    ];
+    for (const { name, value } of surfaceTokens) {
+      const L = hexLightness(value);
+      expect(
+        L,
+        `${name} (${value}) HSL L=${L.toFixed(3)} should be < ${NEAR_WHITE_THRESHOLD}`,
+      ).toBeLessThan(NEAR_WHITE_THRESHOLD);
+    }
+  });
 });
+
+function hexLightness(hex: string): number {
+  const m = /^#([0-9a-f]{6})$/i.exec(hex);
+  if (!m) return 0;
+  const v = parseInt(m[1], 16);
+  const r = ((v >> 16) & 0xff) / 255;
+  const g = ((v >> 8) & 0xff) / 255;
+  const b = (v & 0xff) / 255;
+  return (Math.max(r, g, b) + Math.min(r, g, b)) / 2;
+}

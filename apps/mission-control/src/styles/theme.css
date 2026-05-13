@@ -40,17 +40,17 @@ html.dark {
 }
 
 html.light {
-  --mc-bg-0: #f6f8fb;
-  --mc-bg-1: #eef1f7;
-  --mc-bg-2: #e7ecf3;
-  --mc-surface: #fbfcfe;
-  --mc-surface-elevated: #fdfefe;
-  --mc-surface-overlay: rgba(255, 255, 255, 0.68);
-  --mc-border: #d6dbe6;
-  --mc-border-strong: #b4bccc;
-  --mc-text: #1f2937;
-  --mc-text-muted: #5b6478;
-  --mc-text-inverse: #fbfcfe;
+  --mc-bg-0: #eef1f6;
+  --mc-bg-1: #e5e9f1;
+  --mc-bg-2: #dde2eb;
+  --mc-surface: #f1f4f8;
+  --mc-surface-elevated: #f5f7fb;
+  --mc-surface-overlay: #e8ecf3;
+  --mc-border: #c8cfdb;
+  --mc-border-strong: #9aa4b5;
+  --mc-text: #1a2230;
+  --mc-text-muted: #4a5468;
+  --mc-text-inverse: #f1f4f8;
   --mc-accent: #1d8f86;
   --mc-accent-soft: #d5ede9;
   --mc-status-completed: #2f8f4f;
