@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable, Optional
+from typing import Any, ClassVar, Iterable, Optional
 
 from app.domain.enums import FaultType
 from app.domain.faults import FaultProfile
@@ -117,11 +117,33 @@ class ScenarioDefinition:
     # :meth:`MissionPlan.from_dict` when present.
     mission_plan: dict[str, Any] | None = None
 
+    # Hard bounds enforced at construction time. The simulation engine
+    # is deterministic but not cheap; an attacker who can post arbitrary
+    # scenario payloads should not be able to spin a 1 GHz / 24-hour
+    # configuration that pegs the worker. These bounds are conservative
+    # — well above any sane test scenario and well below "denial".
+    MAX_DURATION_SECONDS: ClassVar[float] = 3600.0
+    MIN_TIME_STEP_MS: ClassVar[int] = 1
+    MAX_TOTAL_STEPS: ClassVar[int] = 1_000_000
+    MAX_FAULTS: ClassVar[int] = 64
+
     def __post_init__(self) -> None:
-        if self.time_step_ms <= 0:
-            raise ValueError("time_step_ms must be positive")
+        if self.time_step_ms < self.MIN_TIME_STEP_MS:
+            raise ValueError(
+                f"time_step_ms must be >= {self.MIN_TIME_STEP_MS}"
+            )
         if self.duration_seconds <= 0:
             raise ValueError("duration_seconds must be positive")
+        if self.duration_seconds > self.MAX_DURATION_SECONDS:
+            raise ValueError(
+                f"duration_seconds must be <= {self.MAX_DURATION_SECONDS}"
+            )
+        if self.total_steps > self.MAX_TOTAL_STEPS:
+            raise ValueError(
+                f"total_steps must be <= {self.MAX_TOTAL_STEPS}"
+            )
+        if len(self.faults) > self.MAX_FAULTS:
+            raise ValueError(f"faults must contain <= {self.MAX_FAULTS} entries")
 
     @property
     def has_mission_plan(self) -> bool:
