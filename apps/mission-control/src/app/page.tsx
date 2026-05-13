@@ -1,190 +1,290 @@
-import { Activity } from "lucide-react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Compass,
+  FileSearch,
+  PlayCircle,
+  Route,
+  ShieldCheck,
+} from "lucide-react";
 
 import {
-  loadLiveRuntimeMaturity,
-  loadRehearsalAudits,
-  loadTraceability,
+  loadRehearsalAudit,
+  loadSpatialReplay,
 } from "@/adapters/loader";
-import { GovernanceHealthPanel } from "@/components/GovernanceHealthPanel";
 import { GradientPanel } from "@/components/GradientPanel";
-import { MissionCard } from "@/components/MissionCard";
 import { PageSurface } from "@/components/PageSurface";
 import { Panel } from "@/components/Panel";
-import { RequirementBadge } from "@/components/RequirementBadge";
-import { ResponsiveGrid } from "@/components/ResponsiveGrid";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { WarehouseLaneMap } from "@/components/WarehouseLaneMap";
-import { formatTimestamp } from "@/lib/utils";
+
+import { DEMO_MISSION } from "./demo/warehouse-replay/sample-demo-mission";
+import { WarehouseReplayDemo } from "./demo/warehouse-replay/WarehouseReplayDemo";
 
 export const dynamic = "force-static";
 
-export default async function DashboardPage() {
-  const [audits, traceability, maturity] = await Promise.all([
-    loadRehearsalAudits(),
-    loadTraceability(),
-    loadLiveRuntimeMaturity(),
+export const metadata = {
+  title: "ProjectBoundary · Reviewer entry point",
+  description:
+    "Reviewer entry point: what ProjectBoundary demonstrates, the 3D mission replay, and where to click first.",
+};
+
+const PRIMARY_CTAS = [
+  {
+    href: "/demo/warehouse-replay",
+    label: "View Mission Replay Demo",
+    description:
+      "3D walkthrough of an approved warehouse mission, driven by deterministic replay artifacts.",
+    icon: PlayCircle,
+    tone: "accent" as const,
+  },
+  {
+    href: "/safety",
+    label: "Review Safety Authority",
+    description:
+      "Who can authorize motion and which gates a request must clear first.",
+    icon: ShieldCheck,
+    tone: "default" as const,
+  },
+  {
+    href: "/walkthrough",
+    label: "Open Guided Walkthrough",
+    description:
+      "Step-by-step reviewer tour of the deterministic mission pipeline.",
+    icon: Compass,
+    tone: "default" as const,
+  },
+  {
+    href: "/evidence",
+    label: "Inspect Evidence & Audit",
+    description:
+      "Requirement coverage, traceability, and the JSON artifacts behind every claim.",
+    icon: FileSearch,
+    tone: "default" as const,
+  },
+] as const;
+
+const REVIEWER_PATH = [
+  { href: "/", label: "Start Here", note: "You are here." },
+  { href: "/demo/warehouse-replay", label: "Mission Replay Demo", note: "10 seconds of visual context." },
+  { href: "/safety", label: "Safety Authority", note: "Why supervisor authority matters." },
+  { href: "/walkthrough", label: "Reviewer Walkthrough", note: "Pipeline, end to end." },
+  { href: "/evidence", label: "Evidence & Audit", note: "Trace claims to artifacts." },
+  { href: "/workspaces", label: "Workspaces", note: "Same evidence, six operator lenses." },
+  { href: "/workbench", label: "Proposal Workbench", note: "Accepted vs. rejected intents." },
+] as const;
+
+const WHAT_PROVES = [
+  "Unsafe motion requests are rejected before they reach motion authority.",
+  "Approved missions are deterministically replayable from committed artifacts.",
+  "Evidence is traceable to requirements, validators, and audit bundles.",
+  "Generated or proposed actions cannot bypass the safety supervisor.",
+] as const;
+
+export default async function ReviewerHomePage() {
+  const [audit, spatialReplay] = await Promise.all([
+    loadRehearsalAudit(DEMO_MISSION.rehearsalId),
+    loadSpatialReplay(DEMO_MISSION.spatialRunId),
   ]);
 
-  const sortedAudits = [...audits].sort((a, b) =>
-    a.request.mission_id.localeCompare(b.request.mission_id),
-  );
+  const demoAvailable = Boolean(audit && spatialReplay);
+
+  const evidenceLinks = [
+    {
+      label: `Open mission audit · ${DEMO_MISSION.rehearsalId}`,
+      href: `/missions/${DEMO_MISSION.rehearsalId}`,
+    },
+    { label: "Inspect Safety Authority chain", href: "/safety" },
+    { label: "Open Reviewer Walkthrough", href: "/walkthrough" },
+    { label: "Open Evidence & Audit explorer", href: "/evidence" },
+  ];
 
   return (
-    <PageSurface>
-    <div className="space-y-6">
-      <GradientPanel elevated className="px-4 py-4 sm:px-5 sm:py-5">
-        <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1">
-            <p className="label">Mission Control</p>
-            <h1 className="display-1">Operator dashboard</h1>
-            <p className="text-muted text-sm sm:text-base">
-              ProjectBoundary validates robot mission requests before
-              simulated execution. It rejects unsafe commands,
-              preserves supervisor authority, and records deterministic
-              evidence for replay and audit. Every value below comes
-              from committed JSON artifacts — nothing is synthesised at
-              render time.
-            </p>
+    <PageSurface variant="hero">
+      <div className="space-y-6">
+        <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+          <div className="space-y-6">
+            <GradientPanel tone="accent" elevated className="px-5 py-6 sm:px-7 sm:py-7">
+              <div className="flex flex-col gap-3">
+                <p className="label">Reviewer entry point</p>
+                <h1 className="display-1">What ProjectBoundary demonstrates</h1>
+                <p className="text-base sm:text-lg text-[color:var(--mc-text)]">
+                  ProjectBoundary is a{" "}
+                  <span className="font-semibold text-[color:var(--mc-accent)]">
+                    simulation-only mission-validation and safety-supervisor
+                    demonstration platform
+                  </span>
+                  . It validates robot mission requests, rejects unsafe
+                  commands before motion authority, preserves supervisor
+                  authority on every path, and records deterministic
+                  evidence for replay and audit. It does not control real
+                  hardware and is not safety-certified.
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <Link
+                    href="/demo/warehouse-replay"
+                    data-testid="start-cta-demo"
+                    className="inline-flex items-center gap-2 rounded-md border border-[color:var(--mc-accent)] bg-[color:var(--mc-accent-soft)] px-4 py-2 text-sm font-semibold text-[color:var(--mc-accent)] transition-colors hover:bg-[color:var(--mc-accent)] hover:text-[color:var(--mc-text-inverse)]"
+                  >
+                    <PlayCircle aria-hidden className="h-4 w-4" />
+                    See the 3D mission replay
+                    <ArrowRight aria-hidden className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    href="/safety"
+                    className="inline-flex items-center gap-2 rounded-md border border-[color:var(--mc-border)] bg-[color:var(--mc-surface-overlay)] px-4 py-2 text-sm text-[color:var(--mc-text)] hover:border-[color:var(--mc-accent)]"
+                  >
+                    <ShieldCheck aria-hidden className="h-4 w-4" />
+                    Review safety authority
+                  </Link>
+                </div>
+              </div>
+            </GradientPanel>
+
+            <Panel
+              eyebrow="What this proves"
+              title="Outcomes a reviewer can verify in this build"
+              trailing={
+                <Route aria-hidden className="h-4 w-4 text-[color:var(--mc-accent)]" />
+              }
+            >
+              <ul
+                data-testid="start-what-proves"
+                className="space-y-2 text-sm text-[color:var(--mc-text)]"
+              >
+                {WHAT_PROVES.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span aria-hidden className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--mc-accent)]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
           </div>
-          <div className="flex flex-col items-start gap-2 sm:items-end">
-            <ThemeToggle emphasis="medium" />
-            <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--mc-border)] bg-[color:var(--mc-surface-overlay)] px-3 py-1.5 text-xs text-[color:var(--mc-text)]">
-              <Activity aria-hidden className="h-4 w-4 text-[color:var(--mc-accent)]" />
-              <span>
-                {sortedAudits.length} rehearsal audits ·{" "}
-                {traceability?.row_count ?? 0} requirements
-              </span>
-            </div>
-          </div>
-        </header>
-      </GradientPanel>
 
-      <GovernanceHealthPanel audits={sortedAudits} traceability={traceability} />
-
-      <Panel
-        eyebrow="Operations surface"
-        title="Tactical layout"
-        trailing={
-          <span className="text-[11px] text-base-500">
-            illustrative · no real coordinates
-          </span>
-        }
-      >
-        <WarehouseLaneMap />
-      </Panel>
-
-      <ResponsiveGrid shape="mission">
-        <Panel
-          eyebrow="Recent rehearsals"
-          title="Mission cards"
-          trailing={<span className="text-xs text-muted">{sortedAudits.length} bundles</span>}
-        >
-          <div className="grid gap-3">
-            {sortedAudits.length === 0 ? (
-              <p className="body-mono">
-                No rehearsal audits found. Regenerate with{" "}
-                <code>rover_ws/tools/generate_rehearsal_examples.py</code>.
-              </p>
+          <div>
+            {demoAvailable ? (
+              <WarehouseReplayDemo
+                descriptor={DEMO_MISSION}
+                plan={audit!.plan}
+                events={audit!.runtime?.events ?? []}
+                spatialReplay={spatialReplay}
+                evidenceLinks={evidenceLinks}
+              />
             ) : (
-              sortedAudits.slice(0, 6).map((audit) => (
-                <MissionCard key={audit.request.mission_id} audit={audit} />
-              ))
+              <DemoFallbackPanel
+                missingAudit={!audit}
+                missingSpatial={!spatialReplay}
+              />
             )}
+          </div>
+        </div>
+
+        <Panel
+          eyebrow="Reviewer paths"
+          title="Recommended next clicks"
+          trailing={<span className="text-xs text-muted">~3 minutes</span>}
+        >
+          <div className="grid gap-3 md:grid-cols-2">
+            {PRIMARY_CTAS.map(({ href, label, description, icon: Icon }) => (
+              <Link
+                key={href}
+                href={href}
+                data-testid={`start-cta-${href.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}`}
+                className="group flex items-start gap-3 rounded-md border border-[color:var(--mc-border)] bg-[color:var(--mc-surface-overlay)] px-4 py-3 transition-colors hover:border-[color:var(--mc-accent)]"
+              >
+                <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[color:var(--mc-accent-soft)] text-[color:var(--mc-accent)]">
+                  <Icon aria-hidden className="h-4 w-4" />
+                </span>
+                <span className="flex-1 space-y-1">
+                  <span className="block text-sm font-semibold text-[color:var(--mc-text)] group-hover:text-[color:var(--mc-accent)]">
+                    {label}
+                  </span>
+                  <span className="block text-xs leading-snug text-[color:var(--mc-text-muted)]">
+                    {description}
+                  </span>
+                </span>
+                <ArrowRight
+                  aria-hidden
+                  className="mt-1 h-4 w-4 shrink-0 text-[color:var(--mc-text-muted)] transition-transform group-hover:translate-x-0.5 group-hover:text-[color:var(--mc-accent)]"
+                />
+              </Link>
+            ))}
           </div>
         </Panel>
 
-        <div className="space-y-4">
-          <Panel eyebrow="Live runtime maturity" title="not_established">
-            {maturity ? (
-              <dl className="grid grid-cols-2 gap-3 text-sm">
-                <div>
-                  <dt className="label">Runs total</dt>
-                  <dd className="font-mono text-base-800">{maturity.runs_total}</dd>
-                </div>
-                <div>
-                  <dt className="label">Bag-backed</dt>
-                  <dd className="font-mono text-base-800">
-                    {maturity.bag_counters.bag_backed ?? 0}
-                  </dd>
-                </div>
-                <div className="col-span-2">
-                  <dt className="label">Latest run</dt>
-                  <dd className="font-mono text-xs text-base-700">
-                    {maturity.latest_run_id ?? "—"} ·{" "}
-                    {maturity.latest_run_status}
-                  </dd>
-                </div>
-                <div className="col-span-2">
-                  <dt className="label">Runner status</dt>
-                  <dd className="font-mono text-xs text-base-700">{maturity.runner_status}</dd>
-                </div>
-                <div className="col-span-2">
-                  <dt className="label">Generated</dt>
-                  <dd className="font-mono text-xs text-base-500">
-                    {formatTimestamp(maturity.generated_at_utc)}
-                  </dd>
-                </div>
-              </dl>
-            ) : (
-              <p className="body-mono">No live runtime maturity artefact.</p>
-            )}
-          </Panel>
-
-          <Panel eyebrow="Requirement coverage" title="By phase">
-            {traceability ? (
-              <div className="space-y-2">
-                {Array.from(new Set(traceability.rows.map((r) => r.kind))).map((kind) => {
-                  const rows = traceability.rows.filter((r) => r.kind === kind);
-                  const passed = rows.filter((r) => r.status === "passed").length;
-                  return (
-                    <div key={kind} className="flex items-center justify-between gap-2 border-b border-base-200 pb-1 last:border-none">
-                      <span className="label">{kind}</span>
-                      <span className="font-mono text-xs text-base-700">
-                        {passed} / {rows.length} passed
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <p className="body-mono">
-                Generate traceability with <code>tools/generate_traceability.py --with-verification</code>.
-              </p>
-            )}
-          </Panel>
-
-          {traceability ? (
-            <Panel eyebrow="Requirement spot check" title="Selected REQs">
-              <div className="flex flex-wrap gap-1.5">
-                {traceability.rows
-                  .filter((r) =>
-                    [
-                      "REQ-SAFE-001",
-                      "REQ-LIVE-001",
-                      "REQ-MCOMP-001",
-                      "REQ-PROPOSAL-001",
-                      "REQ-SKILL-001",
-                      "REQ-SKILL-LLM-001",
-                      "REQ-REHEARSAL-001",
-                      "REQ-DESIGN-001",
-                      "REQ-SKILL-INTEL-001",
-                      "REQ-SNAPSHOT-001",
-                    ].includes(r.req_id),
-                  )
-                  .map((r) => (
-                    <RequirementBadge
-                      key={r.req_id}
-                      reqId={r.req_id}
-                      status={r.status}
-                      title={r.title}
-                    />
-                  ))}
-              </div>
-            </Panel>
-          ) : null}
-        </div>
-      </ResponsiveGrid>
-    </div>
+        <Panel eyebrow="Recommended path" title="A 3-minute reviewer flow">
+          <ol className="space-y-2 text-sm">
+            {REVIEWER_PATH.map((step, idx) => (
+              <li key={step.href} className="flex items-start gap-3">
+                <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[color:var(--mc-border)] bg-[color:var(--mc-surface-overlay)] font-mono text-[11px] text-[color:var(--mc-text)]">
+                  {idx + 1}
+                </span>
+                <span className="flex-1">
+                  <Link
+                    href={step.href}
+                    className="font-semibold text-[color:var(--mc-text)] underline-offset-2 hover:text-[color:var(--mc-accent)] hover:underline"
+                  >
+                    {step.label}
+                  </Link>
+                  <span className="ml-2 text-xs text-[color:var(--mc-text-muted)]">
+                    {step.note}
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </Panel>
+      </div>
     </PageSurface>
+  );
+}
+
+function DemoFallbackPanel({
+  missingAudit,
+  missingSpatial,
+}: {
+  missingAudit: boolean;
+  missingSpatial: boolean;
+}) {
+  return (
+    <div className="space-y-4">
+      <GradientPanel elevated className="px-5 py-5">
+        <p className="label">Mission Replay Demo</p>
+        <h1 className="display-1">2D fallback active</h1>
+        <p className="text-base text-[color:var(--mc-text)]">
+          3D replay is available for the canonical demo mission. This
+          mission currently uses 2D fallback mode because{" "}
+          {missingAudit && missingSpatial
+            ? "no rehearsal audit or spatial scene artifact is registered in the public export"
+            : missingSpatial
+              ? "no spatial scene artifact is registered for this run"
+              : "no rehearsal audit is registered for this mission"}
+          .
+        </p>
+      </GradientPanel>
+      <Panel eyebrow="Reviewer paths" title="What to do next">
+        <ul className="space-y-2 text-sm">
+          <li>
+            •{" "}
+            <Link
+              href="/replay"
+              className="text-[color:var(--mc-accent)] underline-offset-2 hover:underline"
+            >
+              Open the rehearsal replay index
+            </Link>{" "}
+            to pick another mission.
+          </li>
+          <li>
+            •{" "}
+            <Link
+              href="/safety"
+              className="text-[color:var(--mc-accent)] underline-offset-2 hover:underline"
+            >
+              Inspect the Safety Authority chain
+            </Link>
+            .
+          </li>
+        </ul>
+      </Panel>
+    </div>
   );
 }

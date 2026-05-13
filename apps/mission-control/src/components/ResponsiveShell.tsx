@@ -21,12 +21,12 @@ import { useEffect, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/start", label: "Start Here", icon: Compass },
+  { href: "/", label: "Start Here", icon: Compass },
   { href: "/demo/warehouse-replay", label: "Mission Replay Demo", icon: Rocket },
   { href: "/safety", label: "Safety Authority", icon: ShieldCheck },
   { href: "/walkthrough", label: "Reviewer Walkthrough", icon: Eye },
   { href: "/evidence", label: "Evidence & Audit", icon: Folder },
-  { href: "/", label: "Mission Control", icon: Activity },
+  { href: "/mission-control", label: "Mission Control", icon: Activity },
   { href: "/replay", label: "Replay Viewer", icon: PlayCircle },
   { href: "/workspaces", label: "Workspaces", icon: Grid3x3 },
   { href: "/workbench", label: "Proposal Workbench", icon: Layers },
@@ -105,7 +105,7 @@ function MobileTopBar({
         "bg-[linear-gradient(120deg,var(--mc-panel-grad-0)_0%,var(--mc-panel-grad-1)_100%)]",
       )}
     >
-      <Link href="/start" className="flex flex-col leading-tight">
+      <Link href="/" className="flex flex-col leading-tight">
         <span className="text-[10px] uppercase tracking-[0.2em] text-muted">
           ProjectBoundary
         </span>
@@ -150,7 +150,7 @@ function Sidebar({
         className,
       )}
     >
-      <Link href="/start" className="block">
+      <Link href="/" className="block">
         <p className="text-[10px] uppercase tracking-[0.2em] text-muted">
           ProjectBoundary
         </p>

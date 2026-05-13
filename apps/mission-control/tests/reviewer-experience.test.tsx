@@ -20,11 +20,16 @@ import { describe, expect, it, vi } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 
 vi.mock("next/navigation", () => ({
-  usePathname: () => "/start",
+  usePathname: () => "/",
+}));
+
+vi.mock("@/adapters/loader", () => ({
+  loadRehearsalAudit: vi.fn(async () => null),
+  loadSpatialReplay: vi.fn(async () => null),
 }));
 
 import NotFound from "@/app/not-found";
-import StartHerePage from "@/app/start/page";
+import ReviewerHomePage from "@/app/page";
 import { ResponsiveShell } from "@/components/ResponsiveShell";
 import { SafetyBoundaryBanner } from "@/components/SafetyBoundaryBanner";
 
@@ -38,7 +43,7 @@ describe("public navigation chrome", () => {
     const sidebar = screen.getByTestId("primary-sidebar");
     const links = within(sidebar).getAllByRole("link");
     const hrefs = links.map((a) => a.getAttribute("href"));
-    expect(hrefs).toContain("/start");
+    expect(hrefs).toContain("/");
     expect(hrefs).toContain("/demo/warehouse-replay");
     expect(hrefs).toContain("/safety");
     expect(hrefs).toContain("/walkthrough");
@@ -56,7 +61,7 @@ describe("public navigation chrome", () => {
       .getAllByRole("link")
       .filter((a) => {
         const href = a.getAttribute("href") ?? "";
-        return href.startsWith("/") && href !== "/start" && href !== "/";
+        return href.startsWith("/") && href !== "/";
       });
     // The first reviewer destination after the brand link should be
     // a primary-flow route (Start Here, Mission Replay Demo, Safety
@@ -64,8 +69,8 @@ describe("public navigation chrome", () => {
     const firstNavHref = within(sidebar)
       .getAllByRole("link")
       .map((a) => a.getAttribute("href"))
-      .find((h) => h && h !== "/start");
-    expect(["/start", "/demo/warehouse-replay"]).toContain(firstNavHref ?? "");
+      .find((h) => h && h !== "/");
+    expect(["/", "/demo/warehouse-replay"]).toContain(firstNavHref ?? "");
     expect(items.length).toBeGreaterThan(0);
   });
 
@@ -113,7 +118,7 @@ describe("not-found fallback", () => {
     const list = screen.getByTestId("route-not-found");
     const links = within(list).getAllByRole("link");
     const hrefs = links.map((a) => a.getAttribute("href"));
-    expect(hrefs).toContain("/start");
+    expect(hrefs).toContain("/");
     expect(hrefs).toContain("/demo/warehouse-replay");
     expect(hrefs).toContain("/safety");
     expect(hrefs).toContain("/walkthrough");
@@ -121,9 +126,10 @@ describe("not-found fallback", () => {
   });
 });
 
-describe("Start Here reviewer landing page", () => {
-  it("renders the Start Here heading and reviewer summary", () => {
-    render(<StartHerePage />);
+describe("Reviewer entry-point home page", () => {
+  it("renders the Start Here heading and reviewer summary", async () => {
+    const Page = await ReviewerHomePage();
+    render(Page);
     expect(
       screen.getByRole("heading", {
         level: 1,
@@ -137,8 +143,9 @@ describe("Start Here reviewer landing page", () => {
     expect(text).toMatch(/cannot bypass the safety supervisor/i);
   });
 
-  it("links to the Mission Replay Demo, Safety Authority, Walkthrough, and Evidence", () => {
-    render(<StartHerePage />);
+  it("links to the Mission Replay Demo, Safety Authority, Walkthrough, and Evidence", async () => {
+    const Page = await ReviewerHomePage();
+    render(Page);
     const links = screen.getAllByRole("link");
     const hrefs = links.map((a) => a.getAttribute("href"));
     expect(hrefs).toContain("/demo/warehouse-replay");
@@ -147,8 +154,9 @@ describe("Start Here reviewer landing page", () => {
     expect(hrefs).toContain("/evidence");
   });
 
-  it("contains the explicit simulation-only / not safety-certified scope", () => {
-    render(<StartHerePage />);
+  it("contains the explicit simulation-only / not safety-certified scope", async () => {
+    const Page = await ReviewerHomePage();
+    render(Page);
     const text = document.body.textContent ?? "";
     expect(text).toMatch(/simulation-only/i);
     expect(text).toMatch(/not safety-certified/i);

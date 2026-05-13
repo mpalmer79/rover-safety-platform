@@ -6,7 +6,7 @@ import { Panel } from "@/components/Panel";
 
 const REVIEWER_LINKS = [
   {
-    href: "/start",
+    href: "/",
     label: "Start Here",
     description: "What ProjectBoundary demonstrates and where to click first.",
   },
