@@ -18,8 +18,10 @@ The validator runs in CI (no ROS dependencies) and is wrapped by the
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Optional
 
 from app.mission.enums import (
     MissionState,
@@ -93,7 +95,27 @@ class MissionRunValidationResult:
         }
 
 
-def validate_mission_run(run_dir: Path | str) -> MissionRunValidationResult:
+@dataclass(frozen=True, slots=True)
+class WaypointBounds:
+    """Operational extents for waypoint-coordinate validation (#21).
+
+    Sourced from :class:`app.domain.scenarios.ScenarioDefinition`. When
+    a scenario does not declare extents, the validator falls back to a
+    sanity range of +/-10_000 meters and emits a warning.
+    """
+
+    min_pose_x: float = -10_000.0
+    max_pose_x: float = 10_000.0
+    min_pose_y: float = -10_000.0
+    max_pose_y: float = 10_000.0
+    explicit: bool = False
+
+
+def validate_mission_run(
+    run_dir: Path | str,
+    *,
+    bounds: Optional[WaypointBounds] = None,
+) -> MissionRunValidationResult:
     run_dir = Path(run_dir)
     base = validate_run_directory(run_dir)
     result = MissionRunValidationResult(
@@ -107,7 +129,9 @@ def validate_mission_run(run_dir: Path | str) -> MissionRunValidationResult:
     _validate_mission_states(run_dir, result)
     _validate_waypoint_events(run_dir, result)
     _validate_recovery_events(run_dir, result)
-    _validate_world_model_snapshots(run_dir, result)
+    _validate_world_model_snapshots(
+        run_dir, result, bounds=bounds or WaypointBounds()
+    )
     return result
 
 
@@ -223,13 +247,21 @@ def _validate_recovery_events(run_dir: Path, result: MissionRunValidationResult)
 
 
 def _validate_world_model_snapshots(
-    run_dir: Path, result: MissionRunValidationResult
+    run_dir: Path,
+    result: MissionRunValidationResult,
+    *,
+    bounds: WaypointBounds,
 ) -> None:
     path = run_dir / "world_model_snapshots.jsonl"
     if not path.exists():
         result.add_error("world_model_snapshots.jsonl missing")
         return
     last_sim_ns = -1
+    if not bounds.explicit:
+        result.add_warning(
+            "scenario did not declare operational extents; using +/-10_000 m "
+            "sanity range for waypoint bounds (#21)"
+        )
     with path.open("r", encoding="utf-8") as fh:
         for line_no, raw in enumerate(fh, start=1):
             raw = raw.strip()
@@ -253,4 +285,27 @@ def _validate_world_model_snapshots(
                     f"world_model_snapshots.jsonl line {line_no}: out-of-order sim_time_ns"
                 )
             last_sim_ns = sim_ns
+            # #21: numeric-range check on pose_x / pose_y.
+            try:
+                px = float(payload.get("pose_x", 0.0))
+                py = float(payload.get("pose_y", 0.0))
+            except (TypeError, ValueError):
+                result.add_error(
+                    f"world_model_snapshots.jsonl line {line_no}: pose_x/pose_y not numeric"
+                )
+                px = py = 0.0
+            if not (math.isfinite(px) and math.isfinite(py)):
+                result.add_error(
+                    f"world_model_snapshots.jsonl line {line_no}: non-finite pose"
+                )
+            elif not (
+                bounds.min_pose_x <= px <= bounds.max_pose_x
+                and bounds.min_pose_y <= py <= bounds.max_pose_y
+            ):
+                result.add_error(
+                    f"world_model_snapshots.jsonl line {line_no}: pose "
+                    f"({px}, {py}) outside operational extents "
+                    f"x=[{bounds.min_pose_x}, {bounds.max_pose_x}] "
+                    f"y=[{bounds.min_pose_y}, {bounds.max_pose_y}]"
+                )
             result.world_model_snapshot_count += 1

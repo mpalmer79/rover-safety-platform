@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, ClassVar, Iterable, Optional
@@ -121,6 +122,14 @@ class ScenarioDefinition:
     # ``app.world_model``. The simulation engine resolves it via
     # :meth:`MissionPlan.from_dict` when present.
     mission_plan: dict[str, Any] | None = None
+    # Operational extents for waypoint-coordinate validation (#21).
+    # The mission validator rejects pose samples outside this box.
+    # Defaults are generous; production scenarios should declare
+    # explicit bounds.
+    min_pose_x: float = -10_000.0
+    max_pose_x: float = 10_000.0
+    min_pose_y: float = -10_000.0
+    max_pose_y: float = 10_000.0
 
     # Hard bounds enforced at construction time. The simulation engine
     # is deterministic but not cheap; an attacker who can post arbitrary
@@ -149,6 +158,15 @@ class ScenarioDefinition:
             )
         if len(self.faults) > self.MAX_FAULTS:
             raise ValueError(f"faults must contain <= {self.MAX_FAULTS} entries")
+        # #21: operational extents must be finite and ordered.
+        for name in ("min_pose_x", "max_pose_x", "min_pose_y", "max_pose_y"):
+            v = getattr(self, name)
+            if not math.isfinite(v):
+                raise ValueError(f"{name} must be finite, got {v!r}")
+        if self.max_pose_x <= self.min_pose_x:
+            raise ValueError("max_pose_x must be > min_pose_x")
+        if self.max_pose_y <= self.min_pose_y:
+            raise ValueError("max_pose_y must be > min_pose_y")
 
     @property
     def has_mission_plan(self) -> bool:
@@ -177,6 +195,10 @@ class ScenarioDefinition:
         }
         if self.mission_plan is not None:
             out["mission_plan"] = dict(self.mission_plan)
+        out["min_pose_x"] = self.min_pose_x
+        out["max_pose_x"] = self.max_pose_x
+        out["min_pose_y"] = self.min_pose_y
+        out["max_pose_y"] = self.max_pose_y
         return out
 
     @classmethod
@@ -216,6 +238,10 @@ class ScenarioDefinition:
             faults=faults,
             metadata=dict(data.get("metadata", {})),
             mission_plan=dict(mission_plan) if mission_plan else None,
+            min_pose_x=float(data.get("min_pose_x", -10_000.0)),
+            max_pose_x=float(data.get("max_pose_x", 10_000.0)),
+            min_pose_y=float(data.get("min_pose_y", -10_000.0)),
+            max_pose_y=float(data.get("max_pose_y", 10_000.0)),
         )
 
     @classmethod
