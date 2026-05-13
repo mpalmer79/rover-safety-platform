@@ -31,6 +31,40 @@ from app.world_model.world_model import WorldModel, WorldModelInputs
 from rover_msgs.msg import HazardReport, WorldModelState
 
 
+def _default_allowed_root() -> Path:
+    """Return the repository root, used as the allow-list anchor for
+    filesystem-path parameters (#19).
+
+    The repo root is computed as the third parent of this module file:
+    ``<repo>/rover_ws/src/rover_world_model/rover_world_model/world_model_node.py``.
+    """
+
+    return Path(__file__).resolve().parents[4]
+
+
+def _validated_filepath(
+    raw_path: str, *, allowed_root: Path, logger: Any
+) -> str:
+    """Resolve ``raw_path`` and refuse anything outside ``allowed_root``.
+
+    On rejection: logs at ERROR and raises ``ValueError``. The node's
+    ``main`` catches that and exits non-zero (#19).
+    """
+
+    p = Path(raw_path).expanduser()
+    resolved = p.resolve()
+    root_resolved = allowed_root.resolve()
+    if not resolved.is_relative_to(root_resolved):
+        logger.error(
+            "rejected filesystem parameter %r: resolves to %s outside %s"
+            % (raw_path, resolved, root_resolved)
+        )
+        raise ValueError(
+            f"path {raw_path!r} resolves outside allowed root {root_resolved}"
+        )
+    return str(resolved)
+
+
 class WorldModelNode(Node):
     def __init__(self) -> None:
         super().__init__("rover_world_model")
@@ -39,7 +73,16 @@ class WorldModelNode(Node):
         self.declare_parameter("zones_path", "")
         self.declare_parameter("evaluation_period_ms", 200)
 
-        zones_path = str(self.get_parameter("zones_path").value)
+        # #19: any filesystem-path parameter must resolve under a
+        # documented allowed root. Default to the workspace root
+        # (parent of the package source tree). A launch with an absolute
+        # or traversing zones_path is misconfigured.
+        zones_path_raw = str(self.get_parameter("zones_path").value)
+        zones_path = _validated_filepath(
+            zones_path_raw,
+            allowed_root=_default_allowed_root(),
+            logger=self.get_logger(),
+        ) if zones_path_raw else ""
         keepouts, restricted, boundaries = _load_zones(zones_path) if zones_path else ((), (), ())
         self._world = WorldModel(
             keepouts=keepouts,

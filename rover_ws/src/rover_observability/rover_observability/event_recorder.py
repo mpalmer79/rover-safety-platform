@@ -13,6 +13,7 @@ event into the replay artefacts.
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 from typing import IO, Optional
 
@@ -21,6 +22,11 @@ from rclpy.node import Node
 from std_msgs.msg import String
 
 from app.telemetry.schemas import EventSchemaError, validate_event_dict
+from rover_observability.run_id_validation import (
+    InvalidRunIdError,
+    validated_run_dir as _validated_run_dir,
+    validated_run_id as _validated_run_id,
+)
 
 
 class EventRecorderNode(Node):
@@ -30,9 +36,19 @@ class EventRecorderNode(Node):
         self.declare_parameter("runs_root", str(Path.cwd() / "runs"))
         self.declare_parameter("events_topic", "/safety/events")
 
-        run_id = str(self.get_parameter("run_id").value)
+        # #19: validate run_id against ^[A-Za-z0-9_-]{1,128}$ and
+        # confirm the joined path stays under runs_root. Do NOT silently
+        # sanitise — a launch with a bad run_id is misconfigured; fail
+        # loud so an operator sees the misconfiguration rather than
+        # ending up with events recorded in /etc/.
+        run_id_raw = str(self.get_parameter("run_id").value)
+        try:
+            run_id = _validated_run_id(run_id_raw)
+        except InvalidRunIdError as exc:
+            self.get_logger().error("event recorder run_id rejected: %s" % exc)
+            raise
         runs_root = Path(str(self.get_parameter("runs_root").value))
-        run_dir = runs_root / run_id
+        run_dir = _validated_run_dir(runs_root, run_id)
         run_dir.mkdir(parents=True, exist_ok=True)
         self._events_path = run_dir / "events.jsonl"
         self._fh: Optional[IO[str]] = self._events_path.open("a", encoding="utf-8")
@@ -87,7 +103,15 @@ def _warn_if_sros2_disabled(node: Node) -> None:
 
 def main() -> None:
     rclpy.init()
-    node = EventRecorderNode()
+    try:
+        node = EventRecorderNode()
+    except InvalidRunIdError as exc:
+        # #19: launch is misconfigured. Refuse to start; exit non-zero
+        # so systemd / launch tooling sees the failure rather than
+        # silently recording into a sanitised default location.
+        print(f"event_recorder: invalid run_id ({exc})", file=sys.stderr)
+        rclpy.shutdown()
+        sys.exit(2)
     _warn_if_sros2_disabled(node)
     try:
         rclpy.spin(node)
