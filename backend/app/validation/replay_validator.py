@@ -24,6 +24,13 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Iterable
 
+from app.replay.chain import (
+    CHAIN_FIELD,
+    GENESIS_HASH,
+    chain_match,
+    hash_canonical,
+    is_valid_chain_hex,
+)
 from app.telemetry.schemas import EventSchemaError, validate_event_dict
 
 
@@ -103,7 +110,14 @@ def validate_run_directory(run_dir: Path | str) -> ReplayValidationResult:
     expected_run_id = metadata.get("run_id")
     expected_scenario_id = metadata.get("scenario_id")
 
-    _validate_events(run_dir, result, expected_run_id, expected_scenario_id)
+    _validate_events(
+        run_dir,
+        result,
+        expected_run_id,
+        expected_scenario_id,
+        expected_chain_tip=metadata.get("events_chain_tip"),
+        expected_event_count=metadata.get("events_count"),
+    )
     _count_jsonl(run_dir / "states.jsonl", result, "state_count")
     _count_jsonl(run_dir / "commands.jsonl", result, "command_count")
     _count_jsonl(run_dir / "sensor_readings.jsonl", result, "sensor_frame_count")
@@ -145,6 +159,8 @@ def _validate_events(
     result: ReplayValidationResult,
     expected_run_id: str | None,
     expected_scenario_id: str | None,
+    expected_chain_tip: str | None = None,
+    expected_event_count: int | None = None,
 ) -> None:
     path = run_dir / "events.jsonl"
     if not path.exists():
@@ -154,6 +170,12 @@ def _validate_events(
     referenced_correlation_ids: set[str] = set()
     referenced_parent_ids: set[str] = set()
     seen_correlation_ids: set[str] = set()
+    # Running tip for chain recompute (#13). Starts at GENESIS_HASH; the
+    # first event's prev_event_hash must equal this. The tip advances
+    # to hash_canonical(payload) after each line, and at end-of-file
+    # must equal metadata.events_chain_tip.
+    expected_prev: str = GENESIS_HASH
+    chain_broken = False
     with path.open("r", encoding="utf-8") as fh:
         for line_no, line in enumerate(fh, start=1):
             line = line.strip()
@@ -164,6 +186,24 @@ def _validate_events(
             except json.JSONDecodeError as exc:
                 result.add_error(f"events.jsonl line {line_no} not valid JSON: {exc}")
                 continue
+
+            # Chain verification (#13). Done BEFORE schema validation
+            # so a corrupted payload still surfaces chain_broken.
+            recorded_prev = payload.get(CHAIN_FIELD)
+            if not is_valid_chain_hex(recorded_prev):
+                result.add_error(
+                    f"replay_integrity.chain_broken: events.jsonl line {line_no} "
+                    f"missing or malformed {CHAIN_FIELD}"
+                )
+                chain_broken = True
+            elif not chain_match(expected_prev, str(recorded_prev)):
+                result.add_error(
+                    f"replay_integrity.chain_broken: events.jsonl line {line_no} "
+                    f"{CHAIN_FIELD} mismatch (expected {expected_prev}, got {recorded_prev})"
+                )
+                chain_broken = True
+            expected_prev = hash_canonical(payload)
+
             try:
                 validate_event_dict(payload)
             except EventSchemaError as exc:
@@ -216,6 +256,19 @@ def _validate_events(
         result.add_warning(
             "events.jsonl has parent_event_id references that resolve outside the run: "
             + ", ".join(sorted(unresolved_parents))
+        )
+
+    # Chain-tip + count cross-checks against metadata (#13).
+    if expected_chain_tip is not None and not chain_broken:
+        if not chain_match(expected_chain_tip, expected_prev):
+            result.add_error(
+                "replay_integrity.chain_broken: events_chain_tip mismatch — "
+                f"metadata={expected_chain_tip}, recomputed={expected_prev}"
+            )
+    if expected_event_count is not None and expected_event_count != result.event_count:
+        result.add_error(
+            "replay_integrity.chain_broken: events_count mismatch — "
+            f"metadata={expected_event_count}, recomputed={result.event_count}"
         )
 
 

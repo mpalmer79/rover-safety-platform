@@ -59,6 +59,10 @@ def test_event_serialization_round_trip(manual_clock: ManualClock, id_generator:
         assert field in payload, f"missing {field}"
     assert payload["severity"] == "INFO"
     assert payload["safety_state"] == "BOOT"
+    # prev_event_hash is recorder-injected on disk (#13); the in-memory
+    # envelope does not carry it. validate_event_dict applies to the
+    # on-disk shape, so we inject the genesis hash before validating.
+    payload["prev_event_hash"] = "0" * 64
     validate_event_dict(payload)
 
 
