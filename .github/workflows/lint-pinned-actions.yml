@@ -1,0 +1,33 @@
+# actions pinned to commit SHAs; update via tools/update-action-pins.sh
+name: lint-pinned-actions
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/**"
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Enforce SHA-pinned third-party actions
+        shell: bash
+        run: |
+          set -euo pipefail
+          bad=0
+          while IFS= read -r line; do
+            # Extract the ref after `@`. Strip any inline comment.
+            ref=$(echo "$line" | sed -E 's/.*@([^ ]+).*/\1/')
+            if [[ ! "$ref" =~ ^[a-f0-9]{40}$ ]]; then
+              echo "::error::unpinned action: $line"
+              bad=1
+            fi
+          done < <(grep -hE '^\s*-?\s*uses:\s*' .github/workflows/*.yml | grep -v '^\s*#')
+          if [ "$bad" -ne 0 ]; then
+            echo "All third-party actions must be pinned to a 40-char commit SHA."
+            exit 1
+          fi
