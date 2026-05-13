@@ -196,6 +196,17 @@ ANALYZE=true npm run build      # writes .next/analyze/<route>.html
 The `bundle-budget` CI job uploads `.next/analyze/` as a workflow
 artifact only when invoked with `ANALYZE=true`.
 
+## Trust boundary
+
+`MermaidView` (`src/components/MermaidView.tsx`) renders Mermaid output
+through `dangerouslySetInnerHTML`. Mermaid escapes node labels, but
+that escaping is not a sandbox — SVG can carry `<foreignObject>`,
+inline event handlers, and similar surface. The component is only
+safe when its `source` prop comes from checked-in repository files
+(audit reports, traceability graphs, etc.). Never wire it to an
+external feed, a query parameter, or a database column without
+upstream sanitisation and a server-side allow-list.
+
 ## Where to read next
 
 * **`/catalog`** (local dev) — every component in its documented

@@ -124,6 +124,12 @@ These are explicit constraints in the repository, not aspirations:
 
 ---
 
+## Trust boundary
+
+The trust boundary between untrusted inputs and the deterministic safety core is enforced in code, not in prose. Four invariants are now machine-checked: the safety state machine forbids `RECOVERY → ACTIVE_*` directly and requires a two-step armed-then-reset to leave `E_STOP_LATCHED`, so no single operator pulse and no single misclassified revalidation can authorise motion again (#3 / #4). Sensor freshness is measured against subscriber receive-time at the safety bridge, never against a sender's `header.stamp`, so a publisher with a future stamp cannot defer the watchdog (#15). Every ROS subscriber callback validates its message and routes failures through a rate-limited `safety.invalid_input` event rather than crashing the node (#16). Every line in `events.jsonl` is chained by SHA-256 over its canonical bytes and the chain tip plus event count are sealed into `metadata.json` at finalize; the replay validator recomputes the chain end-to-end (#13). One layer is operationally trusted rather than code-enforced: the DDS domain. When `ROS_SECURITY_ENABLE=true` and the SROS2 keystore is loaded, per-identity enclaves restrict publish access on the operator pulses, `/safety/events`, and `/cmd_vel_requested` (#14 / #18); without it, the platform assumes the DDS domain is private, and each node logs a WARNING saying exactly that.
+
+---
+
 ## Quick start
 
 The Python backend has zero runtime dependencies and runs the full verification suite locally.

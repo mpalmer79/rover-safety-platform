@@ -50,42 +50,54 @@ from app.safety.supervisor import (
 # ---------------------------------------------------------------------------
 
 
+# NOTE (#15): ``timestamp_ms`` is the SUBSCRIBER receive time (the
+# bridge's clock at message arrival), NOT the sender's
+# ``header.stamp``. Freshness is measured against receive-time only;
+# a sender that claims a future stamp cannot defeat the watchdog.
+# ``sender_stamp_ms`` is retained for diagnostics — never used by
+# freshness or arbitration.
+
+
 @dataclass(frozen=True)
 class IncomingScan:
-    timestamp_ms: int
+    timestamp_ms: int  # receive-time at subscriber
     sequence_number: int
     min_range_m: float
     max_range_m: float
     mean_range_m: float
     point_count: int
+    sender_stamp_ms: int = 0  # diagnostic only; do not use for freshness
 
 
 @dataclass(frozen=True)
 class IncomingImu:
-    timestamp_ms: int
+    timestamp_ms: int  # receive-time at subscriber
     sequence_number: int
     angular_velocity_z: float
     linear_accel_x: float
     linear_accel_y: float
     orientation_rad: float
+    sender_stamp_ms: int = 0  # diagnostic only
 
 
 @dataclass(frozen=True)
 class IncomingOdom:
-    timestamp_ms: int
+    timestamp_ms: int  # receive-time at subscriber
     sequence_number: int
     derived_linear_velocity: float
     derived_angular_velocity: float
     pose_x: float
     pose_y: float
     heading_rad: float
+    sender_stamp_ms: int = 0  # diagnostic only
 
 
 @dataclass(frozen=True)
 class IncomingContact:
-    timestamp_ms: int
+    timestamp_ms: int  # receive-time at subscriber
     sequence_number: int
     asserted: bool
+    sender_stamp_ms: int = 0  # diagnostic only
 
 
 @dataclass(frozen=True)
@@ -103,6 +115,10 @@ class OperatorPulses:
     estop: bool = False
     recovery: bool = False
     reset: bool = False
+    # Two-step armed reset (#3 + #4): the supervisor requires
+    # ``reset_armed=True`` on the prior tick before it will accept
+    # ``reset=True``.
+    reset_armed: bool = False
 
 
 # ---------------------------------------------------------------------------
@@ -264,6 +280,7 @@ class SafetyBridgeCore:
             operator_activate=operator.activate,
             operator_estop=operator.estop,
             operator_recovery=operator.recovery,
+            operator_reset_armed=operator.reset_armed,
             operator_reset=operator.reset,
             gateway_heartbeat=gateway_heartbeat,
             now_ms=now_ms,

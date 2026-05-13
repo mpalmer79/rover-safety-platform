@@ -14,6 +14,7 @@ honestly.
 from __future__ import annotations
 
 import hashlib
+import hmac
 from pathlib import Path
 
 
@@ -48,7 +49,14 @@ def hash_bytes(data: bytes) -> str:
 
 
 def short_hash(full_hash: str) -> str:
-    """Return the prefix used by the UI."""
+    """Return the prefix used by the UI.
+
+    DISPLAY ONLY. Never use the return value for verification. The
+    16-char hex prefix has only 64 bits of collision resistance —
+    vulnerable to birthday attacks at roughly 2^32 work. All
+    verification paths must use :func:`hashes_match` over the full
+    digest, not a prefix.
+    """
 
     if not full_hash:
         return ""
@@ -56,9 +64,17 @@ def short_hash(full_hash: str) -> str:
 
 
 def hashes_match(expected: str, computed: str) -> bool:
-    """Equality check; both inputs are normalised to lower case."""
+    """Constant-time equality check over full hex digests.
 
-    return expected.lower() == computed.lower() and bool(expected)
+    Uses :func:`hmac.compare_digest` so the comparison cannot leak the
+    matched prefix length via timing. Both inputs are lower-cased
+    first; an empty ``expected`` is rejected (used to signal MISSING
+    upstream).
+    """
+
+    if not expected:
+        return False
+    return hmac.compare_digest(expected.lower().encode(), computed.lower().encode())
 
 
 __all__ = [

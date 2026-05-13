@@ -40,6 +40,8 @@ def load_metadata(run_dir: Path) -> RunMetadata:
         armed_faults=tuple(data.get("armed_faults", [])),
         status=ReplayStatus(data.get("status", ReplayStatus.OPEN.value)),
         extra=dict(data.get("extra", {})),
+        events_chain_tip=data.get("events_chain_tip"),
+        events_count=data.get("events_count"),
     )
 
 

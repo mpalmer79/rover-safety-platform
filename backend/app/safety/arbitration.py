@@ -68,6 +68,31 @@ class MotionArbiter:
             now_ms=now_ms,
         )
 
+        # Belt-and-suspenders: the domain types reject NaN at
+        # construction, but the arbiter is the choke-point that
+        # authorizes motion, so it also enforces finiteness on its
+        # inputs. This protects future call paths (mocks,
+        # deserializers, protobuf decoders) that might bypass
+        # __post_init__.
+        if requested is not None and not (
+            math.isfinite(requested.linear_velocity)
+            and math.isfinite(requested.angular_velocity)
+        ):
+            return MotionArbitrationResult(
+                decision=MotionDecision.REJECTED_ZEROED,
+                reason=MotionConstraintReason.INVALID_INPUT_ZERO,
+                authorized=self._make_authorized(
+                    linear=0.0,
+                    angular=0.0,
+                    decision=MotionDecision.REJECTED_ZEROED,
+                    reason=MotionConstraintReason.INVALID_INPUT_ZERO,
+                    safety_state=safety_state,
+                    requested=None,
+                    now_ms=now_ms,
+                ),
+                requested=requested,
+            )
+
         # E-stop and forced-zero states always emit zero motion regardless of input.
         if operator_estop or safety_state == SafetyState.E_STOP_LATCHED:
             return MotionArbitrationResult(

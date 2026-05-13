@@ -8,6 +8,15 @@ opened in append mode for the duration of the run and closed at
 The recorder does not depend on the simulation engine; the engine
 constructs one and feeds it events, states, commands, and sensor
 readings. This keeps the engine decoupled from filesystem details.
+
+events.jsonl is **tamper-evident** (#13). Every event line carries a
+``prev_event_hash`` field whose value is the SHA-256 of the *previous*
+event's canonical bytes (see :mod:`app.replay.chain` for the exact
+serialisation). The first event chains to ``"0" * 64``. At
+:meth:`finalize` the recorder writes the final tip and the integer
+event count into ``metadata.json`` as ``events_chain_tip`` and
+``events_count``. The replay validator recomputes the chain end-to-end
+on read and refuses any mismatch.
 """
 
 from __future__ import annotations
@@ -16,6 +25,8 @@ import io
 import json
 from pathlib import Path
 from typing import Any, IO, Optional
+
+from app.telemetry.chain import CHAIN_FIELD, GENESIS_HASH, hash_canonical
 
 from app.domain.enums import ReplayStatus, SafetyState
 from app.domain.events import Event
@@ -58,6 +69,10 @@ class RunRecorder:
         self._fired_faults: set[str] = set()
         self._watchdog_expirations: set[str] = set()
         self._event_count = 0
+        # Running tip for the tamper-evident event chain. The next
+        # event's ``prev_event_hash`` will carry this value; the
+        # GENESIS_HASH is recorded for the very first event.
+        self._chain_tip: str = GENESIS_HASH
         self._final_safety_state: SafetyState = SafetyState.BOOT
         # Phase 2 counters.
         self._mission_state_count = 0
@@ -109,9 +124,19 @@ class RunRecorder:
         if self._closed:
             raise RuntimeError("Recorder is closed")
         assert self._events_file is not None
-        self._events_file.write(event.to_json())
+        # Chain step (#13): the event we are about to write carries the
+        # hash of the previous event's canonical bytes. Once written,
+        # advance the running tip to the hash of *this* event's
+        # canonical bytes for the next call.
+        payload = event.to_dict()
+        payload[CHAIN_FIELD] = self._chain_tip
+        line = json.dumps(
+            payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+        )
+        self._events_file.write(line)
         self._events_file.write("\n")
         self._events_file.flush()
+        self._chain_tip = hash_canonical(payload)
         self._event_count += 1
 
         if event.event_type == "safety_transition.entered":
@@ -280,6 +305,8 @@ class RunRecorder:
             ended_wall=ended_wall,
             ended_sim_ns=ended_sim_ns,
             status=status,
+            events_chain_tip=self._chain_tip,
+            events_count=self._event_count,
         )
         self._write_metadata()
 

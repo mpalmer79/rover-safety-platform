@@ -14,6 +14,15 @@ from app.domain.enums import SafetyState
 
 
 # Mapping: from -> set of allowed-to states.
+#
+# Invariant: post-E-stop reactivation must pass through SAFE_STOP after
+# recovery validation. RECOVERY does not lead directly to any ACTIVE_*
+# state; the only legal exit from RECOVERY is SAFE_STOP, from which the
+# supervisor may then promote to ACTIVE_NORMAL once the operator has
+# completed the two-step armed-reset sequence. This forces the
+# reactivation path to: E_STOP_LATCHED -> RECOVERY -> SAFE_STOP ->
+# ACTIVE_NORMAL, so no single operator pulse and no single
+# misclassified recovery-validation can authorize motion again.
 ALLOWED_TRANSITIONS: dict[SafetyState, frozenset[SafetyState]] = {
     SafetyState.BOOT: frozenset({SafetyState.INACTIVE, SafetyState.SAFE_STOP, SafetyState.E_STOP_LATCHED}),
     SafetyState.INACTIVE: frozenset(
@@ -49,17 +58,14 @@ ALLOWED_TRANSITIONS: dict[SafetyState, frozenset[SafetyState]] = {
         {
             SafetyState.RECOVERY,
             SafetyState.E_STOP_LATCHED,
+            # Recovery-validated reactivation: only legal after the
+            # supervisor's two-step armed-reset sequence (see
+            # SafetySupervisor._propose_state).
+            SafetyState.ACTIVE_NORMAL,
         }
     ),
     SafetyState.E_STOP_LATCHED: frozenset({SafetyState.RECOVERY}),
-    SafetyState.RECOVERY: frozenset(
-        {
-            SafetyState.ACTIVE_NORMAL,
-            SafetyState.ACTIVE_RESTRICTED,
-            SafetyState.ACTIVE_DEGRADED,
-            SafetyState.SAFE_STOP,
-        }
-    ),
+    SafetyState.RECOVERY: frozenset({SafetyState.SAFE_STOP}),
 }
 
 

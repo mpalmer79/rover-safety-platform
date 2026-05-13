@@ -23,3 +23,8 @@ runs/
 !spatial-replay/runs/
 !spatial-replay/runs/canonical-fixture/
 !spatial-replay/runs/canonical-fixture/**
+
+# SROS2 keystores are generated per deployment. Never commit private
+# keys. The enclave permissions XML under rover_ws/sros2/enclaves/ IS
+# committed; the keystore directory is not.
+rover_ws/sros2/keystore/

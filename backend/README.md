@@ -52,6 +52,24 @@ pytest
 
 Tests run with no external dependencies.
 
+## API gateway
+
+The optional FastAPI gateway (under `app/api/`) is a **local development
+convenience** with **no authentication**. The trust boundary assumes
+its caller is on the same host. The `__main__` entry point therefore
+defaults to binding `127.0.0.1`; an explicit `--allow-remote` flag is
+required before it will bind a non-loopback address. Even with that
+flag, do not expose the gateway on a network you do not control —
+anything that can reach it can post arbitrary scenarios. Run it on a
+trusted host (and ideally behind a reverse-proxy that adds auth) or
+keep it loopback-only.
+
+```bash
+cd backend
+python -m app.api.main                                  # loopback (default)
+python -m app.api.main --host 0.0.0.0 --allow-remote    # only on a trusted network
+```
+
 ## Running an example
 
 ```bash

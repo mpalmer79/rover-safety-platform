@@ -22,6 +22,59 @@ import type {
 import { repoPaths } from "./paths";
 
 /**
+ * #17 trust-boundary helper: resolve a registry-controlled relative
+ * path under ``repoRoot`` and refuse anything that escapes.
+ *
+ * Rules:
+ * - reject paths that are absolute (start with ``/`` or a drive
+ *   letter on Windows).
+ * - reject paths that contain ``..`` segments before resolution.
+ * - after ``path.resolve``, the result MUST start with
+ *   ``repoRoot + path.sep``. Equality with ``repoRoot`` itself is also
+ *   rejected — the registry should always point at a file, not the
+ *   root.
+ *
+ * Returns ``null`` on rejection so callers can take the "honest no
+ * artifact" path that already exists. Logs to the server-side console
+ * because mission-control runs server-side in Next.js for the file
+ * loader; a developer running ``next dev`` will see the rejection.
+ */
+export function resolveSafeRepoPath(
+  repoRoot: string,
+  relativePath: string,
+): string | null {
+  if (typeof relativePath !== "string" || relativePath.length === 0) {
+    return null;
+  }
+  if (path.isAbsolute(relativePath)) {
+    console.warn(
+      `[loader] refusing absolute registry path: ${JSON.stringify(relativePath)}`,
+    );
+    return null;
+  }
+  // Reject any segment that is literally ``..`` (cross-platform).
+  const segments = relativePath.split(/[/\\]/);
+  if (segments.some((s) => s === "..")) {
+    console.warn(
+      `[loader] refusing registry path with .. segments: ${JSON.stringify(relativePath)}`,
+    );
+    return null;
+  }
+  const resolvedRoot = path.resolve(repoRoot);
+  const absolute = path.resolve(resolvedRoot, relativePath);
+  if (absolute === resolvedRoot) {
+    return null;
+  }
+  if (!absolute.startsWith(resolvedRoot + path.sep)) {
+    console.warn(
+      `[loader] resolved path escapes repoRoot: ${JSON.stringify(absolute)}`,
+    );
+    return null;
+  }
+  return absolute;
+}
+
+/**
  * Read a JSON file or return ``null`` when missing.
  *
  * The adapter NEVER fabricates contents on a missing file — callers
@@ -450,9 +503,16 @@ export async function loadSpatialReplay(
         // Anchor: spatialReplayRunsDir is ``<repoRoot>/spatial-replay/runs``.
         const repoRoot = path.resolve(paths.spatialReplayRunsDir, "..", "..");
         // ``relative_path`` is repo-rooted (e.g. ``spatial-replay/runs/<run>/...``).
-        const absolute = path.resolve(repoRoot, file.relative_path);
-        const raw = await readJson<SpatialReplayRaw>(absolute);
-        if (raw) return coerceSpatialReplayArtifact(raw);
+        // #17 trust-boundary: the registry is on disk and notionally
+        // checked in, but a tampered registry must not be able to
+        // direct readJson at /etc/passwd. Reject absolute paths and
+        // any ``..`` segments before resolution, and assert the final
+        // absolute path stays under repoRoot.
+        const resolved = resolveSafeRepoPath(repoRoot, file.relative_path);
+        if (resolved !== null) {
+          const raw = await readJson<SpatialReplayRaw>(resolved);
+          if (raw) return coerceSpatialReplayArtifact(raw);
+        }
       }
     }
   }

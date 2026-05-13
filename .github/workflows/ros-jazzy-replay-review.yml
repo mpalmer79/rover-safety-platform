@@ -1,3 +1,4 @@
+# actions pinned to commit SHAs; update via tools/update-action-pins.sh
 # Phase-7 self-hosted live replay review.
 #
 # This workflow is intentionally manual / self-hosted. github-hosted
@@ -47,7 +48,7 @@ jobs:
     runs-on: [self-hosted, ros-jazzy]
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Source ROS 2 Jazzy and qualify host
         run: |
@@ -118,7 +119,7 @@ jobs:
 
       - name: Upload replay artefacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: replay-review-${{ github.run_id }}
           path: |

@@ -163,11 +163,13 @@ Controlled revalidation phase. The supervisor inspects all required inputs and t
 | Any `ACTIVE_*` | `E_STOP_LATCHED` | Operator E-stop or escalated critical fault |
 | `SAFE_STOP` | `E_STOP_LATCHED` | Operator E-stop or persistent unrecoverable fault |
 | `SAFE_STOP` | `RECOVERY` | Operator-issued recovery request, condition believed cleared |
-| `RECOVERY` | `ACTIVE_NORMAL` or `ACTIVE_RESTRICTED` or `ACTIVE_DEGRADED` | Revalidation succeeds |
-| `RECOVERY` | `SAFE_STOP` | Revalidation fails |
-| `E_STOP_LATCHED` | `RECOVERY` | Operator-issued explicit reset event |
+| `SAFE_STOP` | `ACTIVE_NORMAL` | Recovery-validated reactivation, gated by the two-step armed reset (see below) |
+| `RECOVERY` | `SAFE_STOP` | Revalidation completes (success or failure) — there is **no** direct path from `RECOVERY` to any `ACTIVE_*` state |
+| `E_STOP_LATCHED` | `RECOVERY` | Two-step armed reset: prior tick must carry `operator_reset_armed` AND the reset tick must observe healthy freshness, no missing required input, and no asserted contact |
 
-The transition graph is intentionally one-directional toward higher restriction. There is no path from `SAFE_STOP` directly to `ACTIVE_*` without `RECOVERY`. There is no path from `E_STOP_LATCHED` to anywhere except `RECOVERY` after a deliberate operator reset.
+The transition graph is intentionally one-directional toward higher restriction. There is no path from `SAFE_STOP` directly to `ACTIVE_RESTRICTED` or `ACTIVE_DEGRADED`; the only legal exit from `SAFE_STOP` to an `ACTIVE_*` state is `ACTIVE_NORMAL`, and only after `RECOVERY` has validated. There is no path from `E_STOP_LATCHED` to anywhere except `RECOVERY`, and that path requires the two-step armed reset — a single `operator_reset` pulse alone is refused with `safety_transition.refused` / `estop_reset_unsafe`.
+
+The full reactivation flow after an E-stop is therefore: `E_STOP_LATCHED → RECOVERY → SAFE_STOP → ACTIVE_NORMAL`. Each arrow is gated independently; no single pulse and no single misclassified validation can authorise motion again.
 
 ### 5.4 State Diagram
 

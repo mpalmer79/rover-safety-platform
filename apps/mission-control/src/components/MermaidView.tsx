@@ -24,6 +24,17 @@ interface MermaidViewProps {
  *   - ``contain: layout`` isolates the diagram's height changes from
  *     surrounding flow; the catalog's full-page screenshot is more
  *     stable as a result.
+ *
+ * Trust boundary (#10):
+ *   The SVG injected via ``dangerouslySetInnerHTML`` below is produced
+ *   by Mermaid from ``source``. Mermaid escapes node labels, but that
+ *   is **not** a sandbox — rendering attacker-controlled Mermaid
+ *   source would still be unsafe (SVG embeds ``<foreignObject>``,
+ *   ``<script>``, event handlers, etc.). The ingested Mermaid source
+ *   MUST come from checked-in repository files only (audits,
+ *   traceability graphs, etc.). Never wire this component to an
+ *   external feed, a database column, or a query parameter without
+ *   sanitising upstream and routing through a server-side allow-list.
  */
 export function MermaidView({ source, className }: MermaidViewProps) {
   const id = useId().replace(/[^a-zA-Z0-9]/g, "_");
@@ -76,6 +87,8 @@ export function MermaidView({ source, className }: MermaidViewProps) {
       style={{ contain: "layout" }}
     >
       {svg ? (
+        // Trust boundary (#10): `source` MUST come from checked-in
+        // repository files only — see the component docstring above.
         // eslint-disable-next-line react/no-danger
         <div dangerouslySetInnerHTML={{ __html: svg }} />
       ) : (
