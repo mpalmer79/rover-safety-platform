@@ -56,9 +56,14 @@ class EventRecorderNode(Node):
         except (json.JSONDecodeError, EventSchemaError) as exc:
             self.get_logger().warn("dropping malformed event: %s" % exc)
             return
-        self._fh.write(msg.data)
-        self._fh.write("\n")
-        self._fh.flush()
+        # #16: any error writing to disk (e.g. disk full, fd closed
+        # mid-write) is logged but does not crash the recorder.
+        try:
+            self._fh.write(msg.data)
+            self._fh.write("\n")
+            self._fh.flush()
+        except (OSError, ValueError) as exc:
+            self.get_logger().error("event recorder write failed: %s" % exc)
 
     def destroy_node(self):  # pragma: no cover - rclpy lifecycle
         if self._fh is not None:

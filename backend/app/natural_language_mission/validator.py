@@ -9,6 +9,8 @@ status; nothing is silently accepted.
 
 from __future__ import annotations
 
+import math
+
 from .constraints import detect_contradictions
 from .models import (
     CONSTRAINT_AVOID,
@@ -86,15 +88,18 @@ def validate_against_odd(
                 limit = float(raw) if raw else 0.0
             except ValueError:
                 continue
-            if limit > odd.speed_limit_mps:
+            # #20: reject non-finite and non-positive speed limits.
+            # A NaN limit was previously silently accepted because
+            # ``NaN > x`` is False in Python.
+            if not math.isfinite(limit) or limit <= 0 or limit > odd.speed_limit_mps:
                 diags.append(
                     Diagnostic(
                         code="odd_violation",
                         severity=SEVERITY_REJECTION,
                         message=(
-                            f"speed limit {limit} m/s exceeds ODD limit "
-                            f"{odd.speed_limit_mps} m/s for profile "
-                            f"{odd.profile_id!r}"
+                            f"speed limit {limit} m/s is non-finite, non-positive, "
+                            f"or exceeds ODD limit {odd.speed_limit_mps} m/s for "
+                            f"profile {odd.profile_id!r}"
                         ),
                         clause=con.source_clause,
                         field="limit_mps",

@@ -169,16 +169,36 @@ class SafetyBridgeNode(Node):
     # ------------------------------------------------------------------
     def _on_requested(self, msg: Twist) -> None:
         now_ms = self._now_ms()
-        self._core.cache_request(
-            IncomingRequestedMotion(
-                timestamp_ms=now_ms,
-                linear_velocity=msg.linear.x,
-                angular_velocity=msg.angular.z,
-                lifetime_ms=int(self.get_parameter("command_lifetime_ms").value),
+        try:
+            lin = float(msg.linear.x)
+            ang = float(msg.angular.z)
+            if not (math.isfinite(lin) and math.isfinite(ang)):
+                raise ValueError("non-finite linear or angular velocity")
+            self._core.cache_request(
+                IncomingRequestedMotion(
+                    timestamp_ms=now_ms,
+                    linear_velocity=lin,
+                    angular_velocity=ang,
+                    lifetime_ms=int(self.get_parameter("command_lifetime_ms").value),
+                )
             )
-        )
+        except (ValueError, TypeError) as exc:
+            self._emit_invalid_input_event(
+                topic="/cmd_vel_requested",
+                field="linear/angular",
+                error=str(exc),
+            )
+            return
 
     def _on_scan(self, msg: LaserScan) -> None:
+        try:
+            self._handle_scan(msg)
+        except (ValueError, TypeError) as exc:
+            self._emit_invalid_input_event(
+                topic="/scan", field="ranges", error=str(exc)
+            )
+
+    def _handle_scan(self, msg: LaserScan) -> None:
         self._scan_seq += 1
         ranges = [r for r in msg.ranges if math.isfinite(r) and r > 0.0]
         if ranges:
@@ -209,9 +229,28 @@ class SafetyBridgeNode(Node):
         )
 
     def _on_imu(self, msg: Imu) -> None:
+        try:
+            self._handle_imu(msg)
+        except (ValueError, TypeError) as exc:
+            self._emit_invalid_input_event(
+                topic="/imu", field="orientation/angular_velocity", error=str(exc)
+            )
+
+    def _handle_imu(self, msg: Imu) -> None:
         self._imu_seq += 1
         # Quaternion -> yaw (small-angle robust enough for sim).
         q = msg.orientation
+        for name, v in (
+            ("orientation.x", q.x),
+            ("orientation.y", q.y),
+            ("orientation.z", q.z),
+            ("orientation.w", q.w),
+            ("angular_velocity.z", msg.angular_velocity.z),
+            ("linear_acceleration.x", msg.linear_acceleration.x),
+            ("linear_acceleration.y", msg.linear_acceleration.y),
+        ):
+            if not math.isfinite(v):
+                raise ValueError(f"non-finite {name}")
         siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
         cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
         yaw = math.atan2(siny_cosp, cosy_cosp)
@@ -231,8 +270,28 @@ class SafetyBridgeNode(Node):
         )
 
     def _on_odom(self, msg: Odometry) -> None:
+        try:
+            self._handle_odom(msg)
+        except (ValueError, TypeError) as exc:
+            self._emit_invalid_input_event(
+                topic="/odom", field="pose/twist", error=str(exc)
+            )
+
+    def _handle_odom(self, msg: Odometry) -> None:
         self._odom_seq += 1
         q = msg.pose.pose.orientation
+        for name, v in (
+            ("pose.position.x", msg.pose.pose.position.x),
+            ("pose.position.y", msg.pose.pose.position.y),
+            ("twist.linear.x", msg.twist.twist.linear.x),
+            ("twist.angular.z", msg.twist.twist.angular.z),
+            ("orientation.x", q.x),
+            ("orientation.y", q.y),
+            ("orientation.z", q.z),
+            ("orientation.w", q.w),
+        ):
+            if not math.isfinite(v):
+                raise ValueError(f"non-finite {name}")
         siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
         cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
         yaw = math.atan2(siny_cosp, cosy_cosp)
@@ -253,16 +312,23 @@ class SafetyBridgeNode(Node):
         )
 
     def _on_contact(self, msg: Bool) -> None:
-        self._contact_seq += 1
-        # /rover/sensors/contact/asserted carries no header; receive
-        # time is the only timestamp available.
-        self._core.cache_contact(
-            IncomingContact(
-                timestamp_ms=self._now_ms(),
-                sequence_number=self._contact_seq,
-                asserted=bool(msg.data),
+        try:
+            self._contact_seq += 1
+            # /rover/sensors/contact/asserted carries no header; receive
+            # time is the only timestamp available.
+            self._core.cache_contact(
+                IncomingContact(
+                    timestamp_ms=self._now_ms(),
+                    sequence_number=self._contact_seq,
+                    asserted=bool(msg.data),
+                )
             )
-        )
+        except (ValueError, TypeError) as exc:
+            self._emit_invalid_input_event(
+                topic="/rover/sensors/contact/asserted",
+                field="data",
+                error=str(exc),
+            )
 
     def _set_pulse(self, name: str, msg: Bool) -> None:
         # Operator pulses are level-triggered: as long as the topic
