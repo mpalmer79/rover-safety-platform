@@ -79,10 +79,23 @@ const WHAT_PROVES = [
   "Generated or proposed actions cannot bypass the safety supervisor.",
 ] as const;
 
+async function safeLoad<T>(load: () => Promise<T | null>): Promise<T | null> {
+  // The home page is a reviewer entry point: a non-ENOENT failure
+  // from the JSON adapter (permissions, JSON parse, transient I/O)
+  // must not surface as "Artifact failed to load". Treat any loader
+  // failure the same as "artifact missing" and let the page fall
+  // back to the 2D narrative shell.
+  try {
+    return await load();
+  } catch {
+    return null;
+  }
+}
+
 export default async function ReviewerHomePage() {
   const [audit, spatialReplay] = await Promise.all([
-    loadRehearsalAudit(DEMO_MISSION.rehearsalId),
-    loadSpatialReplay(DEMO_MISSION.spatialRunId),
+    safeLoad(() => loadRehearsalAudit(DEMO_MISSION.rehearsalId)),
+    safeLoad(() => loadSpatialReplay(DEMO_MISSION.spatialRunId)),
   ]);
 
   const demoAvailable = Boolean(audit && spatialReplay);
