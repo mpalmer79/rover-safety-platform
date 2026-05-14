@@ -28,6 +28,7 @@ vi.mock("@/adapters/loader", () => ({
   loadSpatialReplay: vi.fn(async () => null),
 }));
 
+import * as loader from "@/adapters/loader";
 import NotFound from "@/app/not-found";
 import ReviewerHomePage from "@/app/page";
 import { ResponsiveShell } from "@/components/ResponsiveShell";
@@ -161,5 +162,26 @@ describe("Reviewer entry-point home page", () => {
     expect(text).toMatch(/simulation-only/i);
     expect(text).toMatch(/not safety-certified/i);
     expect(text).toMatch(/does not control real hardware/i);
+  });
+
+  it("falls back to the 2D shell when adapters throw a non-ENOENT error", async () => {
+    const auditMock = vi.mocked(loader.loadRehearsalAudit);
+    const spatialMock = vi.mocked(loader.loadSpatialReplay);
+    const auditImpl = auditMock.getMockImplementation();
+    const spatialImpl = spatialMock.getMockImplementation();
+    auditMock.mockRejectedValueOnce(
+      Object.assign(new Error("EACCES"), { code: "EACCES" }),
+    );
+    spatialMock.mockRejectedValueOnce(new SyntaxError("unexpected token"));
+    try {
+      const Page = await ReviewerHomePage();
+      render(Page);
+      expect(
+        screen.getByRole("heading", { level: 1, name: /2D fallback active/i }),
+      ).toBeInTheDocument();
+    } finally {
+      if (auditImpl) auditMock.mockImplementation(auditImpl);
+      if (spatialImpl) spatialMock.mockImplementation(spatialImpl);
+    }
   });
 });
