@@ -21,7 +21,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Start Here", icon: Compass },
+  { href: "/start", label: "Start Here", icon: Compass },
   { href: "/demo/warehouse-replay", label: "Mission Replay Demo", icon: Rocket },
   { href: "/safety", label: "Safety Authority", icon: ShieldCheck },
   { href: "/walkthrough", label: "Reviewer Walkthrough", icon: Eye },
@@ -160,8 +160,7 @@ function Sidebar({
       </Link>
       <ul className="space-y-1 text-sm">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-          const active =
-            pathname === href || (href !== "/" && pathname.startsWith(href));
+          const active = pathname === href || pathname.startsWith(`${href}/`);
           return (
             <li key={href}>
               <Link
