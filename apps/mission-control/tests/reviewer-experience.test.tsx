@@ -12,6 +12,8 @@
  *     pipeline language, links back to curated routes);
  *   - the Start Here landing page articulates what ProjectBoundary
  *     demonstrates and where to click first;
+ *   - the Start Here landing page is decoupled from artifact loading
+ *     so a malformed demo JSON cannot break the public entry point;
  *   - the safety-boundary banner combines the simulation-only
  *     boundary with what the platform demonstrates.
  */
@@ -20,17 +22,25 @@ import { describe, expect, it, vi } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 
 vi.mock("next/navigation", () => ({
-  usePathname: () => "/",
+  usePathname: () => "/start",
 }));
 
 vi.mock("@/adapters/loader", () => ({
-  loadRehearsalAudit: vi.fn(async () => null),
-  loadSpatialReplay: vi.fn(async () => null),
+  loadRehearsalAudit: vi.fn(() => {
+    throw new Error(
+      "loadRehearsalAudit must not be called from the public Start Here page",
+    );
+  }),
+  loadSpatialReplay: vi.fn(() => {
+    throw new Error(
+      "loadSpatialReplay must not be called from the public Start Here page",
+    );
+  }),
 }));
 
 import * as loader from "@/adapters/loader";
 import NotFound from "@/app/not-found";
-import ReviewerHomePage from "@/app/page";
+import ReviewerStartPage from "@/app/start/page";
 import { ResponsiveShell } from "@/components/ResponsiveShell";
 import { SafetyBoundaryBanner } from "@/components/SafetyBoundaryBanner";
 
@@ -44,7 +54,7 @@ describe("public navigation chrome", () => {
     const sidebar = screen.getByTestId("primary-sidebar");
     const links = within(sidebar).getAllByRole("link");
     const hrefs = links.map((a) => a.getAttribute("href"));
-    expect(hrefs).toContain("/");
+    expect(hrefs).toContain("/start");
     expect(hrefs).toContain("/demo/warehouse-replay");
     expect(hrefs).toContain("/safety");
     expect(hrefs).toContain("/walkthrough");
@@ -71,8 +81,22 @@ describe("public navigation chrome", () => {
       .getAllByRole("link")
       .map((a) => a.getAttribute("href"))
       .find((h) => h && h !== "/");
-    expect(["/", "/demo/warehouse-replay"]).toContain(firstNavHref ?? "");
+    expect(["/start", "/demo/warehouse-replay"]).toContain(firstNavHref ?? "");
     expect(items.length).toBeGreaterThan(0);
+  });
+
+  it("highlights Start Here as active when on /start", () => {
+    render(
+      <ResponsiveShell>
+        <p>main</p>
+      </ResponsiveShell>,
+    );
+    const sidebar = screen.getByTestId("primary-sidebar");
+    const startLink = within(sidebar)
+      .getAllByRole("link")
+      .find((a) => a.getAttribute("href") === "/start");
+    expect(startLink).toBeDefined();
+    expect(startLink?.getAttribute("aria-current")).toBe("page");
   });
 
   it("does not announce internal phase labels as the public identity", () => {
@@ -119,7 +143,7 @@ describe("not-found fallback", () => {
     const list = screen.getByTestId("route-not-found");
     const links = within(list).getAllByRole("link");
     const hrefs = links.map((a) => a.getAttribute("href"));
-    expect(hrefs).toContain("/");
+    expect(hrefs).toContain("/start");
     expect(hrefs).toContain("/demo/warehouse-replay");
     expect(hrefs).toContain("/safety");
     expect(hrefs).toContain("/walkthrough");
@@ -127,10 +151,9 @@ describe("not-found fallback", () => {
   });
 });
 
-describe("Reviewer entry-point home page", () => {
-  it("renders the Start Here heading and reviewer summary", async () => {
-    const Page = await ReviewerHomePage();
-    render(Page);
+describe("Reviewer entry-point Start Here page", () => {
+  it("renders the Start Here heading and reviewer summary", () => {
+    render(<ReviewerStartPage />);
     expect(
       screen.getByRole("heading", {
         level: 1,
@@ -144,44 +167,33 @@ describe("Reviewer entry-point home page", () => {
     expect(text).toMatch(/cannot bypass the safety supervisor/i);
   });
 
-  it("links to the Mission Replay Demo, Safety Authority, Walkthrough, and Evidence", async () => {
-    const Page = await ReviewerHomePage();
-    render(Page);
+  it("links to the Mission Replay Demo, Safety Authority, Walkthrough, Evidence, Workspaces, and Workbench", () => {
+    render(<ReviewerStartPage />);
     const links = screen.getAllByRole("link");
     const hrefs = links.map((a) => a.getAttribute("href"));
     expect(hrefs).toContain("/demo/warehouse-replay");
     expect(hrefs).toContain("/safety");
     expect(hrefs).toContain("/walkthrough");
     expect(hrefs).toContain("/evidence");
+    expect(hrefs).toContain("/workspaces");
+    expect(hrefs).toContain("/workbench");
   });
 
-  it("contains the explicit simulation-only / not safety-certified scope", async () => {
-    const Page = await ReviewerHomePage();
-    render(Page);
+  it("contains the explicit simulation-only / not safety-certified scope", () => {
+    render(<ReviewerStartPage />);
     const text = document.body.textContent ?? "";
     expect(text).toMatch(/simulation-only/i);
     expect(text).toMatch(/not safety-certified/i);
     expect(text).toMatch(/does not control real hardware/i);
   });
 
-  it("falls back to the 2D shell when adapters throw a non-ENOENT error", async () => {
-    const auditMock = vi.mocked(loader.loadRehearsalAudit);
-    const spatialMock = vi.mocked(loader.loadSpatialReplay);
-    const auditImpl = auditMock.getMockImplementation();
-    const spatialImpl = spatialMock.getMockImplementation();
-    auditMock.mockRejectedValueOnce(
-      Object.assign(new Error("EACCES"), { code: "EACCES" }),
-    );
-    spatialMock.mockRejectedValueOnce(new SyntaxError("unexpected token"));
-    try {
-      const Page = await ReviewerHomePage();
-      render(Page);
-      expect(
-        screen.getByRole("heading", { level: 1, name: /2D fallback active/i }),
-      ).toBeInTheDocument();
-    } finally {
-      if (auditImpl) auditMock.mockImplementation(auditImpl);
-      if (spatialImpl) spatialMock.mockImplementation(spatialImpl);
-    }
+  it("renders without calling artifact loaders", () => {
+    // The mocked loaders throw if invoked. Rendering the Start Here
+    // page must succeed without ever touching them — a malformed or
+    // missing demo JSON cannot be allowed to break the public
+    // landing page.
+    expect(() => render(<ReviewerStartPage />)).not.toThrow();
+    expect(loader.loadRehearsalAudit).not.toHaveBeenCalled();
+    expect(loader.loadSpatialReplay).not.toHaveBeenCalled();
   });
 });

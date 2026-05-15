@@ -13,7 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Start Here", icon: Activity },
+  { href: "/start", label: "Start Here", icon: Activity },
   { href: "/demo/warehouse-replay", label: "Mission Replay Demo", icon: PlayCircle },
   { href: "/safety", label: "Safety Authority", icon: ShieldCheck },
   { href: "/evidence", label: "Evidence & Audit", icon: Folder },
