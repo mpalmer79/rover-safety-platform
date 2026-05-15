@@ -19,16 +19,66 @@ export const metadata = {
     "Polished 3D replay of an approved warehouse mission, driven by deterministic spatial replay artifacts.",
 };
 
+type LoadOutcome<T> =
+  | { kind: "ok"; value: T }
+  | { kind: "missing" }
+  | { kind: "error" };
+
+// A non-ENOENT failure (permissions, JSON.parse, EISDIR, missing
+// repo files outside Vercel's Root Directory) must not surface as
+// a route error boundary on this reviewer-facing page. Degrade to
+// the existing 2D narrative shell and tell the reviewer what
+// happened. The fallback distinguishes "artifact missing" from
+// "loader raised an unexpected error" so honesty is preserved.
+async function safeLoad<T>(
+  label: string,
+  load: () => Promise<T | null>,
+): Promise<LoadOutcome<T>> {
+  try {
+    const value = await load();
+    return value === null ? { kind: "missing" } : { kind: "ok", value };
+  } catch (err) {
+    const e = err as NodeJS.ErrnoException;
+    // Server-side log so Vercel build logs capture the real cause.
+    // The reviewer page never surfaces this directly.
+    // eslint-disable-next-line no-console
+    console.warn(
+      "[demo/warehouse-replay] " +
+        label +
+        " loader raised non-ENOENT error: " +
+        JSON.stringify({
+          name: e?.name ?? "Error",
+          code: e?.code,
+          message: e?.message ?? String(err),
+          path: e?.path,
+          cwd: typeof process !== "undefined" ? process.cwd() : undefined,
+        }),
+    );
+    return { kind: "error" };
+  }
+}
+
 export default async function WarehouseReplayDemoPage() {
-  const [audit, spatialReplay] = await Promise.all([
-    loadRehearsalAudit(DEMO_MISSION.rehearsalId),
-    loadSpatialReplay(DEMO_MISSION.spatialRunId),
+  const [auditOutcome, spatialOutcome] = await Promise.all([
+    safeLoad("rehearsal-audit", () =>
+      loadRehearsalAudit(DEMO_MISSION.rehearsalId),
+    ),
+    safeLoad("spatial-replay", () =>
+      loadSpatialReplay(DEMO_MISSION.spatialRunId),
+    ),
   ]);
 
-  if (!audit || !spatialReplay) {
-    return <FallbackPage missingAudit={!audit} missingSpatial={!spatialReplay} />;
+  if (auditOutcome.kind !== "ok" || spatialOutcome.kind !== "ok") {
+    return (
+      <FallbackPage
+        auditOutcome={auditOutcome.kind}
+        spatialOutcome={spatialOutcome.kind}
+      />
+    );
   }
 
+  const audit = auditOutcome.value;
+  const spatialReplay = spatialOutcome.value;
   const evidenceLinks = [
     {
       label: `Open mission audit · ${DEMO_MISSION.rehearsalId}`,
@@ -59,28 +109,51 @@ export default async function WarehouseReplayDemoPage() {
   );
 }
 
+type OutcomeKind = "ok" | "missing" | "error";
+
+function describeReason(audit: OutcomeKind, spatial: OutcomeKind): string {
+  const auditError = audit === "error";
+  const spatialError = spatial === "error";
+  if (auditError && spatialError) {
+    return "the rehearsal-audit and spatial-replay adapters both raised an unexpected (non-ENOENT) error while reading committed JSON";
+  }
+  if (auditError) {
+    return "the rehearsal-audit adapter raised an unexpected (non-ENOENT) error while reading committed JSON";
+  }
+  if (spatialError) {
+    return "the spatial-replay adapter raised an unexpected (non-ENOENT) error while reading committed JSON";
+  }
+  if (audit === "missing" && spatial === "missing") {
+    return "no rehearsal audit or spatial scene artifact is registered in the public export";
+  }
+  if (spatial === "missing") {
+    return "no spatial scene artifact is registered for this run";
+  }
+  return "no rehearsal audit is registered for this mission";
+}
+
 function FallbackPage({
-  missingAudit,
-  missingSpatial,
+  auditOutcome,
+  spatialOutcome,
 }: {
-  missingAudit: boolean;
-  missingSpatial: boolean;
+  auditOutcome: OutcomeKind;
+  spatialOutcome: OutcomeKind;
 }) {
+  const reason = describeReason(auditOutcome, spatialOutcome);
   return (
     <PageSurface>
       <div className="space-y-5">
         <GradientPanel elevated className="px-5 py-5">
           <p className="label">Mission Replay Demo</p>
           <h1 className="display-1">2D fallback active</h1>
-          <p className="text-base text-[color:var(--mc-text)]">
+          <p
+            data-testid="demo-fallback-reason"
+            className="text-base text-[color:var(--mc-text)]"
+          >
             3D replay is available for the canonical demo mission. This
-            mission currently uses 2D fallback mode because{" "}
-            {missingAudit && missingSpatial
-              ? "no rehearsal audit or spatial scene artifact is registered in the public export"
-              : missingSpatial
-                ? "no spatial scene artifact is registered for this run"
-                : "no rehearsal audit is registered for this mission"}
-            .
+            mission currently uses 2D fallback mode because {reason}.
+            The static export and safety-supervisor authority are
+            unaffected.
           </p>
         </GradientPanel>
         <Panel eyebrow="Reviewer paths" title="What to do next">
