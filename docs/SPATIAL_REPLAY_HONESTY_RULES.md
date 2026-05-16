@@ -7,7 +7,7 @@ workflow, and the prerendered HTML.
 
 ## R1 — `bag_backed` requires the full evidence stack
 
-A spatial-replay artefact may set `derivation_source = bag_backed`
+A spatial-replay artifact may set `derivation_source = bag_backed`
 only when **all** of these hold:
 
 1. `evidence/runtime/<run_id>/bag-manifest.json` exists and parses.
@@ -31,7 +31,7 @@ Enforced by:
 
 Pose samples loaded from
 `spatial-replay/fixtures/<run_id>/pose-samples.jsonl` always
-produce `derivation_source = fixture`. The artefact's
+produce `derivation_source = fixture`. The artifact's
 `bag_status` is `missing_manifest` (or whatever the manifest
 honestly reports). The validator additionally surfaces a known
 limitation:
@@ -45,9 +45,9 @@ Enforced by:
 * `backend/app/spatial_replay/builder.py::build_spatial_replay`
 * `backend/tests/test_spatial_replay.py::test_fixture_samples_are_not_bag_backed`
 * `backend/tests/test_spatial_replay.py::test_canonical_fixture_emits_fixture_derivation`
-* `apps/mission-control/tests/spatial-replay.test.ts::loadSpatialReplay > returns the canonical fixture artefact`
+* `apps/mission-control/tests/spatial-replay.test.ts::loadSpatialReplay > returns the canonical fixture artifact`
 
-## R3 — Derivation source is preserved through every artefact
+## R3 — Derivation source is preserved through every artifact
 
 The string emitted by the backend builder appears verbatim in:
 
@@ -58,7 +58,7 @@ The string emitted by the backend builder appears verbatim in:
 * the frontend's `SpatialReplayBadge` `data-source` attribute.
 
 No layer is allowed to upgrade the string. The frontend may *fall
-back* (e.g. from a malformed `bag_backed` artefact to
+back* (e.g. from a malformed `bag_backed` artifact to
 `bounded_inputs`) but never upgrades.
 
 ## R4 — Missing topics surface as warnings, never as fabricated samples
@@ -74,7 +74,7 @@ Enforced by:
 
 ## R5 — Internal consistency is validated
 
-The validator rejects artefacts whose `derivation_source` and
+The validator rejects artifacts whose `derivation_source` and
 `bag_status` are inconsistent. Examples:
 
 | `derivation_source` | `bag_status`        | Outcome             |
@@ -96,19 +96,19 @@ fallback hierarchy in
 `apps/mission-control/src/adapters/spatial.ts::selectMissionRoute`
 is:
 
-1. Prefer the artefact when `derivation_source ∈ {bag_backed,
+1. Prefer the artifact when `derivation_source ∈ {bag_backed,
    fixture}` AND `samples.length > 0`.
 2. Otherwise call `buildMissionRoute(plan)` — the Phase 17B
    bounded-inputs adapter.
 
-If the artefact's `derivation_source` is `unavailable`, the
-frontend takes the bounded-inputs path; the unavailable artefact is
+If the artifact's `derivation_source` is `unavailable`, the
+frontend takes the bounded-inputs path; the unavailable artifact is
 treated as a no-op signal that the operator hasn't produced one yet.
 
 Enforced by:
 
-* `apps/mission-control/tests/spatial-replay.test.ts::selectMissionRoute > falls back to bounded_inputs when artefact is null`
-* `apps/mission-control/tests/spatial-replay.test.ts::selectMissionRoute > falls back to bounded_inputs when artefact has zero samples`
+* `apps/mission-control/tests/spatial-replay.test.ts::selectMissionRoute > falls back to bounded_inputs when artifact is null`
+* `apps/mission-control/tests/spatial-replay.test.ts::selectMissionRoute > falls back to bounded_inputs when artifact has zero samples`
 
 ## R7 — UI surfaces the derivation source
 
@@ -136,10 +136,10 @@ Enforced by:
 1. Every prerendered page contains "Simulation-only".
 2. No prerendered page contains "bag-backed: yes" (Phase 13 rule).
 3. If any prerendered page mentions "bag-backed runtime evidence",
-   at least one committed `spatial-replay.json` artefact must
+   at least one committed `spatial-replay.json` artifact must
    declare `derivation_source=bag_backed` with non-zero samples.
 
-Today the canonical fixture is the only committed artefact, so
+Today the canonical fixture is the only committed artifact, so
 rule (3) ensures the prerendered HTML never carries a bag-backed
 caption.
 
@@ -152,7 +152,7 @@ is `apps/mission-control/src/adapters/spatial.ts::artifactIsBagBacked`.
 
 Both functions return `false` when:
 
-* the artefact is null;
+* the artifact is null;
 * `derivation_source != bag_backed`;
 * `bag_status != bag_backed`;
 * `samples.length == 0`.
@@ -160,6 +160,6 @@ Both functions return `false` when:
 ## R10 — No simulated runtime claim
 
 The platform makes no claim of live robot telemetry, live robot
-control, or safety certification. Every committed artefact carries
+control, or safety certification. Every committed artifact carries
 a `disclaimer` reminding the reviewer of this; every page renders
 the `SafetyBoundaryBanner` from Phase 17A.

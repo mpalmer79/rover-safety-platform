@@ -2,7 +2,7 @@
 
 The platform is **not safety-certified.** This document describes
 how a real bag-backed run on a qualified self-hosted Jazzy + Gazebo
-runner becomes a `derivation_source = bag_backed` artefact that the
+runner becomes a `derivation_source = bag_backed` artifact that the
 Mission Control UI can render.
 
 ## 1. Pipeline overview
@@ -33,7 +33,7 @@ Mission Control UI can render.
 │  ├── classify_trajectory                     │
 │  ├── align_events                            │
 │  ├── validate_spatial_replay                 │
-│  └── write_spatial_replay_artefacts          │
+│  └── write_spatial_replay_artifacts          │
 └────────────────┬─────────────────────────────┘
                  │ writes
                  ▼
@@ -105,12 +105,12 @@ The CLI:
 4. Evaluates bag-backed eligibility.
 5. Builds segments + classifies the trajectory.
 6. Aligns events to the nearest pose sample.
-7. Validates the artefact.
+7. Validates the artifact.
 8. Writes the five output files.
 
 ### Step 4 — Commit + open a PR
 
-The frontend picks up the artefact automatically (no rebuild
+The frontend picks up the artifact automatically (no rebuild
 required at this step, except the static export must re-prerender).
 
 ## 3. Determinism guarantees
@@ -127,7 +127,7 @@ required at this step, except the static export must re-prerender).
 ## 4. Honesty backstops
 
 Every step above can fail. Phase 17C's honesty rules ensure that a
-failure mode never produces a fake bag-backed artefact:
+failure mode never produces a fake bag-backed artifact:
 
 * Missing `bag-manifest.json` → `derivation_source = fixture` (if
   fixture exists) or `unavailable`.

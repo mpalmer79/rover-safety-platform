@@ -158,7 +158,7 @@ describe("SpatialReplayBadge > visible per-source colouring", () => {
 });
 
 describe("MissionPlaybackPanel > badge surfaces bag-backed vs fixture", () => {
-  it("renders the fixture badge when artefact is fixture-derived", () => {
+  it("renders the fixture badge when artifact is fixture-derived", () => {
     render(
       <MissionPlaybackPanel
         plan={null}
@@ -170,7 +170,7 @@ describe("MissionPlaybackPanel > badge surfaces bag-backed vs fixture", () => {
     expect(badge.getAttribute("data-source")).toBe("fixture");
   });
 
-  it("renders the bag-backed badge when artefact is bag-backed", () => {
+  it("renders the bag-backed badge when artifact is bag-backed", () => {
     render(
       <MissionPlaybackPanel
         plan={null}
@@ -182,7 +182,7 @@ describe("MissionPlaybackPanel > badge surfaces bag-backed vs fixture", () => {
     expect(badge.getAttribute("data-source")).toBe("bag_backed");
   });
 
-  it("falls back to bounded-inputs badge when no artefact", () => {
+  it("falls back to bounded-inputs badge when no artifact", () => {
     render(
       <MissionPlaybackPanel
         plan={{
@@ -229,7 +229,7 @@ describe("CI honesty grep > no fake bag-backed claim in prerendered HTML", () =>
   // committed canonical fixture instead, which the CI grep would
   // see in the prerendered HTML. Any prerendered page that renders
   // the canonical fixture must therefore inherit the fixture caption.
-  it("canonical-fixture artefact is not labelled bag_backed", async () => {
+  it("canonical-fixture artifact is not labelled bag_backed", async () => {
     const text = await fs.readFile(
       path.join(REPO_ROOT, "spatial-replay", "runs", "canonical-fixture", "spatial-replay.json"),
       "utf-8",
@@ -240,7 +240,7 @@ describe("CI honesty grep > no fake bag-backed claim in prerendered HTML", () =>
   });
 });
 
-describe("simulated artefacts never claim bag-backed", () => {
+describe("simulated artifacts never claim bag-backed", () => {
   it("every committed spatial-replay run is honest about its source", async () => {
     const runsRoot = path.join(REPO_ROOT, "spatial-replay", "runs");
     let entries: string[] = [];

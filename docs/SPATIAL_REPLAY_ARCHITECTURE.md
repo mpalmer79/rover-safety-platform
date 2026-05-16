@@ -7,7 +7,7 @@ the architectural shape of the spatial replay layer.
   bounded-inputs mission map, scrubber, event projector, and
   per-mission detail page.
 * Phase 17C extends the layer with a bag-backed / fixture-derived
-  artefact path. See `docs/BAG_BACKED_SPATIAL_REPLAY.md` for the
+  artifact path. See `docs/BAG_BACKED_SPATIAL_REPLAY.md` for the
   full evidence hierarchy and `docs/SPATIAL_REPLAY_HONESTY_RULES.md`
   for the rules that gatekeep the `bag_backed` label.
 

@@ -10,7 +10,7 @@ The Mission Control workspace at `apps/mission-control/` must
 surface the deterministic-autonomy platform's evidence to
 reviewers without coupling the UI to a live backend. The platform
 already enforces a strict honesty discipline: every claim must be
-backed by a committed artefact on disk
+backed by a committed artifact on disk
 (`mission-rehearsals/audits/`, `spatial-replay/runs/`,
 `verification/traceability.json`, etc.). A UI that fetched data
 over the network at runtime would create a class of behaviours

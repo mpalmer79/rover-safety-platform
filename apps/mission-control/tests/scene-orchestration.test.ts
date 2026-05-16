@@ -75,7 +75,7 @@ describe("scene cues", () => {
     expect(cue?.cameraMode).toBe("follow");
   });
 
-  it("trajectory focus is null when artefact is null", () => {
+  it("trajectory focus is null when artifact is null", () => {
     expect(resolveTrajectoryFocus(null)).toBeNull();
   });
 

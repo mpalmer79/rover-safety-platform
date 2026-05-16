@@ -1,3 +1,4 @@
+# actions pinned to commit SHAs; update via tools/update-action-pins.sh
 # Phase-9 source-to-replay reliability impact analysis.
 #
 # Runs on pull_request and workflow_dispatch on a github-hosted
@@ -18,13 +19,13 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           # We need history so `git diff` resolves the base ref.
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
 
@@ -86,7 +87,7 @@ jobs:
 
       - name: Upload reliability-impact bundle
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: reliability-impact-${{ github.run_id }}
           path: reliability-impact/

@@ -10,7 +10,7 @@ export default function DashboardLoading() {
           <p className="label">Operator console</p>
           <h1 className="display-1">Mission Control Dashboard</h1>
           <p className="text-muted text-sm sm:text-base">
-            Loading committed artefacts…
+            Loading committed artifacts…
           </p>
         </header>
       </GradientPanel>

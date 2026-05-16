@@ -11,7 +11,7 @@ density that an operator or reviewer should see for a given task.
 
 Workspaces are NOT drag/drop dashboards. There is no runtime layout
 state; the JSON shape is the single source of truth, and the same
-preset always renders the same layout for the same artefacts on disk.
+preset always renders the same layout for the same artifacts on disk.
 
 ## Six canonical presets
 
@@ -71,7 +71,7 @@ Workspaces NEVER:
 
 Workspaces ALWAYS:
 
-* read from committed JSON artefacts only,
+* read from committed JSON artifacts only,
 * preserve `final_status`, `safety_status`, `evidence_status`,
   `bag_backed`, and `derivation_source` verbatim,
 * render the safety boundary banner at the layout root.
@@ -94,4 +94,4 @@ automatically render the new preset.
 The workspace state is now exportable as a deterministic JSON
 snapshot. See [`WORKSPACE_SNAPSHOT_EXPORTS.md`](WORKSPACE_SNAPSHOT_EXPORTS.md)
 and the `/workspaces/snapshot` route. Snapshots NEVER persist on
-the server; they are offline reviewer handoff artefacts.
+the server; they are offline reviewer handoff artifacts.

@@ -29,6 +29,11 @@ EVENT_REQUIRED_FIELDS: tuple[str, ...] = (
     "final_motion",
     "reason_code",
     "message",
+    # Tamper-evident event chain (#13). Every recorded event carries
+    # the SHA-256 of the previous event's canonical bytes (lower-case
+    # hex, 64 chars). The first event uses "0" * 64. See
+    # app.replay.chain for the canonical serialisation.
+    "prev_event_hash",
 )
 
 EVENT_OPTIONAL_FIELDS: tuple[str, ...] = (
@@ -84,3 +89,13 @@ def validate_event_dict(payload: dict[str, Any]) -> None:
         value = payload.get(required_str)
         if not isinstance(value, str) or not value:
             raise EventSchemaError(f"{required_str!r} must be a non-empty string")
+
+    prev_event_hash = payload.get("prev_event_hash")
+    if (
+        not isinstance(prev_event_hash, str)
+        or len(prev_event_hash) != 64
+        or any(c not in "0123456789abcdef" for c in prev_event_hash)
+    ):
+        raise EventSchemaError(
+            "prev_event_hash must be a 64-char lower-case hex string"
+        )

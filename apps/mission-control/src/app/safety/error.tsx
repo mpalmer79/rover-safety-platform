@@ -30,7 +30,7 @@ export default function RouteError({ error, reset }: RouteErrorProps) {
       <GradientPanel tone="rejected" elevated className="px-4 py-4 sm:px-5 sm:py-5">
         <header className="space-y-1">
           <p className="label">Safety authority</p>
-          <h1 className="display-1">Artefact failed to load</h1>
+          <h1 className="display-1">Artifact failed to load</h1>
           <p className="text-muted text-sm sm:text-base">
             The adapter raised a non-ENOENT error while reading
             committed JSON. The static export and safety-supervisor

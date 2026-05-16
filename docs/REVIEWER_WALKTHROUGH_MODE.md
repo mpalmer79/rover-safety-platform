@@ -6,7 +6,7 @@
 
 Mission Control is a dense operator console. The reviewer walkthrough
 is a guided overlay that walks a first-time reviewer through every
-stage of the deterministic pipeline, in order, with the artefacts
+stage of the deterministic pipeline, in order, with the artifacts
 each stage produces and the safety boundary it enforces.
 
 The walkthrough is purely a presentation layer. It does not invoke
@@ -23,7 +23,7 @@ any runtime, fabricate any state, or grant any authority.
 | 5 | Validator result           | `rehearsal_audit.validation_diagnostics`                |
 | 6 | Supervisor decision        | `rehearsal_audit.decision`                              |
 | 7 | Rehearsal execution        | `rehearsal_audit.runtime.events`                        |
-| 8 | Replay evidence            | `replay_bundle.json` + spatial-replay artefact          |
+| 8 | Replay evidence            | `replay_bundle.json` + spatial-replay artifact          |
 | 9 | Analytics outcome          | `rehearsal_analytics.json`                              |
 | 10 | Unresolved limitations    | `rehearsal_audit.disclaimer`, `live_runtime_maturity`   |
 

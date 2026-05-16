@@ -2,7 +2,7 @@
 
 This document describes the Phase 6 incident reconstruction layer.
 The platform is **not safety-certified**; the reconstruction layer
-produces engineering analysis artefacts from available simulation
+produces engineering analysis artifacts from available simulation
 and runtime evidence.
 
 ## 1. Purpose
@@ -11,7 +11,7 @@ Captured evidence (`evidence/scenarios/<scenario_id>/`,
 `evidence/runtime/<run_id>/`) tells you *what was recorded*. The
 reconstruction layer turns that into *what happened, why, and what
 the safety response did about it* — without rewriting the underlying
-artefacts and without inventing causality the evidence does not
+artifacts and without inventing causality the evidence does not
 support.
 
 ## 2. Architectural principle
@@ -20,7 +20,7 @@ The package is **read-only with respect to runtime evidence**. It
 loads, normalises, classifies, and reports. It does **not**:
 
 - mutate any source file,
-- alter replay artefacts,
+- alter replay artifacts,
 - rewrite scenario or runtime status,
 - change safety or mission state in any system,
 - claim safety certification.
@@ -38,7 +38,7 @@ loader -> normaliser -> timeline -> causality -> classifier -> reporter
 
 | Module | Responsibility |
 | --- | --- |
-| `loader.py` | Reads scenario + runtime artefact directories. Missing files / malformed JSON / empty event streams become `LoaderWarning` entries. |
+| `loader.py` | Reads scenario + runtime artifact directories. Missing files / malformed JSON / empty event streams become `LoaderWarning` entries. |
 | `normalizer.py` | Converts heterogeneous records (events.jsonl, command-audit, replay-integrity, runtime-validation, regression, host-qualification) into canonical `TimelineEntry`s. Preserves the `evidence_origin`. |
 | `timeline.py` | Sorts by `(sim_time_ns, timestamp, original_index)` deterministically; computes relative times; flags out-of-order entries; identifies first-fault, first-safety-transition, first-command-intervention, terminal entry. |
 | `causality.py` | Rule-based chain reconstruction with confidence levels. Missing links downgrade the chain; contradictions are surfaced explicitly. |

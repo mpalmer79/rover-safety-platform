@@ -86,7 +86,7 @@ export function WorkspaceSidebar({ active, className }: WorkspaceSidebarProps) {
         )}
       >
         <p className={cn(typography("label"), "mb-1")}>Honesty</p>
-        Every panel reads from committed artefacts. No live telemetry, no
+        Every panel reads from committed artifacts. No live telemetry, no
         websockets, no cloud APIs.
       </div>
     </nav>

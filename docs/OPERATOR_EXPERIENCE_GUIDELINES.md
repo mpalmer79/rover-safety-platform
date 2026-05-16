@@ -64,7 +64,7 @@ explicit placeholder when the field is absent:
 | `SafetyZoneLayer`              | "No mission plan; safety zones unavailable."                    |
 | `ReplayScrubber`               | "No rehearsal events recorded."                                 |
 | `ReplayTimeline`               | "No rehearsal events recorded."                                 |
-| `ReplayAnalyticsPanel`         | "No analytics artefact for this rehearsal."                     |
+| `ReplayAnalyticsPanel`         | "No analytics artifact for this rehearsal."                     |
 
 The empty case is always a complete sentence; the operator never
 sees a blank panel.
@@ -83,7 +83,7 @@ with:
 ## 6. Mission proposal workbench
 
 The workbench routes a request through the deterministic backend
-artefacts. The screen surfaces:
+artifacts. The screen surfaces:
 
 * the mission library (accepted + rejected piles, both visible);
 * a code-card grid that renders the verbatim Phase 15A skill

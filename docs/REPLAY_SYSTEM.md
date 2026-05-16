@@ -275,7 +275,7 @@ The Phase 7 replay review layer
 (`backend/app/replay_review/`) extends the incident bundle with a
 replay manifest, marker file, Foxglove session metadata, and
 replay-review report. The layer is read-only with respect to
-runtime evidence and rosbag2 artefacts; missing bags are reported as
+runtime evidence and rosbag2 artifacts; missing bags are reported as
 `missing_bag`, static-only incidents stay `static_only`, and the
 Foxglove session JSON is explicitly labelled internal
 (`rover-replay-review/1`) — not an official Foxglove import. See
@@ -364,14 +364,14 @@ check.
 | `app.validation.safety_pipeline_validator.validate_safety_pipeline` | Six in-process supervisor invariants. | `python tools/validate_safety_pipeline.py` |
 
 These tools run without ROS 2 or Gazebo; they exercise the
-deterministic engine and the static artefacts in the workspace. The
+deterministic engine and the static artifacts in the workspace. The
 ROS 2 path produces interchangeable run directories that pass the same
 validators. A run is considered replay-eligible only when every
 applicable validator returns OK.
 
 ---
 
-## 16. Phase 2 Mission Replay Artefacts
+## 16. Phase 2 Mission Replay Artifacts
 
 Phase 2 adds four new JSONL streams to the run directory layout. The
 recorder writes them on every run (with zero records when no mission
@@ -412,7 +412,7 @@ runs `rover_ws/tools/live_bag_capture.py`, the resulting
 * the bag paths, metadata YAML, topic inventory, and message counts,
 * `not_executed_reason` when applicable.
 
-The honesty rules: `bag_backed` requires real artefacts on disk;
+The honesty rules: `bag_backed` requires real artifacts on disk;
 `not_executed` requires a structured reason; `static_only` and
 `missing_bag` flags propagate verbatim into replay review,
 analytics, programme review, and reviewer export. See

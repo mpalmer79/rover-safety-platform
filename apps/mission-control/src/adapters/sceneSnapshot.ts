@@ -3,8 +3,8 @@
  *
  * The adapter mirrors the deterministic eligibility check from
  * ``backend/app/scene_snapshot/pipeline.py``. It NEVER claims a
- * snapshot exists unless the artefact registry + spatial-replay
- * artefact together prove it could. The frontend uses this to
+ * snapshot exists unless the artifact registry + spatial-replay
+ * artifact together prove it could. The frontend uses this to
  * render the SceneSnapshotPanel without touching the network.
  */
 

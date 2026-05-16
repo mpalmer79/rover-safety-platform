@@ -1,3 +1,4 @@
+# actions pinned to commit SHAs; update via tools/update-action-pins.sh
 # Mission Control frontend CI (Phase 17B).
 #
 # Validates the apps/mission-control workspace on every PR that
@@ -50,10 +51,10 @@ jobs:
       NEXT_TELEMETRY_DISABLED: "1"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Set up Python (for replay hydration gate)
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
 
@@ -78,7 +79,7 @@ jobs:
           fi
 
       - name: Set up Node.js 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
           cache: "npm"
@@ -109,7 +110,7 @@ jobs:
 
       - name: Upload frontend coverage artefact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: mission-control-coverage
           path: apps/mission-control/coverage/
@@ -257,6 +258,23 @@ jobs:
     name: Playwright visual regression
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    # Non-blocking until baselines are bootstrapped.
+    #
+    # The job has never produced positive signal in this repo:
+    # ``visual/__screenshots__/`` is empty, so every CI run fails on
+    # "snapshot doesn't exist". A failing required check that engineers
+    # learn to ignore is worse than no check.
+    #
+    # When the project is ready to freeze visuals:
+    #   1. An operator with browser-download access runs
+    #      ``npx playwright test --update-snapshots`` once,
+    #   2. Commits the resulting PNGs under
+    #      ``apps/mission-control/visual/__screenshots__/``,
+    #   3. Removes ``continue-on-error`` here so drift becomes a
+    #      blocking signal again.
+    #
+    # See ``docs/VISUALIZATION_ROADMAP.md`` for the full strategy.
+    continue-on-error: true
     defaults:
       run:
         working-directory: apps/mission-control
@@ -264,10 +282,10 @@ jobs:
       NEXT_TELEMETRY_DISABLED: "1"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Set up Node.js 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
           cache: "npm"
@@ -297,7 +315,7 @@ jobs:
 
       - name: Upload Playwright report + screenshots
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: mission-control-visual-regression
           path: |
@@ -316,10 +334,10 @@ jobs:
       NEXT_TELEMETRY_DISABLED: "1"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Set up Node.js 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
           cache: "npm"
@@ -339,7 +357,7 @@ jobs:
 
       - name: Upload bundle-analyzer report (only when ANALYZE=true)
         if: env.ANALYZE == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: mission-control-bundle-analyze
           path: apps/mission-control/.next/analyze/

@@ -13,7 +13,7 @@ export function resolveTrajectoryFocus(
       focusTarget: "trajectory.empty",
       focusRef: spatial.run_id,
       rationale:
-        "Spatial-replay artefact has zero samples — trajectory cannot be followed.",
+        "Spatial-replay artifact has zero samples — trajectory cannot be followed.",
       order: 0,
     };
   }

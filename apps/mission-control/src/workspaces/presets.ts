@@ -90,7 +90,7 @@ export const EVIDENCE_AUDIT: WorkspacePreset = {
 export const FLEET_READINESS: WorkspacePreset = {
   id: "fleet-readiness",
   title: "Fleet Readiness",
-  subtitle: "Site-wide readiness derived from rehearsal artefacts.",
+  subtitle: "Site-wide readiness derived from rehearsal artifacts.",
   audience: "Fleet operator",
   cameraMode: "top-down",
   timelineMode: "hidden",

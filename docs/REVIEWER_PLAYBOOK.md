@@ -18,11 +18,11 @@ bag-backed spatial replay layer:
 * `docs/SPATIAL_REPLAY_ARTIFACT_FORMAT.md` — the on-disk schema
   of `spatial-replay/runs/<id>/spatial-replay.json`.
 * `docs/BAG_TO_TRAJECTORY_PIPELINE.md` — how a self-hosted runner
-  becomes a `bag_backed` artefact.
+  becomes a `bag_backed` artifact.
 * `backend/app/spatial_replay/` — the package; the manifest loader
   and validator are the single source of truth for honesty rules.
 * `spatial-replay/runs/canonical-fixture/spatial-replay.json` —
-  the committed canonical fixture artefact (labelled `fixture`,
+  the committed canonical fixture artifact (labelled `fixture`,
   never `bag_backed`).
 
 **Phase 19 addition.** For reviewers focused on the design system,
@@ -41,7 +41,7 @@ local LLM intelligence layer, and bag-backed readiness:
 * `docs/REVIEWER_SCENE_SNAPSHOT_GUIDE.md` — snapshot metadata
   contract.
 
-**Phase 18 addition.** For reviewers focused on the artefact
+**Phase 18 addition.** For reviewers focused on the artifact
 governance layer + immersive UX:
 
 * `docs/ARTIFACT_GOVERNANCE_MODEL.md` — the registry's lifecycle
@@ -60,7 +60,7 @@ governance layer + immersive UX:
   panels, motion.
 * `spatial-replay/registry/canonical-artifacts.json` — the
   canonical registry; the only authoritative index of replay
-  artefacts.
+  artifacts.
 
 ## How to use this playbook
 
@@ -150,7 +150,7 @@ What to read:
 - [`WHY_THIS_PROJECT_EXISTS.md`](WHY_THIS_PROJECT_EXISTS.md) — the
   motivating gap and the audiences it serves.
 - [`PORTFOLIO_CASE_STUDY.md`](PORTFOLIO_CASE_STUDY.md) — the
-  narrative arc by phase, what the artefacts say about the
+  narrative arc by phase, what the artifacts say about the
   engineer.
 
 What to look for:
@@ -160,7 +160,7 @@ What to look for:
 - The status table separates `passed`, `failed`, `partial`,
   `skipped`, `not_executed`.
 - The phase status table goes 0 → 12 with each phase tied to
-  concrete artefacts.
+  concrete artifacts.
 
 ### Senior software engineer
 
@@ -246,7 +246,7 @@ What to read:
 What to look for:
 
 - Every REQ-* is mapped to architecture refs, modules, scenarios,
-  tests, and (where applicable) evidence artefacts.
+  tests, and (where applicable) evidence artifacts.
 - Reports use only the documented status vocabulary.
 - Trend categories include `insufficient_history`; programme review
   never forecasts.
@@ -399,7 +399,7 @@ If you are reviewing the Phase 16 work specifically:
 
 The pipeline is simulation-only and deterministic. The runtime
 safety supervisor and motion arbitration remain authoritative; no
-artefact in this directory authorises live robot motion.
+artifact in this directory authorises live robot motion.
 
 ---
 
@@ -485,7 +485,7 @@ overlay. The walkthrough is a deterministic ten-step explainer.
   for a single mission.
 - `/workspaces/safety-review` — supervisor authority + validation
   outcomes + topic availability.
-- `/workspaces/evidence-audit` — artefact registry integrity
+- `/workspaces/evidence-audit` — artifact registry integrity
   rollup.
 
 The walkthrough script is defined in

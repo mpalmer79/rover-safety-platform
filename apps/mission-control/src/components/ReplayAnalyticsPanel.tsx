@@ -9,7 +9,7 @@ export function ReplayAnalyticsPanel({ analytics }: ReplayAnalyticsPanelProps) {
   if (!analytics) {
     return (
       <Panel eyebrow="Replay analytics" title="Not evaluated">
-        <p className="body-mono">No analytics artefact for this rehearsal.</p>
+        <p className="body-mono">No analytics artifact for this rehearsal.</p>
       </Panel>
     );
   }

@@ -23,7 +23,7 @@ A `StepBinding` carries:
 | `status`         | `ok` / `rejected` / `partial` / `unavailable` / `not_evaluated` |
 | `headline`       | Single-line summary                                  |
 | `artifactRef`    | Repo path the step references (verbatim)             |
-| `artifactStatus` | Verbatim status string from the artefact             |
+| `artifactStatus` | Verbatim status string from the artifact             |
 | `derivation`     | `simulated` / `fixture` / `topology_only` / `bounded_inputs` / `unavailable` / `bag_backed` |
 | `limitations`    | Explicit limitation notes                            |
 | `nextProof`      | What the reviewer should do next                     |
@@ -31,7 +31,7 @@ A `StepBinding` carries:
 ## Selectors
 
 `walkthroughSelectors.ts::selectFocusedAudit(input)` chooses the
-focused audit from the loaded artefacts:
+focused audit from the loaded artifacts:
 
 * matches by `missionId` when supplied;
 * falls back to the first audit on disk;
@@ -50,7 +50,7 @@ focused audit from the loaded artefacts:
 
 ## Step → binding map
 
-| Step                       | Source artefact                                       |
+| Step                       | Source artifact                                       |
 | -------------------------- | ----------------------------------------------------- |
 | operator-request           | `rehearsal_audit.request`                             |
 | proposal-generation        | `mission_proposals/<id>/proposal.json`                |

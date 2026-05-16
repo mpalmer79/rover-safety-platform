@@ -4,7 +4,7 @@ The platform is **not safety-certified.** Phase 18 layers an
 immersive 3D mission scene on top of the deterministic Phase
 17B/17C mission map. The immersive layer is opt-in (WebGL-gated),
 deterministic (no animation loops), and reads exclusively from
-committed replay artefacts.
+committed replay artifacts.
 
 **Phase 19 update:** the immersive scene now lives inside the
 Phase 19 design system (`PageSurface`, `GradientPanel`, the
@@ -58,7 +58,7 @@ change — there is no tween.
 ## 4. Honesty rules
 
 - The scene reads exclusively from the route returned by
-  `selectMissionRoute(plan, artifact)` and the artefact's own
+  `selectMissionRoute(plan, artifact)` and the artifact's own
   `event_alignments` for marker positions.
 - A bottom-left badge always names the verbatim derivation source
   (`describeDerivationSource`).
@@ -100,7 +100,7 @@ immersive scene. The `reviewer-walkthrough` workspace renders the
 can step through the deterministic pipeline while the canonical
 mission plays back. Workspace presets remain deterministic JSON;
 the scene + scrubber + camera modes are still controlled by the
-artefact bundles, not by user state.
+artifact bundles, not by user state.
 
 ## 8. Phase 20B — deterministic scene cues
 

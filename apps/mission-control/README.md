@@ -105,7 +105,7 @@ npm run test:no-coverage   # runs vitest WITHOUT the gate (developer iteration)
 ```
 
 `coverage/lcov.info` + `coverage/index.html` are uploaded as a CI
-workflow artefact on every run. Reviewers download from the run's
+workflow artifact on every run. Reviewers download from the run's
 "Artifacts" section.
 
 ### Honesty rules
@@ -122,7 +122,7 @@ workflow artefact on every run. Reviewers download from the run's
 Mission Control screenshots are committed under
 `visual/__screenshots__/` and gated by a Playwright job in CI
 (`mission-control-ci.yml::visual-regression`). The baselines are
-**evidence artefacts**, not generated files; CI fails when a
+**evidence artifacts**, not generated files; CI fails when a
 rendered page drifts more than 0.1 % from the committed PNG.
 
 Coverage: every primary route (light + dark theme) plus the
@@ -194,7 +194,18 @@ ANALYZE=true npm run build      # writes .next/analyze/<route>.html
 ```
 
 The `bundle-budget` CI job uploads `.next/analyze/` as a workflow
-artefact only when invoked with `ANALYZE=true`.
+artifact only when invoked with `ANALYZE=true`.
+
+## Trust boundary
+
+`MermaidView` (`src/components/MermaidView.tsx`) renders Mermaid output
+through `dangerouslySetInnerHTML`. Mermaid escapes node labels, but
+that escaping is not a sandbox — SVG can carry `<foreignObject>`,
+inline event handlers, and similar surface. The component is only
+safe when its `source` prop comes from checked-in repository files
+(audit reports, traceability graphs, etc.). Never wire it to an
+external feed, a query parameter, or a database column without
+upstream sanitisation and a server-side allow-list.
 
 ## Where to read next
 

@@ -6,7 +6,7 @@ the hard boundary the immersive scene must respect.
 ## 1. The boundary
 
 The immersive scene is a **client-side, deterministic, evidence-
-driven** view of committed replay artefacts. It is NOT:
+driven** view of committed replay artifacts. It is NOT:
 
 - a digital twin;
 - a simulator;
@@ -51,7 +51,7 @@ explicit polling loops.
 
 The scene must not:
 
-- mutate replay artefacts at runtime;
+- mutate replay artifacts at runtime;
 - fabricate pose samples for a missing run;
 - render a `bag-backed` badge for a fixture or bounded-input
   derivation;
@@ -63,7 +63,7 @@ The scene must not:
 
 The scene may:
 
-- read the spatial-replay artefact via the registry-aware loader;
+- read the spatial-replay artifact via the registry-aware loader;
 - read rehearsal events directly from the audit JSON;
 - compute deterministic geometry from those inputs;
 - expose camera modes via React state;

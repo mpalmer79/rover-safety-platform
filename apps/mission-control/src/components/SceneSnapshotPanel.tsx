@@ -22,7 +22,7 @@ const STATUS_LABEL: Record<SceneSnapshotStatus, string> = {
   bag_backed: "Eligible · bag-backed",
   fixture: "Fixture-only · not bag-backed",
   not_executed: "Not executed · missing inputs",
-  unavailable: "Unavailable · no artefact",
+  unavailable: "Unavailable · no artifact",
 };
 
 /**
@@ -31,7 +31,7 @@ const STATUS_LABEL: Record<SceneSnapshotStatus, string> = {
  * Surfaces whether a bag-backed reviewer snapshot COULD be
  * produced for this run, and lists the missing inputs if not. The
  * panel never claims a snapshot exists; the only way the
- * "reviewer_export_ready" flag becomes true is if the artefact
+ * "reviewer_export_ready" flag becomes true is if the artifact
  * registry, spatial-replay, and bag-status all align.
  */
 export function SceneSnapshotPanel({
@@ -105,7 +105,7 @@ export function SceneSnapshotPanel({
 
         {state.artifact_hash_chain.length > 0 ? (
           <div>
-            <p className="label mb-1">Artefact hash chain</p>
+            <p className="label mb-1">Artifact hash chain</p>
             <ul
               data-testid="scene-snapshot-hash-chain"
               className="space-y-0.5 font-mono text-[11px] text-muted"

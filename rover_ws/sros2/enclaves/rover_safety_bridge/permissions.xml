@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SROS2 permissions for the rover_safety_bridge identity (#14 + #18).
+
+  The safety bridge is the only identity permitted to publish on
+  /safety/events and the authorized motion command. It subscribes to
+  the operator pulses and sensor topics; it publishes the supervisor's
+  outputs.
+-->
+<permissions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:noNamespaceSchemaLocation="http://www.omg.org/spec/DDS-SECURITY/20170901/omg_shared_ca_permissions.xsd">
+  <grant name="/rover_safety_bridge">
+    <subject_name>CN=/rover_safety_bridge</subject_name>
+    <validity>
+      <not_before>2026-01-01T00:00:00</not_before>
+      <not_after>2099-01-01T00:00:00</not_after>
+    </validity>
+    <allow_rule>
+      <domains><id>0</id></domains>
+      <publish>
+        <topics>
+          <topic>rt/safety/state</topic>
+          <topic>rt/safety/events</topic>
+          <topic>rt/safety/motion_authorization</topic>
+          <topic>rt/cmd_vel_authorized</topic>
+          <topic>rt/system/health</topic>
+        </topics>
+      </publish>
+      <subscribe>
+        <topics>
+          <topic>rt/cmd_vel_requested</topic>
+          <topic>rt/scan</topic>
+          <topic>rt/imu</topic>
+          <topic>rt/odom</topic>
+          <topic>rt/rover/sensors/contact/asserted</topic>
+          <topic>rt/operator/activate</topic>
+          <topic>rt/operator/estop</topic>
+          <topic>rt/operator/recovery</topic>
+          <topic>rt/operator/reset</topic>
+          <topic>rt/operator/reset_armed</topic>
+        </topics>
+      </subscribe>
+    </allow_rule>
+    <default>DENY</default>
+  </grant>
+</permissions>

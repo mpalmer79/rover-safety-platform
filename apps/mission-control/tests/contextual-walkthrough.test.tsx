@@ -74,7 +74,7 @@ describe("buildStepBindings", () => {
     expect(analytics?.derivation).toBe(FIX_SPATIAL_ARTIFACT.derivation_source);
   });
 
-  it("the limitations step never claims bag_backed for a fixture artefact", () => {
+  it("the limitations step never claims bag_backed for a fixture artifact", () => {
     const bindings = buildStepBindings({
       audit: FIX_AUDIT,
       spatial: FIX_SPATIAL_ARTIFACT,

@@ -10,7 +10,7 @@ import bundleAnalyzer from "@next/bundle-analyzer";
  *   ANALYZE=true npm run build
  *
  * The analyzer writes an HTML report under .next/analyze/ which is
- * uploaded as a workflow artefact when CI runs the bundle-budget
+ * uploaded as a workflow artifact when CI runs the bundle-budget
  * job with ANALYZE=true.
  */
 const withBundleAnalyzer = bundleAnalyzer({
@@ -23,7 +23,7 @@ const nextConfig = {
   // Disable telemetry; the operator UI never phones home.
   experimental: {},
   // Force a small, static export-friendly footprint. The app reads
-  // JSON artefacts from the repository's evidence directories via
+  // JSON artifacts from the repository's evidence directories via
   // server components only — no API routes, no external fetches.
   poweredByHeader: false,
 };

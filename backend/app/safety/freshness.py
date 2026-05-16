@@ -4,6 +4,15 @@ The supervisor must refuse to authorize motion if any required input is
 stale. Two thresholds are tracked per stream: a *warn* threshold that
 demotes the system to ``ACTIVE_DEGRADED`` and a *safe-stop* threshold
 that escalates to ``SAFE_STOP``.
+
+Trust boundary (#15): freshness is measured against **receive-time**
+at the safety-bridge subscriber, never against the sender's
+``header.stamp``. The sender's stamp is untrusted — a publisher that
+sets a future stamp must not be able to silence the watchdog. The ROS
+bridge converts arriving messages to :class:`SensorReading` instances
+whose ``timestamp_ms`` is the subscriber-side receive time; the
+sender's stamp is retained on the ``Incoming*`` dataclasses for
+diagnostics only.
 """
 
 from __future__ import annotations

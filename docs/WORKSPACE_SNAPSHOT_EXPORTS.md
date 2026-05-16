@@ -27,7 +27,7 @@ the v1 shape:
 | `selectedPanelIds`  | Sorted set of focused panel ids                   |
 | `walkthroughStep`   | 1..10 or null                                     |
 | `cameraMode`        | follow / orbit / top-down / fixed                 |
-| `evidenceFocus`     | `{ kind, ref }` reference into the artefact set   |
+| `evidenceFocus`     | `{ kind, ref }` reference into the artifact set   |
 | `theme`             | light / dark                                      |
 | `density`           | comfortable / standard / dense                    |
 | `capturedAtUtc`     | Caller-supplied; tests pass `null`                |

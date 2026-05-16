@@ -27,7 +27,7 @@ export function EvidenceLineageGraph({
     return (
       <Panel eyebrow="Evidence lineage" title="No evidence">
         <p className="body-mono text-base-500">
-          No spatial-replay artefact for this run; nothing to graph.
+          No spatial-replay artifact for this run; nothing to graph.
         </p>
       </Panel>
     );
@@ -132,7 +132,7 @@ function buildLineageNodes(
   }
   nodes.push({
     id: "spatial-replay",
-    eyebrow: "spatial-replay artefact",
+    eyebrow: "spatial-replay artifact",
     title: `spatial-replay/runs/${artifact.run_id}/spatial-replay.json`,
     detail: `derivation_source = ${artifact.derivation_source}; bag_status = ${artifact.bag_status}.`,
     tone: artifact.derivation_source === "bag_backed" ? "ok" : "warn",
@@ -140,7 +140,7 @@ function buildLineageNodes(
   if (record) {
     nodes.push({
       id: "registry",
-      eyebrow: "canonical artefact registry",
+      eyebrow: "canonical artifact registry",
       title: "spatial-replay/registry/canonical-artifacts.json",
       detail: `lifecycle = ${record.lifecycle}; integrity = ${record.integrity}; ${record.files.length} files indexed.`,
       tone:

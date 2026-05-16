@@ -40,8 +40,8 @@ describe("loadArtifactRegistry", () => {
     const registry = await loadArtifactRegistry();
     for (const r of registry!.records) {
       if (r.derivation_source === "bag_backed") {
-        // The artefact itself must declare samples > 0; the registry
-        // mirrors that. We re-check via the artefact JSON below.
+        // The artifact itself must declare samples > 0; the registry
+        // mirrors that. We re-check via the artifact JSON below.
         const replayPath = path.join(
           REPO_ROOT,
           r.files.find((f) => f.relative_path.endsWith("spatial-replay.json"))!
@@ -68,7 +68,7 @@ describe("loadArtifactRegistryRecord", () => {
 });
 
 describe("loadSpatialReplay goes through the registry first", () => {
-  it("returns the canonical fixture artefact for the registered run", async () => {
+  it("returns the canonical fixture artifact for the registered run", async () => {
     const artifact = await loadSpatialReplay("canonical-fixture");
     expect(artifact).not.toBeNull();
     expect(artifact!.derivation_source).toBe("fixture");

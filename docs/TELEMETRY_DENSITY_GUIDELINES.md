@@ -1,12 +1,12 @@
 # Telemetry-Density Panel Guidelines
 
-> All telemetry derives from committed artefacts. Nothing streams.
+> All telemetry derives from committed artifacts. Nothing streams.
 
 ## Panel inventory
 
 Twelve panels under `apps/mission-control/src/components/telemetry/`:
 
-| Panel                       | Source artefact                                   |
+| Panel                       | Source artifact                                   |
 | --------------------------- | ------------------------------------------------- |
 | `MissionTelemetryPanel`     | `rehearsal_audit.runtime`                         |
 | `SupervisorDecisionLog`     | `rehearsal_audit.decision`                        |
@@ -15,9 +15,9 @@ Twelve panels under `apps/mission-control/src/components/telemetry/`:
 | `VelocityCommandPanel`      | `mission_plan.waypoints`                          |
 | `ReplayStatisticsPanel`     | `replay_bundle.json` + `rehearsal_analytics.json` |
 | `MissionHealthPanel`        | rolled up `rehearsal_audit.*`                     |
-| `PoseTracePanel`            | spatial-replay artefact                           |
-| `TopicAvailabilityPanel`    | spatial-replay artefact                           |
-| `EvidenceIntegrityPanel`    | artefact registry                                 |
+| `PoseTracePanel`            | spatial-replay artifact                           |
+| `TopicAvailabilityPanel`    | spatial-replay artifact                           |
+| `EvidenceIntegrityPanel`    | artifact registry                                 |
 | `ValidationOutcomePanel`    | `rehearsal_audit.validation_diagnostics`          |
 | `RehearsalOutcomePanel`     | rolled up `rehearsal_audit.final_status`          |
 
@@ -48,7 +48,7 @@ parent workspace preset.
 * Always render the `derivation` field. If the field is absent on
   disk, the panel renders an em-dash, NOT a synthesised value.
 * Never hard-code `bag_backed: true`. Always read the input.
-* Empty / null states must explicitly say "no artefact" or "no
+* Empty / null states must explicitly say "no artifact" or "no
   events" rather than rendering zeros that look like real data.
 * `/cmd_vel` is always rendered as a forbidden topic. The platform
   never publishes to it directly.

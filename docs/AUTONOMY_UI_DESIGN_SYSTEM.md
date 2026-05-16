@@ -83,8 +83,8 @@ scene; never use it for general layout.
 - Captions never re-code data. Status pills, evidence chips, and
   the new `SpatialReplayBadge` render the verbatim string from the
   adapter.
-- An empty / missing artefact is rendered as an explicit placeholder
-  ("No artefact registered…", "Spatial data unavailable.") — never
+- An empty / missing artifact is rendered as an explicit placeholder
+  ("No artifact registered…", "Spatial data unavailable.") — never
   as a blank panel.
 - A "warning" colour signals a real warning the operator must
   understand, not aesthetic flourish.

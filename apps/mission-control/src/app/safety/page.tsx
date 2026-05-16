@@ -9,7 +9,7 @@ export const dynamic = "force-static";
 const AUTHORITY_DIAGRAM = `flowchart TD
     A([Operator request])
     B([Sanitizer])
-    C([Phase 14A compiler])
+    C([Deterministic mission compiler])
     D([Mission validator])
     E([Safety supervisor])
     F([Motion arbitration])
@@ -49,9 +49,9 @@ const AUTHORITY_RULES = [
       "REQ-SKILL-LLM-001: cloud endpoints are forbidden; local providers require an explicit operator opt-in flag AND an enabled provider config.",
   },
   {
-    label: "Bag-backed evidence requires real bag artefacts",
+    label: "Bag-backed evidence requires real bag artifacts",
     detail:
-      "REQ-LIVE-001..005 / REQ-REHEARSAL-004: rehearsal replay artefacts always report `bag_backed=False`. The committed live runtime maturity remains `not_established`.",
+      "REQ-LIVE-001..005 / REQ-REHEARSAL-004: rehearsal replay artifacts always report `bag_backed=False`. The committed live runtime maturity remains `not_established`.",
   },
 ];
 
@@ -63,11 +63,22 @@ export default function SafetyPage() {
         <p className="label">Safety authority</p>
         <h1 className="display-1">Who can authorise motion</h1>
         <p className="text-base-700">
-          The platform's authority chain is intentionally narrow. Every
-          stage records the reason it accepted or rejected the request,
-          and every audit bundle preserves that decision verbatim.
+          No mission, generated skill, or operator request can directly
+          authorize motion. Every path flows through deterministic
+          validation and supervisor approval. Every stage records the
+          reason it accepted or rejected the request, and every audit
+          bundle preserves that decision verbatim.
         </p>
       </header>
+
+      <Panel eyebrow="What this proves" title="Reviewer summary">
+        <ul className="space-y-1.5 text-sm text-base-700">
+          <li>• Unsafe phrases short-circuit the pipeline before validation.</li>
+          <li>• Validator-rejected plans never reach the supervisor.</li>
+          <li>• Only the supervisor can produce <code>/cmd_vel_authorized</code>.</li>
+          <li>• Bag-backed evidence is gated on real bag artifacts; the demo build reports it as <code>not_established</code> verbatim.</li>
+        </ul>
+      </Panel>
 
       <Panel
         eyebrow="Authority chain"

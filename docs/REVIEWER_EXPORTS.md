@@ -32,11 +32,11 @@ schemas under `reviewer-export/schemas/`:
 | `gate_history` | `programme-review/gate-history.json` | One row per gate status (passed / warning / failed / not_executed). |
 | `replay_quality` | `incidents/analytics/replay-quality-index.json` | `static_only` / `missing_bag` flags preserved. |
 | `incident_index` | `incidents/index.json` | Per-incident severity / outcome / evidence status. |
-| `requirement_coverage` | `verification/traceability.json` | REQ-* ids + mapped tests / artefacts. |
+| `requirement_coverage` | `verification/traceability.json` | REQ-* ids + mapped tests / artifacts. |
 
 ## 3. Architectural principle
 
-The layer is **read-only**. It transforms existing artefacts into
+The layer is **read-only**. It transforms existing artifacts into
 reviewer-friendly formats. It never:
 
 * invents data;
@@ -52,9 +52,9 @@ reviewer-friendly formats. It never:
   table.
 * `static_only=true` and `missing_bag=true` flags ride along on
   every replay-quality row whose source bag status matches.
-* Missing source artefacts result in zero-row tables; the manifest
+* Missing source artifacts result in zero-row tables; the manifest
   records the absence.
-* Every reviewer-facing artefact carries the verbatim certification
+* Every reviewer-facing artifact carries the verbatim certification
   disclaimer.
 
 ## 5. CLIs
@@ -71,7 +71,7 @@ Both CLIs are deterministic given the same inputs + an explicit
 
 `.github/workflows/reviewer-export.yml` runs on push and PR. It
 generates the bundle, validates it, and uploads the directory as a
-workflow artefact. It does not require ROS, Gazebo, Foxglove, or
+workflow artifact. It does not require ROS, Gazebo, Foxglove, or
 live runtime evidence.
 
 ## 7. Related documents

@@ -17,16 +17,22 @@ export default async function EvidencePage() {
         <p className="label">Evidence & audit explorer</p>
         <h1 className="display-1">Traceability matrix</h1>
         <p className="text-base-700">
-          The mission-control UI reads the deterministic traceability
-          artefact emitted by{" "}
-          <code className="font-mono text-xs">
-            tools/generate_traceability.py --with-verification
-          </code>{" "}
-          and renders it verbatim. Every requirement here points at
-          architecture references, implementation files, scenarios,
-          tests, and evidence on disk.
+          ProjectBoundary&apos;s public claims are traceable to
+          requirements, tests, and committed artifacts. The matrix
+          below is rendered verbatim from the deterministic
+          traceability artifact — every row points at architecture
+          references, implementation files, scenarios, tests, and
+          evidence on disk.
         </p>
       </header>
+
+      <Panel eyebrow="What this proves" title="Reviewer summary">
+        <ul className="space-y-1.5 text-sm text-base-700">
+          <li>• Each requirement links to the architecture, code, and tests that satisfy it.</li>
+          <li>• Status comes from the traceability run, not from this UI.</li>
+          <li>• If a row would lie, the build fails — the artifact is regenerated and committed deterministically.</li>
+        </ul>
+      </Panel>
 
       <Panel
         eyebrow="Status"
@@ -46,7 +52,7 @@ export default async function EvidencePage() {
             {new Set(traceability.rows.map((r) => r.kind)).size} kinds.
           </p>
         ) : (
-          <p className="body-mono">No traceability artefact on disk.</p>
+          <p className="body-mono">No traceability artifact on disk.</p>
         )}
       </Panel>
 
@@ -103,7 +109,7 @@ export default async function EvidencePage() {
 
       <Panel eyebrow="Honesty rules" title="What this page enforces">
         <ul className="space-y-1.5 text-sm text-base-700">
-          <li>• Every value comes from a committed JSON artefact.</li>
+          <li>• Every value comes from a committed JSON artifact.</li>
           <li>• No requirement is hidden — failed and not-executed
             requirements remain visible.</li>
           <li>• Rejected missions are not silently re-labelled.</li>

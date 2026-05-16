@@ -6,7 +6,7 @@
 
 Project Boundary is a simulation-first robotics platform that demonstrates how to design an autonomous rover whose safety behaviour is *architecturally enforceable, deterministic, and replayable* — and how to generate the engineering evidence to prove it.
 
-> This project is **not safety-certified**. It demonstrates safety-oriented architecture, deterministic validation, and evidence generation patterns drawn from aerospace and defence-adjacent unmanned systems work. It is built as a portfolio and engineering-learning artefact.
+> This project is **not safety-certified**. It demonstrates safety-oriented architecture, deterministic validation, and evidence generation patterns drawn from aerospace and defence-adjacent unmanned systems work. It is built as a portfolio and engineering-learning artifact.
 
 ---
 
@@ -87,7 +87,7 @@ For the rendered version see [`docs/diagrams/safety-authority.md`](docs/diagrams
 | `rover_ws/` | Parallel ROS 2 Jazzy / Gazebo Harmonic implementation honouring the same contracts |
 | `tools/`, `rover_ws/tools/` | Audits, validators, evidence generators, scenario runners, programme-review and reviewer-export CLIs |
 | `docs/` | Architecture, contracts, strategies, traceability, reports, the reviewer playbook, and `docs/diagrams/` |
-| `evidence/`, `incidents/`, `programme-review/`, `reliability-impact/`, `reviewer-export/` | Generated evidence artefacts |
+| `evidence/`, `incidents/`, `programme-review/`, `reliability-impact/`, `reviewer-export/` | Generated evidence artifacts |
 
 Two parallel implementations — a **dependency-free Python core** and a **ROS 2 / Gazebo workspace** — share the same event, motion-authority, fault-injection, and replay contracts. The Python side runs anywhere; the ROS 2 side passes static validation everywhere and is designed for end-to-end execution on a Jazzy host.
 
@@ -97,9 +97,9 @@ Two parallel implementations — a **dependency-free Python core** and a **ROS 2
 
 The repository ships with a working verification + governance pipeline, not just documentation about one.
 
-- **Stable requirement IDs** across safety, fault, replay, mission, world, diagnostics, operator, runtime, incident, qualification, replay-review, analytics, impact, programme, and export categories. Each has architecture references, implementation pointers, scenarios, tests, and (where applicable) evidence artefacts.
+- **Stable requirement IDs** across safety, fault, replay, mission, world, diagnostics, operator, runtime, incident, qualification, replay-review, analytics, impact, programme, and export categories. Each has architecture references, implementation pointers, scenarios, tests, and (where applicable) evidence artifacts.
 - **14 verified scenarios** including stale-lidar restricted mode, odometry divergence, command timeout, bridge disconnect, wheel slip, e-stop latched manual reset, keepout-zone violation, safe-stop during active mission, and mission abort after fault escalation.
-- **Per-scenario evidence artefacts** under `evidence/scenarios/` — `evidence.json`, `events-summary.md`, `replay-integrity.json`, `command-audit.json`, `safety-transition-audit.json`.
+- **Per-scenario evidence artifacts** under `evidence/scenarios/` — `evidence.json`, `events-summary.md`, `replay-integrity.json`, `command-audit.json`, `safety-transition-audit.json`.
 - **Longitudinal governance** under `programme-review/` — trends, drift, freshness, subsystem risk, coverage evolution, gate history.
 - **Reviewer export** under `reviewer-export/` — 8 CSV tables, 8 JSONL mirrors, 8 JSON Schemas (draft 2020-12) with `causality_claimed` pinned `const: false`, a `manifest.json`, a notebook scaffold, and a Markdown summary.
 - **5 ADRs** under `docs/adr/` covering ROS 2 / Gazebo selection, simulation-first strategy, the safety supervisor authority model, and the companion-computer / MCU split.
@@ -117,10 +117,16 @@ These are explicit constraints in the repository, not aspirations:
 2. **Determinism over novelty.** Critical paths produce explainable, bounded, replayable outputs. Probabilistic behaviour stays out of safety-critical code.
 3. **Faults alter inputs, not state.** Fault injection mutates sensor readings and watchdog pets — the supervisor reacts through normal mechanisms. Faults never reach into the safety state machine.
 4. **Replay reconstructs causality.** Every scenario emits ordered, schema-validated events sufficient to reconstruct safety and mission transitions.
-5. **Traceability is mechanical, not aspirational.** Requirements link to architecture sections, modules, scenarios, tests, and evidence artefacts via a generated matrix.
+5. **Traceability is mechanical, not aspirational.** Requirements link to architecture sections, modules, scenarios, tests, and evidence artifacts via a generated matrix.
 6. **No fake green.** Reports distinguish passed, failed, partial, skipped, and not_executed. If something can't run in the current environment, it says so.
 7. **No causal claims** in any aggregation layer. Programme review, replay analytics, reliability impact, and reviewer export use correlation language; the reviewer-export schema pins `causality_claimed: false`.
 8. **No safety-certification claims.** Anywhere. The disclaimer is in the docs, the reports, and this README.
+
+---
+
+## Trust boundary
+
+The trust boundary between untrusted inputs and the deterministic safety core is enforced in code, not in prose. Four invariants are now machine-checked: the safety state machine forbids `RECOVERY → ACTIVE_*` directly and requires a two-step armed-then-reset to leave `E_STOP_LATCHED`, so no single operator pulse and no single misclassified revalidation can authorise motion again (#3 / #4). Sensor freshness is measured against subscriber receive-time at the safety bridge, never against a sender's `header.stamp`, so a publisher with a future stamp cannot defer the watchdog (#15). Every ROS subscriber callback validates its message and routes failures through a rate-limited `safety.invalid_input` event rather than crashing the node (#16). Every line in `events.jsonl` is chained by SHA-256 over its canonical bytes and the chain tip plus event count are sealed into `metadata.json` at finalize; the replay validator recomputes the chain end-to-end (#13). One layer is operationally trusted rather than code-enforced: the DDS domain. When `ROS_SECURITY_ENABLE=true` and the SROS2 keystore is loaded, per-identity enclaves restrict publish access on the operator pulses, `/safety/events`, and `/cmd_vel_requested` (#14 / #18); without it, the platform assumes the DDS domain is private, and each node logs a WARNING saying exactly that.
 
 ---
 
@@ -201,6 +207,6 @@ For the full breakdown see [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 I built Project Boundary to develop and demonstrate the engineering disciplines I think matter most for trustworthy autonomous systems: separated authority, bounded behaviour, deterministic execution, and honest verification. The patterns here are deliberately drawn from industries where "the robot moved" is the easy part and "prove it couldn't have moved unsafely" is the job.
 
-The code, docs, and evidence artefacts are meant to be read together. Each is incomplete without the others.
+The code, docs, and evidence artifacts are meant to be read together. Each is incomplete without the others.
 
 — Michael

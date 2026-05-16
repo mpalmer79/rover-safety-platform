@@ -7,7 +7,7 @@ platform.
 
 ## 1. Read-only evidence handling
 
-The analysis layer never mutates source artefacts. It loads, copies,
+The analysis layer never mutates source artifacts. It loads, copies,
 projects, and renders. If an analysis run wants to add value it must
 do so by emitting a new file under `incidents/<incident_id>/` — never
 by editing the underlying scenario or runtime evidence.
@@ -50,7 +50,7 @@ Every report carries the verbatim certification disclaimer:
 > available simulation and runtime evidence. It does not represent
 > safety certification or regulatory approval.
 
-A reviewer must be able to read any single artefact (the JSON, the
+A reviewer must be able to read any single artifact (the JSON, the
 Markdown, the timeline diagram) and not mistake it for a regulatory
 attestation.
 
@@ -81,7 +81,7 @@ which the reporter places in a single, easy-to-mask line).
 ## 7. Test discipline
 
 Tests run without ROS or Gazebo. Every code path that depends on
-the absence of an artefact has a synthetic test fixture (an empty
+the absence of an artifact has a synthetic test fixture (an empty
 events.jsonl, a malformed JSON file, a missing run dir) so the
 loader's structured warnings are exercised.
 
@@ -91,7 +91,7 @@ The analysis layer **does not**:
 
 - replace any safety logic,
 - bypass the supervisor's authority model,
-- generate or modify replay artefacts,
+- generate or modify replay artifacts,
 - claim certification,
 - perform live ROS / Gazebo work,
 - substitute for the Phase-3 scenario verifier or the Phase-4 runtime

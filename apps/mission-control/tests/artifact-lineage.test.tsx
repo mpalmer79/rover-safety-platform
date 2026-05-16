@@ -56,7 +56,7 @@ function makeRecord(
         relative_path: "spatial-replay/runs/r/spatial-replay.json",
         expected_hash: "0".repeat(64),
         size_bytes: 128,
-        description: "frontend-consumable artefact",
+        description: "frontend-consumable artifact",
       },
     ],
     ...partial,
@@ -119,7 +119,7 @@ describe("DeterministicHashChain", () => {
 });
 
 describe("EvidenceLineageGraph", () => {
-  it("renders the lineage chain for a fixture artefact", () => {
+  it("renders the lineage chain for a fixture artifact", () => {
     render(
       <EvidenceLineageGraph
         artifact={makeArtifact()}
@@ -132,7 +132,7 @@ describe("EvidenceLineageGraph", () => {
     expect(screen.getByText(/fixture-derived spatial replay/i)).toBeInTheDocument();
   });
 
-  it("renders the lineage chain for a bag-backed artefact", () => {
+  it("renders the lineage chain for a bag-backed artifact", () => {
     render(
       <EvidenceLineageGraph
         artifact={makeArtifact({
@@ -146,9 +146,9 @@ describe("EvidenceLineageGraph", () => {
     expect(screen.getByText(/bag-manifest/i)).toBeInTheDocument();
   });
 
-  it("renders an honest placeholder when no artefact", () => {
+  it("renders an honest placeholder when no artifact", () => {
     render(<EvidenceLineageGraph artifact={null} record={null} />);
-    expect(screen.getByText(/No spatial-replay artefact/i)).toBeInTheDocument();
+    expect(screen.getByText(/No spatial-replay artifact/i)).toBeInTheDocument();
   });
 });
 
@@ -205,7 +205,7 @@ describe("ReplayLifecyclePanel", () => {
 
   it("renders a placeholder for unregistered runs", () => {
     render(<ReplayLifecyclePanel record={null} />);
-    expect(screen.getByText(/No artefact registered/i)).toBeInTheDocument();
+    expect(screen.getByText(/No artifact registered/i)).toBeInTheDocument();
   });
 
   it("renders the deprecated rung when lifecycle is deprecated", () => {

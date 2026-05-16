@@ -1,14 +1,14 @@
 # Telemetry Recipe System
 
-> Panels derive values from declared artefact recipes.
+> Panels derive values from declared artifact recipes.
 > Recipes never fabricate. Missing inputs become explicit
 > unavailable states.
 
 ## Why
 
 Phase 20 introduced twelve telemetry panels. Phase 20B factors the
-artefact-query logic out of the panels into deterministic recipes.
-This keeps panels composable, keeps the artefact contract explicit,
+artifact-query logic out of the panels into deterministic recipes.
+This keeps panels composable, keeps the artifact contract explicit,
 and makes the unavailable behaviour testable in isolation.
 
 ## Module layout

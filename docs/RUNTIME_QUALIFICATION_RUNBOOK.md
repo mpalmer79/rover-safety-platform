@@ -119,7 +119,7 @@ Scenarios live under `qualification/scenarios/*.yaml`. Each pins:
 
 * required topics + nodes + safety state;
 * required + forbidden events;
-* required replay artefacts;
+* required replay artifacts;
 * qualification rules (e.g. `command_path_invariants`,
   `zero_motion_in_safe_stop`, `replay_integrity`);
 * expected outcome (`passed`, `failed`, `partial`).
@@ -130,7 +130,7 @@ Adding a scenario:
 2. The qualification orchestrator validates the schema during load;
    malformed YAML appears as a `failed` check in the report.
 3. Re-run the orchestrator; the scenario contributes a new
-   `qualification-scenario-<id>.json` artefact and a row in the
+   `qualification-scenario-<id>.json` artifact and a row in the
    summary.
 
 ## 5. Baselines and regression detection
@@ -164,7 +164,7 @@ The orchestrator runs the comparison automatically when
 
 `regression-report.json` is produced on every run. It catches
 missing topics / nodes / frames, stale topics, command-path
-violations, and missing replay artefacts. In static-only mode the
+violations, and missing replay artifacts. In static-only mode the
 orchestrator suppresses live-only requirements so CI does not flag
 them.
 

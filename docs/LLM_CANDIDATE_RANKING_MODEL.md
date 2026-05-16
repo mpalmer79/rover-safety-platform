@@ -65,7 +65,7 @@ matching test in `backend/tests/test_skill_llm_intelligence.py`.
 
 `ranking_to_dict()` returns a JSON-friendly dict that includes the
 full signal breakdown for every candidate. The audit bundle's
-`ranking-result.json` artefact embeds this list.
+`ranking-result.json` artifact embeds this list.
 
 ## 7. Related docs
 

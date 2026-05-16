@@ -12,7 +12,7 @@ function shortHash(hash: string): string {
 }
 
 /**
- * Human-readable list of an artefact's registered files plus their
+ * Human-readable list of an artifact's registered files plus their
  * sha256 prefixes. Surfaces the "deterministic" guarantee in a
  * single panel; the operator can compare these prefixes against
  * the on-disk bytes by running ``tools/hydrate_replay_artifacts.py
@@ -25,7 +25,7 @@ export function DeterministicHashChain({
   if (files.length === 0) {
     return (
       <p className={cn("body-mono text-base-500", className)}>
-        No registered files for this artefact.
+        No registered files for this artifact.
       </p>
     );
   }

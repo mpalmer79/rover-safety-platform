@@ -8,7 +8,7 @@
  *   npx playwright test visual/routes.spec.ts --update-snapshots
  */
 
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 const ROUTES: ReadonlyArray<{ name: string; path: string }> = [
   { name: "dashboard", path: "/" },
@@ -23,9 +23,26 @@ const ROUTES: ReadonlyArray<{ name: string; path: string }> = [
   { name: "catalog", path: "/catalog" },
 ];
 
+/**
+ * Block screenshot capture until MermaidView's async render settles.
+ * Without this, full-page screenshots can catch a mid-swap layout
+ * shift and Playwright reports per-pixel height jitter between
+ * consecutive captures.
+ */
+async function waitForMermaid(page: Page): Promise<void> {
+  await page.waitForFunction(() => {
+    const nodes = document.querySelectorAll('[data-mermaid-state]');
+    if (nodes.length === 0) return true;
+    return Array.from(nodes).every(
+      (n) => n.getAttribute("data-mermaid-state") !== "pending",
+    );
+  });
+}
+
 for (const route of ROUTES) {
   test(`${route.name} renders consistently`, async ({ page }) => {
     await page.goto(route.path, { waitUntil: "networkidle" });
+    await waitForMermaid(page);
     // Wait for theme bootstrap to finish so light/dark snapshot
     // matches the configured colorScheme.
     await page.evaluate(() => new Promise((r) => requestAnimationFrame(r)));

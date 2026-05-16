@@ -29,7 +29,7 @@ export interface SceneCue {
   cameraMode: CameraMode;
   /** Human-readable focus target label. */
   focusTarget: string | null;
-  /** Optional artefact path or registry record id. */
+  /** Optional artifact path or registry record id. */
   focusRef: string | null;
   /** Rationale rendered in the scene caption. */
   rationale: string;

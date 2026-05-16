@@ -108,9 +108,9 @@ describe("telemetry panels", () => {
     expect(screen.getByText("fixture")).toBeInTheDocument();
   });
 
-  it("TopicAvailabilityPanel reports 'no artefact' when null", () => {
+  it("TopicAvailabilityPanel reports 'no artifact' when null", () => {
     render(wrap(<TopicAvailabilityPanel artifact={null} />));
-    expect(screen.getByText(/no artefact/)).toBeInTheDocument();
+    expect(screen.getByText(/no artifact/)).toBeInTheDocument();
   });
 
   it("EvidenceIntegrityPanel passes bagBacked count through verbatim", () => {

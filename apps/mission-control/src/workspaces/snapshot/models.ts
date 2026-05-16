@@ -9,7 +9,7 @@
  *   * snapshots never include wall-clock timestamps unless an
  *     explicit ``capturedAtUtc`` is supplied by the caller;
  *   * snapshots never imply a live runtime; they reference
- *     committed artefact identifiers only;
+ *     committed artifact identifiers only;
  *   * snapshots never persist drag/drop layout state — the
  *     workspace preset id is the authoritative layout reference.
  */
@@ -33,7 +33,7 @@ export type EvidenceFocusKind =
 
 export interface EvidenceFocus {
   kind: EvidenceFocusKind;
-  /** Optional artefact path or registry record id. */
+  /** Optional artifact path or registry record id. */
   ref: string | null;
 }
 
@@ -78,7 +78,7 @@ export interface WorkspaceSnapshotV1 {
 }
 
 export const SNAPSHOT_DISCLAIMER: string =
-  "Simulation-only · not safety-certified · artefacts referenced are committed JSON only";
+  "Simulation-only · not safety-certified · artifacts referenced are committed JSON only";
 
 export const SNAPSHOT_SCHEMA_VERSION: WorkspaceSnapshotV1["schemaVersion"] =
   "workspace-snapshot/1";

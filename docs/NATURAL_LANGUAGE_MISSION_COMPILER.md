@@ -4,7 +4,7 @@ Phase 14A introduces an **offline, deterministic** translation layer
 that turns natural-language mission intent into a structured,
 validated, replay-compatible candidate mission plan. The platform
 is **not safety-certified**; this compiler is engineering
-mission-assurance tooling, not a regulatory artefact.
+mission-assurance tooling, not a regulatory artifact.
 
 ## 1. What it is
 
@@ -58,7 +58,7 @@ compiler never authorises motion and never executes user intent.
 | `compiler.py` | Top-level `compile_intent` orchestrator. |
 | `diagnostics.py` | Diagnostic merge/dedup helpers. |
 | `explainability.py` | Reviewer-facing reasoning chain. |
-| `audit.py` | Mission compile audit artefact. |
+| `audit.py` | Mission compile audit artifact. |
 | `replay_binding.py` | Replay-compatible metadata generator. |
 | `reporting.py` | JSON / Markdown / Mermaid renderers. |
 | `examples.py` | Canonical example intents. |
@@ -71,7 +71,7 @@ compiler never authorises motion and never executes user intent.
 | `rover_ws/tools/compile_mission_intent.py` | Compile a natural-language intent into a candidate plan. |
 | `rover_ws/tools/validate_mission_plan.py` | Re-compile a saved plan and verify the compile hash. |
 | `rover_ws/tools/explain_mission_plan.py` | Render the explainability chain of a saved plan. |
-| `rover_ws/tools/generate_mission_audit.py` | Emit the mission audit artefact for a saved plan. |
+| `rover_ws/tools/generate_mission_audit.py` | Emit the mission audit artifact for a saved plan. |
 
 ## 5. Canonical examples
 
@@ -105,7 +105,7 @@ plan + audit + replay binding + per-example summary):
 - The compiler **never** claims runtime execution. Replay binding
   metadata is marked `runtime_executed=false`.
 - The compiler **never** imports an LLM SDK or calls a remote API.
-- Every artefact carries the verbatim disclaimer.
+- Every artifact carries the verbatim disclaimer.
 
 ## 8. Related documents
 

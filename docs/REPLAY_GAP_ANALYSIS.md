@@ -8,7 +8,7 @@ engineering analytics material.
 ## 1. Principle: cite the evidence
 
 Every gap is grounded in a specific evidence path. Recommendations
-cite the artefacts that triggered them. No AI-generated vague
+cite the artifacts that triggered them. No AI-generated vague
 suggestions.
 
 ## 2. Gap labels and severity
@@ -22,7 +22,7 @@ suggestions.
 | `markers_missing` | moderate | replay-markers.json absent or empty |
 | `poor_marker_alignment` | moderate | <50% of markers are at exact alignment |
 | `incident_contradictions` | high | the Phase-6 incident report lists contradictions |
-| `incomplete_review_artefacts` | low | the bundle is missing canonical review files |
+| `incomplete_review_artifacts` | low | the bundle is missing canonical review files |
 
 ## 3. Recommendations
 
@@ -37,7 +37,7 @@ The mapping is one-to-one and deterministic:
 | `markers_missing` | rerun `reconstruct_incident.py`; extend incident_analysis if needed |
 | `poor_marker_alignment` | align manually; record corrected offsets in operator notes |
 | `incident_contradictions` | reconcile the underlying evidence or annotate the report |
-| `incomplete_review_artefacts` | rerun `build_replay_review_bundle.py` / `reconstruct_incident.py` |
+| `incomplete_review_artifacts` | rerun `build_replay_review_bundle.py` / `reconstruct_incident.py` |
 
 ## 4. CLI usage
 

@@ -4,7 +4,7 @@ The platform is **not safety-certified.** This guide records the
 design rationale behind each component in
 `apps/mission-control/src/components/`. Every component is built to
 preserve the deterministic backend's honesty contract — the UI must
-never be more optimistic than the artefact on disk.
+never be more optimistic than the artifact on disk.
 
 ## Visual language
 
@@ -110,7 +110,7 @@ rendered in red so a reviewer cannot miss a `/cmd_vel` block.
 
 Dashboard widget that aggregates completed / rejected / aborted
 counts across every committed rehearsal plus the requirement count
-from the traceability artefact. Always-explicit: "Bag-backed
+from the traceability artifact. Always-explicit: "Bag-backed
 evidence: 0".
 
 ### `AuditPanel`

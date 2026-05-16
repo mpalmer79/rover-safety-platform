@@ -10,14 +10,16 @@ export function SafetyBoundaryBanner() {
     <div
       role="note"
       aria-label="Safety boundary disclaimer"
-      className="flex items-center gap-3 border-b border-base-200 bg-base-50/80 px-4 py-2 text-sm text-base-700"
+      data-testid="safety-boundary-banner"
+      className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-base-200 bg-base-50/80 px-4 py-2 text-sm text-base-700"
     >
       <ShieldCheck aria-hidden className="h-4 w-4 text-accent" />
-      <span className="label">Safety boundary</span>
+      <span className="label">Simulation-only</span>
       <span className="text-base-700">
-        Simulation-only platform. Not safety-certified. The runtime
-        safety supervisor and motion arbitration remain authoritative
-        for any real robot motion.
+        ProjectBoundary demonstrates deterministic mission validation,
+        safety-supervisor authority, replay evidence, and audit
+        traceability. It does not control real hardware and is not
+        safety-certified.
       </span>
     </div>
   );

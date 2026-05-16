@@ -1,3 +1,4 @@
+# actions pinned to commit SHAs; update via tools/update-action-pins.sh
 name: live-runtime-evidence
 
 # Phase 13 - live ROS 2 / Gazebo runtime evidence pipeline.
@@ -31,7 +32,7 @@ jobs:
       RUN_ID: ${{ github.event.inputs.run_id != '' && github.event.inputs.run_id || format('live-{0}', github.run_id) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Refuse GitHub-hosted runners
         shell: bash
@@ -92,7 +93,7 @@ jobs:
 
       - name: Upload evidence bundle
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: live-runtime-evidence-${{ env.RUN_ID }}
           path: |

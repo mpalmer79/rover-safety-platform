@@ -14,7 +14,7 @@ export const EVIDENCE_INTEGRITY_RECIPE: TelemetryRecipe = {
       return {
         recipeId: "evidence-integrity",
         status: "unavailable",
-        limitations: ["No artefact registry record available."],
+        limitations: ["No artifact registry record available."],
         sources: ["artifact_registry"],
         fields: {},
       };

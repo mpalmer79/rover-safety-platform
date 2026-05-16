@@ -120,6 +120,6 @@ function ModeSelector({
   );
 }
 
-// Re-export the bounded-inputs / artefact-derived helpers in case
+// Re-export the bounded-inputs / artifact-derived helpers in case
 // callers want to pre-resolve the route. Avoids a deep import.
 export { buildMissionRoute, buildMissionRouteFromArtifact };

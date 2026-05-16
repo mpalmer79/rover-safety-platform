@@ -229,7 +229,7 @@ boundaries.
 
 * The **simulation boundary** is materialised by `ros_gz_bridge`. The
   YAML config in `rover_ws/src/rover_sim_gazebo/config/ros_gz_bridge.yaml`
-  is the binding artefact: only `/cmd_vel_authorized` is forwarded
+  is the binding artifact: only `/cmd_vel_authorized` is forwarded
   ROS_TO_GZ on a motion topic. Everything else is GZ_TO_ROS.
 * The **mission boundary** is materialised by topic naming.
   Mission/teleop/Nav2 producers publish to `/cmd_vel_requested`. The

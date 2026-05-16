@@ -1,6 +1,6 @@
 # Live Runtime Maturity Report
 
-_This project is not safety-certified. Live runtime evidence demonstrates engineering qualification discipline; it is not a regulatory artefact._
+_This project is not safety-certified. Live runtime evidence demonstrates engineering qualification discipline; it is not a regulatory artifact._
 
 - **Generated (UTC):** 2026-05-12T00:00:00+00:00
 - **Evidence root:** `evidence/runtime`
@@ -42,5 +42,5 @@ _This project is not safety-certified. Live runtime evidence demonstrates engine
 ## Next actions
 
 - provision a self-hosted Jazzy + Gazebo runner
-- execute live-runtime-evidence.yml on a self-hosted runner to produce bag-backed artefacts
+- execute live-runtime-evidence.yml on a self-hosted runner to produce bag-backed artifacts
 - feed bag-backed evidence into incident reconstruction and replay analytics so programme review picks up live trends

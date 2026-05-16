@@ -30,6 +30,15 @@ class RunMetadata:
     armed_faults: tuple[str, ...] = field(default_factory=tuple)
     status: ReplayStatus = ReplayStatus.OPEN
     extra: dict[str, Any] = field(default_factory=dict)
+    # Tamper-evident event chain (#13). ``events_chain_tip`` is the
+    # SHA-256 (hex, lower-case) of the LAST event's canonical bytes
+    # at finalize time — i.e. the un-chained event serialised with
+    # json.dumps(sort_keys=True, separators=(",",":"),
+    # ensure_ascii=False), with the event's own ``prev_event_hash``
+    # field removed. ``events_count`` is the integer count of lines
+    # in events.jsonl at finalize. Both are None before finalize.
+    events_chain_tip: Optional[str] = None
+    events_count: Optional[int] = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -50,6 +59,8 @@ class RunMetadata:
             "armed_faults": list(self.armed_faults),
             "status": self.status.value,
             "extra": dict(self.extra),
+            "events_chain_tip": self.events_chain_tip,
+            "events_count": self.events_count,
         }
 
 

@@ -37,13 +37,13 @@ It is not:
 - a production rover stack,
 - a SLAM / perception research project,
 - a reinforcement-learning demo,
-- a marketing artefact.
+- a marketing artifact.
 
 It does not claim ISO 26262, DO-178C, IEC 61508, or any other
 certification status. It demonstrates the *patterns* common to those
 regimes — separated authority, bounded behaviour, deterministic
 execution, replayable state, traceable requirements — without
-claiming the formal process artefacts they require.
+claiming the formal process artifacts they require.
 
 ## 3. Why a simulation-first scope
 
@@ -106,7 +106,7 @@ would have to demonstrate:
 - live qualification runs producing `evidence/runtime/<id>/...`
   bundles automatically in CI on a Jazzy runner,
 - live Foxglove replay sessions producing `replay-review-report.json`
-  artefacts from real bags, not canonical fixtures,
+  artifacts from real bags, not canonical fixtures,
 - a published reliability impact report against a real source-change
   series, not the canonical fixture.
 

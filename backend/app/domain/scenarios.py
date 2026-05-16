@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable, Optional
+from typing import Any, ClassVar, Iterable, Optional
 
 from app.domain.enums import FaultType
 from app.domain.faults import FaultProfile
@@ -22,6 +23,10 @@ class ScenarioInitialState:
     operator_activate_at_ms: int = 200
     operator_estop_at_ms: Optional[int] = None
     operator_recovery_at_ms: Optional[int] = None
+    # Two-step armed reset: the supervisor only honours operator_reset
+    # if the prior tick observed operator_reset_armed. Scenarios that
+    # want to exercise a successful reset must declare both pulses.
+    operator_reset_armed_at_ms: Optional[int] = None
     operator_reset_at_ms: Optional[int] = None
 
     def to_dict(self) -> dict[str, Any]:
@@ -32,6 +37,7 @@ class ScenarioInitialState:
             "operator_activate_at_ms": self.operator_activate_at_ms,
             "operator_estop_at_ms": self.operator_estop_at_ms,
             "operator_recovery_at_ms": self.operator_recovery_at_ms,
+            "operator_reset_armed_at_ms": self.operator_reset_armed_at_ms,
             "operator_reset_at_ms": self.operator_reset_at_ms,
         }
 
@@ -116,12 +122,51 @@ class ScenarioDefinition:
     # ``app.world_model``. The simulation engine resolves it via
     # :meth:`MissionPlan.from_dict` when present.
     mission_plan: dict[str, Any] | None = None
+    # Operational extents for waypoint-coordinate validation (#21).
+    # The mission validator rejects pose samples outside this box.
+    # Defaults are generous; production scenarios should declare
+    # explicit bounds.
+    min_pose_x: float = -10_000.0
+    max_pose_x: float = 10_000.0
+    min_pose_y: float = -10_000.0
+    max_pose_y: float = 10_000.0
+
+    # Hard bounds enforced at construction time. The simulation engine
+    # is deterministic but not cheap; an attacker who can post arbitrary
+    # scenario payloads should not be able to spin a 1 GHz / 24-hour
+    # configuration that pegs the worker. These bounds are conservative
+    # — well above any sane test scenario and well below "denial".
+    MAX_DURATION_SECONDS: ClassVar[float] = 3600.0
+    MIN_TIME_STEP_MS: ClassVar[int] = 1
+    MAX_TOTAL_STEPS: ClassVar[int] = 1_000_000
+    MAX_FAULTS: ClassVar[int] = 64
 
     def __post_init__(self) -> None:
-        if self.time_step_ms <= 0:
-            raise ValueError("time_step_ms must be positive")
+        if self.time_step_ms < self.MIN_TIME_STEP_MS:
+            raise ValueError(
+                f"time_step_ms must be >= {self.MIN_TIME_STEP_MS}"
+            )
         if self.duration_seconds <= 0:
             raise ValueError("duration_seconds must be positive")
+        if self.duration_seconds > self.MAX_DURATION_SECONDS:
+            raise ValueError(
+                f"duration_seconds must be <= {self.MAX_DURATION_SECONDS}"
+            )
+        if self.total_steps > self.MAX_TOTAL_STEPS:
+            raise ValueError(
+                f"total_steps must be <= {self.MAX_TOTAL_STEPS}"
+            )
+        if len(self.faults) > self.MAX_FAULTS:
+            raise ValueError(f"faults must contain <= {self.MAX_FAULTS} entries")
+        # #21: operational extents must be finite and ordered.
+        for name in ("min_pose_x", "max_pose_x", "min_pose_y", "max_pose_y"):
+            v = getattr(self, name)
+            if not math.isfinite(v):
+                raise ValueError(f"{name} must be finite, got {v!r}")
+        if self.max_pose_x <= self.min_pose_x:
+            raise ValueError("max_pose_x must be > min_pose_x")
+        if self.max_pose_y <= self.min_pose_y:
+            raise ValueError("max_pose_y must be > min_pose_y")
 
     @property
     def has_mission_plan(self) -> bool:
@@ -150,6 +195,10 @@ class ScenarioDefinition:
         }
         if self.mission_plan is not None:
             out["mission_plan"] = dict(self.mission_plan)
+        out["min_pose_x"] = self.min_pose_x
+        out["max_pose_x"] = self.max_pose_x
+        out["min_pose_y"] = self.min_pose_y
+        out["max_pose_y"] = self.max_pose_y
         return out
 
     @classmethod
@@ -189,6 +238,10 @@ class ScenarioDefinition:
             faults=faults,
             metadata=dict(data.get("metadata", {})),
             mission_plan=dict(mission_plan) if mission_plan else None,
+            min_pose_x=float(data.get("min_pose_x", -10_000.0)),
+            max_pose_x=float(data.get("max_pose_x", 10_000.0)),
+            min_pose_y=float(data.get("min_pose_y", -10_000.0)),
+            max_pose_y=float(data.get("max_pose_y", 10_000.0)),
         )
 
     @classmethod

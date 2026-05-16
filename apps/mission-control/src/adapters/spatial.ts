@@ -1,7 +1,7 @@
 /**
  * Deterministic spatial layout derived from rehearsal plan inputs.
  *
- * The mission rehearsal artefacts produced by Phase 16 record bounded
+ * The mission rehearsal artifacts produced by Phase 16 record bounded
  * motion *requests* (distance, angle, speed) but never x/y coordinates.
  * A coordinate would imply the platform knew where the rover actually
  * went; it never does, because nothing in Phases 0..16 ran on real
@@ -68,8 +68,8 @@ export interface MissionRoute {
   derivation_source: SpatialDerivationSource;
   note: string;
   /**
-   * When the route is derived from a real spatial-replay artefact,
-   * this is the originating artefact. ``null`` for bounded-inputs /
+   * When the route is derived from a real spatial-replay artifact,
+   * this is the originating artifact. ``null`` for bounded-inputs /
    * topology-only / unavailable routes.
    */
   artifact?: SpatialReplayArtifact | null;
@@ -314,11 +314,11 @@ export function fitViewBox(
 }
 
 // ---------------------------------------------------------------------
-// Phase 17C — artefact-backed mission route
+// Phase 17C — artifact-backed mission route
 // ---------------------------------------------------------------------
 
 /**
- * Return ``true`` iff the artefact honestly claims bag-backed status.
+ * Return ``true`` iff the artifact honestly claims bag-backed status.
  *
  * The check mirrors the backend ``is_honestly_bag_backed`` helper.
  * Any drift here causes the frontend to fall back to the
@@ -335,7 +335,7 @@ export function artifactIsBagBacked(
 }
 
 /**
- * Map a spatial-replay artefact's derivation_source string onto the
+ * Map a spatial-replay artifact's derivation_source string onto the
  * verbatim caption the UI must render.
  *
  * The mapping is the single source of truth for the badge text.
@@ -366,10 +366,10 @@ function pseudoStageForSample(index: number, total: number): string {
 
 /**
  * Derive a :class:`MissionRoute` directly from a spatial-replay
- * artefact's pose samples. Used when the artefact's derivation
+ * artifact's pose samples. Used when the artifact's derivation
  * source is ``bag_backed`` or ``fixture``.
  *
- * The waypoint list is the artefact's pose-sample list (one entry
+ * The waypoint list is the artifact's pose-sample list (one entry
  * per sample); the segment list connects consecutive samples. The
  * bounded-distance/angle fields are zero — they only have meaning
  * for the bounded-inputs derivation.
@@ -386,7 +386,7 @@ export function buildMissionRouteFromArtifact(
       has_motion: false,
       derivation_source: "unavailable",
       note:
-        "Spatial replay artefact carried no pose samples; falling back " +
+        "Spatial replay artifact carried no pose samples; falling back " +
         "to unavailable.",
       artifact,
     };
@@ -441,7 +441,7 @@ export function buildMissionRouteFromArtifact(
 }
 
 /**
- * Project an event onto an artefact-backed route via the artefact's
+ * Project an event onto an artifact-backed route via the artifact's
  * own event_alignments. Falls back to the payload-based projection
  * used by the bounded-inputs route when no alignment is present.
  */
@@ -484,8 +484,8 @@ export function projectArtifactEvent(
 }
 
 /**
- * Choose the most honest route: prefer an artefact-backed route when
- * the artefact validates, otherwise fall back to the bounded-inputs
+ * Choose the most honest route: prefer an artifact-backed route when
+ * the artifact validates, otherwise fall back to the bounded-inputs
  * adapter from Phase 17B.
  */
 export function selectMissionRoute(
@@ -493,7 +493,7 @@ export function selectMissionRoute(
   artifact: SpatialReplayArtifact | null,
 ): MissionRoute {
   if (artifact && (artifact.derivation_source === "bag_backed" || artifact.derivation_source === "fixture")) {
-    // Trust the artefact only when it has at least one sample.
+    // Trust the artifact only when it has at least one sample.
     if (artifact.samples && artifact.samples.length > 0) {
       return buildMissionRouteFromArtifact(artifact);
     }
