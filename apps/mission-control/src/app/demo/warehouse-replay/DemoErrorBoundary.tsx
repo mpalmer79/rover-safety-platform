@@ -18,40 +18,53 @@ interface Props {
   evidenceLinks: ReadonlyArray<{ label: string; href: string }>;
 }
 
-interface State {
-  hasError: boolean;
+interface CaughtError {
+  message: string;
+  name: string;
+  stack: string;
 }
 
-/**
- * Client-side error boundary that keeps the demo route from ever
- * surfacing the route-level error.tsx in production.
- *
- * Any render-time throw inside WarehouseReplayDemo (3D scene, WebGL
- * init, font atlas load, anything downstream of @react-three/fiber)
- * is captured here and replaced with a static 2D summary so the page
- * stays usable. The route-level error boundary becomes unreachable
- * for this demo.
- */
-export class DemoErrorBoundary extends Component<Props, State> {
-  state: State = { hasError: false };
+interface State {
+  hasError: boolean;
+  error: CaughtError | null;
+}
 
-  static getDerivedStateFromError(): State {
-    return { hasError: true };
+const isDev =
+  typeof process !== "undefined" && process.env?.NODE_ENV !== "production";
+
+export class DemoErrorBoundary extends Component<Props, State> {
+  state: State = { hasError: false, error: null };
+
+  static getDerivedStateFromError(error: Error): State {
+    return {
+      hasError: true,
+      error: {
+        message: error?.message ?? String(error),
+        name: error?.name ?? "Error",
+        stack: error?.stack ?? "",
+      },
+    };
   }
 
-  componentDidCatch(error: Error) {
+  componentDidCatch(error: Error, info: { componentStack?: string }) {
     if (typeof window !== "undefined") {
       // eslint-disable-next-line no-console
-      console.warn(
-        "[demo/warehouse-replay] client render error caught:",
-        error?.message ?? String(error),
+      console.error(
+        "[demo/warehouse-replay] 3D render error:",
+        error,
+        info?.componentStack ?? "",
       );
     }
   }
 
   render() {
     if (this.state.hasError) {
-      return <StaticDemoSummary {...this.props} />;
+      return (
+        <StaticDemoSummary
+          {...this.props}
+          caughtError={this.state.error}
+        />
+      );
     }
     return (
       <WarehouseReplayDemo
@@ -70,11 +83,18 @@ function StaticDemoSummary({
   events,
   spatialReplay,
   evidenceLinks,
-}: Props) {
+  caughtError,
+}: Props & { caughtError: CaughtError | null }) {
   const sampleCount = spatialReplay?.samples?.length ?? 0;
   const segmentCount = spatialReplay?.segments?.length ?? 0;
+  const errorLabel = caughtError ? "3D scene render error" : "3D scene unavailable";
   return (
-    <div className="space-y-6" data-testid="demo-static-summary">
+    <div
+      className="space-y-6"
+      data-testid="demo-static-summary"
+      data-fallback-reason={caughtError ? "render-error" : "unavailable"}
+      data-fallback-error={caughtError?.message ?? ""}
+    >
       <GradientPanel tone="accent" elevated className="px-5 py-5 sm:px-6 sm:py-6">
         <p className="label">Mission Replay Demo</p>
         <h1 className="display-1">{descriptor.title}</h1>
@@ -124,9 +144,19 @@ function StaticDemoSummary({
               </li>
             </ul>
             <p className="mt-3 text-xs text-[color:var(--mc-text-muted)]">
-              The 3D scene is unavailable in this browser; the underlying
-              deterministic replay artifacts above are unaffected.
+              {caughtError
+                ? "The 3D scene hit a runtime render error; the underlying deterministic replay artifacts above are unaffected."
+                : "The 3D scene is unavailable in this browser; the underlying deterministic replay artifacts above are unaffected."}
             </p>
+            {isDev && caughtError ? (
+              <pre
+                data-testid="demo-static-summary-error-detail"
+                className="mt-3 overflow-x-auto rounded border border-rose-400/40 bg-rose-500/5 p-2 text-[10px] text-rose-100"
+              >
+                {errorLabel}: {caughtError.name}: {caughtError.message}
+                {caughtError.stack ? `\n\n${caughtError.stack}` : ""}
+              </pre>
+            ) : null}
           </Panel>
 
           {evidenceLinks.length > 0 ? (
