@@ -368,7 +368,7 @@ export function replayIsBagBacked(replay: ReplayBundle | null): boolean {
 // Phase 17C — spatial-replay artifact loader
 // ---------------------------------------------------------------------
 
-interface SpatialReplayRaw {
+export interface SpatialReplayRaw {
   run_id?: string;
   scenario_id?: string;
   mission_id?: string;
@@ -431,7 +431,7 @@ function coerceAlignment(
   };
 }
 
-function coerceSpatialReplayArtifact(
+export function coerceSpatialReplayArtifact(
   raw: SpatialReplayRaw,
 ): SpatialReplayArtifact | null {
   if (!raw.run_id || !raw.derivation_source) return null;
