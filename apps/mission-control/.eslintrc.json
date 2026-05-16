@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "ignorePatterns": [
+    ".next/",
+    "node_modules/",
+    "coverage/",
+    "visual/__screenshots__/",
+    "visual/playwright-report/",
+    "visual/test-results/",
+    "scripts/check-bundle.mjs"
+  ],
+  "rules": {
+    "@next/next/no-html-link-for-pages": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "@typescript-eslint/no-explicit-any": "warn"
+  }
+}

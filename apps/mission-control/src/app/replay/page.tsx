@@ -25,7 +25,7 @@ export default async function ReplayIndexPage() {
         <p className="text-base-700">
           The replay viewer reconstructs simulated mission outcomes
           from deterministic event artifacts. Pick a row to inspect a
-          mission's event stream, supervisor decision, replay markers,
+          mission&apos;s event stream, supervisor decision, replay markers,
           and analytics.
         </p>
       </header>

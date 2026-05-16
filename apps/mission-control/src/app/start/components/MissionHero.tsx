@@ -27,7 +27,7 @@ export function MissionHero() {
   return (
     <section
       data-testid="mission-hero"
-      className="relative overflow-hidden rounded-2xl border border-[color:var(--mc-border)] bg-gradient-to-br from-[#0b1220] via-[#0a121e] to-[#0c1a26] px-5 py-8 sm:px-8 sm:py-10"
+      className="relative overflow-hidden rounded-2xl border border-[color:var(--mc-border)] bg-gradient-to-br from-[#0b1220] via-[#0a121e] to-[#0c1a26] px-4 py-7 sm:px-7 sm:py-9 lg:px-10 lg:py-12"
     >
       {/* ambient grid wash */}
       <div
@@ -76,17 +76,17 @@ export function MissionHero() {
           </motion.h1>
 
           <motion.p {...fade(0.12)} className="max-w-xl text-base text-slate-200/90 sm:text-lg">
-            ProjectBoundary is a simulation-only autonomous rover safety platform.
-            It validates mission requests, refuses unsafe commands before motion
-            authority, and produces deterministic replay evidence for every
-            decision. It does not control real hardware and is not safety-certified.
+            A simulation-only autonomous rover safety platform. Mission
+            requests are validated, unsafe commands are refused before motion
+            authority, and every decision produces deterministic replay evidence.
+            It does not control real hardware and is not safety-certified.
           </motion.p>
 
-          <motion.div {...fade(0.2)} className="flex flex-wrap items-center gap-2">
+          <motion.div {...fade(0.2)} className="flex flex-wrap items-center gap-2.5">
             <Link
               href="/demo/warehouse-replay"
               data-testid="start-cta-demo"
-              className="group inline-flex items-center gap-2 rounded-md border border-emerald-400/60 bg-gradient-to-b from-emerald-400/30 to-emerald-500/15 px-4 py-2 text-sm font-semibold text-emerald-50 shadow-[0_0_0_1px_rgba(60,180,168,0.2)] transition-colors hover:from-emerald-400/45 hover:to-emerald-500/25"
+              className="group inline-flex items-center gap-2 rounded-md border border-emerald-400/70 bg-gradient-to-b from-emerald-400/40 to-emerald-500/20 px-5 py-2.5 text-sm font-semibold text-emerald-50 shadow-[0_8px_24px_-12px_rgba(60,180,168,0.55)] ring-1 ring-emerald-300/20 transition-all hover:-translate-y-0.5 hover:from-emerald-400/55 hover:to-emerald-500/30 hover:shadow-[0_12px_28px_-12px_rgba(60,180,168,0.65)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 sm:text-[15px]"
             >
               <PlayCircle aria-hidden className="h-4 w-4" />
               Run Mission Replay
@@ -97,7 +97,7 @@ export function MissionHero() {
             </Link>
             <Link
               href="/safety"
-              className="inline-flex items-center gap-2 rounded-md border border-cyan-400/40 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-100 hover:border-cyan-300"
+              className="inline-flex items-center gap-2 rounded-md border border-cyan-400/40 bg-cyan-400/10 px-4 py-2.5 text-sm text-cyan-100 transition-colors hover:border-cyan-300 hover:bg-cyan-400/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
             >
               <ShieldCheck aria-hidden className="h-4 w-4" />
               Inspect Safety Authority
@@ -128,7 +128,7 @@ export function MissionHero() {
           className="relative"
         >
           <AnimatedMissionPreview />
-          <div className="pointer-events-none absolute -top-5 -right-3 h-16 w-16 sm:h-20 sm:w-20">
+          <div className="pointer-events-none absolute -top-5 -right-3 hidden h-16 w-16 sm:block sm:h-20 sm:w-20">
             <MiniRoverAccent className="h-full w-full drop-shadow-[0_4px_12px_rgba(60,180,168,0.4)]" />
           </div>
         </motion.div>

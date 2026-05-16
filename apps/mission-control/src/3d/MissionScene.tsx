@@ -5,10 +5,8 @@ import { Canvas } from "@react-three/fiber";
 import { useMemo } from "react";
 
 import {
-  buildMissionRouteFromArtifact,
   describeDerivationSource,
   projectArtifactEvent,
-  projectEvents,
 } from "@/adapters/spatial";
 import type { MissionRoute, SpatialEventMarker } from "@/adapters/spatial";
 

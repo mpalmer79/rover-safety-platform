@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Component, type ReactNode } from "react";
+import { Component } from "react";
 
 import type { MissionPlan, RehearsalEvent, SpatialReplayArtifact } from "@/adapters/types";
 import { GradientPanel } from "@/components/GradientPanel";
