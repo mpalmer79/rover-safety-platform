@@ -1,8 +1,8 @@
 "use client";
 
-import { OrbitControls, Text } from "@react-three/drei";
+import { Html, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 
 import type { MissionRoute, SpatialEventMarker } from "@/adapters/spatial";
 
@@ -114,6 +114,7 @@ export function WarehouseDemoScene({
         camera={{ fov: 38, near: 0.1, far: 200, position: [6, 6, 6] }}
         gl={{ antialias: true, preserveDrawingBuffer: false }}
       >
+        <Suspense fallback={null}>
         <ReplayCameraRig
           mode={playbackMode}
           focus={focus}
@@ -175,6 +176,7 @@ export function WarehouseDemoScene({
           target={focus as [number, number, number]}
           makeDefault
         />
+        </Suspense>
       </Canvas>
 
       <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-between px-3 pt-2 text-[11px]">
@@ -219,16 +221,26 @@ function ZonePad({ zone }: { zone: ZoneOverlay }) {
         <ringGeometry args={[Math.min(w, d) / 2.4, Math.min(w, d) / 2.2, 48]} />
         <meshBasicMaterial color={tone.color} transparent opacity={0.55} />
       </mesh>
-      <Text
+      <Html
         position={[0, 0.02, -d / 2 - 0.12]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        fontSize={0.18}
-        color={tone.color}
-        anchorX="center"
-        anchorY="middle"
+        center
+        distanceFactor={8}
+        zIndexRange={[0, 0]}
+        pointerEvents="none"
       >
-        {zone.label}
-      </Text>
+        <span
+          className="pointer-events-none select-none whitespace-nowrap rounded px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wide"
+          style={{
+            color: tone.color,
+            background: "rgba(10, 14, 22, 0.72)",
+            borderColor: tone.color,
+            borderWidth: 1,
+            borderStyle: "solid",
+          }}
+        >
+          {zone.label}
+        </span>
+      </Html>
     </group>
   );
 }
