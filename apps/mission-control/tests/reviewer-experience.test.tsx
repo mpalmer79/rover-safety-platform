@@ -152,14 +152,15 @@ describe("not-found fallback", () => {
 });
 
 describe("Reviewer entry-point Start Here page", () => {
-  it("renders the Start Here heading and reviewer summary", () => {
+  it("renders the public mission-control headline and reviewer summary", () => {
     render(<ReviewerStartPage />);
-    expect(
-      screen.getByRole("heading", {
-        level: 1,
-        name: /What ProjectBoundary demonstrates/i,
-      }),
-    ).toBeInTheDocument();
+    const h1 = screen.getByRole("heading", { level: 1 });
+    expect(h1).toBeInTheDocument();
+    const headline = h1.textContent ?? "";
+    expect(headline).toMatch(/approved/i);
+    expect(headline).toMatch(/rejected/i);
+    expect(headline).toMatch(/replay/i);
+
     const proves = screen.getByTestId("start-what-proves");
     const text = proves.textContent ?? "";
     expect(text).toMatch(/Unsafe motion requests are rejected/i);
