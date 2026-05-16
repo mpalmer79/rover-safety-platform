@@ -126,7 +126,7 @@ export function MissionChallengeCards() {
               <div className="mt-auto pt-2">
                 <Link
                   href={c.href}
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-200 underline-offset-2 group-hover:underline"
+                  className="inline-flex items-center gap-1.5 rounded text-sm font-semibold text-cyan-200 underline-offset-2 group-hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
                 >
                   {c.cta}
                   <ArrowRight aria-hidden className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

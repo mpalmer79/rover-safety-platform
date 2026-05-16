@@ -12,11 +12,56 @@ remain authoritative.
 
 ```
 npm install
-npm run typecheck   # strict TypeScript
-npm run test        # vitest (no network needed)
-npm run build       # Next.js static export
-npm run dev         # http://localhost:3000
+npm run typecheck       # strict TypeScript
+npm run lint            # ESLint (next/core-web-vitals + @typescript-eslint)
+npm run test:no-coverage  # vitest (no network needed)
+npm run build           # Next.js static export
+npm run dev             # http://localhost:3000
 ```
+
+## Launch validation
+
+The public landing route `/start` is the launch-quality
+mission-control entry point: animated SVG mission preview, gamified
+5-step reviewer journey, three mission-challenge scenarios, a
+safety-authority pipeline, proof points, and a six-route reviewer
+directory. The simulation-only / not-safety-certified boundary
+remains in the hero chip and the page footer.
+
+Run before tagging a release:
+
+```
+npm ci
+npm run typecheck        # must be clean
+npm run lint             # must be non-interactive; only warnings allowed
+npm run test:no-coverage # all suites must pass
+npm run build            # all 31 static routes must emit
+```
+
+Smoke-check after build that every public route is in the static
+export:
+
+```
+for r in / /start /demo/warehouse-replay /safety /evidence \
+         /walkthrough /workspaces /workbench; do
+  p=.next/server/app${r}.html
+  [ "$r" = "/" ] && p=.next/server/app/index.html
+  [ -f "$p" ] && echo "OK $r" || echo "MISS $r"
+done
+```
+
+Known limitations:
+
+- The Next.js audit reports advisories whose fixes only exist on the
+  15.5.x+ lines. The app is fully `force-static`; no `next/image`
+  runtime, no middleware, no rewrites, no Image Optimization API,
+  no Server Actions are used, so those advisories do not apply at
+  runtime. Stay on the latest 14.2.x patch (`14.2.35`) until a
+  scheduled Next 15 migration.
+- The Playwright visual-regression gate is `continue-on-error: true`
+  until baselines are bootstrapped (see `docs/VISUALIZATION_ROADMAP.md`).
+  Reviewer-experience, a11y, design-tokens, and warehouse-replay
+  suites are the active visual / honesty gates.
 
 ## Vercel deployment
 

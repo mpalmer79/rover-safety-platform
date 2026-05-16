@@ -73,7 +73,7 @@ export function MissionJourney() {
         </p>
       </header>
 
-      <ol className="relative grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+      <ol className="relative grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         {/* connecting rail (desktop only, decorative) */}
         <span
           aria-hidden
@@ -93,7 +93,7 @@ export function MissionJourney() {
               <Link
                 href={s.href}
                 data-testid={`journey-step-${i}`}
-                className="group relative flex h-full flex-col gap-2 rounded-xl border border-[color:var(--mc-border)] bg-[color:var(--mc-surface-overlay)] px-4 py-4 transition-all hover:-translate-y-0.5 hover:border-cyan-400/50 hover:shadow-[0_8px_24px_-12px_rgba(60,180,168,0.4)]"
+                className="group relative flex h-full flex-col gap-2 rounded-xl border border-[color:var(--mc-border)] bg-[color:var(--mc-surface-overlay)] px-4 py-4 transition-all hover:-translate-y-0.5 hover:border-cyan-400/50 hover:shadow-[0_8px_24px_-12px_rgba(60,180,168,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
               >
                 <div className="flex items-center justify-between">
                   <span className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-cyan-400/30 bg-cyan-400/10 text-cyan-200">
