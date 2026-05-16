@@ -59,7 +59,7 @@ export function AnimatedRover({
   });
 
   return (
-    <group ref={groupRef} data-testid="animated-rover">
+    <group ref={groupRef} userData={{ testid: "animated-rover" }}>
       {/* chassis */}
       <mesh position={[0, 0.05, 0]} castShadow>
         <boxGeometry args={[0.32, 0.09, 0.5]} />

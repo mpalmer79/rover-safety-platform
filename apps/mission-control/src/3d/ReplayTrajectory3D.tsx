@@ -88,9 +88,7 @@ function Polyline({ points, color, opacity }: PolylineProps) {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={points.length}
-          array={positions}
-          itemSize={3}
+          args={[positions, 3]}
         />
       </bufferGeometry>
       <lineBasicMaterial color={color} transparent opacity={opacity} linewidth={2} />
