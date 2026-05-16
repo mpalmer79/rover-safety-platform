@@ -7,8 +7,8 @@ import { PageSurface } from "@/components/PageSurface";
 
 import auditJson from "./data/rehearsal-audit.json";
 import spatialJson from "./data/spatial-replay.json";
+import { DemoErrorBoundary } from "./DemoErrorBoundary";
 import { DEMO_MISSION } from "./sample-demo-mission";
-import { WarehouseReplayDemo } from "./WarehouseReplayDemo";
 
 export const dynamic = "force-static";
 
@@ -40,7 +40,7 @@ export default function WarehouseReplayDemoPage() {
 
   return (
     <PageSurface variant="hero">
-      <WarehouseReplayDemo
+      <DemoErrorBoundary
         descriptor={DEMO_MISSION}
         plan={audit.plan}
         events={audit.runtime?.events ?? []}
