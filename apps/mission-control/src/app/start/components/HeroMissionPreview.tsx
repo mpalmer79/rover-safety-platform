@@ -16,6 +16,8 @@ import {
 } from "@/adapters/spatial";
 import type { RehearsalAudit } from "@/adapters/types";
 
+import type { PlaybackMode } from "@/3d/types";
+
 import auditJson from "@/app/demo/warehouse-replay/data/rehearsal-audit.json";
 import spatialJson from "@/app/demo/warehouse-replay/data/spatial-replay.json";
 import { DEMO_MISSION } from "@/app/demo/warehouse-replay/sample-demo-mission";
@@ -57,6 +59,7 @@ const WarehouseDemoScene = dynamic(
 );
 
 const PREVIEW_SECONDS = 14;
+const CAMERA_HOLD_SECONDS = 7;
 
 const BEATS: ReadonlyArray<{ at: number; label: string; tone: "info" | "ok" | "warn" }> = [
   { at: 0.0, label: "Route loaded", tone: "info" },
@@ -65,6 +68,12 @@ const BEATS: ReadonlyArray<{ at: number; label: string; tone: "info" | "ok" | "w
   { at: 0.52, label: "Approved · /cmd_vel_requested", tone: "ok" },
   { at: 0.78, label: "Pickup waypoint reached", tone: "info" },
   { at: 0.95, label: "Replay artifact sealed", tone: "ok" },
+];
+
+const CAMERA_CYCLE: readonly PlaybackMode[] = [
+  "overview",
+  "trajectory_analysis",
+  "operator_review",
 ];
 
 const TONE_CLASS: Record<"info" | "ok" | "warn", string> = {
@@ -76,6 +85,7 @@ const TONE_CLASS: Record<"info" | "ok" | "warn", string> = {
 export function HeroMissionPreview() {
   const [webglAvailable, setWebglAvailable] = useState<boolean | null>(null);
   const [phase, setPhase] = useState(0);
+  const [cameraMode, setCameraMode] = useState<PlaybackMode>("overview");
   const rafRef = useRef<number | null>(null);
   const startRef = useRef<number | null>(null);
   const prefersReducedMotion = useRef(false);
@@ -101,6 +111,10 @@ export function HeroMissionPreview() {
     const elapsed = (now - startRef.current) / 1000;
     const p = (elapsed % PREVIEW_SECONDS) / PREVIEW_SECONDS;
     setPhase(p);
+    const slot = Math.floor(elapsed / CAMERA_HOLD_SECONDS) % CAMERA_CYCLE.length;
+    setCameraMode((current) =>
+      current === CAMERA_CYCLE[slot] ? current : CAMERA_CYCLE[slot],
+    );
     rafRef.current = requestAnimationFrame(tick);
   }, []);
 
@@ -108,6 +122,7 @@ export function HeroMissionPreview() {
     if (webglAvailable !== true) return;
     if (prefersReducedMotion.current) {
       setPhase(0.45);
+      setCameraMode("overview");
       return;
     }
     rafRef.current = requestAnimationFrame(tick);
@@ -127,7 +142,9 @@ export function HeroMissionPreview() {
     events.length === 0
       ? 0
       : Math.min(events.length - 1, Math.floor(phase * events.length));
-  const visibleBeats = BEATS.filter((b) => phase >= b.at).slice(-3);
+  const reachedBeats = BEATS.filter((b) => phase >= b.at);
+  const latestBeat = reachedBeats[reachedBeats.length - 1] ?? BEATS[0];
+  const visibleBeats = reachedBeats.slice(-2);
 
   return (
     <div className="relative">
@@ -150,17 +167,36 @@ export function HeroMissionPreview() {
               moving
               zones={zones}
               height={520}
-              playbackMode="overview"
+              playbackMode={cameraMode}
             />
           </div>
-          <div className="pointer-events-none absolute inset-x-3 top-12 flex flex-col gap-1.5">
+
+          {/* Mobile / narrow: a single rotating chip in the top-left
+              so labels never stack over the rover. The camera-mode
+              chip already lives in the top-right (rendered by
+              WarehouseDemoScene). */}
+          <div className="pointer-events-none absolute left-3 top-3 sm:hidden">
+            <span
+              data-testid="hero-preview-beat"
+              className={`inline-flex max-w-[180px] items-center gap-1.5 truncate rounded-md border px-2 py-0.5 font-mono text-[10px] backdrop-blur-sm ${TONE_CLASS[latestBeat.tone]}`}
+            >
+              <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-current" />
+              <span className="truncate">{latestBeat.label}</span>
+            </span>
+          </div>
+
+          {/* Desktop / wide: up to two stacked chips on the left edge.
+              Capped width so they never crowd the right-side scene
+              badges or the rover. */}
+          <div className="pointer-events-none absolute left-3 top-3 hidden max-w-[60%] flex-col gap-1.5 sm:flex">
             {visibleBeats.map((beat) => (
               <span
                 key={beat.label}
-                className={`inline-flex w-fit items-center gap-1.5 rounded-md border px-2 py-0.5 font-mono text-[10px] backdrop-blur-sm ${TONE_CLASS[beat.tone]}`}
+                data-testid="hero-preview-beat"
+                className={`inline-flex max-w-full items-center gap-1.5 truncate rounded-md border px-2 py-0.5 font-mono text-[10px] backdrop-blur-sm ${TONE_CLASS[beat.tone]}`}
               >
-                <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-current" />
-                {beat.label}
+                <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-current" />
+                <span className="truncate">{beat.label}</span>
               </span>
             ))}
           </div>
