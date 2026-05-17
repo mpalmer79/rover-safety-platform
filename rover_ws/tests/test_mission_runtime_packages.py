@@ -150,7 +150,7 @@ def test_nav2_clamp_publisher_targets_requested_topic(mission_pkg: Path) -> None
             if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
                 publisher_args.append(arg.value)
             elif isinstance(arg, ast.Call):
-                # str(self.get_parameter(...).value) — assume the
+                # str(self.get_parameter(...).value) - assume the
                 # default topic from the source.
                 publisher_args.append("<param>")
     # No literal target should be /cmd_vel_authorized; the parameter

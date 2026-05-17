@@ -35,7 +35,7 @@ from .models import (
 
 
 # ---------------------------------------------------------------------
-# _LEGACY_TEXTUAL_FILTER — regex-based scan retained for non-Python
+# _LEGACY_TEXTUAL_FILTER - regex-based scan retained for non-Python
 # providers and natural-language fields. Treat as deterrence: anything
 # that looks like a known-bad fragment is surfaced; obfuscation can
 # evade this layer and that is expected. The AST scan below is the
@@ -393,7 +393,7 @@ def sanitize_candidate(candidate: SkillLLMCandidate) -> SkillLLMSanitizerResult:
         blocked.append(f"code:{diag.fragment}")
         notes.append(f"code (ast): {diag.message}")
 
-    # Direct /cmd_vel check (executable text only — strips comments +
+    # Direct /cmd_vel check (executable text only - strips comments +
     # approved topic suffixes).
     if _references_direct_cmd_vel(candidate.code):
         reason_codes.append(CandidateRejectionReason.DIRECT_ACTUATOR_COMMAND.value)

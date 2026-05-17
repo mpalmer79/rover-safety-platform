@@ -112,7 +112,7 @@ def test_requirement_kind_proposal_exists():
 
 
 # ----------------------------------------------------------------------
-# REQ-PROPOSAL-001 — no actuator authority
+# REQ-PROPOSAL-001 - no actuator authority
 # ----------------------------------------------------------------------
 
 
@@ -139,7 +139,7 @@ def test_proposal_layer_has_no_runtime_authority_fields():
 
 
 # ----------------------------------------------------------------------
-# REQ-PROPOSAL-002 — external provider disabled
+# REQ-PROPOSAL-002 - external provider disabled
 # ----------------------------------------------------------------------
 
 
@@ -195,7 +195,7 @@ def test_proposal_layer_has_no_llm_sdk_imports():
 
 
 # ----------------------------------------------------------------------
-# REQ-PROPOSAL-003 — sanitizer chokepoint
+# REQ-PROPOSAL-003 - sanitizer chokepoint
 # ----------------------------------------------------------------------
 
 
@@ -326,7 +326,7 @@ def test_forbidden_phrases_constant_is_nonempty_and_immutable_in_layout():
 
 
 # ----------------------------------------------------------------------
-# REQ-PROPOSAL-004 — determinism + outcome routing
+# REQ-PROPOSAL-004 - determinism + outcome routing
 # ----------------------------------------------------------------------
 
 
@@ -432,7 +432,7 @@ def test_audit_json_is_stable_across_runs(tmp_path: Path):
 
 
 # ----------------------------------------------------------------------
-# REQ-PROPOSAL-005 — audit bundle preservation
+# REQ-PROPOSAL-005 - audit bundle preservation
 # ----------------------------------------------------------------------
 
 

@@ -106,7 +106,7 @@ def test_requirement_kind_skill_exists():
 
 
 # ----------------------------------------------------------------------
-# REQ-SKILL-001 — deterministic catalog + parser
+# REQ-SKILL-001 - deterministic catalog + parser
 # ----------------------------------------------------------------------
 
 
@@ -172,7 +172,7 @@ def test_generator_is_deterministic_for_fixed_timestamp(tmp_path: Path):
 
 
 # ----------------------------------------------------------------------
-# REQ-SKILL-002 — requested-motion only
+# REQ-SKILL-002 - requested-motion only
 # ----------------------------------------------------------------------
 
 
@@ -271,7 +271,7 @@ def test_motion_snippets_publish_final_zero():
 
 
 # ----------------------------------------------------------------------
-# REQ-SKILL-003 — deterministic rejection diagnostics
+# REQ-SKILL-003 - deterministic rejection diagnostics
 # ----------------------------------------------------------------------
 
 
@@ -359,7 +359,7 @@ def test_angle_out_of_range_is_rejected():
 
 
 # ----------------------------------------------------------------------
-# REQ-SKILL-004 — audit bundle preservation
+# REQ-SKILL-004 - audit bundle preservation
 # ----------------------------------------------------------------------
 
 
@@ -433,7 +433,7 @@ def test_safety_review_blocked_on_validation_failure(tmp_path: Path):
 
 
 # ----------------------------------------------------------------------
-# REQ-SKILL-005 — code-card metadata
+# REQ-SKILL-005 - code-card metadata
 # ----------------------------------------------------------------------
 
 

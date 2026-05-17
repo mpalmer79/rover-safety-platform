@@ -89,7 +89,7 @@ def test_truncating_last_line_breaks_tip(tmp_path: Path) -> None:
 
     result = validate_run_directory(run_dir)
     assert not result.ok
-    # Either chain_broken on a missing line or events_count/tip mismatch — both
+    # Either chain_broken on a missing line or events_count/tip mismatch - both
     # are emitted under the chain_broken family.
     assert any("chain_broken" in e for e in result.errors), result.errors
 

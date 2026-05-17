@@ -58,9 +58,9 @@ class RequirementKind(str, Enum):
 # Category tiers.
 #
 # Every requirement falls into one of two tiers:
-#   * ``core`` — touches deterministic behaviour, safety boundary, or
+#   * ``core`` - touches deterministic behaviour, safety boundary, or
 #     replay. Reviewers should see these first.
-#   * ``meta`` — UI, visualization, aggregation, governance, reporting.
+#   * ``meta`` - UI, visualization, aggregation, governance, reporting.
 #
 # The tier is derived from the requirement-id PREFIX (everything before
 # the trailing -NNN suffix). Adding a new prefix here requires the
@@ -78,7 +78,7 @@ CATEGORY_TIER_META: str = "meta"
 
 
 _TIER_BY_PREFIX: dict[str, str] = {
-    # Core — deterministic behaviour, safety boundary, replay
+    # Core - deterministic behaviour, safety boundary, replay
     "REQ-SAFE": CATEGORY_TIER_CORE,
     "REQ-FAULT": CATEGORY_TIER_CORE,
     "REQ-WORLD": CATEGORY_TIER_CORE,
@@ -94,7 +94,7 @@ _TIER_BY_PREFIX: dict[str, str] = {
     "REQ-REHEARSAL": CATEGORY_TIER_CORE,
     "REQ-SKILL": CATEGORY_TIER_CORE,
     "REQ-SKILL-LLM": CATEGORY_TIER_CORE,
-    # Meta — UI, visualization, aggregation, governance, reporting
+    # Meta - UI, visualization, aggregation, governance, reporting
     "REQ-DESIGN": CATEGORY_TIER_META,
     "REQ-IMMVIZ": CATEGORY_TIER_META,
     "REQ-MCTRL": CATEGORY_TIER_META,
@@ -3095,7 +3095,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         ),
     ),
     # -----------------------------------------------------------------
-    # Phase 17C — bag-backed spatial replay upgrade.
+    # Phase 17C - bag-backed spatial replay upgrade.
     # -----------------------------------------------------------------
     Requirement(
         req_id="REQ-SREPLAY-001",
@@ -3340,7 +3340,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         ),
     ),
     # -----------------------------------------------------------------
-    # Phase 18 — artefact governance + immersive mission control.
+    # Phase 18 - artefact governance + immersive mission control.
     # -----------------------------------------------------------------
     Requirement(
         req_id="REQ-ARTREG-001",
@@ -3786,7 +3786,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         ),
     ),
     # -----------------------------------------------------------------
-    # Phase 19 — design system + responsive UX + LLM intelligence + scene snapshot
+    # Phase 19 - design system + responsive UX + LLM intelligence + scene snapshot
     # -----------------------------------------------------------------
     Requirement(
         req_id="REQ-DESIGN-001",
@@ -4359,7 +4359,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         ),
     ),
     # -----------------------------------------------------------------
-    # Phase 20B — workspace snapshot exports
+    # Phase 20B - workspace snapshot exports
     # -----------------------------------------------------------------
     Requirement(
         req_id="REQ-WSNAP-001",
@@ -4454,7 +4454,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         ),
     ),
     # -----------------------------------------------------------------
-    # Phase 20B — telemetry recipe system
+    # Phase 20B - telemetry recipe system
     # -----------------------------------------------------------------
     Requirement(
         req_id="REQ-TRECIPE-001",
@@ -4548,7 +4548,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         ),
     ),
     # -----------------------------------------------------------------
-    # Phase 20B — contextual reviewer walkthrough
+    # Phase 20B - contextual reviewer walkthrough
     # -----------------------------------------------------------------
     Requirement(
         req_id="REQ-WALKCTX-001",

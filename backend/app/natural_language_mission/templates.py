@@ -235,7 +235,7 @@ _TEMPLATES: tuple[Template, ...] = (
 # regardless of whether it contains a "dangerous" phrase. The blocklist
 # below earns its keep by producing a clearer reason code
 # (``dangerous_unsupported_instruction``) when a clause matches a known
-# unsafe shape — useful for operator feedback and for incident triage.
+# unsafe shape - useful for operator feedback and for incident triage.
 #
 # Do NOT expand this blocklist as a primary defence. Adding more
 # phrases reinforces the wrong invariant; the right answer when a new

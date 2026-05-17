@@ -160,7 +160,7 @@ def test_to_dict_includes_category_tier() -> None:
 def test_core_count_is_dominated_by_safety_authority_prefixes() -> None:
     # Honesty rule: meta requirements may outnumber core in absolute
     # terms (UI / visualization namespaces are large), but the core
-    # tier must not be empty — the safety-authority claim must remain
+    # tier must not be empty - the safety-authority claim must remain
     # visible. This assertion locks the floor; the actual numbers are
     # exposed in the traceability matrix.
     core_count = sum(

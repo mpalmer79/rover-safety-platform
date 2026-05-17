@@ -139,7 +139,7 @@ def main(argv: list[str] | None = None) -> int:
         print(str(exc), file=sys.stderr)
         return 2
     if provider is None:
-        # Should not happen — only external_disabled returns None.
+        # Should not happen - only external_disabled returns None.
         return _emit_external_disabled(args)
 
     proposal_id = _resolve_proposal_id(args.proposal_id, args.output)

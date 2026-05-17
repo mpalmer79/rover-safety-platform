@@ -126,7 +126,7 @@ def test_single_pulse_reset_is_refused() -> None:
     _step(sup, clock, now_ms=200, operator_estop=True)
     assert sup.safety_state == SafetyState.E_STOP_LATCHED
 
-    # Bare reset (no prior armed tick) — must be refused.
+    # Bare reset (no prior armed tick) - must be refused.
     eval_ = _step(sup, clock, now_ms=300, operator_reset=True)
     assert sup.safety_state == SafetyState.E_STOP_LATCHED
     refusal = [e for e in eval_.events if e.event_type == "safety_transition.refused"]

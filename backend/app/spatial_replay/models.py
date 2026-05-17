@@ -33,7 +33,7 @@ SPATIAL_REPLAY_DISCLAIMER: str = (
 
 
 # Derivation-source vocabulary. The frontend uses these strings
-# verbatim — never re-stringify them.
+# verbatim - never re-stringify them.
 DERIVATION_BAG_BACKED: str = "bag_backed"
 DERIVATION_FIXTURE: str = "fixture"
 DERIVATION_BOUNDED_INPUTS: str = "bounded_inputs"

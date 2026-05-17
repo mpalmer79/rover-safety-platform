@@ -32,7 +32,7 @@ class RunMetadata:
     extra: dict[str, Any] = field(default_factory=dict)
     # Tamper-evident event chain (#13). ``events_chain_tip`` is the
     # SHA-256 (hex, lower-case) of the LAST event's canonical bytes
-    # at finalize time — i.e. the un-chained event serialised with
+    # at finalize time - i.e. the un-chained event serialised with
     # json.dumps(sort_keys=True, separators=(",",":"),
     # ensure_ascii=False), with the event's own ``prev_event_hash``
     # field removed. ``events_count`` is the integer count of lines

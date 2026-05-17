@@ -3,15 +3,15 @@
 The builder chooses the highest-honesty derivation source the
 inputs support:
 
-#. ``bag_backed`` — bag manifest validates + runtime pose samples
+#. ``bag_backed`` - bag manifest validates + runtime pose samples
    exist on disk and pass eligibility checks.
-#. ``fixture`` — committed pose-samples fixture exists, but no
+#. ``fixture`` - committed pose-samples fixture exists, but no
    bag-backed manifest is in effect.
-#. ``bounded_inputs`` — no samples, but the mission plan has
+#. ``bounded_inputs`` - no samples, but the mission plan has
    non-zero bounded distance/angle (handled by the frontend
    adapter).
-#. ``topology_only`` — plan has waypoints but no bounded motion.
-#. ``unavailable`` — no plan, no samples.
+#. ``topology_only`` - plan has waypoints but no bounded motion.
+#. ``unavailable`` - no plan, no samples.
 
 The frontend adapter handles the ``bounded_inputs`` and
 ``topology_only`` paths; the backend builder writes a frontend

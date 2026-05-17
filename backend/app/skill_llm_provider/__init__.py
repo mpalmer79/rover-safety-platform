@@ -192,7 +192,7 @@ __all__ = [
     "run_skill_validator_bridge",
     "sanitize_candidate",
     "write_audit_files",
-    # Phase 19 — intelligence layer
+    # Phase 19 - intelligence layer
     "CRITIQUE_CATEGORIES",
     "CandidateRanking",
     "CandidateScoreBreakdown",

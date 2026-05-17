@@ -70,7 +70,7 @@ from app.verification.acceptance import AcceptanceStatus
 
 
 # ---------------------------------------------------------------------------
-# Host qualification — distro parsing.
+# Host qualification - distro parsing.
 # ---------------------------------------------------------------------------
 
 

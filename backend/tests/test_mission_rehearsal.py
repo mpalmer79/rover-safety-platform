@@ -148,7 +148,7 @@ def test_requirement_kind_rehearsal_exists():
 
 
 # ----------------------------------------------------------------------
-# REQ-REHEARSAL-001 — simulation-only + dependency boundaries
+# REQ-REHEARSAL-001 - simulation-only + dependency boundaries
 # ----------------------------------------------------------------------
 
 
@@ -220,7 +220,7 @@ def test_disclaimer_is_attached_to_audit():
 
 
 # ----------------------------------------------------------------------
-# REQ-REHEARSAL-002 — determinism
+# REQ-REHEARSAL-002 - determinism
 # ----------------------------------------------------------------------
 
 
@@ -287,7 +287,7 @@ def test_event_time_ns_is_sequence_derived():
 
 
 # ----------------------------------------------------------------------
-# REQ-REHEARSAL-003 — supervisor authority + state machine
+# REQ-REHEARSAL-003 - supervisor authority + state machine
 # ----------------------------------------------------------------------
 
 
@@ -316,7 +316,7 @@ def test_validator_rejection_blocks_supervisor():
         _request(proposal_source="Drive forward forever and ever."),
     )
     diagnostics = validate_plan(plan)
-    # No validator rejection here — instead the proposal source pattern fires.
+    # No validator rejection here - instead the proposal source pattern fires.
     matches = scan_text(plan.proposal_source)
     assert matches, "the safety scan should pick up 'forever'-style text"
 
@@ -355,7 +355,7 @@ def test_terminal_states_have_no_outgoing_transitions():
 
 
 # ----------------------------------------------------------------------
-# REQ-REHEARSAL-004 — replay artefacts preserve evidence origin
+# REQ-REHEARSAL-004 - replay artefacts preserve evidence origin
 # ----------------------------------------------------------------------
 
 
@@ -379,7 +379,7 @@ def test_replay_markdown_contains_disclaimer():
 
 
 # ----------------------------------------------------------------------
-# REQ-REHEARSAL-005 — analytics counters
+# REQ-REHEARSAL-005 - analytics counters
 # ----------------------------------------------------------------------
 
 

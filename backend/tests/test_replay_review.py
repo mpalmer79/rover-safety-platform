@@ -770,7 +770,7 @@ def test_cli_validate_replay_review(tmp_path: Path) -> None:
     rc = validate_cli.main(
         ["--incident", str(dst), "--foxglove-layout", str(CANONICAL_LAYOUT)]
     )
-    # Missing bag is not a "failed" — exit code is 0 even though
+    # Missing bag is not a "failed" - exit code is 0 even though
     # several checks returned not_executed.
     assert rc == 0
 
@@ -824,7 +824,7 @@ def test_replay_workflow_is_dispatch_only() -> None:
     else:
         keys = {triggers}
     assert "workflow_dispatch" in keys
-    # No automatic push / PR triggers — live replay is opt-in only.
+    # No automatic push / PR triggers - live replay is opt-in only.
     assert "push" not in keys
     assert "pull_request" not in keys
 

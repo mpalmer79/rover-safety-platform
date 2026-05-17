@@ -38,7 +38,7 @@ class EventRecorderNode(Node):
 
         # #19: validate run_id against ^[A-Za-z0-9_-]{1,128}$ and
         # confirm the joined path stays under runs_root. Do NOT silently
-        # sanitise — a launch with a bad run_id is misconfigured; fail
+        # sanitise - a launch with a bad run_id is misconfigured; fail
         # loud so an operator sees the misconfiguration rather than
         # ending up with events recorded in /etc/.
         run_id_raw = str(self.get_parameter("run_id").value)

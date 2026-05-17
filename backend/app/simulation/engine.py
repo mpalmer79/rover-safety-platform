@@ -126,7 +126,7 @@ class _GatewayLayer:
     ) -> tuple[RoverState, list[Event]]:
         events: list[Event] = []
         if (now_ms - self.last_authorized_at_ms) > self.command_timeout_ms and self.last_authorized_at_ms >= 0:
-            # Independent gateway timeout — also forces zero motion in the
+            # Independent gateway timeout - also forces zero motion in the
             # vehicle model and emits an event.
             events.append(
                 self.builder.build(

@@ -135,7 +135,7 @@ class ScenarioDefinition:
     # is deterministic but not cheap; an attacker who can post arbitrary
     # scenario payloads should not be able to spin a 1 GHz / 24-hour
     # configuration that pegs the worker. These bounds are conservative
-    # — well above any sane test scenario and well below "denial".
+    # - well above any sane test scenario and well below "denial".
     MAX_DURATION_SECONDS: ClassVar[float] = 3600.0
     MIN_TIME_STEP_MS: ClassVar[int] = 1
     MAX_TOTAL_STEPS: ClassVar[int] = 1_000_000

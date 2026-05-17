@@ -54,7 +54,7 @@ from app.safety.supervisor import (
 # bridge's clock at message arrival), NOT the sender's
 # ``header.stamp``. Freshness is measured against receive-time only;
 # a sender that claims a future stamp cannot defeat the watchdog.
-# ``sender_stamp_ms`` is retained for diagnostics — never used by
+# ``sender_stamp_ms`` is retained for diagnostics - never used by
 # freshness or arbitration.
 
 

@@ -71,7 +71,7 @@ from app.programme_review.trend_analysis import (  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
-# Fixture helpers — write synthetic upstream artefacts.
+# Fixture helpers - write synthetic upstream artefacts.
 # ---------------------------------------------------------------------------
 
 

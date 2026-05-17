@@ -507,7 +507,7 @@ class SafetySupervisor:
             return (SafetyState.RECOVERY, "recovery_in_progress", "recovery in progress")
 
         # Recovery-validated promotion out of SAFE_STOP. Requires inputs
-        # to still be healthy on this tick — if not, hold SAFE_STOP and
+        # to still be healthy on this tick - if not, hold SAFE_STOP and
         # keep the flag (we re-validate next tick).
         if (
             self._state == SafetyState.SAFE_STOP
