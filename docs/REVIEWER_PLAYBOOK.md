@@ -320,7 +320,7 @@ If you are reviewing the Phase 14B work specifically:
    the proposal layer is forbidden from doing.
 3. Skim [`MISSION_PROPOSAL_AUDIT.md`](MISSION_PROPOSAL_AUDIT.md) and
    one fixture bundle under `mission-proposals/audits/`.
-4. Read [`FUTURE_LLM_INTEGRATION_PLAN.md`](FUTURE_LLM_INTEGRATION_PLAN.md)
+4. Read [`DEFERRED_PHASES.md#llm-mission-proposal-layer`](DEFERRED_PHASES.md#llm-mission-proposal-layer)
    if you care about the path forward.
 
 No real LLM API is called. External provider modes return a
@@ -343,7 +343,7 @@ If you are reviewing the Phase 15A work specifically:
    audit bundle (e.g. `skill-library/audits/move_forward_6_feet/`).
 4. Read [`CODE_CARD_METADATA.md`](CODE_CARD_METADATA.md) if you care
    about the code-card payload a future UI would render.
-5. Read [`FUTURE_LOCAL_LLM_SKILL_PROVIDER.md`](FUTURE_LOCAL_LLM_SKILL_PROVIDER.md)
+5. Read [`DEFERRED_PHASES.md#local-llm-skill-provider`](DEFERRED_PHASES.md#local-llm-skill-provider)
    if you care about the path forward (intentionally not
    implemented in Phase 15A).
 
@@ -367,7 +367,7 @@ If you are reviewing the Phase 15B work specifically:
    `skill-llm-candidates/audits/fixture_valid_move_forward_6_feet/`.
 4. Read [`LOCAL_LLM_SKILL_PROMPT_CONTRACT.md`](LOCAL_LLM_SKILL_PROMPT_CONTRACT.md)
    for the JSON-only contract a future local model must satisfy.
-5. Read [`FUTURE_LOCAL_MODEL_OPERATIONS.md`](FUTURE_LOCAL_MODEL_OPERATIONS.md)
+5. Read [`DEFERRED_PHASES.md#local-model-operations`](DEFERRED_PHASES.md#local-model-operations)
    if you care about the path forward (intentionally not
    implemented in Phase 15B).
 
@@ -393,7 +393,7 @@ If you are reviewing the Phase 16 work specifically:
    (request, plan, events, timeline, replay, analytics, audit).
 5. Read [`REHEARSAL_REPLAY_INTEGRATION.md`](REHEARSAL_REPLAY_INTEGRATION.md)
    for the bag-backed honesty rule and the analytics shape.
-6. Read [`FUTURE_DIGITAL_TWIN_DIRECTION.md`](FUTURE_DIGITAL_TWIN_DIRECTION.md)
+6. Read [`DEFERRED_PHASES.md#digital-twin-direction`](DEFERRED_PHASES.md#digital-twin-direction)
    if you care about the path forward (intentionally not
    implemented in Phase 16).
 

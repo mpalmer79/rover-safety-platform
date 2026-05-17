@@ -79,6 +79,6 @@ copy-paste of generated code authorises actuator motion.
 * `docs/SKILL_TEMPLATE_CATALOG.md` — supported skills + safety constraints.
 * `docs/SKILL_SAFETY_BOUNDARY.md` — what the workbench cannot do.
 * `docs/CODE_CARD_METADATA.md` — code-card JSON schema for a future UI.
-* `docs/FUTURE_LOCAL_LLM_SKILL_PROVIDER.md` — what a follow-up phase
+* `docs/DEFERRED_PHASES.md#local-llm-skill-provider` — what a follow-up phase
   would need to add to plug in a local LLM (intentionally not
   implemented here).

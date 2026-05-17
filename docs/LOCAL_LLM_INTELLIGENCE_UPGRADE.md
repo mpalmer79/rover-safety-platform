@@ -104,4 +104,4 @@ models require an explicit qualification check-in.
 - `docs/LOCAL_LLM_SKILL_PROVIDER.md` (Phase 15B)
 - `docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md` (Phase 15B)
 - `docs/LOCAL_LLM_SKILL_PROMPT_CONTRACT.md` (Phase 15B)
-- `docs/FUTURE_LOCAL_MODEL_OPERATIONS.md` (Phase 15B)
+- `docs/DEFERRED_PHASES.md#local-model-operations` (Phase 15B)

@@ -51,6 +51,6 @@ supervisor is the ONLY layer that can authorise motion.
 * `docs/LLM_MISSION_PROPOSAL_LAYER.md` — the architectural contract.
 * `docs/LLM_SAFETY_BOUNDARY.md` — what the proposal layer cannot do.
 * `docs/MISSION_PROPOSAL_AUDIT.md` — what every audit bundle records.
-* `docs/FUTURE_LLM_INTEGRATION_PLAN.md` — the plan for any future
+* `docs/DEFERRED_PHASES.md#llm-mission-proposal-layer` — the plan for any future
   external-provider work (intentionally not implemented in Phase
   14B).

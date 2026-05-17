@@ -98,7 +98,7 @@ request yields byte-identical output.
   developer; it is not authorised to run on the robot.
 
 A future external local-LLM provider (see
-`docs/FUTURE_LOCAL_LLM_SKILL_PROVIDER.md`) must keep the
+`docs/DEFERRED_PHASES.md#local-llm-skill-provider`) must keep the
 deterministic catalog as the authority and must pass every
 proposed snippet through this validator.
 

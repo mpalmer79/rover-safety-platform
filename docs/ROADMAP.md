@@ -1631,7 +1631,7 @@ could propose a mission *candidate*, but where:
   `docs/LLM_MISSION_PROPOSAL_LAYER.md`,
   `docs/LLM_SAFETY_BOUNDARY.md`,
   `docs/MISSION_PROPOSAL_AUDIT.md`,
-  `docs/FUTURE_LLM_INTEGRATION_PLAN.md`.
+  `docs/DEFERRED_PHASES.md#llm-mission-proposal-layer`.
 
 ### Acceptance Criteria
 
@@ -1658,7 +1658,7 @@ could propose a mission *candidate*, but where:
 - fabricate runtime evidence.
 
 A future phase that wires up a real external provider must follow
-`docs/FUTURE_LLM_INTEGRATION_PLAN.md` and must not weaken the
+`docs/DEFERRED_PHASES.md#llm-mission-proposal-layer` and must not weaken the
 sanitizer or the compiler boundary.
 
 ---
@@ -1704,7 +1704,7 @@ every motion template uses ``/cmd_vel_requested`` only.
   `docs/SKILL_TEMPLATE_CATALOG.md`,
   `docs/SKILL_SAFETY_BOUNDARY.md`,
   `docs/CODE_CARD_METADATA.md`,
-  `docs/FUTURE_LOCAL_LLM_SKILL_PROVIDER.md`.
+  `docs/DEFERRED_PHASES.md#local-llm-skill-provider`.
 
 ### Acceptance Criteria
 
@@ -1737,7 +1737,7 @@ every motion template uses ``/cmd_vel_requested`` only.
 - ship a UI (only `CodeCard` metadata for a future UI).
 
 A follow-up phase that adds a local LLM must follow
-`docs/FUTURE_LOCAL_LLM_SKILL_PROVIDER.md` and must not weaken the
+`docs/DEFERRED_PHASES.md#local-llm-skill-provider` and must not weaken the
 deterministic parser, the validator, or the audit boundary.
 
 ---
@@ -1794,7 +1794,7 @@ are rejected by `require_local_endpoint`.
   `docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md`,
   `docs/LOCAL_LLM_SKILL_PROMPT_CONTRACT.md`,
   `docs/SKILL_LLM_CANDIDATE_AUDITS.md`,
-  `docs/FUTURE_LOCAL_MODEL_OPERATIONS.md`.
+  `docs/DEFERRED_PHASES.md#local-model-operations`.
 
 ### Acceptance Criteria
 
@@ -1830,7 +1830,7 @@ are rejected by `require_local_endpoint`.
 - claim safety certification.
 
 The follow-up phase that wires up a real local model must satisfy
-`docs/FUTURE_LOCAL_MODEL_OPERATIONS.md`.
+`docs/DEFERRED_PHASES.md#local-model-operations`.
 
 ---
 
@@ -1879,7 +1879,7 @@ motion arbitration remain the only path to actuator authority.
   `docs/SIMULATION_REHEARSAL_PIPELINE.md`,
   `docs/REHEARSAL_REPLAY_INTEGRATION.md`,
   `docs/REHEARSAL_SAFETY_BOUNDARY.md`,
-  `docs/FUTURE_DIGITAL_TWIN_DIRECTION.md`.
+  `docs/DEFERRED_PHASES.md#digital-twin-direction`.
 
 ### Acceptance Criteria
 
@@ -1907,7 +1907,7 @@ motion arbitration remain the only path to actuator authority.
 - mix simulated and bag-backed analytics without origin labelling.
 
 A follow-up phase that wires the rehearsal pipeline into a real
-robot must follow `docs/FUTURE_DIGITAL_TWIN_DIRECTION.md`.
+robot must follow `docs/DEFERRED_PHASES.md#digital-twin-direction`.
 
 ---
 

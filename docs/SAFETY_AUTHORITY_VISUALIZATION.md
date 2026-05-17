@@ -79,7 +79,7 @@ safety-certified. Bag-backed evidence count remains 0."*
 
 A follow-up phase that wires Phase 16 rehearsals into a real
 Gazebo runner (per
-`docs/FUTURE_DIGITAL_TWIN_DIRECTION.md`) must:
+`docs/DEFERRED_PHASES.md#digital-twin-direction`) must:
 
 1. update this page to reflect the new authority handoff;
 2. extend `REQ-MCTRL-005` so the dashboard correctly distinguishes

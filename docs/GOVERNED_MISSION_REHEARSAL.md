@@ -124,4 +124,4 @@ The Phase 16 pipeline is simulation-only and does NOT authorise
 live robot execution or safety certification. The runtime safety
 supervisor and motion arbitration are the only paths to actuator
 authority. A future phase that wires Phase 16 to a real robot must
-update `docs/FUTURE_DIGITAL_TWIN_DIRECTION.md` and add an ADR.
+update `docs/DEFERRED_PHASES.md#digital-twin-direction` and add an ADR.

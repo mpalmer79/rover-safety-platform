@@ -163,5 +163,5 @@ are stable across runs.
 * mutation of the safety supervisor
 * fabricated runtime evidence
 
-See `docs/FUTURE_LLM_INTEGRATION_PLAN.md` for what a follow-up
+See `docs/DEFERRED_PHASES.md#llm-mission-proposal-layer` for what a follow-up
 phase would need to add (and what it must not).

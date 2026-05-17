@@ -2061,7 +2061,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         ),
         architecture_refs=(
             "docs/LLM_MISSION_PROPOSAL_LAYER.md",
-            "docs/FUTURE_LLM_INTEGRATION_PLAN.md",
+            "docs/DEFERRED_PHASES.md",
         ),
         implementation_refs=(
             "backend/app/mission_proposal/provider.py",
@@ -4206,7 +4206,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
             "or validator outcomes."
         ),
         architecture_refs=(
-            "docs/FUTURE_LOCAL_MODEL_OPERATIONS.md",
+            "docs/DEFERRED_PHASES.md",
         ),
         implementation_refs=(
             "backend/app/skill_llm_provider/model_capabilities.py",

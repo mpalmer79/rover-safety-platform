@@ -81,7 +81,7 @@ wants to drive a real robot must:
 
 1. produce an ADR documenting the bridge between rehearsal output
    and real-robot mission runtime;
-2. update `docs/FUTURE_DIGITAL_TWIN_DIRECTION.md`;
+2. update `docs/DEFERRED_PHASES.md#digital-twin-direction`;
 3. ensure the runtime safety supervisor (not the rehearsal
    supervisor) is the only path to actuator authority;
 4. ensure replay artifacts on the real-robot side are labelled
