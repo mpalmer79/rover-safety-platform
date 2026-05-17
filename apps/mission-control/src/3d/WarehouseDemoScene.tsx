@@ -173,7 +173,6 @@ export function WarehouseDemoScene({
           targetPosition={roverPosition}
           targetHeadingDeg={roverHeadingDeg}
           moving={moving}
-          label={moving ? "rover · simulating" : "rover · paused"}
         />
 
         <OrbitControls
