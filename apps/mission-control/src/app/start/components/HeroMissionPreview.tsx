@@ -166,7 +166,7 @@ export function HeroMissionPreview() {
               highlightWaypointIdx={interpolated.sampleIdx}
               moving
               zones={zones}
-              height={520}
+              height="100%"
               playbackMode={cameraMode}
             />
           </div>

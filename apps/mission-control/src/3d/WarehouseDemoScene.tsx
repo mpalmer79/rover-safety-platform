@@ -43,7 +43,12 @@ interface WarehouseDemoSceneProps {
   moving: boolean;
   /** Zone overlays drawn under the trajectory. */
   zones: readonly ZoneOverlay[];
-  height?: number;
+  /**
+   * Canvas height. A number is treated as px; a string is passed
+   * through as a CSS value (e.g. "100%") so the scene can be made
+   * to fill a parent that already constrains its aspect ratio.
+   */
+  height?: number | string;
 }
 
 const ZONE_TONE: Record<ZoneOverlay["tone"], { color: string; label: string }> = {
@@ -106,7 +111,10 @@ export function WarehouseDemoScene({
       aria-label="Warehouse mission replay"
       data-testid="warehouse-demo-scene"
       className="relative overflow-hidden rounded-lg border border-[color:var(--mc-border)]"
-      style={{ height, background: "linear-gradient(180deg,#0a0e16 0%,#10141c 100%)" }}
+      style={{
+        height: typeof height === "number" ? `${height}px` : height,
+        background: "linear-gradient(180deg,#0a0e16 0%,#10141c 100%)",
+      }}
     >
       <Canvas
         shadows
