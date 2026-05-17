@@ -73,7 +73,6 @@ const BEATS: ReadonlyArray<{ at: number; label: string; tone: "info" | "ok" | "w
 const CAMERA_CYCLE: readonly PlaybackMode[] = [
   "overview",
   "trajectory_analysis",
-  "operator_review",
 ];
 
 const TONE_CLASS: Record<"info" | "ok" | "warn", string> = {
@@ -152,10 +151,7 @@ export function HeroMissionPreview() {
         data-testid="hero-mission-preview"
         className="relative overflow-hidden rounded-xl border border-cyan-400/15 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.6)]"
       >
-        <div
-          className="relative"
-          style={{ aspectRatio: "16 / 9", minHeight: 360 }}
-        >
+        <div className="relative aspect-[4/3] w-full sm:aspect-[16/10] lg:aspect-[16/9]">
           <div className="absolute inset-0">
             <WarehouseDemoScene
               route={route}
@@ -250,8 +246,8 @@ function PreviewSkeleton() {
   return (
     <div
       data-testid="hero-mission-preview-skeleton"
-      className="relative overflow-hidden rounded-xl border border-cyan-400/15"
-      style={{ aspectRatio: "16 / 9", minHeight: 360, background: "#070a12" }}
+      className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-cyan-400/15 sm:aspect-[16/10] lg:aspect-[16/9]"
+      style={{ background: "#070a12" }}
     >
       <div
         aria-hidden

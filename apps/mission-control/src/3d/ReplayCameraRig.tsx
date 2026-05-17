@@ -2,7 +2,6 @@
 
 import { useThree } from "@react-three/fiber";
 import { useEffect } from "react";
-import { Vector3 } from "three";
 
 import type { CameraTarget, PlaybackMode } from "./types";
 import { spatialMidpoint } from "./types";
@@ -20,11 +19,11 @@ interface ReplayCameraRigProps {
 /**
  * Deterministic camera rig.
  *
- * Each playback mode resolves to ONE target tuple. The rig snaps
- * the active perspective camera to that target — there is no
- * tweening, no animation loop, and no per-frame mutation. A
- * scrubber position change re-snaps; a mode change re-snaps. The
- * deterministic placement is the entire point.
+ * The rig snaps the perspective camera's POSITION to the chosen
+ * mode's target. Orientation is delegated to OrbitControls so the
+ * rover (its target) stays centered as it moves; otherwise the
+ * rig's per-frame lookAt fights OrbitControls and the rover drifts
+ * off-screen.
  */
 export function ReplayCameraRig({
   mode,
@@ -37,7 +36,6 @@ export function ReplayCameraRig({
   useEffect(() => {
     const target = chooseTarget(mode, focus, sceneCenter, sceneRadius);
     camera.position.set(target.position[0], target.position[1], target.position[2]);
-    camera.lookAt(new Vector3(target.lookAt[0], target.lookAt[1], target.lookAt[2]));
     camera.updateProjectionMatrix();
   }, [camera, mode, focus, sceneCenter, sceneRadius]);
 
