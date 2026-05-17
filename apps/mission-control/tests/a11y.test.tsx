@@ -47,6 +47,7 @@ import { MissionCard } from "@/components/MissionCard";
 import { MissionEventMarker } from "@/components/MissionEventMarker";
 import { MissionMap } from "@/components/MissionMap";
 import { MissionPlaybackPanel } from "@/components/MissionPlaybackPanel";
+import { MissionRouteGlyph } from "@/components/MissionRouteGlyph";
 import { MissionRouteList } from "@/components/MissionRoute";
 import { MissionSpatialTimeline } from "@/components/MissionSpatialTimeline";
 import { MissionStateStepper } from "@/components/MissionStateStepper";
@@ -150,6 +151,7 @@ const CASES: A11yCase[] = [
   { name: "MissionMap", render: () => <MissionMap route={SAMPLE_ROUTE} /> },
   { name: "MissionPlaybackPanel", render: () => <MissionPlaybackPanel plan={SAMPLE_PLAN} events={[REHEARSAL_EVENT_INFO]} /> },
   { name: "MissionRoute", render: () => <MissionRouteList route={SAMPLE_ROUTE} /> },
+  { name: "MissionRouteGlyph", render: () => <MissionRouteGlyph audit={BASE_AUDIT} /> },
   { name: "MissionSpatialTimeline", render: () => <MissionSpatialTimeline events={[REHEARSAL_EVENT_INFO]} /> },
   { name: "MissionStateStepper", render: () => <MissionStateStepper status="completed" /> },
   { name: "MissionStoryPanel", render: () => <MissionStoryPanel audit={BASE_AUDIT} /> },
