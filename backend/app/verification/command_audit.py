@@ -193,7 +193,7 @@ def audit_command_path(run_dir: Path | str) -> CommandAuditResult:
             if requested is None and decision == MotionDecision.AUTHORIZED.value:
                 # Authorized non-zero motion without an accompanying
                 # request would mean the supervisor synthesised motion.
-                # The arbiter never does this — its only AUTHORIZED
+                # The arbiter never does this - its only AUTHORIZED
                 # path runs when ``requested`` is present.
                 if linear != 0.0 or angular != 0.0:
                     result.add_error(

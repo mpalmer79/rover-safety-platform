@@ -117,7 +117,7 @@ def build_manifest(
     available_tuple = tuple(sorted(available))
     # ``missing_topics`` is only meaningful when at least one bag's
     # inventory was readable. Without an inventory we cannot say a
-    # topic is missing from a bag — only that no bag was inspected.
+    # topic is missing from a bag - only that no bag was inspected.
     if inventory_observed:
         expected_required = {t.name for t in expected if t.required}
         missing_required = tuple(sorted(expected_required - available))

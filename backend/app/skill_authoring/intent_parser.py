@@ -300,7 +300,7 @@ def _try_stop(normalised: str) -> Optional[tuple[str, tuple[SkillParameter, ...]
 def _try_publish_requested(normalised: str) -> Optional[tuple[str, tuple[SkillParameter, ...], tuple[SkillDiagnostic, ...]]]:
     if not _PUBLISH_REQUESTED_RE.search(normalised):
         return None
-    # Defaults — the caller can override via the request parameters in
+    # Defaults - the caller can override via the request parameters in
     # the future; the parser does not invent values.
     return (
         SkillType.PUBLISH_REQUESTED_MOTION.value,

@@ -229,7 +229,7 @@ def test_coverage_metrics_are_deterministic(tmp_path: Path) -> None:
     bundle = load_replay_bundle(bundle_dir)
     a = analyze_coverage(bundle)
     b = analyze_coverage(bundle)
-    # Strip the timestamp before comparing — that's the only allowed
+    # Strip the timestamp before comparing - that's the only allowed
     # source of non-determinism.
     a_dict = a.as_dict()
     b_dict = b.as_dict()

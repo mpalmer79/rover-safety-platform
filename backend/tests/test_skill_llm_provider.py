@@ -157,7 +157,7 @@ def test_requirement_kind_skill_llm_exists():
 
 
 # ----------------------------------------------------------------------
-# REQ-SKILL-LLM-001 — default disabled + opt-in policy
+# REQ-SKILL-LLM-001 - default disabled + opt-in policy
 # ----------------------------------------------------------------------
 
 
@@ -243,7 +243,7 @@ def test_unknown_provider_mode_raises():
 
 
 # ----------------------------------------------------------------------
-# REQ-SKILL-LLM-002 — endpoint policy
+# REQ-SKILL-LLM-002 - endpoint policy
 # ----------------------------------------------------------------------
 
 
@@ -348,7 +348,7 @@ def test_provider_layer_does_not_import_rclpy():
 
 
 # ----------------------------------------------------------------------
-# REQ-SKILL-LLM-003 — sanitizer chokepoint
+# REQ-SKILL-LLM-003 - sanitizer chokepoint
 # ----------------------------------------------------------------------
 
 
@@ -491,7 +491,7 @@ def test_sanitizer_rejects_ros2_topic_pub_cmd_vel():
     result = sanitize_candidate(candidate)
     assert result.accepted is False
     # subprocess will trigger shell_or_code_execution, ros2 topic pub /cmd_vel
-    # triggers direct_actuator_command — both must be present.
+    # triggers direct_actuator_command - both must be present.
     assert (
         CandidateRejectionReason.DIRECT_ACTUATOR_COMMAND.value
         in result.reason_codes
@@ -561,7 +561,7 @@ def test_forbidden_fragments_list_is_nonempty():
 
 
 # ----------------------------------------------------------------------
-# REQ-SKILL-LLM-004 — validator bridge + accepted candidates
+# REQ-SKILL-LLM-004 - validator bridge + accepted candidates
 # ----------------------------------------------------------------------
 
 
@@ -627,7 +627,7 @@ def test_accepted_candidate_safety_review_lists_topics():
 
 
 # ----------------------------------------------------------------------
-# REQ-SKILL-LLM-005 — audit bundle preservation
+# REQ-SKILL-LLM-005 - audit bundle preservation
 # ----------------------------------------------------------------------
 
 

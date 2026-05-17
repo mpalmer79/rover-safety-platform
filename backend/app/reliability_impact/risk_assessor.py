@@ -133,7 +133,7 @@ def assess_impact(
                 )
             )
 
-    # 3. CI workflow changes — static validation removal is high.
+    # 3. CI workflow changes - static validation removal is high.
     ci_files = [
         f
         for f in source_change.changed_files

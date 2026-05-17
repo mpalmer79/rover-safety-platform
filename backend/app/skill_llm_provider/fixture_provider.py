@@ -331,7 +331,7 @@ FIXTURE_REGISTRY: Mapping[str, dict] = {
     },
     # ---- Validator-rejected (passes sanitizer, fails Phase 15A
     # validator). The Phase 15A validator requires the same
-    # bounded-loop tokens listed in REQUIRED_CODE_TOKENS — these
+    # bounded-loop tokens listed in REQUIRED_CODE_TOKENS - these
     # fixtures intentionally omit them.
     "fixture_missing_stop_command": {
         "kind": "validator_rejected",

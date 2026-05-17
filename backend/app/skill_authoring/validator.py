@@ -171,7 +171,7 @@ def _has_forbidden_token(code: str) -> list[SkillDiagnostic]:
 def _has_unbounded_loop(code: str) -> list[SkillDiagnostic]:
     out: list[SkillDiagnostic] = []
     for match in _WHILE_TRUE_RE.finditer(code):
-        # ``while True:`` is forbidden — even with a break inside,
+        # ``while True:`` is forbidden - even with a break inside,
         # the safer pattern is ``while rclpy.ok() and not done:``.
         out.append(
             rejection(

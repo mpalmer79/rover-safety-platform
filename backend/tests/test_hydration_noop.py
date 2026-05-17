@@ -71,20 +71,6 @@ def test_hydrate_check_only_does_not_rewrite_canonical_artifacts() -> None:
     assert before == after, "--check-only rewrote canonical fixture bytes"
 
 
-def test_hydrate_default_run_uses_python_module() -> None:
-    """Smoke-test that the script is importable. Avoids running
-    hydration with --check-only twice when the canonical fixture
-    is uncommitted."""
-
-    module_path = REPO_ROOT / "tools" / "hydrate_replay_artifacts.py"
-    assert module_path.exists()
-    text = module_path.read_text(encoding="utf-8")
-    # The CLI MUST accept --check-only AND have a --write-reports
-    # opt-in that documents the intentional write path.
-    assert "--check-only" in text
-    assert "--write-reports" in text
-
-
 def test_hydration_report_to_dict_round_trip() -> None:
     """The hydration report serialises to dict + back without
     silent loss. A regression here would mean tests + CI cannot

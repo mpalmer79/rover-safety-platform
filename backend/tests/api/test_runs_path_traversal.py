@@ -57,7 +57,7 @@ def test_invalid_run_id_returns_400(client: TestClient, bad_id: str, suffix: str
     assert resp.status_code in (400, 404), resp.text
     assert resp.status_code != 200
     if resp.status_code == 400:
-        # The detail is a constant — input is never reflected.
+        # The detail is a constant - input is never reflected.
         body = resp.json()
         assert body["detail"] == "invalid run_id"
         assert bad_id not in body["detail"]

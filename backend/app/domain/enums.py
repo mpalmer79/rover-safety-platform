@@ -187,7 +187,7 @@ class MotionConstraintReason(str, Enum):
     STALE_INPUT = "stale_input"
     OPERATOR_ESTOP = "operator_estop"
     # Belt-and-suspenders rejection at the arbiter when a requested
-    # command carries non-finite velocities — the domain type already
+    # command carries non-finite velocities - the domain type already
     # rejects NaN at construction, but the arbiter zeros anything that
     # bypassed __post_init__ (mocks, deserializers, future protobuf
     # decoders).

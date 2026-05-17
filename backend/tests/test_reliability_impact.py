@@ -357,7 +357,7 @@ def test_analytics_delta_missing_baseline_warning(tmp_path: Path) -> None:
 
 
 def test_analytics_delta_static_only_not_regression(tmp_path: Path) -> None:
-    # Both baseline and current report static_only — no regression.
+    # Both baseline and current report static_only - no regression.
     base = _write_quality_index(
         tmp_path / "baseline.json",
         [

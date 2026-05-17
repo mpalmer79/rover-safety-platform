@@ -180,7 +180,7 @@ def hydrate_registry(
     if write_back and not check_only and overall == INTEGRITY_PASSED:
         # Refresh the registry's ``generated_at_utc`` only when
         # hydration passes cleanly. A failing hydration must NOT
-        # rewrite the registry — the committed registry remains the
+        # rewrite the registry - the committed registry remains the
         # authoritative reference.
         registry = ArtifactRegistry(
             generated_at_utc=report.generated_at_utc,
