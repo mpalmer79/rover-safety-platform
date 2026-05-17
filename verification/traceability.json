@@ -1,6 +1,6 @@
 {
   "core_count": 68,
-  "generated_at_utc": "2026-05-12T02:12:54+00:00",
+  "generated_at_utc": "2026-05-17T23:45:24+00:00",
   "meta_count": 115,
   "overall_status": "passed",
   "row_count": 183,
@@ -1168,7 +1168,7 @@
     {
       "architecture_refs": [
         "docs/LLM_MISSION_PROPOSAL_LAYER.md",
-        "docs/FUTURE_LLM_INTEGRATION_PLAN.md"
+        "docs/DEFERRED_PHASES.md"
       ],
       "category_tier": "core",
       "evidence_paths": [],
@@ -3658,7 +3658,7 @@
     },
     {
       "architecture_refs": [
-        "docs/FUTURE_LOCAL_MODEL_OPERATIONS.md"
+        "docs/DEFERRED_PHASES.md"
       ],
       "category_tier": "meta",
       "evidence_paths": [],

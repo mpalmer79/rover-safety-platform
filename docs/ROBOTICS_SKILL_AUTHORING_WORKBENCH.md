@@ -230,7 +230,7 @@ No CLI invokes a remote API. No CLI executes generated code.
 * no frontend / dashboard;
 * no shell, network, or hardware-driver examples.
 
-See `docs/FUTURE_LOCAL_LLM_SKILL_PROVIDER.md` for the plan that a
+See `docs/DEFERRED_PHASES.md#local-llm-skill-provider` for the plan that a
 follow-up phase would have to follow.
 
 ## 11. Phase 15B integration

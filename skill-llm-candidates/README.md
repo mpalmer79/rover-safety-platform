@@ -96,5 +96,5 @@ phase must add the actual transport.
 * `docs/LOCAL_LLM_SKILL_PROMPT_CONTRACT.md` — JSON-only prompt
   contract for a future local model.
 * `docs/SKILL_LLM_CANDIDATE_AUDITS.md` — audit bundle schema.
-* `docs/FUTURE_LOCAL_MODEL_OPERATIONS.md` — operational plan for the
+* `docs/DEFERRED_PHASES.md#local-model-operations` — operational plan for the
   follow-up phase that wires up a real local model.

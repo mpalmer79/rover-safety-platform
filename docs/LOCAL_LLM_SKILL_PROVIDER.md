@@ -132,6 +132,6 @@ deterministic systems decide.
 
 See `docs/LOCAL_LLM_PROVIDER_SAFETY_BOUNDARY.md` for the strict
 list of forbidden behaviours and
-`docs/FUTURE_LOCAL_MODEL_OPERATIONS.md` for the operational plan a
+`docs/DEFERRED_PHASES.md#local-model-operations` for the operational plan a
 follow-up phase would need to satisfy before adding a real local
 model.

@@ -86,4 +86,4 @@ python3 rover_ws/tools/generate_rehearsal_replay.py \
 * `docs/SIMULATION_REHEARSAL_PIPELINE.md` — request/plan schema.
 * `docs/REHEARSAL_REPLAY_INTEGRATION.md` — replay + analytics bridge.
 * `docs/REHEARSAL_SAFETY_BOUNDARY.md` — what the pipeline cannot do.
-* `docs/FUTURE_DIGITAL_TWIN_DIRECTION.md` — outlook for the next phase.
+* `docs/DEFERRED_PHASES.md#digital-twin-direction` — outlook for the next phase.
