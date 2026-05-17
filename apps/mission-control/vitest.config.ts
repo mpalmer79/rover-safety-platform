@@ -100,14 +100,31 @@ export default defineConfig({
           branches: 65,
         },
         "src/adapters/loader.ts": {
-          // observed lines 90.52, branches 36.07.
+          // observed lines 87.14, branches 36.07.
+          // The pure coerceSpatialReplayArtifact + SpatialReplayRaw
+          // were extracted to src/adapters/spatial-coerce.ts so the
+          // /start hero client bundle could import them without
+          // pulling in node:fs / node:path. loader.ts re-exports
+          // both, but the file is now smaller and a larger fraction
+          // of its remaining lines are the legacy filesystem-fallback
+          // path that no test exercises.
           // Remediation: cover the deprecated-record-skipped branch
           // in loadSpatialReplay + the legacy filesystem-fallback
           // path.
-          lines: 89,
-          statements: 89,
+          lines: 86,
+          statements: 86,
           functions: 95,
           branches: 35,
+        },
+        "src/adapters/spatial-coerce.ts": {
+          // observed lines 100, branches 100. Pure coercion; every
+          // path is exercised through the canonical bundled fixture
+          // (warehouse-replay-page, warehouse-replay-3d-scene,
+          // start-landing).
+          lines: 95,
+          statements: 95,
+          functions: 95,
+          branches: 90,
         },
       },
     },

@@ -30,12 +30,13 @@ export function MiniRoverAccent({ className = "" }: { className?: string }) {
       {/* sensor sweep */}
       {!reduce ? (
         <motion.circle
-          cx="32"
-          cy="32"
-          r="28"
+          cx={32}
+          cy={32}
+          r={22}
           fill="none"
           stroke="rgba(60,180,168,0.45)"
-          strokeWidth="0.8"
+          strokeWidth={0.8}
+          initial={{ r: 22, opacity: 0 }}
           animate={{ r: [22, 30, 22], opacity: [0.0, 0.55, 0.0] }}
           transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut" }}
         />

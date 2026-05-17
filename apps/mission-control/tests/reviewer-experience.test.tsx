@@ -25,18 +25,24 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/start",
 }));
 
-vi.mock("@/adapters/loader", () => ({
-  loadRehearsalAudit: vi.fn(() => {
-    throw new Error(
-      "loadRehearsalAudit must not be called from the public Start Here page",
-    );
-  }),
-  loadSpatialReplay: vi.fn(() => {
-    throw new Error(
-      "loadSpatialReplay must not be called from the public Start Here page",
-    );
-  }),
-}));
+vi.mock("@/adapters/loader", async () => {
+  const actual: typeof import("@/adapters/loader") = await vi.importActual(
+    "@/adapters/loader",
+  );
+  return {
+    ...actual,
+    loadRehearsalAudit: vi.fn(() => {
+      throw new Error(
+        "loadRehearsalAudit must not be called from the public landing page",
+      );
+    }),
+    loadSpatialReplay: vi.fn(() => {
+      throw new Error(
+        "loadSpatialReplay must not be called from the public landing page",
+      );
+    }),
+  };
+});
 
 import * as loader from "@/adapters/loader";
 import NotFound from "@/app/not-found";
@@ -85,7 +91,7 @@ describe("public navigation chrome", () => {
     expect(items.length).toBeGreaterThan(0);
   });
 
-  it("highlights Start Here as active when on /start", () => {
+  it("highlights /start as active and labels it Mission Preview", () => {
     render(
       <ResponsiveShell>
         <p>main</p>
@@ -97,6 +103,8 @@ describe("public navigation chrome", () => {
       .find((a) => a.getAttribute("href") === "/start");
     expect(startLink).toBeDefined();
     expect(startLink?.getAttribute("aria-current")).toBe("page");
+    expect(startLink?.textContent ?? "").toMatch(/mission preview/i);
+    expect(sidebar.textContent ?? "").not.toMatch(/Start Here/);
   });
 
   it("does not announce internal phase labels as the public identity", () => {

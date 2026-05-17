@@ -25,14 +25,20 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/start",
 }));
 
-vi.mock("@/adapters/loader", () => ({
-  loadRehearsalAudit: vi.fn(() => {
-    throw new Error("loadRehearsalAudit must not be called from /start");
-  }),
-  loadSpatialReplay: vi.fn(() => {
-    throw new Error("loadSpatialReplay must not be called from /start");
-  }),
-}));
+vi.mock("@/adapters/loader", async () => {
+  const actual: typeof import("@/adapters/loader") = await vi.importActual(
+    "@/adapters/loader",
+  );
+  return {
+    ...actual,
+    loadRehearsalAudit: vi.fn(() => {
+      throw new Error("loadRehearsalAudit must not be called from /start");
+    }),
+    loadSpatialReplay: vi.fn(() => {
+      throw new Error("loadSpatialReplay must not be called from /start");
+    }),
+  };
+});
 
 import ReviewerStartPage from "@/app/start/page";
 
@@ -92,7 +98,7 @@ describe("/start landing page", () => {
     renderStart();
     const cta = screen.getByTestId("start-cta-demo");
     expect(cta).toHaveAttribute("href", "/demo/warehouse-replay");
-    expect(cta.textContent ?? "").toMatch(/run mission replay/i);
+    expect(cta.textContent ?? "").toMatch(/run.*mission replay/i);
 
     const safetyLinks = screen
       .getAllByRole("link")
@@ -132,11 +138,31 @@ describe("/start landing page", () => {
     }
   });
 
-  it("renders the animated mission preview in the hero", () => {
+  it("renders the mission preview and an in-preview link to the full replay", () => {
     renderStart();
-    expect(screen.getByTestId("mission-preview")).toBeInTheDocument();
     const hero = screen.getByTestId("mission-hero");
     expect(within(hero).getByTestId("hero-sim-chip")).toBeInTheDocument();
+
+    // HeroMissionPreview always renders a frame — the real 3D scene
+    // when WebGL is available, the SVG AnimatedMissionPreview otherwise.
+    // happy-dom has no WebGL, so the SVG fallback path is taken here.
+    const preview = within(hero).getByTestId("hero-mission-preview");
+    expect(preview).toBeInTheDocument();
+
+    const previewCta = within(hero).getByTestId("hero-preview-cta");
+    expect(previewCta).toHaveAttribute("href", "/demo/warehouse-replay");
+    expect(previewCta.textContent ?? "").toMatch(/open full replay/i);
+  });
+
+  it("uses the recommended reviewer-journey step labels", () => {
+    renderStart();
+    const journey = screen.getByTestId("mission-journey");
+    const text = journey.textContent ?? "";
+    expect(text).toMatch(/run the replay/i);
+    expect(text).toMatch(/inspect the supervisor/i);
+    expect(text).toMatch(/trace the decision/i);
+    expect(text).toMatch(/audit the evidence/i);
+    expect(text).toMatch(/review the architecture/i);
   });
 
   it("renders the safety-authority pipeline preview", () => {

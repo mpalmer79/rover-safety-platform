@@ -122,21 +122,34 @@ export function SafetyAuthorityPreview() {
       </ol>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        <div className="flex items-start gap-2 rounded-md border border-emerald-400/30 bg-emerald-400/5 px-3 py-2 text-sm text-emerald-100">
-          <ShieldCheck aria-hidden className="mt-0.5 h-4 w-4 text-emerald-300" />
-          <p>
-            <span className="font-semibold">Approved:</span> bounded request
-            within ODD profile. Supervisor authorises{" "}
-            <span className="font-mono">/cmd_vel_requested</span>. Replay sealed.
-          </p>
+        <div className="rounded-lg border border-emerald-400/35 bg-emerald-400/8 px-4 py-3">
+          <div className="flex items-center gap-2 text-emerald-100">
+            <ShieldCheck aria-hidden className="h-4 w-4 text-emerald-300" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.16em]">
+              Approved
+            </span>
+          </div>
+          <ul className="mt-2 space-y-1 text-sm text-emerald-50/95">
+            <li>Bounded request within ODD profile</li>
+            <li>
+              Supervisor authorises{" "}
+              <span className="font-mono text-emerald-200">/cmd_vel_requested</span>
+            </li>
+            <li>Replay artifact sealed and hash-chained</li>
+          </ul>
         </div>
-        <div className="flex items-start gap-2 rounded-md border border-rose-400/30 bg-rose-500/5 px-3 py-2 text-sm text-rose-100">
-          <ShieldX aria-hidden className="mt-0.5 h-4 w-4 text-rose-300" />
-          <p>
-            <span className="font-semibold">Rejected:</span> unsafe speed, path
-            through exclusion zone, or forbidden topic. No motion authority is
-            issued. Refusal is logged with reason.
-          </p>
+        <div className="rounded-lg border border-rose-400/35 bg-rose-500/8 px-4 py-3">
+          <div className="flex items-center gap-2 text-rose-100">
+            <ShieldX aria-hidden className="h-4 w-4 text-rose-300" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.16em]">
+              Rejected
+            </span>
+          </div>
+          <ul className="mt-2 space-y-1 text-sm text-rose-50/95">
+            <li>Unsafe speed, exclusion zone, or forbidden topic</li>
+            <li>No motion authority is issued</li>
+            <li>Refusal logged with reason and timestamp</li>
+          </ul>
         </div>
       </div>
     </section>
