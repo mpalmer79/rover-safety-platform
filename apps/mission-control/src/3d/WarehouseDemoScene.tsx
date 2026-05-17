@@ -147,6 +147,7 @@ export function WarehouseDemoScene({
               key={wp.waypoint_id}
               waypoint={wp}
               active={idx === highlightWaypointIdx}
+              showLabel={false}
             />
           ))}
         </group>
