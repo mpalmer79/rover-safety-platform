@@ -64,7 +64,6 @@ export function RobotGhostModel({
       <Html
         position={[0, 0.4, 0]}
         center
-        distanceFactor={5}
         style={{ pointerEvents: "none" }}
       >
         <span

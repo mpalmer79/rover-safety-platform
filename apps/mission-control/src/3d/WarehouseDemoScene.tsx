@@ -233,15 +233,14 @@ function ZonePad({ zone }: { zone: ZoneOverlay }) {
       <Html
         position={[0, 0.02, -d / 2 - 0.12]}
         center
-        distanceFactor={8}
         zIndexRange={[0, 0]}
         pointerEvents="none"
       >
         <span
-          className="pointer-events-none select-none whitespace-nowrap rounded px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wide"
+          className="pointer-events-none select-none whitespace-nowrap rounded px-1 py-px font-mono text-[9px] uppercase tracking-wide opacity-80"
           style={{
             color: tone.color,
-            background: "rgba(10, 14, 22, 0.72)",
+            background: "rgba(10, 14, 22, 0.6)",
             borderColor: tone.color,
             borderWidth: 1,
             borderStyle: "solid",

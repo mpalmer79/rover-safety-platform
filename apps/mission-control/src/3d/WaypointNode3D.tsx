@@ -57,7 +57,6 @@ export function WaypointNode3D({
         <Html
           position={[0, 0.85, 0]}
           center
-          distanceFactor={6}
           style={{ pointerEvents: "none" }}
         >
           <span
