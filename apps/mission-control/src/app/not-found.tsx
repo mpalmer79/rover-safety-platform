@@ -7,8 +7,8 @@ import { Panel } from "@/components/Panel";
 const REVIEWER_LINKS = [
   {
     href: "/start",
-    label: "Start Here",
-    description: "What ProjectBoundary demonstrates and where to click first.",
+    label: "Mission Preview",
+    description: "See the warehouse mission replay and where to click first.",
   },
   {
     href: "/demo/warehouse-replay",

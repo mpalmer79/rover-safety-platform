@@ -21,7 +21,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/start", label: "Start Here", icon: Compass },
+  { href: "/start", label: "Mission Preview", icon: Compass },
   { href: "/demo/warehouse-replay", label: "Mission Replay Demo", icon: Rocket },
   { href: "/safety", label: "Safety Authority", icon: ShieldCheck },
   { href: "/walkthrough", label: "Reviewer Walkthrough", icon: Eye },
