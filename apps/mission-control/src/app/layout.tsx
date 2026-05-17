@@ -9,19 +9,47 @@ import "@/styles/theme.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Mission Control · Rover Safety Platform",
+  metadataBase: new URL("https://projectboundary.vercel.app"),
+  title: {
+    default: "ProjectBoundary · Rover Safety Platform",
+    template: "%s · ProjectBoundary",
+  },
   description:
-    "Simulation-only mission control UI for the deterministic autonomy " +
-    "validation and safety orchestration platform.",
+    "A simulation-only rover safety platform featuring a 3D warehouse mission replay, deterministic safety-boundary validation, supervisor intervention logic, and evidence-backed review artifacts.",
+  openGraph: {
+    title: "ProjectBoundary · Rover Safety Platform",
+    description:
+      "3D warehouse mission replay for autonomous safety validation, supervisor intervention, and evidence-backed review.",
+    url: "https://projectboundary.vercel.app",
+    siteName: "ProjectBoundary",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 627,
+        alt: "ProjectBoundary rover safety platform showing a 3D warehouse mission replay and safety boundary validation.",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ProjectBoundary · Rover Safety Platform",
+    description:
+      "3D warehouse mission replay for autonomous safety validation and evidence-backed review.",
+    images: ["/opengraph-image.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="dark">
       <head>
-        {/* No-FOUC theme bootstrap. Resolves stored / system preference
-            BEFORE the page paints so light mode never flashes harsh
-            black, and dark mode never flashes harsh white. */}
         <script
           dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }}
         />
