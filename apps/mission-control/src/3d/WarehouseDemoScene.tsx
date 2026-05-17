@@ -132,7 +132,7 @@ export function WarehouseDemoScene({
         <hemisphereLight intensity={0.22} color="#3cb4a8" groundColor="#0a0e16" />
         <fog attach="fog" args={["#0a0e16", sceneRadius * 1.6, sceneRadius * 4]} />
 
-        <WarehouseEnvironment size={Math.max(5, sceneRadius * 1.3)} />
+        <WarehouseEnvironment size={Math.max(5, sceneRadius * 1.3)} detailed />
         <SafetyBoundaryVolume size={Math.max(3, sceneRadius * 1.05)} />
 
         {zones.map((zone) => (
