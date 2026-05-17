@@ -25,15 +25,7 @@ interface MissionSceneProps extends SceneInputs {
   height?: number;
 }
 
-/**
- * Top-level immersive mission scene.
- *
- * The scene is a deterministic, sequence-driven view: the active
- * waypoint and event markers move in lock-step with the scrubber's
- * ``activeIndex``. There is NO render loop side-effect — Drei's
- * OrbitControls remains the only interactive surface, and the
- * camera rig snaps deterministically when ``playbackMode`` changes.
- */
+/** Sequence-driven scene: state changes only on activeIndex/playbackMode; no render-loop side effects. */
 export function MissionScene({
   route,
   events,

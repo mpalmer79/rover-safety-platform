@@ -1,9 +1,4 @@
-"""Translate extracted clauses into objectives + constraints.
-
-The platform is **not safety-certified**. This module is a pure
-mapping from the parser's bounded template ids to the typed mission
-objects (objectives, constraints). It never invents fields.
-"""
+"""Map parser template ids to typed mission objectives and constraints."""
 
 from __future__ import annotations
 

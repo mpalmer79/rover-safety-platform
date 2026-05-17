@@ -211,7 +211,7 @@ def _run(cmd: list[str], *, timeout: float = 20.0) -> tuple[int, str]:
         )
     except FileNotFoundError:
         return (127, "git binary not found")
-    except Exception as exc:  # pragma: no cover - defensive
+    except (subprocess.TimeoutExpired, OSError) as exc:  # pragma: no cover
         return (255, f"subprocess error: {exc}")
 
 

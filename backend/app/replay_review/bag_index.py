@@ -145,7 +145,7 @@ def _read_metadata(index: BagIndex) -> None:
         import yaml
 
         data = yaml.safe_load(text)
-    except Exception as exc:  # pragma: no cover - defensive
+    except (OSError, yaml.YAMLError) as exc:  # pragma: no cover
         index.notes.append(f"metadata.yaml did not parse: {exc}")
         return
 

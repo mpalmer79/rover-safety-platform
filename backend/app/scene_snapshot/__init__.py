@@ -1,16 +1,4 @@
-"""Phase 19 reviewer scene-snapshot readiness layer.
-
-The platform is **not safety-certified.** This package does NOT
-render screenshots. It builds deterministic, evidence-backed
-metadata that describes whether a reviewer-grade scene snapshot
-COULD be produced — and, when one exists on disk, links to it.
-
-The snapshot is the immersive operator scene captured at a
-specific scrubber index in a specific playback mode. Today the
-only `derivation_source` that qualifies for a bag-backed snapshot
-is `bag_backed`; a fixture-derived run produces an honest
-``not_executed`` outcome with the exact missing inputs listed.
-"""
+"""Scene-snapshot eligibility metadata (does not render screenshots)."""
 
 from __future__ import annotations
 

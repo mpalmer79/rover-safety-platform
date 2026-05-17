@@ -144,11 +144,11 @@ def _check_required_topics_declared(workspace_root: Path) -> StaticCheck:
             import yaml
 
             data = yaml.safe_load(bridge_yaml.read_text(encoding="utf-8")) or []
-            for entry in data:
-                if isinstance(entry, dict) and entry.get("ros_topic_name"):
-                    bridge_topics.add(entry["ros_topic_name"])
-        except Exception:  # pragma: no cover - YAML errors caught elsewhere
-            pass
+        except (ImportError, yaml.YAMLError, OSError):  # pragma: no cover
+            data = []
+        for entry in data:
+            if isinstance(entry, dict) and entry.get("ros_topic_name"):
+                bridge_topics.add(entry["ros_topic_name"])
 
     # Search the rover_ws and backend trees for the topic name as a string
     # literal. This catches publishers / subscribers declared in source.

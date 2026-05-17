@@ -1,20 +1,7 @@
 """Evidence artefact generator.
 
-For each verified scenario, writes a stable directory under
-``evidence/scenarios/<scenario_id>/`` containing:
-
-* ``evidence.json`` — full structured record (verification result,
-  audits, replay summary, requirement IDs).
-* ``evidence.md`` — human-readable summary.
-* ``events-summary.md`` — lifecycle and transition events flattened
-  to Markdown for quick scrubbing.
-* ``replay-integrity.json`` — replay-side validator output.
-* ``command-audit.json`` — command path audit output.
-* ``safety-transition-audit.json`` — safety transition audit output.
-
-The generator never modifies the scenario's run directory; it
-references it via ``run_dir``. Evidence directories are
-deterministic: re-running the verifier overwrites them in place.
+Writes evidence/scenarios/<scenario_id>/ deterministically; never
+modifies the scenario's run_dir. Re-running overwrites in place.
 """
 
 from __future__ import annotations

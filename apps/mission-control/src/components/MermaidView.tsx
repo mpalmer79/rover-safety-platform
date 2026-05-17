@@ -8,33 +8,10 @@ interface MermaidViewProps {
 }
 
 /**
- * Render Mermaid diagram source on the client.
+ * Renders Mermaid source on the client; SSR fallback is a `<pre>` of the raw source.
  *
- * Mermaid pulls in a large bundle, so the loader stays dynamic — the
- * fallback rendered server-side is the raw source inside a ``<pre>``
- * (the audit's deterministic text is therefore always visible, even
- * if the client renderer never runs).
- *
- * Layout stability:
- *   - Both the SSR ``<pre>`` and the rendered SVG render inside the
- *     same wrapper ``<div>``, so React's hydration boundary does not
- *     swap the element type out from under the page layout.
- *   - The wrapper carries ``data-mermaid-state`` so tests + observers
- *     can wait for "rendered" before measuring layout.
- *   - ``contain: layout`` isolates the diagram's height changes from
- *     surrounding flow; the catalog's full-page screenshot is more
- *     stable as a result.
- *
- * Trust boundary (#10):
- *   The SVG injected via ``dangerouslySetInnerHTML`` below is produced
- *   by Mermaid from ``source``. Mermaid escapes node labels, but that
- *   is **not** a sandbox — rendering attacker-controlled Mermaid
- *   source would still be unsafe (SVG embeds ``<foreignObject>``,
- *   ``<script>``, event handlers, etc.). The ingested Mermaid source
- *   MUST come from checked-in repository files only (audits,
- *   traceability graphs, etc.). Never wire this component to an
- *   external feed, a database column, or a query parameter without
- *   sanitising upstream and routing through a server-side allow-list.
+ * Trust boundary (#10): `source` MUST come from checked-in repo files only.
+ * The injected SVG is not sandboxed - attacker-controlled Mermaid is unsafe.
  */
 export function MermaidView({ source, className }: MermaidViewProps) {
   const id = useId().replace(/[^a-zA-Z0-9]/g, "_");

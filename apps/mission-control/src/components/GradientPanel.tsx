@@ -5,18 +5,7 @@ import { cn } from "@/lib/utils";
 interface GradientPanelProps {
   children: ReactNode;
   className?: string;
-  /**
-   * Tone of the panel surface.
-   *
-   * - `default` — neutral slate-to-graphite (most panels)
-   * - `accent`  — soft teal wash, used for "active" or
-   *   authoritative content
-   * - `warning` — pending amber wash (use sparingly)
-   * - `rejected` — desaturated red wash for failure surfaces
-   */
   tone?: "default" | "accent" | "warning" | "rejected";
-  /** When `true`, the panel uses the elevated surface (more
-   *  shadow, brighter border). */
   elevated?: boolean;
 }
 
@@ -31,14 +20,7 @@ const TONE_STYLE: Record<NonNullable<GradientPanelProps["tone"]>, string> = {
     "bg-[linear-gradient(150deg,color-mix(in_srgb,var(--mc-status-rejected)_14%,var(--mc-panel-grad-0))_0%,var(--mc-panel-grad-1)_100%)]",
 };
 
-/**
- * Single-source gradient panel.
- *
- * Components import this rather than re-implementing
- * `bg-[linear-gradient(...)]` ad-hoc, so the design system stays
- * consistent across the dashboard, workbench, replay, and mission
- * detail surfaces.
- */
+/** Shared gradient panel - import instead of re-implementing `bg-[linear-gradient(...)]`. */
 export function GradientPanel({
   children,
   className,

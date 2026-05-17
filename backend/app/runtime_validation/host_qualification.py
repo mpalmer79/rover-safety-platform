@@ -166,7 +166,7 @@ def _default_runner(argv: list[str], *, timeout: float = 10.0) -> tuple[int, str
             timeout=timeout,
         )
         return (completed.returncode, (completed.stdout or "") + (completed.stderr or ""))
-    except Exception as exc:  # pragma: no cover - defensive
+    except (subprocess.TimeoutExpired, OSError) as exc:  # pragma: no cover
         return (255, f"subprocess error: {exc}")
 
 

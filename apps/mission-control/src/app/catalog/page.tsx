@@ -140,9 +140,7 @@ function entry<P>(
 // heterogeneously across entries; the per-state shape is enforced
 // at the fixture-file level.
 const ENTRIES: ReadonlyArray<EntryDef> = [
-  // ──────────────────────────────────────────────────────────────────
   // safety_authority
-  // ──────────────────────────────────────────────────────────────────
   entry(
     "SafetyBoundaryBanner",
     "Top-of-page banner that asserts the simulation-only boundary.",
@@ -185,9 +183,7 @@ const ENTRIES: ReadonlyArray<EntryDef> = [
     WhyRejectedDrilldown,
     WhyRejectedDrilldownStates,
   ),
-  // ──────────────────────────────────────────────────────────────────
   // mission
-  // ──────────────────────────────────────────────────────────────────
   entry("MissionCard", "Rehearsal mission card.", MissionCard, MissionCardStates),
   entry(
     "MissionStateStepper",
@@ -225,9 +221,7 @@ const ENTRIES: ReadonlyArray<EntryDef> = [
     MissionSpatialTimeline,
     MissionSpatialTimelineStates,
   ),
-  // ──────────────────────────────────────────────────────────────────
   // replay
-  // ──────────────────────────────────────────────────────────────────
   entry(
     "ReplayTimeline",
     "Per-event timeline rendered from the audit's event stream.",
@@ -258,9 +252,7 @@ const ENTRIES: ReadonlyArray<EntryDef> = [
     ReplayLifecyclePanel,
     ReplayLifecyclePanelStates,
   ),
-  // ──────────────────────────────────────────────────────────────────
   // evidence
-  // ──────────────────────────────────────────────────────────────────
   entry(
     "AuditPanel",
     "Audit panel with request + decision + safety status.",
@@ -318,9 +310,7 @@ const ENTRIES: ReadonlyArray<EntryDef> = [
     ArtifactIntegrityBadgeStates,
   ),
   entry("StatusPill", "Status pill.", StatusPill, StatusPillStates),
-  // ──────────────────────────────────────────────────────────────────
   // spatial
-  // ──────────────────────────────────────────────────────────────────
   entry(
     "MissionMap",
     "Deterministic 2-D mission map.",
@@ -351,9 +341,7 @@ const ENTRIES: ReadonlyArray<EntryDef> = [
     WaypointOverlay,
     WaypointOverlayStates,
   ),
-  // ──────────────────────────────────────────────────────────────────
   // chrome
-  // ──────────────────────────────────────────────────────────────────
   entry(
     "GradientPanel",
     "Single-source gradient panel; four tones.",

@@ -1,11 +1,6 @@
-"""Phase 8 replay analytics package.
+"""Replay coverage, gap analysis, quality scoring, review audits."""
 
-Read-only with respect to incident bundles, replay manifests, and
-rosbag2 artefacts. Derives deterministic coverage metrics + quality
-scores + trends + comparisons + recommendations from the artefacts
-shipped by Phase 6 (incident reconstruction) and Phase 7 (replay
-review). Tests do not require ROS, Gazebo, or Foxglove.
-"""
+from __future__ import annotations
 
 from app.replay_analytics.comparison import (
     build_comparison,
@@ -24,19 +19,9 @@ from app.replay_analytics.loader import (
 )
 from app.replay_analytics.models import (
     ANALYTICS_CERTIFICATION_DISCLAIMER,
-    COVERAGE_METRIC_NAMES,
-    ReplayAnalyticsIndex,
-    ReplayAnalyticsIndexRow,
-    ReplayComparison,
-    ReplayCoverageMetric,
-    ReplayCoverageReport,
     ReplayCoverageStatus,
-    ReplayGap,
     ReplayGapSeverity,
     ReplayQualityScore,
-    ReplayRecommendation,
-    ReplayTrend,
-    ReviewAudit,
     ReviewCompletionStatus,
 )
 from app.replay_analytics.recommendations import (
@@ -44,7 +29,6 @@ from app.replay_analytics.recommendations import (
     detect_gaps,
 )
 from app.replay_analytics.reporting import (
-    bundles_by_id,
     render_aggregate_report_md,
     render_gap_analysis_md,
     render_per_incident_report_md,
@@ -59,29 +43,17 @@ from app.replay_analytics.review_audit import (
 )
 from app.replay_analytics.scoring import (
     quality_bucket,
-    score_for_metrics,
     score_replay_quality,
 )
 from app.replay_analytics.trends import build_trends
 
-
 __all__ = [
     "ANALYTICS_CERTIFICATION_DISCLAIMER",
     "CANONICAL_REVIEW_STEPS",
-    "COVERAGE_METRIC_NAMES",
     "LoadedReplayBundle",
-    "ReplayAnalyticsIndex",
-    "ReplayAnalyticsIndexRow",
-    "ReplayComparison",
-    "ReplayCoverageMetric",
-    "ReplayCoverageReport",
     "ReplayCoverageStatus",
-    "ReplayGap",
     "ReplayGapSeverity",
     "ReplayQualityScore",
-    "ReplayRecommendation",
-    "ReplayTrend",
-    "ReviewAudit",
     "ReviewCompletionStatus",
     "analyze_coverage",
     "audit_review",
@@ -89,7 +61,6 @@ __all__ = [
     "build_index",
     "build_recommendations",
     "build_trends",
-    "bundles_by_id",
     "detect_gaps",
     "load_replay_bundle",
     "load_replay_bundles",
@@ -101,7 +72,6 @@ __all__ = [
     "render_per_incident_report_md",
     "render_quality_index_json",
     "render_trends_md",
-    "score_for_metrics",
     "score_replay_quality",
     "write_index",
     "write_review_audit_json",

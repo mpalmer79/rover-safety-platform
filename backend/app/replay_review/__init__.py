@@ -1,13 +1,6 @@
-"""Phase 7 replay review package.
+"""Replay review: bag indexing, manifests, Foxglove sessions."""
 
-Read-only with respect to runtime evidence and rosbag2 artefacts.
-Inspects bag directories, generates per-incident replay manifests,
-emits Foxglove session metadata, validates the result, and renders
-Markdown + JSON reports.
-
-The package never opens a bag file — Foxglove handles that. Tests do
-not require Foxglove or ROS.
-"""
+from __future__ import annotations
 
 from app.replay_review.bag_index import (
     candidate_bag_roots,
@@ -39,16 +32,19 @@ from app.replay_review.models import (
     ReplayEvidenceOrigin,
     ReplayExecutionStatus,
     ReplayMarker,
-    ReplayReviewBundle,
     ReplayReviewManifest,
-    ReplayReviewReport,
-    ReplayTopic,
     ReplayValidationResult,
     ReplayValidationStatus,
     is_bag_file,
 )
-from app.replay_review.reporter import build_report, render_report_md
-from app.replay_review.validator import aggregate_status, validate_replay_review
+from app.replay_review.reporter import (
+    build_report,
+    render_report_md,
+)
+from app.replay_review.validator import (
+    aggregate_status,
+    validate_replay_review,
+)
 
 __all__ = [
     "BagArtifact",
@@ -60,10 +56,7 @@ __all__ = [
     "ReplayEvidenceOrigin",
     "ReplayExecutionStatus",
     "ReplayMarker",
-    "ReplayReviewBundle",
     "ReplayReviewManifest",
-    "ReplayReviewReport",
-    "ReplayTopic",
     "ReplayValidationResult",
     "ReplayValidationStatus",
     "aggregate_status",

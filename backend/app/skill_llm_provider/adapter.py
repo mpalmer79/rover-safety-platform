@@ -102,7 +102,7 @@ def _candidate_from_payload(
             import json
 
             raw = json.dumps(dict(payload), sort_keys=True)
-        except Exception:
+        except (TypeError, ValueError):
             raw = ""
 
     return SkillLLMCandidate(
