@@ -1,6 +1,5 @@
 "use client";
 
-import { Html } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import { Group, MathUtils, Mesh } from "three";
 import { useFrame } from "@react-three/fiber";
@@ -13,10 +12,8 @@ interface AnimatedRoverProps {
   targetPosition: SpatialPoint;
   /** Target heading in degrees (0° = +y in scene coordinates). */
   targetHeadingDeg: number;
-  /** Whether the rover is "moving" (label badge state). */
+  /** Whether the rover is "moving" (drives the pulse ring). */
   moving?: boolean;
-  /** Emissive label shown above the rover. */
-  label?: string;
 }
 
 /**
@@ -31,7 +28,6 @@ export function AnimatedRover({
   targetPosition,
   targetHeadingDeg,
   moving = true,
-  label = "rover · derived",
 }: AnimatedRoverProps) {
   const groupRef = useRef<Group>(null);
   const initialised = useRef(false);
@@ -92,18 +88,6 @@ export function AnimatedRover({
         <coneGeometry args={[0.05, 0.16, 12]} />
         <meshStandardMaterial color="#facc15" emissive="#facc15" emissiveIntensity={0.6} />
       </mesh>
-      <Html
-        position={[0, 0.5, 0]}
-        center
-        style={{ pointerEvents: "none" }}
-      >
-        <span
-          data-testid="animated-rover-label"
-          className="rounded bg-[color:var(--mc-surface-overlay)] px-1.5 py-0.5 font-mono text-[10px] text-[color:var(--mc-text)] shadow-panel backdrop-blur-sm"
-        >
-          {label}
-        </span>
-      </Html>
     </group>
   );
 }
