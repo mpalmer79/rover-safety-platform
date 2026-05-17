@@ -1,26 +1,8 @@
-"""Mission orchestrator.
+"""Mission orchestrator: per-tick mission state machine.
 
-The orchestrator is the top of the mission runtime. Per evaluation
-tick it consumes:
-
-* the current rover pose,
-* the supervisor's safety state and confidence,
-* the active sensor health summary,
-* the world model snapshot.
-
-It produces:
-
-* the new mission state (after consulting the transition table),
-* an optional :class:`RequestedMotionCommand` (the only motion
-  artefact the mission runtime ever produces — never an
-  :class:`AuthorizedMotionCommand`),
-* a :class:`WaypointProgress` for the active waypoint,
-* a :class:`RecoverySnapshot` describing recovery behaviour,
-* a list of structured :class:`Event` records for replay.
-
-The orchestrator is pure-logic; it does not touch ROS or the
-filesystem. The simulation engine and the ROS 2 ``mission_node`` both
-embed an orchestrator and translate.
+Pure logic. Produces RequestedMotionCommand only - the safety
+supervisor authorizes it separately. The simulation engine and the
+ROS 2 mission_node both embed an orchestrator.
 """
 
 from __future__ import annotations

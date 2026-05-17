@@ -9,16 +9,7 @@ interface PageSurfaceProps {
   variant?: "page" | "hero";
 }
 
-/**
- * Wrapper used by every Mission Control route. Provides:
- *
- *   * a layered gradient background (theme-aware via tokens);
- *   * mobile-first padding (small on phones, generous on desktop);
- *   * a `max-w-7xl` cap so long lines stay readable on wide screens.
- *
- * Components inside the surface inherit the theme tokens through
- * CSS variables — no theme-specific class names required.
- */
+/** Wrapper used by every Mission Control route. Theme-aware gradient + width cap. */
 export function PageSurface({
   children,
   className,

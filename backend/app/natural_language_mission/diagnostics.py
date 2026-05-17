@@ -1,9 +1,4 @@
-"""Diagnostic helpers.
-
-The platform is **not safety-certified**. These helpers normalise
-how diagnostics are aggregated, deduplicated, and serialised. The
-compiler treats diagnostics as first-class outputs.
-"""
+"""Aggregate, deduplicate, and serialise compiler diagnostics."""
 
 from __future__ import annotations
 

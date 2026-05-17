@@ -15,11 +15,7 @@ interface WorkspaceSnapshotPanelProps {
   className?: string;
 }
 
-/**
- * Renders a snapshot as a copyable JSON block. Pure presentational
- * — no network, no clipboard side effects; the export button is a
- * separate component.
- */
+/** Pure JSON display; clipboard/export handled by a separate component. */
 export function WorkspaceSnapshotPanel({
   snapshot,
   drifted = false,

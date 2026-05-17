@@ -11,16 +11,7 @@ interface CodeCardProps {
   className?: string;
 }
 
-/**
- * Operator-facing code card. The component renders the verbatim
- * source code that the deterministic Phase 15A workbench emitted —
- * it does not transform or "auto-format" the snippet, because the
- * audit bundle's deterministic hash depends on the exact bytes.
- *
- * The "animation_steps" payload from the audit drives a subtle
- * staged fade-in that hints at the order a reader should scan,
- * without typing-out theatrics.
- */
+/** Renders verbatim source from the audit bundle - DO NOT reformat (audit hash depends on exact bytes). */
 export function CodeCard({ skill, className }: CodeCardProps) {
   return (
     <article className={cn("panel overflow-hidden", className)}>

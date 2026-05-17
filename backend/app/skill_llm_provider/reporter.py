@@ -1,25 +1,4 @@
-"""Filesystem reporter for LLM candidate audit bundles.
-
-Bundle layout
-=============
-
-For every pipeline run:
-
-    <bundle_dir>/request.json
-    <bundle_dir>/provider-result.json
-    <bundle_dir>/sanitizer-result.json
-    <bundle_dir>/validator-result.json
-    <bundle_dir>/llm-candidate-report.md
-
-When the provider produced a candidate:
-
-    <bundle_dir>/candidate.json
-
-When the candidate was fully accepted:
-
-    <bundle_dir>/safety-review.json
-    <bundle_dir>/code-card.json
-"""
+"""Filesystem reporter for LLM candidate audit bundles."""
 
 from __future__ import annotations
 

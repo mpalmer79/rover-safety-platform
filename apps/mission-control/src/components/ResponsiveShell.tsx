@@ -37,21 +37,7 @@ interface ResponsiveShellProps {
   children: ReactNode;
 }
 
-/**
- * Responsive layout shell.
- *
- * Desktop / tablet wide:
- *   - persistent left sidebar (14 rem on `lg`, 12 rem on `md`)
- *   - scrollable main column
- *
- * Mobile (< `md`):
- *   - sticky top bar with a hamburger trigger
- *   - drawer-style nav that slides in
- *   - main column fills the viewport with no horizontal overflow
- *
- * Sidebar contents are theme-aware via CSS variables; no harsh
- * black/white surface is rendered.
- */
+/** Responsive shell: persistent sidebar on `md+`, drawer nav on mobile. */
 export function ResponsiveShell({ children }: ResponsiveShellProps) {
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);

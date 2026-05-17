@@ -10,7 +10,7 @@ import { Panel } from "@/components/Panel";
 import type { DemoMissionDescriptor } from "./sample-demo-mission";
 import { WarehouseReplayDemo } from "./WarehouseReplayDemo";
 
-interface Props {
+interface DemoErrorBoundaryProps {
   descriptor: DemoMissionDescriptor;
   plan: MissionPlan | null;
   events: readonly RehearsalEvent[];
@@ -32,7 +32,7 @@ interface State {
 const isDev =
   typeof process !== "undefined" && process.env?.NODE_ENV !== "production";
 
-export class DemoErrorBoundary extends Component<Props, State> {
+export class DemoErrorBoundary extends Component<DemoErrorBoundaryProps, State> {
   state: State = { hasError: false, error: null };
 
   static getDerivedStateFromError(error: Error): State {
@@ -84,7 +84,7 @@ function StaticDemoSummary({
   spatialReplay,
   evidenceLinks,
   caughtError,
-}: Props & { caughtError: CaughtError | null }) {
+}: DemoErrorBoundaryProps & { caughtError: CaughtError | null }) {
   const sampleCount = spatialReplay?.samples?.length ?? 0;
   const segmentCount = spatialReplay?.segments?.length ?? 0;
   const errorLabel = caughtError ? "3D scene render error" : "3D scene unavailable";
