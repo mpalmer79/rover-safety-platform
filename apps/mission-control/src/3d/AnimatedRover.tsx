@@ -95,7 +95,6 @@ export function AnimatedRover({
       <Html
         position={[0, 0.5, 0]}
         center
-        distanceFactor={5}
         style={{ pointerEvents: "none" }}
       >
         <span

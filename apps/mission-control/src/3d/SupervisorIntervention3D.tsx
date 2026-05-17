@@ -38,7 +38,6 @@ export function SupervisorIntervention3D({
       <Html
         position={[0, 0.4, 0]}
         center
-        distanceFactor={6}
         style={{ pointerEvents: "none" }}
       >
         <span

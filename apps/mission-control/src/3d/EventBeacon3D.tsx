@@ -47,7 +47,6 @@ export function EventBeacon3D({ marker, active = false }: EventBeacon3DProps) {
         <Html
           position={[0, heightTo + 0.25, 0]}
           center
-          distanceFactor={6}
           style={{ pointerEvents: "none" }}
         >
           <span

@@ -154,7 +154,7 @@ export function HeroMissionPreview() {
       >
         <div
           className="relative"
-          style={{ aspectRatio: "16 / 11" }}
+          style={{ aspectRatio: "16 / 9", minHeight: 360 }}
         >
           <div className="absolute inset-0">
             <WarehouseDemoScene
@@ -251,7 +251,7 @@ function PreviewSkeleton() {
     <div
       data-testid="hero-mission-preview-skeleton"
       className="relative overflow-hidden rounded-xl border border-cyan-400/15"
-      style={{ aspectRatio: "16 / 11", background: "#070a12" }}
+      style={{ aspectRatio: "16 / 9", minHeight: 360, background: "#070a12" }}
     >
       <div
         aria-hidden
