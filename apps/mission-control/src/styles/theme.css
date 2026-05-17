@@ -1,41 +1,27 @@
-/*
- * Phase 19 theme variables.
- *
- * The values mirror ``src/styles/tokens.ts``. ``html.light`` and
- * ``html.dark`` switch the variable values without re-mounting any
- * component; the variables are then consumed by Tailwind utilities
- * via ``bg-[var(...)]`` and by the components/page surfaces below.
- *
- * Hard rules:
- *   - no #000 / #fff anywhere in this file;
- *   - text colour never lands on a solid black/white surface;
- *   - light + dark are each operator-grade — neither feels harsh.
- */
-
 :root,
 html.dark {
-  --mc-bg-0: #10141c;
-  --mc-bg-1: #0e1320;
-  --mc-bg-2: #0c1018;
-  --mc-surface: #161b26;
-  --mc-surface-elevated: #1c2230;
-  --mc-surface-overlay: rgba(28, 34, 48, 0.72);
-  --mc-border: #262d3e;
-  --mc-border-strong: #3a4258;
-  --mc-text: #dbe0ec;
-  --mc-text-muted: #8b93a8;
-  --mc-text-inverse: #0d1117;
+  --mc-bg-0: #263140;
+  --mc-bg-1: #202a38;
+  --mc-bg-2: #1a2330;
+  --mc-surface: #2b3646;
+  --mc-surface-elevated: #334052;
+  --mc-surface-overlay: rgba(43, 54, 70, 0.78);
+  --mc-border: #46546a;
+  --mc-border-strong: #5d6c84;
+  --mc-text: #f2f5f9;
+  --mc-text-muted: #c3ccd9;
+  --mc-text-inverse: #121821;
   --mc-accent: #5dd6c4;
-  --mc-accent-soft: #143733;
+  --mc-accent-soft: #1e4b47;
   --mc-status-completed: #5fd987;
   --mc-status-pending: #facc56;
   --mc-status-warning: #fb923c;
   --mc-status-rejected: #f87171;
   --mc-status-aborted: #b39bff;
-  --mc-panel-grad-0: rgba(28, 34, 48, 0.92);
-  --mc-panel-grad-1: rgba(20, 26, 38, 0.92);
-  --mc-hero-grad-0: rgba(31, 41, 59, 0.85);
-  --mc-hero-grad-1: rgba(15, 23, 34, 0.95);
+  --mc-panel-grad-0: rgba(51, 64, 82, 0.94);
+  --mc-panel-grad-1: rgba(39, 50, 66, 0.94);
+  --mc-hero-grad-0: rgba(64, 78, 98, 0.88);
+  --mc-hero-grad-1: rgba(36, 47, 63, 0.94);
   color-scheme: dark;
 }
 
@@ -65,19 +51,17 @@ html.light {
   color-scheme: light;
 }
 
-/* Page-level gradient backdrop. Uses the three background stops so
-   the page reads as a layered surface, never as a flat fill. */
 html,
 body {
   background:
     radial-gradient(
       circle at 18% 12%,
-      color-mix(in srgb, var(--mc-accent) 16%, transparent) 0%,
+      color-mix(in srgb, var(--mc-accent) 10%, transparent) 0%,
       transparent 45%
     ),
     radial-gradient(
       circle at 82% 88%,
-      color-mix(in srgb, var(--mc-status-aborted) 12%, transparent) 0%,
+      color-mix(in srgb, var(--mc-status-aborted) 8%, transparent) 0%,
       transparent 50%
     ),
     linear-gradient(
@@ -89,7 +73,6 @@ body {
   color: var(--mc-text);
 }
 
-/* Reduced motion respect. */
 @media (prefers-reduced-motion: reduce) {
   html.theme-transition,
   html.theme-transition * {
@@ -106,8 +89,6 @@ html.theme-transition * {
     box-shadow 180ms ease;
 }
 
-/* Panel gradient utility. Components apply
-   ``className="surface-panel"`` to inherit. */
 .surface-panel {
   background: linear-gradient(
     150deg,
@@ -140,7 +121,6 @@ html.theme-transition * {
   color: var(--mc-text-muted);
 }
 
-/* Mobile-first responsive helpers. */
 @media (max-width: 720px) {
   body {
     font-size: 0.96rem;
