@@ -210,16 +210,24 @@ export function WarehouseReplayDemo({
           {webglAvailable === false ? (
             <FallbackScene route={route} />
           ) : (
-            <WarehouseDemoScene
-              route={route}
-              markers={markers}
-              roverPosition={interpolated.position}
-              roverHeadingDeg={interpolated.headingDeg}
-              activeIndex={activeEventIndex}
-              highlightWaypointIdx={interpolated.sampleIdx}
-              moving={playing}
-              zones={sceneZones}
-            />
+            <div
+              className="relative w-full"
+              style={{ aspectRatio: "16 / 11" }}
+            >
+              <div className="absolute inset-0">
+                <WarehouseDemoScene
+                  route={route}
+                  markers={markers}
+                  roverPosition={interpolated.position}
+                  roverHeadingDeg={interpolated.headingDeg}
+                  activeIndex={activeEventIndex}
+                  highlightWaypointIdx={interpolated.sampleIdx}
+                  moving={playing}
+                  zones={sceneZones}
+                  height="100%"
+                />
+              </div>
+            </div>
           )}
 
           <Panel
@@ -398,7 +406,8 @@ function ScenePlaceholder() {
   return (
     <div
       data-testid="warehouse-demo-placeholder"
-      className="flex h-[520px] items-center justify-center rounded-lg border border-[color:var(--mc-border)] bg-[color:var(--mc-surface)] text-sm text-[color:var(--mc-text-muted)]"
+      className="flex w-full items-center justify-center rounded-lg border border-[color:var(--mc-border)] bg-[color:var(--mc-surface)] text-sm text-[color:var(--mc-text-muted)]"
+      style={{ aspectRatio: "16 / 11" }}
     >
       Loading immersive mission scene…
     </div>
@@ -409,7 +418,8 @@ function FallbackScene({ route }: { route: ReturnType<typeof selectMissionRoute>
   return (
     <div
       data-testid="warehouse-demo-fallback"
-      className="flex h-[520px] flex-col gap-3 rounded-lg border border-[color:var(--mc-border)] bg-[color:var(--mc-surface)] px-4 py-4 text-sm text-[color:var(--mc-text)]"
+      className="flex w-full flex-col gap-3 rounded-lg border border-[color:var(--mc-border)] bg-[color:var(--mc-surface)] px-4 py-4 text-sm text-[color:var(--mc-text)]"
+      style={{ aspectRatio: "16 / 11" }}
     >
       <p className="label">2D fallback</p>
       <h2 className="display-2">WebGL is unavailable in this browser</h2>
