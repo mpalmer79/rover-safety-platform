@@ -214,6 +214,12 @@ function ZonePad({ zone }: { zone: ZoneOverlay }) {
   const tone = ZONE_TONE[zone.tone];
   const w = Math.max(0.4, zone.half.x * 2);
   const d = Math.max(0.4, zone.half.y * 2);
+  // Exclusion zones keep their label on the far side (away from the
+  // rover path); all other zones overlap or straddle the path the
+  // rover animates along, so we push their labels to the opposite
+  // side with extra clearance so the rover stays unobscured.
+  const labelZ =
+    zone.tone === "exclusion" ? -(d / 2 + 0.12) : d / 2 + 0.55;
   return (
     <group position={[zone.center.x, 0.005, -zone.center.y]}>
       <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
@@ -230,7 +236,7 @@ function ZonePad({ zone }: { zone: ZoneOverlay }) {
         <meshBasicMaterial color={tone.color} transparent opacity={0.55} />
       </mesh>
       <Html
-        position={[0, 0.02, -d / 2 - 0.12]}
+        position={[0, 0.02, labelZ]}
         center
         zIndexRange={[0, 0]}
         pointerEvents="none"
