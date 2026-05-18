@@ -66,9 +66,13 @@ running the suite.
   submodule directly.
 - **No em-dashes in code or code comments**. Use `-` or rewrite.
   (Em-dashes in `.md` prose and UI placeholder strings are fine.)
-- **No new validator module**. Extend `backend/app/validation/`. There are
-  already 15 separate validators across subpackages, and consolidating them
-  is a tracked refactor.
+- **Validators are domain-co-located.** Cross-cutting artefact
+  validators (run directories, event streams, ROS YAML, URDF, scenario
+  suite) live in `backend/app/validation/`. Feature-specific
+  validators (a mission proposal validator, a skill-authoring validator,
+  etc.) live in their feature subpackage. Don't move feature validators
+  into the cross-cutting drawer to cut a count - see
+  `docs/adr/ADR-010-validator-module-co-location.md`.
 
 ## Honesty rules
 

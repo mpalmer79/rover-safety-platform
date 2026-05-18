@@ -1,11 +1,19 @@
-"""Runtime validation tooling for the rover platform.
+"""Cross-cutting artefact validators for the rover platform.
 
-Pure-logic validators that operate on artefacts produced by the
-deterministic engine and the ROS 2 launch (run directories,
-``events.jsonl``, ``ros_gz_bridge`` YAML, URDFs). Validators are CLI
-runnable via ``tools/`` and are imported as test fixtures.
+This package is the home for validators whose inputs are artefacts
+produced or consumed across multiple subsystems: run directories,
+``events.jsonl``, the ``ros_gz_bridge`` YAML, the rover URDF, and the
+scenario suite. They are pure-logic, ROS-free, and CLI-runnable via
+``tools/``.
 
-Each validator exposes:
+Feature-specific validators live with their feature package, not
+here. A validator over a mission proposal belongs in
+``app.mission_proposal``; a validator over generated skill code
+belongs in ``app.skill_authoring``. See
+``docs/adr/ADR-010-validator-module-co-location.md`` for the
+boundary and the reasoning.
+
+Each validator in this package exposes:
 
 * a single dataclass result type (e.g. :class:`ReplayValidationResult`),
 * a ``validate_*`` function returning that result,
