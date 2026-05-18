@@ -33,34 +33,48 @@ if str(_TOOLS_DIR) not in sys.path:
     sys.path.insert(0, str(_TOOLS_DIR))
 
 
-from app.replay_analytics import (  # noqa: E402
-    ANALYTICS_CERTIFICATION_DISCLAIMER,
-    CANONICAL_REVIEW_STEPS,
+from app.replay_analytics.comparison import (  # noqa: E402
+    build_comparison,
+    render_comparison_md,
+)
+from app.replay_analytics.coverage import analyze_coverage  # noqa: E402
+from app.replay_analytics.index import (  # noqa: E402
+    build_index,
+    render_index_md,
+)
+from app.replay_analytics.loader import (  # noqa: E402
     LoadedReplayBundle,
+    load_replay_bundle,
+    load_replay_bundles,
+)
+from app.replay_analytics.models import (  # noqa: E402
+    ANALYTICS_CERTIFICATION_DISCLAIMER,
     ReplayCoverageStatus,
     ReplayGapSeverity,
     ReplayQualityScore,
     ReviewCompletionStatus,
-    analyze_coverage,
-    audit_review,
-    build_comparison,
-    build_index,
+)
+from app.replay_analytics.recommendations import (  # noqa: E402
     build_recommendations,
-    build_trends,
     detect_gaps,
-    load_replay_bundle,
-    load_replay_bundles,
-    quality_bucket,
+)
+from app.replay_analytics.reporting import (  # noqa: E402
     render_aggregate_report_md,
-    render_comparison_md,
     render_gap_analysis_md,
-    render_index_md,
     render_per_incident_report_md,
     render_quality_index_json,
     render_trends_md,
-    score_replay_quality,
+)
+from app.replay_analytics.review_audit import (  # noqa: E402
+    CANONICAL_REVIEW_STEPS,
+    audit_review,
     write_review_audit_json,
 )
+from app.replay_analytics.scoring import (  # noqa: E402
+    quality_bucket,
+    score_replay_quality,
+)
+from app.replay_analytics.trends import build_trends  # noqa: E402
 
 
 # ---------------------------------------------------------------------------

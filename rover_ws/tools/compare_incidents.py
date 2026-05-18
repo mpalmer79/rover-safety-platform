@@ -23,9 +23,9 @@ from _probe_common import ensure_app_on_path  # noqa: E402
 
 ensure_app_on_path()
 
-from app.incident_analysis import (  # noqa: E402
+from app.incident_analysis.compare import (  # noqa: E402
     compare_incidents,
-    render_incident_comparison_md,
+    render_comparison_md as render_incident_comparison_md,
 )
 
 
