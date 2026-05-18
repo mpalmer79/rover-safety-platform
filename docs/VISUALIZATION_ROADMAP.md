@@ -65,40 +65,44 @@ A new immersive visualization is acceptable for the public demo when:
 ## Playwright visual regression gate
 
 The `Playwright visual regression` job in
-`.github/workflows/mission-control-ci.yml` is currently **non-blocking**
-(`continue-on-error: true`). The repository never bootstrapped
-baselines — `apps/mission-control/visual/__screenshots__/` is empty —
-so every CI run has been failing the job since the workflow landed.
-A required CI check that fails on every PR provides zero signal and
-trains the team to ignore it.
+`.github/workflows/mission-control-ci.yml` **auto-skips when no
+baselines are committed**. A first step (`Detect committed visual
+baselines`) globs for any PNG under
+`apps/mission-control/visual/__screenshots__/` and gates every
+subsequent step on that result. With no baselines, the job emits a
+GitHub notice and exits green — no browser download, no build, no
+red X to ignore. As soon as an operator commits baseline PNGs, the
+same workflow becomes a hard drift gate without any other change.
 
-The job continues to run on every PR and uploads the
-`mission-control-visual-regression` artifact so reviewers can inspect
-the rendered output of any specific change. It just does not block
-merges.
+This replaces the previous `continue-on-error: true` posture, which
+left a permanently-red check on every PR and trained the team to
+ignore it.
 
-### When to flip the gate back to blocking
+### Bootstrapping baselines
 
-Re-enable the gate (remove `continue-on-error: true`) once the
-project is ready to freeze visuals:
+To turn the gate on, an operator with `playwright.azureedge.net`
+browser-download access runs:
 
-1. On a machine with `playwright.azureedge.net` browser-download
-   access, run:
-   ```bash
-   cd apps/mission-control
-   npm ci
-   npx playwright install chromium
-   npm run build
-   npx playwright test --update-snapshots
-   ```
-2. Commit the generated PNGs under
-   `apps/mission-control/visual/__screenshots__/`.
-3. Remove `continue-on-error: true` from the `visual-regression` job.
+```bash
+cd apps/mission-control
+npm ci
+npx playwright install chromium
+npm run build
+npx playwright test --update-snapshots
+```
 
-Until that bootstrap happens, deliberate UI changes (such as the
-Phase 6 reviewer-experience pass) cannot land without manual baseline
-regeneration. The current strategy is to keep the gate available as a
-diagnostic but not as a merge gate.
+Then commits the generated PNGs under
+`apps/mission-control/visual/__screenshots__/`. The next CI run
+will detect the baselines and start enforcing drift; no workflow
+change required.
+
+Scope the baselines tightly. The current `visual/routes.spec.ts`
+covers `/`, `/workbench`, `/replay`, `/safety`, `/evidence`,
+`/missions/warehouse_pickup_route_alpha`, and `/catalog`. Pages that
+embed the animated 3D scene (`/start`, `/demo/warehouse-replay`)
+are deliberately excluded — pixel-diffing a Three.js canvas during
+active UI iteration produces churn without signal. Add them only
+when the immersive UI has stabilized.
 
 ### What replaces the visual gate for now
 
@@ -114,9 +118,8 @@ recruiters and technical screeners:
 - `tests/honesty.test.ts` and `tests/phase20-honesty.test.ts` —
   static-analysis honesty rules.
 
-Visual drift is caught by code review and the artifact upload from
-the (non-blocking) Playwright job, not by a gate that never lets a UI
-change land cleanly.
+Until baselines are committed, visual drift is caught by code review
+rather than a CI gate.
 
 ### MermaidView layout stability
 
@@ -147,9 +150,10 @@ state. The helper short-circuits when no MermaidView is present.
 - **Rejected-mission demo**. Add a second public demo route that
   visualizes a rejected mission so the safety-supervisor authority
   story has a visual anchor.
-- **Bootstrap visual baselines + re-enable the gate**. Schedule a
-  baseline bootstrap once the visual language settles (post-portfolio
-  launch). Until then, the gate stays non-blocking.
+- **Bootstrap visual baselines**. Once the visual language settles
+  (post-portfolio launch), run the bootstrap procedure above and
+  commit the PNGs. The CI gate switches on automatically — no
+  workflow change required.
 - **Add `/demo/warehouse-replay` to the visual suite**. After
   baseline bootstrap, add the demo route to `visual/routes.spec.ts`
   with a `waitForMermaid` + WebGL-canvas-ready wait so the 3D scene
