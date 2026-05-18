@@ -32,17 +32,19 @@ from _probe_common import ensure_app_on_path  # noqa: E402
 
 ensure_app_on_path()
 
-from app.replay_analytics import (  # noqa: E402
-    analyze_coverage,
-    audit_review,
+from app.replay_analytics.coverage import analyze_coverage  # noqa: E402
+from app.replay_analytics.loader import load_replay_bundle  # noqa: E402
+from app.replay_analytics.recommendations import (  # noqa: E402
     build_recommendations,
     detect_gaps,
-    load_replay_bundle,
-    render_per_incident_report_md,
-    score_replay_quality,
+)
+from app.replay_analytics.reporting import render_per_incident_report_md  # noqa: E402
+from app.replay_analytics.review_audit import (  # noqa: E402
+    audit_review,
     write_review_audit_json,
     write_review_audit_md,
 )
+from app.replay_analytics.scoring import score_replay_quality  # noqa: E402
 
 
 def main(argv: list[str] | None = None) -> int:

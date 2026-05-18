@@ -1,79 +1,22 @@
-"""Replay coverage, gap analysis, quality scoring, review audits."""
+"""Phase 8 replay analytics.
 
-from __future__ import annotations
+Reads Phase 6 incident bundles + Phase 7 review artefacts and emits
+coverage metrics, quality scores, gap recommendations, trends, and
+the per-incident / aggregate reports.
 
-from app.replay_analytics.comparison import (
-    build_comparison,
-    render_comparison_md,
-)
-from app.replay_analytics.coverage import analyze_coverage
-from app.replay_analytics.index import (
-    build_index,
-    render_index_md,
-    write_index,
-)
-from app.replay_analytics.loader import (
-    LoadedReplayBundle,
-    load_replay_bundle,
-    load_replay_bundles,
-)
-from app.replay_analytics.models import (
-    ANALYTICS_CERTIFICATION_DISCLAIMER,
-    ReplayCoverageStatus,
-    ReplayGapSeverity,
-    ReplayQualityScore,
-    ReviewCompletionStatus,
-)
-from app.replay_analytics.recommendations import (
-    build_recommendations,
-    detect_gaps,
-)
-from app.replay_analytics.reporting import (
-    render_aggregate_report_md,
-    render_gap_analysis_md,
-    render_per_incident_report_md,
-    render_quality_index_json,
-    render_trends_md,
-)
-from app.replay_analytics.review_audit import (
-    CANONICAL_REVIEW_STEPS,
-    audit_review,
-    write_review_audit_json,
-    write_review_audit_md,
-)
-from app.replay_analytics.scoring import (
-    quality_bucket,
-    score_replay_quality,
-)
-from app.replay_analytics.trends import build_trends
+Submodules:
 
-__all__ = [
-    "ANALYTICS_CERTIFICATION_DISCLAIMER",
-    "CANONICAL_REVIEW_STEPS",
-    "LoadedReplayBundle",
-    "ReplayCoverageStatus",
-    "ReplayGapSeverity",
-    "ReplayQualityScore",
-    "ReviewCompletionStatus",
-    "analyze_coverage",
-    "audit_review",
-    "build_comparison",
-    "build_index",
-    "build_recommendations",
-    "build_trends",
-    "detect_gaps",
-    "load_replay_bundle",
-    "load_replay_bundles",
-    "quality_bucket",
-    "render_aggregate_report_md",
-    "render_comparison_md",
-    "render_gap_analysis_md",
-    "render_index_md",
-    "render_per_incident_report_md",
-    "render_quality_index_json",
-    "render_trends_md",
-    "score_replay_quality",
-    "write_index",
-    "write_review_audit_json",
-    "write_review_audit_md",
-]
+* ``loader`` — defensive replay-bundle reader.
+* ``coverage`` — deterministic coverage metrics.
+* ``scoring`` — quality bands + confidence.
+* ``recommendations`` — gap-grounded recommendations.
+* ``trends`` — cross-incident trend table.
+* ``comparison`` — cross-incident comparison enriched with replay
+  quality columns.
+* ``review_audit`` — explicit-acknowledgement review audit.
+* ``index`` — filterable analytics index.
+* ``reporting`` — aggregate / gap / trends / per-incident reporting.
+
+Import from the submodule that owns the symbol; this package no
+longer re-exports per ADR-011 and the no-shim rule in CLAUDE.md.
+"""

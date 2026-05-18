@@ -26,10 +26,12 @@ from _probe_common import ensure_app_on_path  # noqa: E402
 
 ensure_app_on_path()
 
-from app.replay_analytics import (  # noqa: E402
-    audit_review,
+from app.replay_analytics.loader import (  # noqa: E402
     load_replay_bundle,
     load_replay_bundles,
+)
+from app.replay_analytics.review_audit import (  # noqa: E402
+    audit_review,
     write_review_audit_json,
     write_review_audit_md,
 )

@@ -28,11 +28,11 @@ from _probe_common import ensure_app_on_path  # noqa: E402
 
 ensure_app_on_path()
 
-from app.incident_analysis import (  # noqa: E402
-    reconstruct_incident,
-    write_default_foxglove_layout,
-    write_incident_bundle,
+from app.incident_analysis.foxglove import (  # noqa: E402
+    write_default_layout as write_default_foxglove_layout,
 )
+from app.incident_analysis.reconstruct import reconstruct_incident  # noqa: E402
+from app.incident_analysis.reporter import write_incident_bundle  # noqa: E402
 
 
 def _default_incident_id(args: argparse.Namespace) -> str:
