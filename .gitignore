@@ -4,6 +4,8 @@ __pycache__/
 *.pyo
 *.egg-info/
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .coverage
 .coverage.*
 coverage.xml
@@ -13,10 +15,35 @@ htmlcov/
 build/
 dist/
 
+# Frontend (apps/mission-control) - Next.js, vitest, playwright artefacts
+# that get rebuilt on every run and were never meant to be committed.
+.next/
+.turbo/
+node_modules/
+apps/*/coverage/
+apps/*/playwright-report/
+apps/*/test-results/
+
+# Editor / IDE state
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Local environment files (never commit secrets)
+.env
+.env.local
+.env.*.local
+
 # Run artefacts (deterministic engine + ROS scenario suites write here)
 runs/
 
-# Canonical replay fixtures are committed — they are the deterministic
+# Canonical replay fixtures are committed - they are the deterministic
 # baseline that pytest + frontend tests + hydration --check-only verify.
 # Phase 20B: a fresh clone must carry these bytes so backend pytest does
 # not depend on running the hydration tool first.
